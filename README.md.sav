@@ -22,17 +22,14 @@ provide instructions on how to use it.
 
 1. [Set local environment variables](#set-local-environment-variables)
 
-1. [Install the Ubuntu collateral](#install-the-ubuntu-collateral)
-
 1. [Install riscv gnu tool chain](#install-riscv-gnu-tool-chain)
     
-1. [Install MAP](#install-map)
+1. [Install Miniconda](#install-miniconda)
 
-    1. [Install Miniconda](#install-miniconda)
-    1. [Install Conda components](#install-conda-components)
-    1. [Build and install Sparta](#build-and-install-sparta)
-    1. [Build and install Helios/Argos](#build-and-install-helios-argos)
+1. [Install Sparta](#install-sparta)
 
+1. [Install Argos](#install-argos)
+    
 1. [Install STF Lib](#install-stf-lib)
 
 1. [Install Olympia](#install-olympia)
@@ -121,25 +118,6 @@ Once the script is sourced these variables will exist in your current shell.
     - <b>export DROMAJO=$TOP/riscv-perf-model/traces/stf_trace_gen/dromajo</b>
 
 --------------------------------------
-# Install the Ubuntu collateral
-
-Install the Ubuntu support packages
-
-```
-  sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev
-  sudo apt install rapidjson-dev xz-utils autoconf automake autotools-dev 
-  sudo apt install curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk 
-  sudo apt install build-essential bison flex texinfo gperf libtool patchutils 
-  sudo apt install bc zlib1g-dev libexpat-dev ninja-build
-```
-
-All in one line for easy cut/paste
-
-```
-sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjson-dev xz-utils autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build
-```
-
---------------------------------------
 # Install riscv gnu tool chain
 
 Some estimates say ~7GB of space is needed.
@@ -151,6 +129,8 @@ built from the same source, with different install prefixes. Be aware of the
 PATH settings in the instructions, if you are building both.
 
 ```
+  sudo apt-get install autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build
+
   mkdir -p $RV_LINUX_TOOLS       (the linux tool chain install path)
   mkdir -p $RV_BAREMETAL_TOOLS   (the bare metal tool chain install path)
   git clone https://github.com/riscv-collab/riscv-gnu-toolchain
@@ -184,12 +164,7 @@ Install path will be $RV_BAREMETAL_TOOLS.
 ```
 
 ----------------------------------------------------------
-# Install MAP
-
-This section builds and installs Map and it's components, the conda
-environment, Sparta, and Helios/Argos
-
-## Install Miniconda
+# Install Miniconda
 
 Miniconda package manager is used by Sparcians.
 
@@ -220,7 +195,93 @@ sh ./Minconda3-latest-Linux-x86_64.sh
 
 <i>open new terminal or reload your environment</i>
 
-## Install Conda components
+----------------------------------------------------------
+# Install Sparta
+
+## Pre-reqs
+
+- Install Miniconda - see above
+- Open a new terminal
+
+## Install the collateral for Ubuntu 22
+
+There might be bugs in this. I do not have a virgin Ubuntu, there might be missing packages not listed in the documentation, some of these packages may not be needed or have the wrong names.
+
+```
+    sudo apt install cmake sqlite doxygen (no equiv: hdf5 yaml-cpp rapidJson xz)
+```
+
+- The names change for Unbuntu (from Centos) so:
+
+```
+    sudo apt install hdf5-tools h5utils
+    sudo apt install libyaml-cpp-dev
+    sudo apt install rapidjson-dev
+    sudo apt install xz-utils
+```
+
+## Clone the repo
+
+```
+    cd $TOP
+    git clone https://github.com/sparcians/map.git
+    cd map
+    git checkout 277037f3cc2594df0ba04e3ad92d41d95e9ea3f9
+    cd $MAP/sparta
+```
+
+## Edit the source files (for Olympia)
+
+
+<b>FIXME: Create actual patch files, for now copy the pre-edited files</b>
+
+If you are building Olympia (riscv-perf-model) you copy over two files.
+
+```
+    cp $PATCHES/TreeNodeExtensions.cpp $MAP/sparta/src/TreeNodeExtensions.cpp
+    cp $PATCHES/TreeNodeExtensions.hpp $MAP/sparta/sparta/simulation/TreeNodeExtensions.hpp
+```
+
+## Build Sparta
+
+ See the apt install for support packages above in Pre-reqs
+
+```
+    cd $MAP/sparta
+    mkdir release; cd release
+    cmake .. -DCMAKE_BUILD_TYPE=Release
+    make -j4
+```
+
+---------
+
+# Install Argos
+
+Argos is a python pipe viewer for trace based performance models. It is variously named, even within the repo, as Helio, Argos, pipeViewer, or pipe_view. The python script is argos.py
+
+The build directory is $MAP/helios/pipeViewer.
+
+
+## Pre-reqs
+
+There is likely cleanup possible in this list, but this is what I did. I'll simplify this once I have a fresh environment.
+
+- Install Miniconda - see above
+- Install Map/Sparta - see above
+
+## Install the Map Argos collateral
+
+This tool has a stupidly long dependency chain. wxpython-tools was called python-wxtools. attrdict3 replaces attrdict.
+
+```
+    sudo apt install wxpython-tools
+    sudo apt install libgtk-3-dev
+    pip3 install attrdict3
+    pip3 install wxPython
+    pip3 install pyyaml
+```
+
+## Install the Map Argos conda packages
 
 - Start a terminal with miniconda activated. See above.
     - The prompt will look like (base):
@@ -238,82 +299,25 @@ sh ./Minconda3-latest-Linux-x86_64.sh
     conda activate sparta
 ```
 
-----------------------------------------------------------
-## Build and install Sparta
+<!--    cd $(git rev-parse --show-toplevel);
+    mkdir -p release; cd release   # might need some clean up here?
+-->
 
-## Pre-reqs
 
-- Install the Ubuntu collateral - see above
-- Install Miniconda - see above
-- Install Conda components - see above
+## Build Helios
 
-From here 
-
-## Clone map and it's components
-
-Prior to cloning I am activating the conda environment. Following that a 
-specific checksum of the map repo is checked out.
-
-Be aware if you are going out of order the script create_conda_env.sh also 
-sets the $CONDA_PREFIX env var that is used later. 
+Your terminal should have an active sparta/conda dev environment. See above.
 
 ```
-    cd $MAP
-    ./scripts/create_conda_env.sh sparta dev
-    conda activate sparta
-    
-    git clone https://github.com/sparcians/map.git
-    cd map
-    git checkout 277037f3cc2594df0ba04e3ad92d41d95e9ea3f9
-    
-```
-
-## Patch the source files (for Olympia)
-
-<b>FIXME: Create actual patch files, for now copy the pre-edited files</b>
-
-If you are building Olympia (riscv-perf-model) you copy over two files.
-
-```
-    cp $PATCHES/TreeNodeExtensions.cpp $MAP/sparta/src/TreeNodeExtensions.cpp
-    cp $PATCHES/TreeNodeExtensions.hpp $MAP/sparta/sparta/simulation/TreeNodeExtensions.hpp
-```
-
-## Build sparta
-
-See the apt install for the Ubuntu support packages above in "Install the 
-Ubuntu collateral"
-
-```
-    cd $MAP/sparta
-    mkdir release; cd release
-    cmake .. -DCMAKE_BUILD_TYPE=Release
-    make -j4
-    cmake --install . --prefix $CONDA_PREFIX
-```
-
----------
-
-## Build Helios and Argos
-
-Argos is a python pipe viewer for trace based performance models. It is 
-variously named, even within the repo, as Helio, Argos, pipeViewer, 
-or pipe_view. 
-
-The python script is argos.py. The build directory is $MAP/helios/pipeViewer.
-
-Your terminal should have an active sparta/conda dev environment.
-
-```
-    conda activate sparta
     cd $MAP/helios
     mkdir -p release; cd release
-    cmake -DCMAKE_BUILD_TYPE=Release -DSPARTA_SEARCH_DIR=$MAP/sparta
+    cmake -DCMAKE_BUILD_TYPE=Release -DSPARTA_SEARCH_DIR=$MAP/sparta -DSPARTA_BASE=$MAP/sparta ..
     make -j4
-    cmake --install . --prefix $CONDA_PREFIX
 ```
 
-<!--    cmake -DCMAKE_BUILD_TYPE=Release -DSPARTA_SEARCH_DIR=$MAP/sparta -DSPARTA_BASE=$MAP/sparta ..
+FIXME: above steps might need some cleanup
+nitin reports needing the cd command to be cd $MAP/helios but this
+failed for me with
 
 ```
 FIXME: 
@@ -325,7 +329,6 @@ CMake Error at pipeViewer/CMakeLists.txt:27 (include):
 CMake Error at pipeViewer/transactiondb/CMakeLists.txt:7 (message):
   SPARTA_BASE must be defined.  cmake from the root of MAP repo
 ```
--->
 
 ---------
 
@@ -348,14 +351,16 @@ STF is a library supporting the Simulation Trace Format.
 
 riscv-perf-model aka Olympia. Olympia is a trace driven OOO performance model.
 
-The model is intended as a template, e.g. there is an advisory that renaming 
-has not been implemented.
+It appears to be incomplete, there is an advisory that renaming does not work. It does have some interesting capabilities in terms of trace input formats in [STF](https://github.com/sparcians/stf_spec) and [JSON](https://github.com/riscv-software-src/riscv-perf-model/tree/master/traces#json-inputs).
 
-It does have some interesting capabilities in terms of trace input formats in [STF](https://github.com/sparcians/stf_spec) and [JSON](https://github.com/riscv-software-src/riscv-perf-model/tree/master/traces#json-inputs).
+## Pre-reqs
+
+- Install Miniconda - see above
+- Install Sparta - see above
 
 ## Clone the repo
 
-There are errors in map/Sparta source files when compiling for Olympia.  Make the source file changes described above (TreeNodeExtensions.hpp/cpp).
+There are errors in map/Sparta source files when compiling for Olympia. Make the source file changes described above (TreeNodeExtensions.hpp/cpp).
 
 There is also an error in Dispatch.hpp, see below.
 
@@ -369,10 +374,18 @@ There is also an error in Dispatch.hpp, see below.
     cd $OLYMPIA
     mkdir -p release; cd release
     cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
-    # Select the build level
-    make -j4       # build everything
-    #make olympia  # build the simulator only
-    #make regress  # as it says
+```
+
+### Select build level
+
+Choose what to build. I chose just olympia.
+
+```
+    cd $OLYMPIA
+    mkdir -p release; cd release
+    make olympia # build the simulator only
+    #make -j4       # build everything
+    #make regress   # as it says
 ```
 
 ---------
