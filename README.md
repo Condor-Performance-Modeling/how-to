@@ -33,7 +33,7 @@ provide instructions on how to use it.
     1. [Build and install Sparta](#build-and-install-sparta)
     1. [Build and install Helios/Argos](#build-and-install-helios-argos)
 
-1. [Install STF Lib](#install-stf-lib)
+1. [Build STF Lib](#build-stf-lib)
 
 1. [Install Olympia](#install-olympia)
 
@@ -144,6 +144,9 @@ sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjs
 
 Some estimates say ~7GB of space is needed.
 
+There are pre-built versions of the bare metal and linux tools. See
+Jeff to get the link. These versions can save hours of compile time.
+
 ## Pre-req and clone
 
 There are two versions of the tool chain, linux and bare metal, these are
@@ -213,59 +216,22 @@ startup
 ```
 cd $WGETTMP
 wget --no-check-certificate https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-sh ./Minconda3-latest-Linux-x86_64.sh
+sh ./Miniconda3-latest-Linux-x86_64.sh
 ```
 
 <i> Make sure you move the added .bashrc lines to a private rc file if you are in a managed environment.
 
 <i>open new terminal or reload your environment</i>
 
-## Install Conda components
-
-- Start a terminal with miniconda activated. See above.
-    - The prompt will look like (base):
-```
-   (base) jeff@reynaldo:~/Development:
-```
-
-- Install the conda packages, activate the environment
-
-```
-    cd $MAP
-    conda install -c conda-forge jq
-    conda install -c conda-forge yq
-    ./scripts/create_conda_env.sh sparta dev
-    conda activate sparta
-```
-
 ----------------------------------------------------------
-## Build and install Sparta
-
-## Pre-reqs
-
-- Install the Ubuntu collateral - see above
-- Install Miniconda - see above
-- Install Conda components - see above
-
-From here 
-
 ## Clone map and it's components
 
-Prior to cloning I am activating the conda environment. Following that a 
-specific checksum of the map repo is checked out.
-
-Be aware if you are going out of order the script create_conda_env.sh also 
-sets the $CONDA_PREFIX env var that is used later. 
-
 ```
-    cd $MAP
-    ./scripts/create_conda_env.sh sparta dev
-    conda activate sparta
-    
+    cd $TOP
     git clone https://github.com/sparcians/map.git
     cd map
     git checkout 277037f3cc2594df0ba04e3ad92d41d95e9ea3f9
-    
+    cd $MAP/sparta
 ```
 
 ## Patch the source files (for Olympia)
@@ -282,14 +248,44 @@ If you are building Olympia (riscv-perf-model) you copy over two files.
 ## Build sparta
 
 See the apt install for the Ubuntu support packages above in "Install the 
-Ubuntu collateral"
+Ubuntu collateral".
+
+You should active the sparta/conda environment, see above.
 
 ```
     cd $MAP/sparta
     mkdir release; cd release
     cmake .. -DCMAKE_BUILD_TYPE=Release
-    make -j4
-    cmake --install . --prefix $CONDA_PREFIX
+    make -j8
+```
+
+## Install Conda components
+
+- Start a terminal with miniconda activated. See above.
+    - The prompt will look like (base):
+```
+   (base) jeff@reynaldo:~/Development:
+```
+
+- Install the conda packages, activate the sparta conda environment
+
+```
+    cd $MAP
+    conda install -c conda-forge jq 
+    conda install -c conda-forge yq
+    ./scripts/create_conda_env.sh sparta dev
+    conda activate sparta
+    cd $(git rev-parse --show-toplevel);
+    mkdir -p release; cd release
+    mkdir helios
+
+    
+```
+
+A successfully activated sparta/conda environment will change your prompt to (sparta):
+
+```
+(sparta) jeff@reynaldo:~/Development/condor/map$
 ```
 
 ---------
@@ -300,46 +296,37 @@ Argos is a python pipe viewer for trace based performance models. It is
 variously named, even within the repo, as Helio, Argos, pipeViewer, 
 or pipe_view. 
 
-The python script is argos.py. The build directory is $MAP/helios/pipeViewer.
+The python script is argos.py, the path is $MAP/helios/pipeViewer/argos.py.
 
 Your terminal should have an active sparta/conda dev environment.
 
 ```
+    cd $MAP
     conda activate sparta
     cd $MAP/helios
     mkdir -p release; cd release
-    cmake -DCMAKE_BUILD_TYPE=Release -DSPARTA_SEARCH_DIR=$MAP/sparta
-    make -j4
-    cmake --install . --prefix $CONDA_PREFIX
+    cp $PATCHES/transactiondb_CMakeLists.txt ../pipeViewer/transactiondb/CMakeLists.txt
+    cp $PATCHES/transactionsearch_CMakeLists.txt ../pipeViewer/transactionsearch/CMakeLists.txt
+    cmake -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta ..
+    make -j8
+    cd $MAP/release/helios
+    cp -r ../../helios/release/pipeViewer .
 ```
-
-<!--    cmake -DCMAKE_BUILD_TYPE=Release -DSPARTA_SEARCH_DIR=$MAP/sparta -DSPARTA_BASE=$MAP/sparta ..
-
-```
-FIXME: 
-CMake Error at pipeViewer/CMakeLists.txt:27 (include):
-  include could not find requested file:
-
-    /cmake/sparta-config.cmake
-
-CMake Error at pipeViewer/transactiondb/CMakeLists.txt:7 (message):
-  SPARTA_BASE must be defined.  cmake from the root of MAP repo
-```
--->
 
 ---------
 
-# Install STF Lib
+# Build STF Lib
 
 STF is a library supporting the Simulation Trace Format.
 
 ```
+    cd $TOP
     git clone https://github.com/sparcians/stf_lib.git
     cd stf_lib
     git checkout 742037fb80bfe97cb27d7063e24f9bb60b0144f3
     mkdir -p release; cd release
     cmake -DCMAKE_BUILD_TYPE=Release ..
-    make -j16
+    make -j8
 ```
 
 ---------
@@ -362,22 +349,25 @@ There is also an error in Dispatch.hpp, see below.
 ```
     cd $TOP
     git clone --recursive https://@github.com/riscv-software-src/riscv-perf-model.git
+```
 
-## Build the simulator
+## Build the Olympia performance model.
 
 ```
     cd $OLYMPIA
     mkdir -p release; cd release
     cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
     # Select the build level
-    make -j4       # build everything
-    #make olympia  # build the simulator only
-    #make regress  # as it says
+    make -j8           # build everything
+    #make -j8 olympia  # build the simulator only
+    #make -j8 regress  # as it says
 ```
 
 ---------
 
 # Using pipeline data views
+
+A quick example of how to use pipeline data views.
 
 ## Prereqs
 
@@ -386,14 +376,13 @@ This assumes you have followed the instructions above for these steps.
 - Install Miniconda on Ubuntu 22
 - Install Map/Sparta on Ubuntu 22
 - Install Map/Argos on Ubuntu 22
-- FIXME: it's possible you also need:
-    - Install riscv-perf-model on Ubuntu 22
+- Install riscv-perf-model on Ubuntu 22
 
 ## Create example core model
 
 ```
     cd $MAP/sparta/release/example/CoreModel
-    make
+    make -j8
 ```
 
 ## Generate pipeline database
@@ -460,7 +449,7 @@ stf_lib/stf-config.cmake and Dromajo CMakeLists must be edited for correct compi
     ln -s ../stf_lib
     mkdir -p build; cd build
     cmake ..
-    make -j4
+    make -j8
 ```
 
 ## Verify patch
@@ -526,7 +515,7 @@ export PATH=$RV_LINUX_TOOLS/bin:$PATH
     wget --no-check-certificate -nc https://git.kernel.org/torvalds/t/linux-5.8-rc4.tar.gz
     tar -xf linux-5.8-rc4.tar.gz
     make -C linux-5.8-rc4 ARCH=riscv defconfig
-    make -C linux-5.8-rc4 ARCH=riscv -j16
+    make -C linux-5.8-rc4 ARCH=riscv -j8
 ```
 
 ## Download and compile OpenSBI
