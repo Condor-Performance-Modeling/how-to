@@ -8,12 +8,21 @@ Common AWS maintenance tasks
 
 1. [Configuring your credentials](#configuring-your-credentials)
 
+    1. [Pre-reqs](#pre-reqs)
+
+    1. [Convert PEM to PPK](#convert-pem-to-ppk)
+
 1. [Login using putty](#login-using-putty)
+
+    1. [Putty one time setup](#putty-one-time-setup)
+
+    1. [Putty login using named session](#putty-login-using-named-session)
 
 1. [Login using NoMachine](#login-using-nomachine)
 
 1. [Admin: Add User to AWS instance](#admin-add-user-to-aws-instance)
 
+    1. [Create key/pair](#create-key-pair)
 
 --------------------------------------
 # Machine Info
@@ -53,7 +62,7 @@ AvailZ:    us-west-2c
 - turn on all files in the file select window
 - select the .pem file
 - (2) cut and paste the contents of this box into a plain text file.
-    - save this file as USER_akey.txt
+    - save this file as USER_akey.txt, e.g. jeffnye_akey.txt
     - Your USER_akey.txt file should be one line of text, 
         - beginning with 'ssh-rsa' and ending with 'imported-openssh-key'
         - It may look like it is on multiple lines due to word wrapping.
@@ -76,43 +85,50 @@ These are the steps for a text console time there are different steps for the No
 
 - You need to have created the PPK file and the USER_akey.txt file in the 
 previous steps.
-- You should have sent me the USER_akey.txt in email to Condor.
+- You should have sent me the USER_akey.txt (e.g. jeffnye_akey.txt) in my email at Condor.
 - Once I receive this I will add your user and akey to your instance account
 
 You can not proceed further until the steps above are completed.  Putty login uses the PPK file.  Your password is the pass phrase you used to create or akey.
 
 ## Putty one time setup
 - Start putty
+    - See "Fig 1. Putty main window" below
 - (1) Select session on the left
 - (2) Under host name add 34.214.62.90
     - This is the public IP address of the instance,
     - see more machine info at the top of this page
 - Use port 22, select SSH
 - (3) In saved sessions add condor-perf-USER
-    - append your user name condor-perf
+    - append your user name to condor-perf, condor-perf-jeffnye
 - (4) Save the session
 - (5) Select Connection on the left
-    - Expand SSH submenu
-    - Expand Auth submenu
-    - Select Credentials
-- (6) Private key file for authentication, Browse
-#    - Find your ppk file
-- (1) Select session again
+- (6) Expand SSH submenu
+- (7) Expand Auth submenu
+    - Select Credentials 
+        - this will open a new window
+        - see "Fig 2. Putty credentials window" below
+- (8) Private key file for authentication, Browse
+    - Find your ppk and select it
+- (1) Select session again on the left panel
 - (4) Save the session again
 
-Putty one time setup is complete.
+<b>Putty one time setup is complete. Proceed to Putty login</b>
 
 ![image](./images/annotated_putty.png)
+<br> *Fig 1. - Putty main window*
+
+![image](./images/annotated_putty2.png)
+<br> *Fig 2. - Putty credentials window*
 
 
 ## Putty login using named session
 
 - Start putty
-- Find your named session, condor-perf-USER
+- Find your named session, condor-perf-USER, e.g. condor-perf-jeffnye
 - Load your session
 - Select butten Open
 - A window will open
-- Login as:  USER
+- Login as:  USER        (e.g. jeffnye)
 - Passphrase for key "imported-openssh-key": enter your passphrase
 
 You should now have a text console. Test it:
@@ -137,35 +153,6 @@ This assumes you have installed NoMachine.
 STOPPED HERE
 
 --------------------------------------
-# Common problems
-
-- PUTTY reports an unrecognized signature the first time it connects to a 
-  new machine
-    - This is usually expected
-    - Please read what is in the dialog and make an informed choice.
-
-- If AWS refuses your credentials make sure your PPK is associated with 
-  your named session
-    - Notice in the puttygen instructions that you saved the session twice 
-      in the one time setup. 
-        - Once to give the session a name
-        - Once to assign the PPK file for the session
-
-- You will get denied access if:
-    - I have not setup your AWS account yet 
-    - If I have done it wrong
-    - Either way send me an email
-
-- If the NoMachine access times out it may be becuase the system rebooted 
-  and the NoMachine service daemon did not restart
-    - Send me an email
-    - Or if you have root/sudo credentials restart the nxclienta
-        -  sudo nxserver --restart nxd
-    - Test restart success with
-        - sudo /etc/NX/nxserver --status 
-        - ps -ef | grep nxd
-
---------------------------------------
 # Admin: Add user to AWS instance
 
 I follow these instructions [LINK](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/managing-users.html#create-user-account)
@@ -183,3 +170,35 @@ Cut and paste the public key into a text file
     - the instructions above go through this.
 
 STOPPED HERE
+
+
+--------------------------------------
+# Common problems
+
+- PUTTY reports an unrecognized signature the first time it connects to a
+  new machine
+    - This is usually expected
+    - Please read what is in the dialog and make an informed choice.
+
+- If AWS refuses your credentials make sure your PPK is associated with
+  your named session
+    - Notice in the puttygen instructions that you saved the session twice
+      in the one time setup.
+        - Once to give the session a name
+        - Once to assign the PPK file for the session
+
+- You will get denied access if:
+    - I have not setup your AWS account yet
+    - If I have done it wrong
+    - Either way send me an email
+
+- If the NoMachine access times out it may be becuase the system rebooted
+  and the NoMachine service daemon did not restart
+    - Send me an email
+    - Or if you have root/sudo credentials restart the nxclienta
+        -  sudo nxserver --restart nxd
+    - Test restart success with
+        - sudo /etc/NX/nxserver --status
+        - ps -ef | grep nxd
+
+
