@@ -224,6 +224,7 @@ sh ./Miniconda3-latest-Linux-x86_64.sh
 <i>open new terminal or reload your environment</i>
 
 ----------------------------------------------------------
+</i>
 ## Clone map and it's components
 
 ```
@@ -331,6 +332,7 @@ STF is a library supporting the Simulation Trace Format.
 
 ---------
 
+</i>
 # Install Olympia
 
 riscv-perf-model aka Olympia. Olympia is a trace driven OOO performance model.
