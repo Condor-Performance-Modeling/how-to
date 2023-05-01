@@ -1,6 +1,8 @@
 # AWS-How-To
 Common AWS maintenance tasks
 
+THIS IS INCOMPLETE, WORK IN PROGRESS
+
 --------------------------------------
 # ToC
 
@@ -126,7 +128,7 @@ You can not proceed further until the steps above are completed.  Putty login us
 - Start putty
 - Find your named session, condor-perf-USER, e.g. condor-perf-jeffnye
 - Load your session
-- Select butten Open
+- Select button Open
 - A window will open
 - Login as:  USER        (e.g. jeffnye)
 - Passphrase for key "imported-openssh-key": enter your passphrase
@@ -141,14 +143,58 @@ Linux ip-172-31-0-208 5.19.0-1023-aws #24~22.04.1-Ubuntu SMP Wed Mar 29 15:23:31
 --------------------------------------
 # Login using NoMachine
 
-Unlike putty which uses your PPK and a pass phrase NoMachine is setup to
+## Pre-reqs
+
+- Install [NoMachine](https://www.nomachine.com/)
+
+## NoMachine one time setup
+
+This creates a NoMachine session. Once created the session can be used to 
+launch NoMachine on the instance.
+
+- Open the NoMachine app
+- (1) Select ADD
+- Select the Address section on the left
+- (2) assign a name to the session:
+    - condor-perf-USER,   e.g. condor-perf-jeffnye
+    - this is just a name, it is not your login
+- (3) Add the ip address, 34.214.62.90, port 4000, protocol NX
+    - this is the IP of the EC2 instance
+    - NoMachine uses port 4000. 
+        - Normally you do not have to worry about this.
+        - If you have port 4000 blocked, it needs to be enabled
+- Select the Configuration section on the left
+    - Make sure "Use password authentication" is selected
+    - Make sure "Use UDP communication for multimedia data" is selected
+- (4) Hit the "+ ADD" button on the top right
+
+
+![image](./images/nomachine1.png)
+<br> *Fig 3. - Create a new NoMachine session*
+
+![image](./images/nomachine2.png)
+<br> *Fig 2. - Assign name and IP address to session*
+
+![image](./images/nomachine3.png)
+<br> *Fig 2. - Verify password authentication*
+
+<b>NoMachine one time setup is complete. Proceed to NoMachine login</b>
+
+
+## NoMachine login using named session
+
+Unlike putty which uses your PPK and a pass phrase, NoMachine will be setup to
 require a password. If we ever implement SSO this will change.
+For now we'll do it this way.
 
-For now we'll do it this way, since for the most part users will always access the instance via NoMachine.
+You will have received an email from me with your temporary unix password.
+This is the password assigned to you account. It is used for NoMachine and
+any activities on linux that asks for a password.
 
-I am using NoMachine instead of VNC/etc. The VNC setup on the 
+(I realize this is different than the authentication that putty uses.)
 
-This assumes you have installed NoMachine.
+ 
+
 
 STOPPED HERE
 

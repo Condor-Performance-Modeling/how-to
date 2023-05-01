@@ -406,6 +406,8 @@ This assumes you have followed the instructions above for these steps.
     python3 ${MAP}/helios/pipeViewer/pipe_view/argos.py --database pipeout_ --layout-file cpu_layout.alf
 ```
 ----------------------------------
+</i>
+
 # Setup Dromajo for tracing
 
 The original README for adding tracing to dromajo is in the olympia traces readme.
