@@ -7,13 +7,6 @@ Condor-Performance-Modeling (CPM) is a github organization. This organization
 contains multiple repos. This is the documentation repo, 
 Condor-Performance-Modeling/how-to.
 
-Moving forward the Condor performance modeling work will use the repo's 
-under the CPM organization.
-
-At present all documentation is contained in this single file. This will 
-change over time. Patch files and environment scripts used in other CPM 
-repos are kept here.
-
 The steps that follow document building the Condor perf modeling environment 
 and provide instructions on how to use it.
 
