@@ -3,12 +3,15 @@
 export TOP=`pwd`
 # You could also use $TOP/how-to/downloads, if /tmp is not available
 # export WGETTMP=$TOP/how-to/downloads
-export WGETTMP=/tmp
-export PATCHES=$TOP/how-to/patches
+export BUILDROOT=$TOP/buildroot-2020.05.1
 export CPM_ENV=$TOP/how-to/env
+export DROMAJO=$TOP/dromajo
+export KERNEL=$TOP/linux-5.8-rc4
 export MAP=$TOP/map
 export OLYMPIA=$TOP/riscv-perf-model
-export RV_TOOLS_SRC=$TOP/riscv-gnu-toolchain
+export OPENSBI=$TOP/opensbi
+export PATCHES=$TOP/how-to/patches
 export RV_BAREMETAL_TOOLS=$TOP/riscv64-unknown-elf
 export RV_LINUX_TOOLS=$TOP/riscv64-unknown-linux-gnu
-export DROMAJO=$TOP/riscv-perf-model/traces/stf_trace_gen/dromajo
+export RV_TOOLS_SRC=$TOP/riscv-gnu-toolchain
+export WGETTMP=/tmp

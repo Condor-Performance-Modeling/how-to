@@ -3,17 +3,19 @@ documentation and tips for using the condor performance modeling flow
 
 # Condor-Performance-Modeling
 
-Condor-Performance-Modeling (CPM) is a github organization. This organization contains 
-multiple repos. This is the documentation repo, Condor-Performance-Modeling/how-to.
+Condor-Performance-Modeling (CPM) is a github organization. This organization 
+contains multiple repos. This is the documentation repo, 
+Condor-Performance-Modeling/how-to.
 
-Moving forward the Condor performance modeling work will use the repo's under the
-CPM organization.
+Moving forward the Condor performance modeling work will use the repo's 
+under the CPM organization.
 
-At present all documentation is contained in this single file. This will change over
-time. Patch files and environment scripts used in other CPM repos are kept here.
+At present all documentation is contained in this single file. This will 
+change over time. Patch files and environment scripts used in other CPM 
+repos are kept here.
 
-The steps that follow document building the Condor perf modeling environment and 
-provide instructions on how to use it.
+The steps that follow document building the Condor perf modeling environment 
+and provide instructions on how to use it.
 
 --------------------------------------
 # ToC
@@ -39,10 +41,13 @@ provide instructions on how to use it.
 
 1. [Using pipeline data views](#using-pipeline-data-views)
 
-1. [Setup Dromajo for tracing](#setup-dromajo-for-tracing)
+1. [Build Dromajo](#build-dromajo)
+
+1. [Build the Linux Kernel](#build-the-linux-kernel)
+
+1. [Build the Linux file system](#build-the-linux-file-system)
 
 1. [Boot linux on Dromajo](#boot-linux-on-dromajo)
-
 
 --------------------------------------
 # Boot strapping the environment
@@ -66,9 +71,12 @@ git clone git@github.com:Condor-Performance-Modeling/how-to.git
 --------------------------------------
 # Set local environment variables
 
-Bash environment variables are presumed in the instructions that follow. 
-These are exported to your shell. A script is available to automate setting 
-these variables.
+I have moved the instructions to a separate file because the instructions 
+are shared with other build instructions.
+
+The new location is [LINK](./SET_LOCAL_ENV.md)
+
+Without the details, you can just do this:
 
 ```
 cd condor
@@ -76,49 +84,6 @@ mkdir Downloads
 source how-to/env/setupenv.sh
 ```
 
-Once the script is sourced these variables will exist in your current shell.
-
-
-- TOP
-    - This var points to where all CPM repo's will live. This is essentially /path/to/condor.
-    - <b>export TOP=\`pwd\`</b>
-
-- WGETTMP
-    - Some packages require manual download using wget.
-    - This a temporary directory for that purpose.
-    - <b>export WGETTMP=$TOP/Downloads</b>
-
-- PATCHES
-    - A directory with pre-modified source files and patch files
-    - <b>export PATCHES=$TOP/how-to/patches</b>
-
-- CPM_ENV
-    - A directory with environment scripts and resource files
-    - <b>export CPM_ENV=$TOP/how-to/env</b>
-
-- MAP
-    - This var points to the Sparcians/Map repo copy
-    - <b>export MAP=$TOP/map</b>
-
-- OLYMPIA
-    - This var points to the riscv-perf-model (aka Olympia) repo copy
-    - <b>export OLYMPIA=$TOP/riscv-perf-model</b>
-
-- RV_TOOLS_SRC
-    - This var points to the tool chain source directory
-    - <b>export RV_TOOLS_SRC=$TOP/riscv-gnu-toolchain</b>
-
-- RV_BAREMETAL_TOOLS
-    - This var points to the gnu bare metal tool chain install directory.
-    - <b>export RV_BAREMETAL_TOOLS=$TOP/riscv64-unknown-elf</b>
-
-- RV_LINUX_TOOLS
-    - This var points to the gnu linux tool chain install directory.
-    - <b>export RV_LINUX_TOOLS=$TOP/riscv64-unknown-linux-gnu</b>
-
-- DROMAJO
-    - This var points to the dromajo under riscv-perf-model
-    - <b>export DROMAJO=$TOP/riscv-perf-model/traces/stf_trace_gen/dromajo</b>
 
 --------------------------------------
 # Install the Ubuntu collateral
@@ -140,51 +105,14 @@ sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjs
 ```
 
 --------------------------------------
-# Install riscv gnu tool chain
+# Install RISCV GNU Tool Chain
 
 Some estimates say ~7GB of space is needed.
 
 There are pre-built versions of the bare metal and linux tools. See
 Jeff to get the link. These versions can save hours of compile time.
 
-## Pre-req and clone
-
-There are two versions of the tool chain, linux and bare metal, these are
-built from the same source, with different install prefixes. Be aware of the
-PATH settings in the instructions, if you are building both.
-
-```
-  mkdir -p $RV_LINUX_TOOLS       (the linux tool chain install path)
-  mkdir -p $RV_BAREMETAL_TOOLS   (the bare metal tool chain install path)
-  git clone https://github.com/riscv-collab/riscv-gnu-toolchain
-  cd riscv-gnu-toolchain
-  git config http.sslVerify false
-```
-
-## Configure, make and install
-
-### Linux tool version
-Install path will be $RV_LINUX_TOOLS.
-
-```
-  export PATH=$RV_LINUX_TOOLS/bin:$PATH
-  cd $RV_TOOLS_SRC
-  rm -rf build
-  mkdir build;cd build
-  ../configure --prefix=$RV_LINUX_TOOLS --enable-multilib
-  make linux    # gnu linux tool chain
-```
-
-### Bare metal version
-Install path will be $RV_BAREMETAL_TOOLS.
-```
-  export PATH=$RV_BAREMETAL_TOOLS/bin:$PATH
-  cd $RV_TOOLS_SRC
-  rm -rf build
-  mkdir build;cd build
-  ../configure --prefix=$RV_BAREMETAL_TOOLS --enable-multilib
-  make          #bare metal tool chain
-```
+For the DIY-ers see this page: [LINK](./CROSS_TOOL_CHAIN.md)
 
 ----------------------------------------------------------
 # Install MAP
@@ -224,7 +152,6 @@ sh ./Miniconda3-latest-Linux-x86_64.sh
 <i>open new terminal or reload your environment</i>
 
 ----------------------------------------------------------
-</i>
 ## Clone map and it's components
 
 ```
@@ -410,7 +337,7 @@ This assumes you have followed the instructions above for these steps.
 ----------------------------------
 </i>
 
-# Setup Dromajo for tracing
+# Build Dromajo
 
 The original README for adding tracing to dromajo is in the olympia traces readme.
 $OLYMPIA/traces/README.md
@@ -422,36 +349,41 @@ FIXME: I need to re-create the patch, there was a fix for console io performance
 A patch is supplied to modify Dromajo to generate STF traces. These steps clone the repo, checkout the known compatible commit and patch the source.
 
 ```
-    cd $OLYMPIA/traces/stf_trace_gen
+;#    cd $TOP
+;#    Experimental - skip these for now
+;#    git clone git@github.com:Condor-Performance-Modeling/condor.dromajo.git
+;#    ln -s condor.dromajo dromajo
+
+
+    cd $TOP
     git clone https://github.com/chipsalliance/dromajo
     cd dromajo
-    <FIXME:> git checkout 86125b31
-    <FIXME:> git apply ../dromajo_stf_lib.patch
-    ln -s ../../../stf_lib
+    git checkout 86125b31
+    git apply $PATCHES/dromajo_stf_lib.patch
+    ln -s ../stf_lib
 ```
 
 ## Correct cmake files 
 
-stf_lib/stf-config.cmake and Dromajo CMakeLists must be edited for correct compile.
-
+stf_lib/stf-config.cmake must be edited for correct compile.
 
 ```
     cd $DROMAJO
     vi $OLYMPIA/stf_lib/cmake/stf-config.cmake
     change line ~14 to (remove _GLOBAL):
         set_target_properties(Threads::Threads PROPERTIES IMPORTED TRUE)
-
     vi ./CMakeLists.txt
     change line ~53 to (change std to ++17)
         -std=c++17
 ```
 
-## Build dromajo
+## Compile dromajo
 
 ```
     cd $DROMAJO
-    ln -s ../stf_lib
     mkdir -p build; cd build
+    # FIXME: this is an uglier than normal hack
+    cp $OLYMPIA/traces/stf_trace_gen/trace_macros.h $TOP
     cmake ..
     make -j8
 ```
@@ -468,36 +400,8 @@ Check if patch worked, dromajo should have the --stf_trace option
 ```
 
 ------------------------------------------------------------------------
-# Boot Linux on Dromajo
-
-You must have previously installed the riscv gnu tool chain.
-See [Install riscv gnu tool chain](#install-riscv-gnu-tool-chain)
-
-## Create buildroot image
-
-The make of build root downloads some files. Some of these files need
-a patch so make is called multiple times.
-
-Prepatched files are provided to copy over the files with issues.
-FIXME: ADD THESE FILES TO REPO AND INSTRUCTIONS TO RETRIEVE THEM.
-
-```
-    cd $DROMAJO
-    wget --no-check-certificate https://github.com/buildroot/buildroot/archive/2020.05.1.tar.gz
-    tar xf 2020.05.1.tar.gz
-    cp run/config-buildroot-2020.05.1 buildroot-2020.05.1/.config
-    make -C buildroot-2020.05.1
-    (this may fail, if so copy this file)
-    cp $PATCHES/c-stack.c ./buildroot-2020.05.1/output/build/host-m4-1.4.18/lib/c-stack.c
-    make -C buildroot-2020.05.1
-    (this may fail, if so copy this file)
-    cp $PATCHES/libfakeroot.c ./buildroot-2020.05.1/output/build/host-fakeroot-1.20.2/libfakeroot.c
-    sudo make -C buildroot-2020.05.1
-    (this is expected to finish without error)
-```
-
-## Download and compile kernel
-### Check path to the linux gnu tool chain
+# Build the Linux kernel
+## Check path to the linux gnu tool chain
 
 Check that riscv64-unknown-linux-gnu-gcc is in your path.
 
@@ -514,7 +418,7 @@ export PATH=$RV_LINUX_TOOLS/bin:$PATH
 ### Get and build kernel
 
 ```
-    cd $DROMAJO
+    cd $TOP
     export CROSS_COMPILE=riscv64-unknown-linux-gnu-
     wget --no-check-certificate -nc https://git.kernel.org/torvalds/t/linux-5.8-rc4.tar.gz
     tar -xf linux-5.8-rc4.tar.gz
@@ -522,34 +426,91 @@ export PATH=$RV_LINUX_TOOLS/bin:$PATH
     make -C linux-5.8-rc4 ARCH=riscv -j8
 ```
 
-## Download and compile OpenSBI
+------------------------------------------------------------------------
+# Build the Linux file system
+## Check path to the linux gnu tool chain
 
+Check that riscv64-unknown-linux-gnu-gcc is in your path.
 
 ```
-    cd $DROMAJO
+which riscv64-unknown-linux-gnu-gcc
+```
+
+If not export to your PATH variable as shown.
+
+```
+export PATH=$RV_LINUX_TOOLS/bin:$PATH
+```
+
+## Create buildroot image
+```
+    cd $TOP
+    wget --no-check-certificate https://github.com/buildroot/buildroot/archive/2020.05.1.tar.gz
+    tar xf 2020.05.1.tar.gz
+    cp $DROMAJO/run/config-buildroot-2020.05.1 buildroot-2020.05.1/.config
+    make -C buildroot-2020.05.1
+    (this may fail, if so copy this file)
+    cp $PATCHES/c-stack.c ./buildroot-2020.05.1/output/build/host-m4-1.4.18/lib/c-stack.c
+    make -C buildroot-2020.05.1
+    (this may fail, if so copy this file)
+    cp $PATCHES/libfakeroot.c ./buildroot-2020.05.1/output/build/host-fakeroot-1.20.2/libfakeroot.c
+    sudo make -C buildroot-2020.05.1
+    (this is expected to finish without error)
+```
+------------------------------------------------------------------------
+# Build OpenSBI
+
+## Check path to the linux gnu tool chain
+
+Check that riscv64-unknown-linux-gnu-gcc is in your path.
+
+```
+which riscv64-unknown-linux-gnu-gcc
+```
+
+If not export to your PATH variable as shown.
+
+```
+export PATH=$RV_LINUX_TOOLS/bin:$PATH
+```
+
+## Download and compile OpenSBI
+
+```
+    cd $TOP
     export CROSS_COMPILE=riscv64-unknown-linux-gnu-
     git clone https://github.com/riscv/opensbi.git
     cd opensbi
     git checkout tags/v0.8 -b temp2
     # works too: git checkout 7be75f519f7705367030258c4410d9ff9ea24a6f -b temp
-    make PLATFORM=generic
+    make PLATFORM=generic 
     cd ..
 ```
 
-## Boot linux
+------------------------------------------------------------------------
+# Boot Linux on Dromajo
+
+You must have previously installed the riscv gnu tool chain.
+See [Install riscv gnu tool chain](#install-riscv-gnu-tool-chain)
+
+This assumes you have built the pre-reqs, opensbi, linux kernel and linux 
+file system. See instructions above.
+
+
+## Copy collateral and boot linux
 
 ```
     cd $DROMAJO
-    cp buildroot-2020.05.1/output/images/rootfs.cpio ./run
-    cp linux-5.8-rc4/arch/riscv/boot/Image ./run
-    cp opensbi/build/platform/generic/firmware/fw_jump.bin ./run
+    cp $BUILDROOT/output/images/rootfs.cpio ./run
+    cp $KERNEL/arch/riscv/boot/Image ./run
+    cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin ./run
     cd run
-    ../build/dromajo boot.cfg
+    ../build/dromajo --ctrlc boot.cfg
 
 ```
 login is root, password is root
 
-Use kill <pid> to exit dromajo.
+Use Control-C or 'kill <pid>' to exit dromajo.
 
 ------------------------------------------------------------------------
 
@@ -594,7 +555,7 @@ sudo make -C buildroot-2020.05.1
 cd run
 
 cp ../buildroot-2020.05.1/output/images/rootfs.cpio .
-../build/dromajo --stf_trace my_trace.zstf boot.cfg
+../build/dromajo --ctrlc --stf_trace my_trace.zstf boot.cfg
 
 login: root
 password: root
