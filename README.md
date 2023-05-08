@@ -3,12 +3,12 @@ documentation and tips for using the condor performance modeling flow
 
 # Condor-Performance-Modeling
 
-Condor-Performance-Modeling (CPM) is a github organization. This organization 
-contains multiple repos. This is the documentation repo, 
-Condor-Performance-Modeling/how-to.
+Condor-Performance-Modeling (CPM) is a github organization. 
 
-The steps that follow document building the Condor perf modeling environment 
-and provide instructions on how to use it.
+CPM contains a number of repo's used by Condor. 
+Condor-Performance-Modeling/how-to contains documentation, patches and 
+support scripts. The steps that follow document building the Condor 
+perf modeling environment and provide instructions on how to use it.
 
 --------------------------------------
 # ToC
@@ -40,19 +40,24 @@ and provide instructions on how to use it.
 
 1. [Build the Linux file system](#build-the-linux-file-system)
 
-1. [Boot linux on Dromajo](#boot-linux-on-dromajo)
+1. [Boot Linux on Dromajo](#boot-linux-on-dromajo)
+
+1. [Build the benchmark suite](#build-the-benchmark-suite)
+
+1. [Running programs on Dromajo](#running-programs-on-dromajo)
 
 --------------------------------------
 # Boot strapping the environment
 
-Presumably you are reading this how-to from the web or a local copy. This
-section boot straps the how-to environment.
+Presumably you are reading this how-to from the web or a local copy. The
+instructions in subsequent sections use the paths and environment
+variables created here. Follow these steps:
 
 - Change directory to the place you want to install condor tools 
   and environment.
 - Make a directory called condor
 - cd to condor
-- clone this condor performance modeling how-to repo
+- clone the condor performance modeling how-to repo
 
 ```
 [cd workspace]
@@ -77,11 +82,10 @@ mkdir Downloads
 source how-to/env/setupenv.sh
 ```
 
-
 --------------------------------------
 # Install the Ubuntu collateral
 
-Install the Ubuntu support packages
+Install the Ubuntu support packages:
 
 ```
   sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev
@@ -91,7 +95,7 @@ Install the Ubuntu support packages
   sudo apt install bc zlib1g-dev libexpat-dev ninja-build
 ```
 
-All in one line for easy cut/paste
+All in one line for easy cut/paste:
 
 ```
 sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjson-dev xz-utils autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build
@@ -100,7 +104,7 @@ sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjs
 --------------------------------------
 # Install RISCV GNU Tool Chain
 
-Some estimates say ~7GB of space is needed.
+Some estimates say ~7GB of space is needed for these tools.
 
 There are pre-built versions of the bare metal and linux tools. See
 Jeff to get the link. These versions can save hours of compile time.
@@ -140,9 +144,14 @@ wget --no-check-certificate https://repo.anaconda.com/miniconda/Miniconda3-lates
 sh ./Miniconda3-latest-Linux-x86_64.sh
 ```
 
-<i> Make sure you move the added .bashrc lines to a private rc file if you are in a managed environment.
+<i> Make sure you move the added .bashrc lines to a private rc file if you are in a managed environment.</i>
 
-<i>open new terminal or reload your environment</i>
+Open new terminal or reload your environment. Your prompt should be
+something like (base).
+
+```
+(base) jeff@reynaldo:~/Development/condor$
+```
 
 ----------------------------------------------------------
 ## Clone map and it's components
@@ -159,7 +168,7 @@ sh ./Miniconda3-latest-Linux-x86_64.sh
 
 <b>FIXME: Create actual patch files, for now copy the pre-edited files</b>
 
-If you are building Olympia (riscv-perf-model) you copy over two files.
+If you are building Olympia (riscv-perf-model) then copy over these two files.
 
 ```
     cp $PATCHES/TreeNodeExtensions.cpp $MAP/sparta/src/TreeNodeExtensions.cpp
@@ -170,8 +179,6 @@ If you are building Olympia (riscv-perf-model) you copy over two files.
 
 See the apt install for the Ubuntu support packages above in "Install the 
 Ubuntu collateral".
-
-You should active the sparta/conda environment, see above.
 
 ```
     cd $MAP/sparta
@@ -184,6 +191,7 @@ You should active the sparta/conda environment, see above.
 
 - Start a terminal with miniconda activated. See above.
     - The prompt will look like (base):
+
 ```
    (base) jeff@reynaldo:~/Development:
 ```
@@ -203,7 +211,8 @@ You should active the sparta/conda environment, see above.
     
 ```
 
-A successfully activated sparta/conda environment will change your prompt to (sparta):
+A successfully activated sparta/conda environment will change your 
+prompt to (sparta):
 
 ```
 (sparta) jeff@reynaldo:~/Development/condor/map$
@@ -255,16 +264,20 @@ STF is a library supporting the Simulation Trace Format.
 </i>
 # Install Olympia
 
-riscv-perf-model aka Olympia. Olympia is a trace driven OOO performance model.
+riscv-perf-model aka Olympia. Olympia is a trace driven OOO 
+performance model.
 
-The model is intended as a template, e.g. there is an advisory that renaming 
-has not been implemented.
+The Olympia model is intended as a template, the micro-architecture has not
+been completed in the main repo.
 
 It does have some interesting capabilities in terms of trace input formats in [STF](https://github.com/sparcians/stf_spec) and [JSON](https://github.com/riscv-software-src/riscv-perf-model/tree/master/traces#json-inputs).
 
+Olympia will be modified to implement the Condor micro-architecture.
+
 ## Clone the repo
 
-There are errors in map/Sparta source files when compiling for Olympia.  Make the source file changes described above (TreeNodeExtensions.hpp/cpp).
+There are errors in map/Sparta source files when compiling for Olympia.  
+Make the source file changes described above (TreeNodeExtensions.hpp/cpp).
 
 There is also an error in Dispatch.hpp, see below.
 
@@ -337,17 +350,25 @@ $OLYMPIA/traces/README.md
 
 ## Clone and patch dromajo
 
-FIXME: I need to re-create the patch, there was a fix for console io performance in dromajo, so the checksum below is no longer used, and I need to verify that the patch still works
+<!-- This is experimental, kept for reference
+FIXME: I need to re-create the patch, there was a fix for console io performance in dromajo, so the checksum below is no longer used, and I need to verify that the patch still works.
+
+The issue is the trace macros are not detected. The perf improvement 
+executes instructions in batches of 1000. I believe in this scheme the
+trace macro is not detected. This is a theory.
+-->
 
 A patch is supplied to modify Dromajo to generate STF traces. These steps clone the repo, checkout the known compatible commit and patch the source.
 
-```
+<!-- This is experimental, kept for reference
 ;#    cd $TOP
 ;#    Experimental - skip these for now
 ;#    git clone git@github.com:Condor-Performance-Modeling/condor.dromajo.git
 ;#    ln -s condor.dromajo dromajo
+-->
 
 
+```
     cd $TOP
     git clone https://github.com/chipsalliance/dromajo
     cd dromajo
@@ -489,8 +510,8 @@ See [Install riscv gnu tool chain](#install-riscv-gnu-tool-chain)
 This assumes you have built the pre-reqs, opensbi, linux kernel and linux 
 file system. See instructions above.
 
-
 ## Copy collateral and boot linux
+Copy the images/etc from the BuildRoot step to the Dromajo run directory.
 
 ```
     cd $DROMAJO
@@ -498,7 +519,7 @@ file system. See instructions above.
     cp $KERNEL/arch/riscv/boot/Image ./run
     cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin ./run
     cd run
-    ../build/dromajo --ctrlc boot.cfg
+    ../build/dromajo boot.cfg
 
 ```
 login is root, password is root
@@ -506,16 +527,136 @@ login is root, password is root
 Use Control-C or 'kill <pid>' to exit dromajo.
 
 ------------------------------------------------------------------------
+# Build the benchmark suite
 
-# Running programs on dromajo
+## Cloning the benchmark repo
 
-For now I'm referencing external docs for running dromajo.
+The benchmarks in this repo have been instrumented for STF trace generation
+using Dromajo.
+
+The number of benchmarks in this directory will be increased over time.
+
+```
+cd $TOP
+git clone git@github.com:Condor-Performance-Modeling/benchmarks.git
+cd benchmarks
+```
+
+There are two sets of benchmarks, coremark and everything else.
+
+The primary Makefile is for everything except coremark. 
+
+
+The coremark benchmark is derived from the riscv-coremark repo.
+The riscv coremark wrapper provides secondary makefiles.  The 
+secondary makefiles assume the environment variable $RV_BAREMETAL_TOOLS 
+has been set. This setting was documented earlier. It should be 
+<path>/riscv64-unknown-elf
+
+## Building coremark
+
+```
+  cd $BENCHMARKS
+  ./build-coremark.sh
+```
+
+The results will be in bin.
+
+## Building the default benchmarks
+
+```
+cd $BENCHMARKS
+make
+```
+
+The results will be in bin.
+
+------------------------------------------------------------------------
+# Running programs on Dromajo
+
+There are two processes, applications run under linux and bare metal
+applications. In both cases the instrumentation process is the same.
+
+## Instrumenting programs for STF generation
+
+For STF generation instrumentation macros are added to the source
+file covering the region(s) of interest. Instrumentation macros are
+only required for STF output. Dromajo will run uninstrumented 
+binaries and still generate trace information.
+
+The benchmarks repo contains the coremark benchmark that has 
+instrumentation for STF generation.
+
+An example, see this file $BENCHMARKS/riscv64/coremark/core_main.c
+
+An include file and two macros are added to the file.
+
+```
+...
+#include "trace\_macros.h"
+...
+MAIN\_RETURN\_TYPE main(int argc, char *argv[]) {
+#endif
+
+  START_TRACE; //JNYE HERE
+...
+  STOP_TRACE; //JNYE HERE
+  return MAIN_RETURN_VAL;
+}  
+
+```
+
+### Adding the instrumented exe to the linux image and running Dromajo
+
+This assumes you have previously built the benchmark suite. 
+
+The commands below copy the target exe to the buildroot file system, 
+compiles the file system and copies the resulting rootfs.cpio to 
+Dromajo's run directory. Finally executing on Dromajo
+
+```
+  cd $TOP
+  sudo cp $BENCHMARKS/bin/coremark.riscv $BUILDROOT/output/target/sbin
+  sudo make -C $BUILDROOT
+  cp $BUILDROOT/output/images/rootfs.cpio $DROMAJO/run
+  cd $DROMAJO/run
+  ../build/dromajo --ctrlc --stf_trace my_trace.zstf boot.cfg
+```
+
+</i>
+Once linux has booted and login is complete, the application will be
+found in /sbin. In this example the executable will be 
+/sbin/coremark.riscv.
+
+
+## Running a bare metal exe on Dromajo directly
+
+The bare metal flow has fewer steps. The instrumentation methods are the
+same. Once the code has been instrumented, copy the executable to the
+Dromajo run directory and issue this command
+
+
+### Running an instrumented exe on Dromajo for STF generation
+
+```
+  cp $BENCHMARKS/dhrystone.bare.riscv $DROMAJO/run
+  cd $DROMAJO/run
+  ../build/dromajo -stf_trace my_trace.zstf ./dhrystone.bare.riscv
+```
+
+### Running an uninstrumented exe on Dromajo for standard trace generation
+
+
+## External references
+
+External docs for running dromajo.
 
 [Running baremetal and linux based apps on dromajo](https://github.com/chipsalliance/dromajo/blob/master/doc/setup.md)
 
 [Running instrumented apps on dromajo to generate STF traces](https://github.com/riscv-software-src/riscv-perf-model/tree/master/traces)
 
 
+<!-- 
 ------------------------------------------------------------------------
 # Instrumenting a linux based application
 
@@ -555,3 +696,24 @@ password: root
 
 dhry.riscv.elf
 
+-->
+
+<!-- These are notes that will end up in a readme somewhere
+
+Create a new GITHUB repository on the command line
+echo "# condor.new-repo" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:Condor-Performance-Modeling/condor.new-repo.git
+git push -u origin main
+
+
+Push an existing repository from the command line to CPM
+
+git remote add origin git@github.com:Condor-Performance-Modeling/condor.new-repo.git
+git branch -M main
+git push -u origin main
+
+-->

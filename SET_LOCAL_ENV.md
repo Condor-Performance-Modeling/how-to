@@ -14,6 +14,8 @@ Bash environment variables are presumed in the instructions that follow.
 These are exported to your shell. A script is available to automate setting 
 these variables.
 
+The script is sourced while in the condor directory.
+
 ```
 cd condor
 mkdir Downloads
@@ -27,9 +29,13 @@ Once the script is sourced these variables will exist in your current shell.
     - This var points to where all CPM repo's will live. This is essentially /path/to/condor.
     - <b>export TOP=\`pwd\`</b>
 
+- BENCHMARKS
+    - Path to the repo containing the CPM benchmarks
+    - <b>export CPM_ENV=$TOP/benchmarks</b>
+
 - BUILDROOT
     - The linux file system source used by dromajo to boot linux
-    - <b>export BUILDROOT=$TOP/how-to/env</b>
+    - <b>export BUILDROOT=$TOP/buildroot-2020.05.1</b>
 
 - CPM_ENV
     - A directory with environment scripts and resource files
@@ -37,7 +43,7 @@ Once the script is sourced these variables will exist in your current shell.
 
 - DROMAJO
     - This var points to the dromajo under riscv-perf-model
-    - <b>export DROMAJO=$TOP/riscv-perf-model/traces/stf_trace_gen/dromajo</b>
+    - <b>export DROMAJO=$TOP/dromajo</b>
 
 - KERNEL
     - The linux kernel source used for running linux on dromajo.
@@ -74,5 +80,5 @@ Once the script is sourced these variables will exist in your current shell.
 - WGETTMP
     - Some packages require manual download using wget.
     - This a temporary directory for that purpose.
-    - <b>export WGETTMP=$TOP/Downloads</b>
+    - <b>export WGETTMP=/tmp</b>
 

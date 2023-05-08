@@ -1,7 +1,7 @@
 # CROSS-TOOL-CHAIN
 Documentation and tips for building the risc-v cross compiler toolchain
 There are pre-built packages for these tools. The preferred method is to
-use these pre-built tools. 
+use the pre-built tools.
 
 # Pre-built tool chain available
 I maintain a set for Ubuntu 22.04. Send me a slack for the link. Otherwise
@@ -21,6 +21,9 @@ instructions for building GNU tools is below.
 --------------------------------------
 # Boot strapping the environment
 
+If you have not previously cloned the how-to repo follow these steps,
+otherwise skip this section.
+
 Presumably you are reading this how-to from the web or a local copy. This
 section boot straps the how-to environment.
 
@@ -30,9 +33,10 @@ section boot straps the how-to environment.
 - cd to condor
 - clone this condor performance modeling how-to repo
 
+
 ```
 [cd workspace]
-mkdir condor
+mkdir -p condor
 cd condor
 git clone git@github.com:Condor-Performance-Modeling/how-to.git
 ```
