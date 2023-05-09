@@ -92,7 +92,7 @@ I am using "rando" as the user for the example. Replace rando with your
 AWS user name. Replace :3 with your port number.
 
 Change to the user in question, cd to their home, remove any previous vnc
-meta data. Start a server to create the 
+meta data. Start a server to set the password, kill it and edit the xstartup file.
 
 ```
 sudo su rando      # become the user
