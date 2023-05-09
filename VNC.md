@@ -1,13 +1,21 @@
 
 # VNC Setup, multiple user
 
-There are two copies of this readme, the one in the condor repo is the
-one I actively maintain.
-
 Instructions for setting up vnc on an AWS Ubuntu 22.04 instance.
 
-I install both xfce and gnome desktop, but I only show xstartup for
-xfce.
+As an end user you do not have to do the AWS steps. If you are setting
+up an AWS instance then there is some useful information in that step.
+
+End user (skips the 1st two steps), do this as an end user.
+
+-  Configure user xstartup
+-  Install local tightvnc on Win/Mac
+-  Log in from Win/Mac using tightvnc
+
+AWS instance owner, or the curious, then do all the steps.
+
+I install both xfce and gnome desktop on the instance, but I only show 
+xstartup for xfce.
 
 To save disk I'm debating removing gnome completely or switching 
 to gnome-minimal, I have not tested any gnome steps.  If you want to 
@@ -92,7 +100,7 @@ I am using "rando" as the user for the example. Replace rando with your
 AWS user name. Replace :3 with your port number.
 
 Change to the user in question, cd to their home, remove any previous vnc
-meta data. Start a server to set the password, kill it and edit the xstartup file.
+meta data. Start a server to create the 
 
 ```
 sudo su rando      # become the user
