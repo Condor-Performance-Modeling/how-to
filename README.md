@@ -529,53 +529,98 @@ Use Control-C or 'kill <pid>' to exit dromajo.
 ------------------------------------------------------------------------
 # Build the benchmark suite
 
+The Condor benchmark repo uses a mix of submodules and copies of external
+repos. The copies contain source modified from the original repo to enable
+STF generation.
+
+
+
 ## Cloning the benchmark repo
-
-The benchmarks in this repo have been instrumented for STF trace generation
-using Dromajo.
-
-The number of benchmarks in this directory will be increased over time.
 
 ```
 cd $TOP
-git clone git@github.com:Condor-Performance-Modeling/benchmarks.git
 cd benchmarks
+git clone git@github.com:Condor-Performance-Modeling/benchmarks.git
+git submodule update --init --recursive
 ```
-
-There are two sets of benchmarks, coremark and everything else.
-
-The primary Makefile is for everything except coremark. 
-
-
-The coremark benchmark is derived from the riscv-coremark repo.
-The riscv coremark wrapper provides secondary makefiles.  The 
-secondary makefiles assume the environment variable $RV_BAREMETAL_TOOLS 
-has been set. This setting was documented earlier. It should be 
-<path>/riscv64-unknown-elf
 
 ## Building coremark
 
+You must set the RISCV environment macro to the location of your
+RISCV tool chain.
+
 ```
   cd $BENCHMARKS
-  ./build-coremark.sh
+  export RISCV=$RV_BAREMETAL_TOOLS
+	make coremark
 ```
 
 The results will be in bin.
 
-## Building the default benchmarks
+## Building riscv-tests
+
+Check that riscv64-unknown-elf-gcc is in your path.
+
+```
+which riscv64-unknown-elf-gcc
+```
+
+If not export to your PATH variable as shown.
+
+```
+export PATH=$RV_BAREMETAL_TOOLS/bin:$PATH
+```
 
 ```
 cd $BENCHMARKS
+cd $BENCHMARKS/riscv-tests-src
+autoconf
+./configure --prefix=$BENCHMARKS/riscv-tests
 make
+make install
 ```
 
-The results will be in bin.
+The results will be in $BENCHMARKS/riscv-tests/share/riscv-tests/benchmarks
+and $BENCHMARKS/riscv-tests/share/riscv-tests/isa
+
+
+## Status of benchmarks
+
+Table below shows current status of each benchmark.  In addition there
+are ~450 ISA related tests. These tests are not pertinent as benchmarks.
+
+```
+LOC1 = $BENCHMARKS/riscv-tests/share/riscv-tests/benchmarks
+LOC2 = $BENCHMARKS/riscv-tests/share/riscv-tests/isa
+LOC3 = $BENCHMARKS/bin
+```
+
+<table>
+<tr><th>name     <th>dromajo<th>spike<th>veer<th>platform<th>location</tr>
+<tr><td>coremark <td>?      <td>bare <td>LOC3<td> [1]
+<tr><td>coremark <td>PASS   <td>linux<td>LOC3<td>
+<tr><td>dhrystone<td>?      <td>bare <td>LOC1<td> [x]
+<tr><td>median   <td>?      <td>bare <td>LOC1<td> [x]
+<tr><td>mm       <td>?      <td>bare <td>LOC1<td> [x]
+<tr><td>mt-matmul<td>?      <td>bare <td>LOC1<td> [x]
+<tr><td>mt-vvadd <td>?      <td>bare <td>LOC1<td> [x]
+<tr><td>multiply <td>?      <td>bare <td>LOC1<td> [x]
+<tr><td>pmp      <td>?      <td>bare <td>LOC1<td> [x]
+<tr><td>qsort    <td>?      <td>bare <td>LOC1<td> [x]
+<tr><td>rsort    <td>?      <td>bare <td>LOC1<td> [x]
+<tr><td>spmv     <td>?      <td>bare <td>LOC1<td> [x]
+<tr><td>towers   <td>?      <td>bare <td>LOC1<td> [x]
+<tr><td>vvadd    <td>?      <td>bare <td>LOC1<td> [x]
+</table>
 
 ------------------------------------------------------------------------
 # Running programs on Dromajo
 
 There are two processes, applications run under linux and bare metal
 applications. In both cases the instrumentation process is the same.
+Also in both cases the instrumentation is optional. Instrumentation
+is only required for STF generation. STF generation is required to
+drive Olympia, Dromajo will generate plain text traces or STF traces.
 
 ## Instrumenting programs for STF generation
 
