@@ -92,13 +92,13 @@ Install the Ubuntu support packages:
   sudo apt install rapidjson-dev xz-utils autoconf automake autotools-dev 
   sudo apt install curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk 
   sudo apt install build-essential bison flex texinfo gperf libtool patchutils 
-  sudo apt install bc zlib1g-dev libexpat-dev ninja-build
+  sudo apt install bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler
 ```
 
 All in one line for easy cut/paste:
 
 ```
-sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjson-dev xz-utils autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build
+sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjson-dev xz-utils autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler
 ```
 
 --------------------------------------
@@ -586,32 +586,11 @@ and $BENCHMARKS/riscv-tests/share/riscv-tests/isa
 
 ## Status of benchmarks
 
-Table below shows current status of each benchmark.  In addition there
-are ~450 ISA related tests. These tests are not pertinent as benchmarks.
+We keep track of the status of benchmarks.  Long term this will be
+done through a confluence page, for now I"m doing this in a side
+.md file. 
 
-```
-LOC1 = $BENCHMARKS/riscv-tests/share/riscv-tests/benchmarks
-LOC2 = $BENCHMARKS/riscv-tests/share/riscv-tests/isa
-LOC3 = $BENCHMARKS/bin
-```
-
-<table>
-<tr><th>name     <th>dromajo<th>spike<th>veer<th>platform<th>location</tr>
-<tr><td>coremark <td>?      <td>bare <td>LOC3<td> [1]
-<tr><td>coremark <td>PASS   <td>linux<td>LOC3<td>
-<tr><td>dhrystone<td>?      <td>bare <td>LOC1<td> [x]
-<tr><td>median   <td>?      <td>bare <td>LOC1<td> [x]
-<tr><td>mm       <td>?      <td>bare <td>LOC1<td> [x]
-<tr><td>mt-matmul<td>?      <td>bare <td>LOC1<td> [x]
-<tr><td>mt-vvadd <td>?      <td>bare <td>LOC1<td> [x]
-<tr><td>multiply <td>?      <td>bare <td>LOC1<td> [x]
-<tr><td>pmp      <td>?      <td>bare <td>LOC1<td> [x]
-<tr><td>qsort    <td>?      <td>bare <td>LOC1<td> [x]
-<tr><td>rsort    <td>?      <td>bare <td>LOC1<td> [x]
-<tr><td>spmv     <td>?      <td>bare <td>LOC1<td> [x]
-<tr><td>towers   <td>?      <td>bare <td>LOC1<td> [x]
-<tr><td>vvadd    <td>?      <td>bare <td>LOC1<td> [x]
-</table>
+This is the current [LINK](./BENCHSTATUS.md).
 
 ------------------------------------------------------------------------
 # Running programs on Dromajo
