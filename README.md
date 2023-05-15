@@ -348,7 +348,7 @@ This assumes you have followed the instructions above for these steps.
 The original README for adding tracing to dromajo is in the olympia 
 traces readme.  $OLYMPIA/traces/README.md
 
-## Clone and patch dromajo
+## Clone dromajo, link to STF LIB
 
 <!-- 
 This is old info, kept for reference
