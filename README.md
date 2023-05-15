@@ -345,8 +345,8 @@ This assumes you have followed the instructions above for these steps.
 
 # Build Dromajo
 
-The original README for adding tracing to dromajo is in the olympia traces readme.
-$OLYMPIA/traces/README.md
+The original README for adding tracing to dromajo is in the olympia 
+traces readme.  $OLYMPIA/traces/README.md
 
 ## Clone and patch dromajo
 
@@ -360,22 +360,17 @@ trace macro is not detected. This is a theory.
 
 A patch is supplied to modify Dromajo to generate STF traces. These steps clone the repo, checkout the known compatible commit and patch the source.
 
-<!-- This is experimental, kept for reference
-;#    cd $TOP
-;#    Experimental - skip these for now
-;#    git clone git@github.com:Condor-Performance-Modeling/condor.dromajo.git
-;#    ln -s condor.dromajo dromajo
--->
-
-
 ```
     cd $TOP
-    git clone https://github.com/chipsalliance/dromajo
+    git clone https://github.com/Condor-Performance-Modeling/dromajo.git
     cd dromajo
     git checkout 86125b31
     git apply $PATCHES/dromajo_stf_lib.patch
     ln -s ../stf_lib
 ```
+
+<!-- The original repo is here, above is our fork       -->
+<!-- git clone https://github.com/chipsalliance/dromajo -->
 
 ## Correct cmake files 
 
@@ -644,8 +639,11 @@ Dromajo's run directory. Finally executing on Dromajo
   sudo make -C $BUILDROOT
   cp $BUILDROOT/output/images/rootfs.cpio $DROMAJO/run
   cd $DROMAJO/run
-  ../build/dromajo --ctrlc --stf_trace my_trace.zstf boot.cfg
+  ../build/dromajo --stf_trace my_trace.zstf boot.cfg
 ```
+
+<!-- some versions require --ctrlc, some do not accept it        -->
+<!-- ../build/dromajo --ctrlc --stf_trace my_trace.zstf boot.cfg -->
 
 </i>
 Once linux has booted and login is complete, the application will be
