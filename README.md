@@ -350,27 +350,32 @@ traces readme.  $OLYMPIA/traces/README.md
 
 ## Clone and patch dromajo
 
-<!-- This is experimental, kept for reference
-FIXME: I need to re-create the patch, there was a fix for console io performance in dromajo, so the checksum below is no longer used, and I need to verify that the patch still works.
-
+<!-- 
+This is old info, kept for reference
+OLD FIXME: I need to re-create the patch, there was a fix for console io 
+performance in dromajo, so the checksum below is no longer used, and 
+I need to verify that the patch still works.
 The issue is the trace macros are not detected. The perf improvement 
 executes instructions in batches of 1000. I believe in this scheme the
 trace macro is not detected. This is a theory.
 -->
 
-A patch is supplied to modify Dromajo to generate STF traces. These steps clone the repo, checkout the known compatible commit and patch the source.
+This fork of dromajo has the proper stf patches already applied. 
 
 ```
     cd $TOP
     git clone https://github.com/Condor-Performance-Modeling/dromajo.git
     cd dromajo
-    git checkout 86125b31
-    git apply $PATCHES/dromajo_stf_lib.patch
     ln -s ../stf_lib
 ```
 
-<!-- The original repo is here, above is our fork       -->
-<!-- git clone https://github.com/chipsalliance/dromajo -->
+<!-- The original repo is here, above is our fork                  -->
+<!-- A patch is supplied to modify Dromajo to generate STF traces. -->
+<!-- These steps clone the repo, checkout the known compatible     -->
+<!-- commit and patch the source.                                  -->
+<!-- git clone https://github.com/chipsalliance/dromajo            -->
+<!-- git checkout 86125b31                                         -->
+<!-- git apply $PATCHES/dromajo_stf_lib.patch                      -->
 
 ## Correct cmake files 
 
