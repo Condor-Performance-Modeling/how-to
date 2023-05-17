@@ -1,0 +1,121 @@
+ Name:     Olympia RISC-V Perf Model 
+# Cmdline:  ./olympia --show-loggers --no-run
+# Exe:      ./olympia
+# SimulatorVersion: v0.1.0
+# Repro:    
+# Start:    Wednesday Wed May 17 11:06:39 2023
+# Elapsed:  0.000408s
+# Sparta Version: map_v1.1.0-4-g277037f3
+  [in] Arch Config: ArchCfg Node "" <- file: "/home/jeff/Development/condor/riscv-perf-model/arches/small_core.yaml"
+
+Setting up Simulation Content...
+Resources:
+  cpu
+Building tree...
+Configuring tree...
+Finalizing tree...
+Inst Allocator: 478 Inst objects allocated/created
+Inst Allocator: 0 Inst objects allocated/created
+
+Loggers (After Finalization):
+_SPARTA_global_node_ : <_SPARTA_global_node_> {builtin} (privacy: 0)
++-scheduler : <scheduler (root)> (privacy: 0)
+| +-? : <scheduler:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| +-? : <scheduler:log_msg_src cat:"calltrace" observed:false msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
++-top : <top (root)> (privacy: 0)
+| +-cpu : <top.cpu resource: "cpu"> (privacy: 0)
+| | +-core0 : <top.cpu.core0 resource: "core"> (privacy: 0)
+| | | +-flushmanager : <top.cpu.core0.flushmanager resource: "flushmanager"> (privacy: 0)
+| | | | +-? : <top.cpu.core0.flushmanager:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.flushmanager:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.flushmanager:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 0)
+| | | +-fetch : <top.cpu.core0.fetch resource: "fetch"> (privacy: 0)
+| | | | +-? : <top.cpu.core0.fetch:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.fetch:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.fetch:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 0)
+| | | +-decode : <top.cpu.core0.decode resource: "decode"> (privacy: 0)
+| | | | +-? : <top.cpu.core0.decode:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.decode:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.decode:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 0)
+| | | +-rename : <top.cpu.core0.rename resource: "rename"> (privacy: 0)
+| | | | +-scoreboards : <top.cpu.core0.rename.scoreboards> (privacy: 0)
+| | | | | +-integer : <top.cpu.core0.rename.scoreboards.integer resource: "Scoreboard"> (privacy: 0)
+| | | | | | +-? : <top.cpu.core0.rename.scoreboards.integer:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | | | +-? : <top.cpu.core0.rename.scoreboards.integer:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
+| | | | | | +-? : <top.cpu.core0.rename.scoreboards.integer:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 0)
+| | | | | +-float : <top.cpu.core0.rename.scoreboards.float resource: "Scoreboard"> (privacy: 0)
+| | | | | | +-? : <top.cpu.core0.rename.scoreboards.float:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | | | +-? : <top.cpu.core0.rename.scoreboards.float:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
+| | | | | | +-? : <top.cpu.core0.rename.scoreboards.float:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.rename:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.rename:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.rename:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 0)
+| | | +-dispatch : <top.cpu.core0.dispatch resource: "dispatch"> (privacy: 0)
+| | | | +-? : <top.cpu.core0.dispatch:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.dispatch:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.dispatch:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 0)
+| | | +-execute : <top.cpu.core0.execute resource: "execute"> (execute[0])  (privacy: 0)
+| | | | +-alu0 : <top.cpu.core0.execute.alu0 resource: "exe_pipe"> (alu[0])  (privacy: 0)
+| | | | | +-? : <top.cpu.core0.execute.alu0:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | | +-? : <top.cpu.core0.execute.alu0:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
+| | | | | +-? : <top.cpu.core0.execute.alu0:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 0)
+| | | | +-fpu0 : <top.cpu.core0.execute.fpu0 resource: "exe_pipe"> (fpu[0])  (privacy: 0)
+| | | | | +-? : <top.cpu.core0.execute.fpu0:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | | +-? : <top.cpu.core0.execute.fpu0:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
+| | | | | +-? : <top.cpu.core0.execute.fpu0:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 0)
+| | | | +-br0 : <top.cpu.core0.execute.br0 resource: "exe_pipe"> (br[0])  (privacy: 0)
+| | | | | +-? : <top.cpu.core0.execute.br0:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | | +-? : <top.cpu.core0.execute.br0:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
+| | | | | +-? : <top.cpu.core0.execute.br0:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.execute:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.execute:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.execute:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 0)
+| | | +-lsu : <top.cpu.core0.lsu resource: "lsu"> (privacy: 0)
+| | | | +-tlb : <top.cpu.core0.lsu.tlb resource: "tlb"> (privacy: 1)
+| | | | | +-? : <top.cpu.core0.lsu.tlb:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 1)
+| | | | | +-? : <top.cpu.core0.lsu.tlb:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 1)
+| | | | | +-? : <top.cpu.core0.lsu.tlb:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 1)
+| | | | +-? : <top.cpu.core0.lsu:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.lsu:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.lsu:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 0)
+| | | | +-l1cache : <top.cpu.core0.lsu.l1cache> (privacy: 0)
+| | | | | +-preloadable : <top.cpu.core0.lsu.l1cache.preloadable> (privacy: 0)
+| | | | | | +-? : <top.cpu.core0.lsu.l1cache.preloadable:log_msg_src cat:"preload_logger" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | +-biu : <top.cpu.core0.biu resource: "biu"> (privacy: 0)
+| | | | +-ports : <top.cpu.core0.biu.ports> (privacy: 0)
+| | | | | +-in_mss_ack_sync : [bound to] {out_mss_ack_sync (top.cpu.core0.mss.ports.out_mss_ack_sync)} (privacy: 0)
+| | | | | | +-? : <top.cpu.core0.biu.ports.in_mss_ack_sync:log_msg_src cat:"pinfo" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | | +-out_mss_req_sync : [bound to] {in_mss_req_sync (top.cpu.core0.mss.ports.in_mss_req_sync)} (privacy: 0)
+| | | | | | +-? : <top.cpu.core0.biu.ports.out_mss_req_sync:log_msg_src cat:"pinfo" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.biu:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.biu:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.biu:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 0)
+| | | +-mss : <top.cpu.core0.mss resource: "mss"> (privacy: 0)
+| | | | +-ports : <top.cpu.core0.mss.ports> (privacy: 0)
+| | | | | +-in_mss_req_sync : [bound to] {out_mss_req_sync (top.cpu.core0.biu.ports.out_mss_req_sync)} (privacy: 0)
+| | | | | | +-? : <top.cpu.core0.mss.ports.in_mss_req_sync:log_msg_src cat:"pinfo" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | | +-out_mss_ack_sync : [bound to] {in_mss_ack_sync (top.cpu.core0.biu.ports.in_mss_ack_sync)} (privacy: 0)
+| | | | | | +-? : <top.cpu.core0.mss.ports.out_mss_ack_sync:log_msg_src cat:"pinfo" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.mss:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.mss:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.mss:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 0)
+| | | +-rob : <top.cpu.core0.rob resource: "rob"> (privacy: 0)
+| | | | +-? : <top.cpu.core0.rob:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.rob:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.rob:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 0)
+| | | +-mavis : <top.cpu.core0.mavis resource: "mavis"> (privacy: 0)
+| | | | +-? : <top.cpu.core0.mavis:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.mavis:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
+| | | | +-? : <top.cpu.core0.mavis:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 0)
+| | | +-? : <top.cpu.core0:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | | +-? : <top.cpu.core0:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
+| | | +-? : <top.cpu.core0:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 0)
+| | +-? : <top.cpu:log_msg_src cat:"info" observed:false msgs:0> (_sparta_log_msg_source_[0])  (privacy: 0)
+| | +-? : <top.cpu:log_msg_src cat:"warning" observed:true msgs:0> (_sparta_log_msg_source_[1])  (privacy: 0)
+| | +-? : <top.cpu:log_msg_src cat:"debug" observed:false msgs:0> (_sparta_log_msg_source_[2])  (privacy: 0)
+Preparing to run...
+User specified --no-run or another command with "no-run" semantics. Skipping run
+Inst Allocator: 478 Inst objects allocated/created
+Inst Allocator: 478 Inst objects allocated/created
+Inst Allocator: 0 Inst objects allocated/created
+

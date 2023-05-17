@@ -376,6 +376,8 @@ This fork of dromajo has the proper stf patches already applied.
 <!-- git clone https://github.com/chipsalliance/dromajo            -->
 <!-- git checkout 86125b31                                         -->
 <!-- git apply $PATCHES/dromajo_stf_lib.patch                      -->
+<!-- ln -s ../stf_lib                                              -->
+<!-- fix the CMakelists.txt file c++17 line 53                     -->
 
 ## Correct cmake files 
 

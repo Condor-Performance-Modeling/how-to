@@ -1,0 +1,113 @@
+# Name:     Olympia RISC-V Perf Model 
+# Cmdline:  ./olympia --show-ports --no-run
+# Exe:      ./olympia
+# SimulatorVersion: v0.1.0
+# Repro:    
+# Start:    Wednesday Wed May 17 11:33:55 2023
+# Elapsed:  0.000376s
+# Sparta Version: map_v1.1.0-4-g277037f3
+  [in] Arch Config: ArchCfg Node "" <- file: "/home/jeff/Development/condor/riscv-perf-model/arches/small_core.yaml"
+
+Setting up Simulation Content...
+Resources:
+  cpu
+Building tree...
+Configuring tree...
+Finalizing tree...
+Inst Allocator: 478 Inst objects allocated/created
+Inst Allocator: 0 Inst objects allocated/created
+
+Ports (After Finalization):
+_SPARTA_global_node_ : <_SPARTA_global_node_> {builtin} (privacy: 0)
++-top : <top (root)> (privacy: 0)
+| +-cpu : <top.cpu resource: "cpu"> (privacy: 0)
+| | +-core0 : <top.cpu.core0 resource: "core"> (privacy: 0)
+| | | +-flushmanager : <top.cpu.core0.flushmanager resource: "flushmanager"> (privacy: 0)
+| | | | +-ports : <top.cpu.core0.flushmanager.ports> (privacy: 0)
+| | | | | +-out_retire_flush : [bound to] {in_reorder_flush (top.cpu.core0.dispatch.ports.in_reorder_flush), in_reorder_flush (top.cpu.core0.decode.ports.in_reorder_flush), in_reorder_flush (top.cpu.core0.rename.ports.in_reorder_flush), in_reorder_flush (top.cpu.core0.rob.ports.in_reorder_flush), in_reorder_flush (top.cpu.core0.lsu.ports.in_reorder_flush), in_reorder_flush (top.cpu.core0.execute.alu0.ports.in_reorder_flush), in_reorder_flush (top.cpu.core0.execute.fpu0.ports.in_reorder_flush), in_reorder_flush (top.cpu.core0.execute.br0.ports.in_reorder_flush)} (privacy: 0)
+| | | | | +-in_retire_flush : [bound to] {out_retire_flush (top.cpu.core0.rob.ports.out_retire_flush)} (privacy: 0)
+| | | | | +-out_fetch_flush_redirect : [bound to] {in_fetch_flush_redirect (top.cpu.core0.fetch.ports.in_fetch_flush_redirect)} (privacy: 0)
+| | | | | +-in_fetch_flush_redirect : [bound to] {out_fetch_flush_redirect (top.cpu.core0.rob.ports.out_fetch_flush_redirect)} (privacy: 0)
+| | | +-fetch : <top.cpu.core0.fetch resource: "fetch"> (privacy: 0)
+| | | | +-ports : <top.cpu.core0.fetch.ports> (privacy: 0)
+| | | | | +-out_fetch_queue_write : [bound to] {in_fetch_queue_write (top.cpu.core0.decode.ports.in_fetch_queue_write)} (privacy: 0)
+| | | | | +-in_fetch_queue_credits : [bound to] {out_fetch_queue_credits (top.cpu.core0.decode.ports.out_fetch_queue_credits)} (privacy: 0)
+| | | | | +-in_fetch_flush_redirect : [bound to] {out_fetch_flush_redirect (top.cpu.core0.flushmanager.ports.out_fetch_flush_redirect)} (privacy: 0)
+| | | +-decode : <top.cpu.core0.decode resource: "decode"> (privacy: 0)
+| | | | +-ports : <top.cpu.core0.decode.ports> (privacy: 0)
+| | | | | +-in_fetch_queue_write : [bound to] {out_fetch_queue_write (top.cpu.core0.fetch.ports.out_fetch_queue_write)} (privacy: 0)
+| | | | | +-out_fetch_queue_credits : [bound to] {in_fetch_queue_credits (top.cpu.core0.fetch.ports.in_fetch_queue_credits)} (privacy: 0)
+| | | | | +-out_uop_queue_write : [bound to] {in_uop_queue_append (top.cpu.core0.rename.ports.in_uop_queue_append)} (privacy: 0)
+| | | | | +-in_uop_queue_credits : [bound to] {out_uop_queue_credits (top.cpu.core0.rename.ports.out_uop_queue_credits)} (privacy: 0)
+| | | | | +-in_reorder_flush : [bound to] {out_retire_flush (top.cpu.core0.flushmanager.ports.out_retire_flush)} (privacy: 0)
+| | | +-rename : <top.cpu.core0.rename resource: "rename"> (privacy: 0)
+| | | | +-ports : <top.cpu.core0.rename.ports> (privacy: 0)
+| | | | | +-in_uop_queue_append : [bound to] {out_uop_queue_write (top.cpu.core0.decode.ports.out_uop_queue_write)} (privacy: 0)
+| | | | | +-out_uop_queue_credits : [bound to] {in_uop_queue_credits (top.cpu.core0.decode.ports.in_uop_queue_credits)} (privacy: 0)
+| | | | | +-out_dispatch_queue_write : [bound to] {in_dispatch_queue_write (top.cpu.core0.dispatch.ports.in_dispatch_queue_write)} (privacy: 0)
+| | | | | +-in_dispatch_queue_credits : [bound to] {out_dispatch_queue_credits (top.cpu.core0.dispatch.ports.out_dispatch_queue_credits)} (privacy: 0)
+| | | | | +-in_reorder_flush : [bound to] {out_retire_flush (top.cpu.core0.flushmanager.ports.out_retire_flush)} (privacy: 0)
+| | | +-dispatch : <top.cpu.core0.dispatch resource: "dispatch"> (privacy: 0)
+| | | | +-ports : <top.cpu.core0.dispatch.ports> (privacy: 0)
+| | | | | +-in_dispatch_queue_write : [bound to] {out_dispatch_queue_write (top.cpu.core0.rename.ports.out_dispatch_queue_write)} (privacy: 0)
+| | | | | +-out_dispatch_queue_credits : [bound to] {in_dispatch_queue_credits (top.cpu.core0.rename.ports.in_dispatch_queue_credits)} (privacy: 0)
+| | | | | +-in_lsu_credits : [bound to] {out_lsu_credits (top.cpu.core0.lsu.ports.out_lsu_credits)} (privacy: 0)
+| | | | | +-out_lsu_write : [bound to] {in_lsu_insts (top.cpu.core0.lsu.ports.in_lsu_insts)} (privacy: 0)
+| | | | | +-in_reorder_buffer_credits : [bound to] {out_reorder_buffer_credits (top.cpu.core0.rob.ports.out_reorder_buffer_credits)} (privacy: 0)
+| | | | | +-out_reorder_buffer_write : [bound to] {in_reorder_buffer_write (top.cpu.core0.rob.ports.in_reorder_buffer_write)} (privacy: 0)
+| | | | | +-in_reorder_flush : [bound to] {out_retire_flush (top.cpu.core0.flushmanager.ports.out_retire_flush)} (privacy: 0)
+| | | | | +-in_alu0_credits : [bound to] {out_scheduler_credits (top.cpu.core0.execute.alu0.ports.out_scheduler_credits)} (privacy: 0)
+| | | | | +-out_alu0_write : [bound to] {in_execute_write (top.cpu.core0.execute.alu0.ports.in_execute_write)} (privacy: 0)
+| | | | | +-in_fpu0_credits : [bound to] {out_scheduler_credits (top.cpu.core0.execute.fpu0.ports.out_scheduler_credits)} (privacy: 0)
+| | | | | +-out_fpu0_write : [bound to] {in_execute_write (top.cpu.core0.execute.fpu0.ports.in_execute_write)} (privacy: 0)
+| | | | | +-in_br0_credits : [bound to] {out_scheduler_credits (top.cpu.core0.execute.br0.ports.out_scheduler_credits)} (privacy: 0)
+| | | | | +-out_br0_write : [bound to] {in_execute_write (top.cpu.core0.execute.br0.ports.in_execute_write)} (privacy: 0)
+| | | +-execute : <top.cpu.core0.execute resource: "execute"> (execute[0])  (privacy: 0)
+| | | | +-alu0 : <top.cpu.core0.execute.alu0 resource: "exe_pipe"> (alu[0])  (privacy: 0)
+| | | | | +-ports : <top.cpu.core0.execute.alu0.ports> (privacy: 0)
+| | | | | | +-in_execute_write : [bound to] {out_alu0_write (top.cpu.core0.dispatch.ports.out_alu0_write)} (privacy: 0)
+| | | | | | +-out_scheduler_credits : [bound to] {in_alu0_credits (top.cpu.core0.dispatch.ports.in_alu0_credits)} (privacy: 0)
+| | | | | | +-in_reorder_flush : [bound to] {out_retire_flush (top.cpu.core0.flushmanager.ports.out_retire_flush)} (privacy: 0)
+| | | | +-fpu0 : <top.cpu.core0.execute.fpu0 resource: "exe_pipe"> (fpu[0])  (privacy: 0)
+| | | | | +-ports : <top.cpu.core0.execute.fpu0.ports> (privacy: 0)
+| | | | | | +-in_execute_write : [bound to] {out_fpu0_write (top.cpu.core0.dispatch.ports.out_fpu0_write)} (privacy: 0)
+| | | | | | +-out_scheduler_credits : [bound to] {in_fpu0_credits (top.cpu.core0.dispatch.ports.in_fpu0_credits)} (privacy: 0)
+| | | | | | +-in_reorder_flush : [bound to] {out_retire_flush (top.cpu.core0.flushmanager.ports.out_retire_flush)} (privacy: 0)
+| | | | +-br0 : <top.cpu.core0.execute.br0 resource: "exe_pipe"> (br[0])  (privacy: 0)
+| | | | | +-ports : <top.cpu.core0.execute.br0.ports> (privacy: 0)
+| | | | | | +-in_execute_write : [bound to] {out_br0_write (top.cpu.core0.dispatch.ports.out_br0_write)} (privacy: 0)
+| | | | | | +-out_scheduler_credits : [bound to] {in_br0_credits (top.cpu.core0.dispatch.ports.in_br0_credits)} (privacy: 0)
+| | | | | | +-in_reorder_flush : [bound to] {out_retire_flush (top.cpu.core0.flushmanager.ports.out_retire_flush)} (privacy: 0)
+| | | +-lsu : <top.cpu.core0.lsu resource: "lsu"> (privacy: 0)
+| | | | +-ports : <top.cpu.core0.lsu.ports> (privacy: 0)
+| | | | | +-in_lsu_insts : [bound to] {out_lsu_write (top.cpu.core0.dispatch.ports.out_lsu_write)} (privacy: 0)
+| | | | | +-in_biu_ack : [bound to] {out_biu_ack (top.cpu.core0.biu.ports.out_biu_ack)} (privacy: 0)
+| | | | | +-in_rob_retire_ack : [bound to] {out_rob_retire_ack (top.cpu.core0.rob.ports.out_rob_retire_ack)} (privacy: 0)
+| | | | | +-in_reorder_flush : [bound to] {out_retire_flush (top.cpu.core0.flushmanager.ports.out_retire_flush)} (privacy: 0)
+| | | | | +-out_lsu_credits : [bound to] {in_lsu_credits (top.cpu.core0.dispatch.ports.in_lsu_credits)} (privacy: 0)
+| | | | | +-out_biu_req : [bound to] {in_biu_req (top.cpu.core0.biu.ports.in_biu_req)} (privacy: 0)
+| | | +-biu : <top.cpu.core0.biu resource: "biu"> (privacy: 0)
+| | | | +-ports : <top.cpu.core0.biu.ports> (privacy: 0)
+| | | | | +-in_biu_req : [bound to] {out_biu_req (top.cpu.core0.lsu.ports.out_biu_req)} (privacy: 0)
+| | | | | +-in_mss_ack_sync : [bound to] {out_mss_ack_sync (top.cpu.core0.mss.ports.out_mss_ack_sync)} (privacy: 0)
+| | | | | +-out_biu_ack : [bound to] {in_biu_ack (top.cpu.core0.lsu.ports.in_biu_ack)} (privacy: 0)
+| | | | | +-out_mss_req_sync : [bound to] {in_mss_req_sync (top.cpu.core0.mss.ports.in_mss_req_sync)} (privacy: 0)
+| | | +-mss : <top.cpu.core0.mss resource: "mss"> (privacy: 0)
+| | | | +-ports : <top.cpu.core0.mss.ports> (privacy: 0)
+| | | | | +-in_mss_req_sync : [bound to] {out_mss_req_sync (top.cpu.core0.biu.ports.out_mss_req_sync)} (privacy: 0)
+| | | | | +-out_mss_ack_sync : [bound to] {in_mss_ack_sync (top.cpu.core0.biu.ports.in_mss_ack_sync)} (privacy: 0)
+| | | +-rob : <top.cpu.core0.rob resource: "rob"> (privacy: 0)
+| | | | +-ports : <top.cpu.core0.rob.ports> (privacy: 0)
+| | | | | +-in_reorder_buffer_write : [bound to] {out_reorder_buffer_write (top.cpu.core0.dispatch.ports.out_reorder_buffer_write)} (privacy: 0)
+| | | | | +-out_reorder_buffer_credits : [bound to] {in_reorder_buffer_credits (top.cpu.core0.dispatch.ports.in_reorder_buffer_credits)} (privacy: 0)
+| | | | | +-in_reorder_oldest_completed : [bound to] {} (privacy: 0)
+| | | | | +-out_retire_flush : [bound to] {in_retire_flush (top.cpu.core0.flushmanager.ports.in_retire_flush)} (privacy: 0)
+| | | | | +-out_fetch_flush_redirect : [bound to] {in_fetch_flush_redirect (top.cpu.core0.flushmanager.ports.in_fetch_flush_redirect)} (privacy: 0)
+| | | | | +-out_rob_retire_ack : [bound to] {in_rob_retire_ack (top.cpu.core0.lsu.ports.in_rob_retire_ack)} (privacy: 0)
+| | | | | +-in_reorder_flush : [bound to] {out_retire_flush (top.cpu.core0.flushmanager.ports.out_retire_flush)} (privacy: 0)
+Preparing to run...
+User specified --no-run or another command with "no-run" semantics. Skipping run
+Inst Allocator: 478 Inst objects allocated/created
+Inst Allocator: 478 Inst objects allocated/created
+Inst Allocator: 0 Inst objects allocated/created
+

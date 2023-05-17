@@ -1,0 +1,36 @@
+# Name:     Olympia RISC-V Perf Model 
+# Cmdline:  ./olympia --show-notifications --no-run
+# Exe:      ./olympia
+# SimulatorVersion: v0.1.0
+# Repro:    
+# Start:    Wednesday Wed May 17 11:39:35 2023
+# Elapsed:  0.000373s
+# Sparta Version: map_v1.1.0-4-g277037f3
+  [in] Arch Config: ArchCfg Node "" <- file: "/home/jeff/Development/condor/riscv-perf-model/arches/small_core.yaml"
+
+Setting up Simulation Content...
+Resources:
+  cpu
+Building tree...
+Configuring tree...
+Finalizing tree...
+Inst Allocator: 478 Inst objects allocated/created
+Inst Allocator: 0 Inst objects allocated/created
+
+Notifications (After Finalization):
+_SPARTA_global_node_ : <_SPARTA_global_node_> {builtin} (privacy: 0)
++-scheduler : <scheduler (root)> (privacy: 0)
+| +-descendant_attached : <scheduler.descendant_attached name:"descendant_attached" datat:(sparta::TreeNode)  observers:0 posted:24> (privacy: 0)
++-top : <top (root)> (privacy: 0)
+| +-descendant_attached : <top.descendant_attached name:"descendant_attached" datat:(sparta::TreeNode)  observers:1 posted:977> (privacy: 0)
+| +-sparta_expression_trigger_fired : <top.sparta_expression_trigger_fired name:"sparta_expression_trigger_fired" datat:(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)  observers:0 posted:0> (privacy: 0)
++-meta : <meta (root)> (privacy: 0)
+| +-descendant_attached : <meta.descendant_attached name:"descendant_attached" datat:(sparta::TreeNode)  observers:0 posted:4> (privacy: 0)
++-clocks : <clocks (root)> (privacy: 0)
+| +-descendant_attached : <clocks.descendant_attached name:"descendant_attached" datat:(sparta::TreeNode)  observers:0 posted:4> (privacy: 0)
+Preparing to run...
+User specified --no-run or another command with "no-run" semantics. Skipping run
+Inst Allocator: 478 Inst objects allocated/created
+Inst Allocator: 478 Inst objects allocated/created
+Inst Allocator: 0 Inst objects allocated/created
+
