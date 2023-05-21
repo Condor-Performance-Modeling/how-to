@@ -154,6 +154,14 @@ something like (base).
 (base) jeff@reynaldo:~/Development/condor$
 ```
 
+You now need to resource the CPM setup. Change directory to where you placed the condor directory.
+(FIXME: This works, but see if it can be simplified by placing $TOP or $CONDOR_ROOT in .bashrc.private)
+
+```
+cd <workspace>/condor
+source how-to/env/setuprc.sh
+```
+
 ----------------------------------------------------------
 ## Clone map and it's components
 
