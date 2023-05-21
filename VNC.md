@@ -89,7 +89,7 @@ makes it simpler. If you need more than one vnc session send me a slack.
 :3  rando    Randy Rando
 :4  nemawark Shashank Nemawarkar
 :5  vnitin-x Nitin Venkat
-:6  TBH1
+:6  TBH1 (edmund's slot once I have his user name)
 :7  TBH2
 :8  TBH3
 :9  TBH4
