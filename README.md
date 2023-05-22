@@ -228,6 +228,12 @@ prompt to (sparta):
 (sparta) jeff@reynaldo:~/Development/condor/map$
 ```
 
+For future reference the commands to activate and deactivate are shown. These can be issued in any directory.
+```
+> conda activate sparta                                                   
+> conda deactivate 
+```
+
 ---------
 
 ## Build Helios and Argos
