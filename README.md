@@ -94,12 +94,13 @@ Install the Ubuntu support packages:
   sudo apt install curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk 
   sudo apt install build-essential bison flex texinfo gperf libtool patchutils 
   sudo apt install bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler
+  sudo apt install libboost-all-dev  libsqlite3-dev libhdf5-serial-dev
 ```
 
 All in one line for easy cut/paste:
 
 ```
-sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjson-dev xz-utils autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler
+sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjson-dev xz-utils autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler libboost-all-dev libsqlite3-dev libhdf5-serial-dev
 ```
 
 --------------------------------------
