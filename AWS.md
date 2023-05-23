@@ -141,6 +141,10 @@ Linux ip-172-31-0-208 5.19.0-1023-aws #24~22.04.1-Ubuntu SMP Wed Mar 29 15:23:31
 ```
 
 --------------------------------------
+# Access AWS with VNC session
+
+
+--------------------------------------
 # Login using NoMachine
 
 ## Pre-reqs
