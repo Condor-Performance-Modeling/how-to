@@ -1,5 +1,4 @@
-# how-to
-documentation and tips for using the condor performance modeling flow
+# Readme 
 
 # Condor-Performance-Modeling
 
@@ -21,14 +20,14 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Install riscv gnu tool chain](#install-riscv-gnu-tool-chain)
     
+1. [Build STF Lib](#build-stf-lib)
+
 1. [Install MAP](#install-map)
 
     1. [Install Miniconda](#install-miniconda)
     1. [Install Conda components](#install-conda-components)
-    1. [Build and install Sparta](#build-and-install-sparta)
+    1. [Build and install Map](#build-and-install-map)
     1. [Build and install Helios/Argos](#build-and-install-helios-argos)
-
-1. [Build STF Lib](#build-stf-lib)
 
 1. [Install Olympia](#install-olympia)
 
@@ -45,6 +44,8 @@ perf modeling environment and provide instructions on how to use it.
 1. [Build the benchmark suite](#build-the-benchmark-suite)
 
 1. [Running programs on Dromajo](#running-programs-on-dromajo)
+
+1. [Perf flow to-do list](#perf-flow-to-do-list)
 
 --------------------------------------
 # Boot strapping the environment
@@ -78,7 +79,6 @@ Without the details, you can just do this:
 
 ```
 cd condor
-mkdir Downloads
 source how-to/env/setupenv.sh
 ```
 
@@ -93,12 +93,14 @@ Install the Ubuntu support packages:
   sudo apt install curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk 
   sudo apt install build-essential bison flex texinfo gperf libtool patchutils 
   sudo apt install bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler
+  sudo apt install libboost-all-dev  libsqlite3-dev libhdf5-serial-dev
+  sudo apt install libzstd-dev
 ```
 
 All in one line for easy cut/paste:
 
 ```
-sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjson-dev xz-utils autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler
+sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjson-dev xz-utils autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler libboost-all-dev libsqlite3-dev libhdf5-serial-dev libzstd-dev
 ```
 
 --------------------------------------
@@ -110,6 +112,22 @@ There are pre-built versions of the bare metal and linux tools. See
 Jeff to get the link. These versions can save hours of compile time.
 
 For the DIY-ers see this page: [LINK](./CROSS_TOOL_CHAIN.md)
+
+---------
+
+# Build STF Lib
+
+STF is a library supporting the Simulation Trace Format.
+
+```
+    cd $TOP
+    git clone https://github.com/sparcians/stf_lib.git
+    cd stf_lib
+    git checkout 742037fb80bfe97cb27d7063e24f9bb60b0144f3
+    mkdir -p release; cd release
+    cmake -DCMAKE_BUILD_TYPE=Release ..
+    make -j8
+```
 
 ----------------------------------------------------------
 # Install MAP
@@ -144,13 +162,22 @@ wget --no-check-certificate https://repo.anaconda.com/miniconda/Miniconda3-lates
 sh ./Miniconda3-latest-Linux-x86_64.sh
 ```
 
-<i> Make sure you move the added .bashrc lines to a private rc file if you are in a managed environment.</i>
+<i> Make sure you move the added .bashrc lines to a private rc file if 
+you are in a managed environment.</i>
 
-Open new terminal or reload your environment. Your prompt should be
-something like (base).
+## Active conda
+
+Start a new shell to activate conda, your prompt should look similar to this:
 
 ```
-(base) jeff@reynaldo:~/Development/condor$
+(base) jeff@reynaldo:~/Development/condor
+```
+
+Then re-source the CPM environment script.
+
+```
+cd <workspace>/condor
+source how-to/env/setuprc.sh
 ```
 
 ----------------------------------------------------------
@@ -160,8 +187,8 @@ something like (base).
     cd $TOP
     git clone https://github.com/sparcians/map.git
     cd map
-    git checkout 277037f3cc2594df0ba04e3ad92d41d95e9ea3f9
-    cd $MAP/sparta
+    previous: git checkout 277037f3cc2594df0ba04e3ad92d41d95e9ea3f9
+    broken:   git checkout map_v2
 ```
 
 ## Patch the source files (for Olympia)
@@ -171,52 +198,76 @@ something like (base).
 If you are building Olympia (riscv-perf-model) then copy over these two files.
 
 ```
+    cd $MAP/sparta
     cp $PATCHES/TreeNodeExtensions.cpp $MAP/sparta/src/TreeNodeExtensions.cpp
     cp $PATCHES/TreeNodeExtensions.hpp $MAP/sparta/sparta/simulation/TreeNodeExtensions.hpp
 ```
 
-## Build sparta
-
-See the apt install for the Ubuntu support packages above in "Install the 
-Ubuntu collateral".
-
-```
-    cd $MAP/sparta
-    mkdir release; cd release
-    cmake .. -DCMAKE_BUILD_TYPE=Release
-    make -j8
-```
-
 ## Install Conda components
 
-- Start a terminal with miniconda activated. See above.
-    - The prompt will look like (base):
+If not already active, activate the conda environment
 
 ```
-   (base) jeff@reynaldo:~/Development:
+  conda activate
 ```
 
-- Install the conda packages, activate the sparta conda environment
+Install the conda packages, activate the sparta conda environment
 
 ```
     cd $MAP
     conda install -c conda-forge jq 
     conda install -c conda-forge yq
     ./scripts/create_conda_env.sh sparta dev
-    conda activate sparta
-    cd $(git rev-parse --show-toplevel);
-    mkdir -p release; cd release
-    mkdir helios
-
-    
 ```
+
+<!-- during this the following warnings are issues, FIXME check into these
+are they harmless? 
+WARNING:conda_build.render:Returning non-final recipe for map-map_v1.1.0-4_h1234567_g277037f3; one or more dependencies was unsatisfiable:                      
+Build: llvm-tools, clangxx, boost, python, doxygen, clang, rsync, cppcheck      
+WARNING:conda_build.render:Build: llvm-tools, clangxx, boost, python, doxygen, clang, rsync, cppcheck                                                           
+Host: hdf5, boost-cpp, python
+WARNING:conda_build.render:Host: hdf5, boost-cpp, python
+-->
+
+Now active the sparta environment
+
+```
+    conda activate sparta
+```
+
+<!--
+#    cd $(git rev-parse --show-toplevel);
+#    mkdir -p release; cd release
+#    mkdir helios
+-->
 
 A successfully activated sparta/conda environment will change your 
 prompt to (sparta):
 
 ```
-(sparta) jeff@reynaldo:~/Development/condor/map$
+(sparta) jeff@reynaldo:~/Development/condor/map
 ```
+
+<!--
+For future reference the commands to activate and deactivate are shown. These can be issued in any directory.
+```
+> conda activate sparta                                                   
+> conda deactivate 
+```
+-->
+
+## Build map and sparta
+
+```
+    conda activate sparta
+    cd $MAP/sparta
+    mkdir release; cd release
+    cmake .. -DCMAKE_BUILD_TYPE=Release
+    make -j8
+    cmake --install . --prefix $CONDA_PREFIX
+```
+
+CONDA_PREFIX is set during conda activation.
 
 ---------
 
@@ -239,52 +290,37 @@ Your terminal should have an active sparta/conda dev environment.
     cp $PATCHES/transactionsearch_CMakeLists.txt ../pipeViewer/transactionsearch/CMakeLists.txt
     cmake -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta ..
     make -j8
+    cmake --install . --prefix $CONDA_PREFIX
+    mkdir -p $MAP/release/helios
     cd $MAP/release/helios
     cp -r ../../helios/release/pipeViewer .
 ```
-
 ---------
-
-# Build STF Lib
-
-STF is a library supporting the Simulation Trace Format.
-
-```
-    cd $TOP
-    git clone https://github.com/sparcians/stf_lib.git
-    cd stf_lib
-    git checkout 742037fb80bfe97cb27d7063e24f9bb60b0144f3
-    mkdir -p release; cd release
-    cmake -DCMAKE_BUILD_TYPE=Release ..
-    make -j8
-```
-
----------
-
-</i>
 # Install Olympia
 
 riscv-perf-model aka Olympia. Olympia is a trace driven OOO 
-performance model.
+performance model.  The Olympia model is intended as a template,
+micro-architecture modeling has not completed.
 
-The Olympia model is intended as a template, the micro-architecture has not
-been completed in the main repo.
+Olympia does have some interesting capabilities in terms of trace input formats in [STF](https://github.com/sparcians/stf_spec) and [JSON](https://github.com/riscv-software-src/riscv-perf-model/tree/master/traces#json-inputs).
 
-It does have some interesting capabilities in terms of trace input formats in [STF](https://github.com/sparcians/stf_spec) and [JSON](https://github.com/riscv-software-src/riscv-perf-model/tree/master/traces#json-inputs).
-
-Olympia will be modified to implement the Condor micro-architecture.
+The Condor Architecture Model (CAM) will be a fork of
+Olympia. Instructions will be added here when that fork occurs.
 
 ## Clone the repo
 
 There are errors in map/Sparta source files when compiling for Olympia.  
 Make the source file changes described above (TreeNodeExtensions.hpp/cpp).
 
-There is also an error in Dispatch.hpp, see below.
+<!-- There is also an error in Dispatch.hpp, see below. -->
 
 ```
     cd $TOP
     git clone --recursive https://@github.com/riscv-software-src/riscv-perf-model.git
+    git checkout af3120490e96cc4e06735653e1bbe794aae3a111
 ```
+
+<!--    git af3120490e96cc4e06735653e1bbe794aae3a111 -->
 
 ## Build the Olympia performance model.
 
@@ -299,7 +335,6 @@ There is also an error in Dispatch.hpp, see below.
 ```
 
 ---------
-
 # Using pipeline data views
 
 A quick example of how to use pipeline data views.
@@ -341,8 +376,6 @@ This assumes you have followed the instructions above for these steps.
     python3 ${MAP}/helios/pipeViewer/pipe_view/argos.py --database pipeout_ --layout-file cpu_layout.alf
 ```
 ----------------------------------
-</i>
-
 # Build Dromajo
 
 The original README for adding tracing to dromajo is in the olympia 
@@ -675,8 +708,50 @@ Dromajo run directory and issue this command
 
 ### Running an uninstrumented exe on Dromajo for standard trace generation
 
+---------
 
-## External references
+# Using pipeline data views
+
+A quick example of how to use pipeline data views.
+
+## Prereqs
+
+This assumes you have followed the instructions above for these steps.
+
+- Install Miniconda on Ubuntu 22
+- Install Map/Sparta on Ubuntu 22
+- Install Map/Argos on Ubuntu 22
+- Install riscv-perf-model on Ubuntu 22
+
+## Create example core model
+
+```
+    cd $MAP/sparta/release/example/CoreModel
+    make -j8
+```
+
+## Generate pipeline database
+
+```
+    cd $MAP/sparta/release/example/CoreModel
+    ./sparta_core_example -i 1000 -z pipeout_
+```
+
+## View pipe output
+
+### Pipeline data in single cycle view
+
+```
+    python3 ${MAP}/helios/pipeViewer/pipe_view/argos.py --database pipeout_ --layout-file cpu_layout.alf
+```
+
+### Pipeline data in multi-cycle view
+
+```
+    python3 ${MAP}/helios/pipeViewer/pipe_view/argos.py --database pipeout_ --layout-f
+```
+--------------------------------------
+# External references
 
 External docs for running dromajo.
 
@@ -684,6 +759,46 @@ External docs for running dromajo.
 
 [Running instrumented apps on dromajo to generate STF traces](https://github.com/riscv-software-src/riscv-perf-model/tree/master/traces)
 
+--------------------------------------
+# Perf flow to do list
+
+For now this list is kept here. I might move it later.
+
+- Install the binaries for the CPM flow for users in /tools
+
+  - Also store these binaries in a hosted site that supports big private files
+
+  - (The instructions above are still necessary for modeling developers)
+
+- Fork dromajo, olympia, map, stf_lib
+
+  - This is to improve stability when bringing up new versions
+
+  - cpm.dromajo, cpm.olympia, cpm.map, cpm.stf_lib
+
+  - With the forks I can eliminate the need for patched files
+
+- Olympia seems to have an issue with running outside of it's build dir
+
+  - This is in spite of what the command line options imply
+
+  - Confirm/duplicate the issue, debug/fix/commit
+
+- Merge latest riscv-perf-model commit with current
+
+  - We use olympia from af3120490e96cc4e06735653e1bbe794aae3a111
+
+  - Latest (2023.05.22) sha 2c6f628 in github does not build with MAP
+
+      - This appears to be a bad checkin to the main repo
+
+      - This commit adds a olympia conda environment, it seems broken
+
+- It would be great if this could all be done with a script or two
+
+  - Consider defining this so contractors could help out
+
+- Consider supplying a model bashrc file to eliminate the need for setrc.sh
 
 <!-- 
 ------------------------------------------------------------------------
