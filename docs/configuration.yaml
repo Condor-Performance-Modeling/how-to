@@ -1,0 +1,187 @@
+# Name:     Olympia RISC-V Perf Model 
+# Cmdline:  --arch cuzco_arch_baseline
+# Start:    Wednesday Wed May 24 10:48:30 2023
+# 
+---
+top:
+  cpu:
+    core0:
+      fetch:
+        params:
+          num_to_fetch: 8  # 	Number of instructions to fetch
+      decode:
+        params:
+
+          num_to_decode: 8  # Number of instructions to process
+          fetch_queue_size: 10  # Size of the fetch queue
+      rename:
+        params:
+
+          num_to_rename: 8  # Number of instructions to rename
+          rename_queue_depth: 10  # Number of instructions queued for rename
+        scoreboards:
+          integer:
+            params:
+
+              latency_matrix: [ # The forwarding latency matrix.
+   ["",  alu0, alu1, alu2, alu3, alu4, alu5, fpu0, fpu1, br0, br1],
+   [alu0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+   [alu1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+   [alu2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+   [alu3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+   [alu4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+   [alu5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+   [fpu0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+   [fpu1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+   [br0,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+   [br1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
+          float:
+            params:
+              latency_matrix: [ # The forwarding latency matrix.
+   ["", alu0, alu1, alu2, alu3, alu4, alu5, fpu0, fpu1, br0, br1],
+   [alu0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+   [alu1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+   [alu2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+   [alu3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+   [alu4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+   [alu5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+   [fpu0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+   [fpu1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+   [br0,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+   [br1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1]] 
+      dispatch:
+        params:
+          num_to_dispatch: 8        # Number of instructions to dispatch
+          dispatch_queue_depth: 10  # Depth of the dispatch buffer
+          context_weights: [1]      # Relative weight of each context
+      execute:
+        alu0:
+          params:
+
+            ignore_inst_execute_time: false  # Ignore the instruction's execute time, use execute_time param instead
+            execute_time: 1    # Time for execution
+            scheduler_size: 8  # Scheduler queue size
+            in_order_issue: true  # Force in order issue
+        alu1:
+          params:
+            ignore_inst_execute_time: false  # Ignore the instruction's execute time, use execute_time param instead
+            execute_time: 1  # Time for execution
+            scheduler_size: 8  # Scheduler queue size
+            in_order_issue: true  # Force in order issue
+        alu2:
+          params:
+
+            ignore_inst_execute_time: false # Ignore the instruction's execute time, use execute_time param instead
+            execute_time: 1  # Time for execution
+            scheduler_size: 8  # Scheduler queue size
+            in_order_issue: true # Force in order issue
+        alu3:
+          params:
+
+            ignore_inst_execute_time: false  # Ignore the instruction's execute time, use execute_time param instead
+            execute_time: 1  # Time for execution
+            scheduler_size: 8 # Scheduler queue size
+            in_order_issue: true  # Force in order issue
+        alu4:
+          params:
+
+            ignore_inst_execute_time: false  # Ignore the instruction's execute time, use execute_time param instead
+            execute_time: 1  # Time for execution
+            scheduler_size: 8  # Scheduler queue size
+            in_order_issue: true # Force in order issue
+        alu5:
+          params:
+
+            ignore_inst_execute_time: false  # Ignore the instruction's execute time, use execute_time param instead
+            execute_time: 1  # Time for execution
+            scheduler_size: 8 # Scheduler queue size
+            in_order_issue: true  # Force in order issue
+        fpu0:
+          params:
+
+            ignore_inst_execute_time: false  # Ignore the instruction's execute time, use execute_time param instead
+            execute_time: 1  # Time for execution
+            scheduler_size: 8 # Scheduler queue size
+            in_order_issue: true # Force in order issue
+        fpu1:
+          params:
+
+            ignore_inst_execute_time: false  # Ignore the instruction's execute time, use execute_time param instead
+            execute_time: 1  # Time for execution
+            scheduler_size: 8 # Scheduler queue size
+            in_order_issue: true # Force in order issue
+        br0:
+          params:
+
+            ignore_inst_execute_time: false  # Ignore the instruction's execute time, use execute_time param instead
+            execute_time: 1  # Time for execution
+            scheduler_size: 8 # Scheduler queue size
+            in_order_issue: true  # Force in order issue
+        br1:
+          params:
+            ignore_inst_execute_time: false  # Ignore the instruction's execute time, use execute_time param instead
+            execute_time: 1  # Time for execution
+            scheduler_size: 8 # Scheduler queue size
+            in_order_issue: true # Force in order issue
+      lsu:
+        params:
+
+          ldst_inst_queue_size: 8  # LSU ldst inst queue size
+          tlb_always_hit: false  # L1 TLB will always hit
+          dl1_line_size: 64  # DL1 line size (power of 2)
+          dl1_size_kb: 64 # Size of DL1 in KB (power of 2)
+          dl1_associativity: 8  # DL1 associativity (power of 2)
+          dl1_always_hit: false # DL1 will always hit
+          issue_latency: 1  # Instruction issue latency
+          mmu_latency: 1  # MMU/TLB access latency
+          cache_latency: 1 # Cache access latency
+          complete_latency: 1  # Instruction complete latency
+        tlb:
+          params:
+
+            tlb_page_size: 4096    # Page size in bytes (power of 2)
+            tlb_num_of_entries: 32 # L1 TLB # of entries (power of 2)
+            tlb_associativity: 32  # L1 TLB associativity (power of 2)
+      biu:
+        params:
+
+          biu_req_queue_size: 4 # BIU request queue size
+          biu_latency: 1  # Send bus request latency
+      mss:
+        params:
+
+          mss_latency: 5  # MSS access latency
+      rob:
+        params:
+
+          num_to_retire: 8       # Number of instructions to retire
+          retire_queue_depth: 30 # Depth of the retire queue
+          num_insts_to_retire: 0 # Number of instructions to retire after which simulation will be terminated. 0 means simulation will run until end of testcase
+          retire_heartbeat: 1000000  # Heartbeat printout threshold
+          retire_timeout_interval: 10000  # Retire timeout error threshold (in cycles). Amount of time elapsed when nothing was retired
+      preloader:
+        params:
+
+          preload_file: ""  # The path to the yaml file with preload data
+      mavis:
+        params:
+
+          isa_file_path: mavis_isa_files  # Where are the mavis isa files?
+          uarch_file_path: arches/isa_json # Where are the mavis uarch files?
+          pseudo_file_path: ""  # Where are the mavis pseudo isa/usarch files? (default: uarch_file_path)
+          uarch_overrides_json: ""  # JSON uArch overrides
+# uArch overrides.
+#     Format : <mnemonic>, <attribute> : <value>
+#     Example: -p .....params.uarch_overrides "[ "add, latency : 100", "lw, dispatch : ["iex","lsu"] ]"
+# "
+          uarch_overrides: []  # 	default (std::vector<std::string>) tags:[SPARTA_Parameter]
+meta:
+  params:
+
+    architecture: cuzco_arch_baseline # Name of architecture being simulated
+    is_final_config: true  # True if this config was generated using --write-final-config.
+---
+top.cpu.core0:
+  extension.core_extensions:
+    execution_topology: "[[\"alu\", \"6\"], [\"fpu\", \"2\"], [\"br\", \"2\"]]"  #  tags:[SPARTA_Parameter]
+...
