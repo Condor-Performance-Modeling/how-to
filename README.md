@@ -35,11 +35,15 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Build Dromajo](#build-dromajo)
 
-1. [Build the Linux Kernel](#build-the-linux-kernel)
+1. [Build the Linux kernel](#build-the-linux-kernel)
 
 1. [Build the Linux file system](#build-the-linux-file-system)
 
 1. [Boot Linux on Dromajo](#boot-linux-on-dromajo)
+
+1. [Build Spike](#build-spike)
+
+1. [Build Whisper](#build-whisper)
 
 1. [Build the benchmark suite](#build-the-benchmark-suite)
 
@@ -94,13 +98,13 @@ Install the Ubuntu support packages:
   sudo apt install build-essential bison flex texinfo gperf libtool patchutils 
   sudo apt install bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler
   sudo apt install libboost-all-dev  libsqlite3-dev libhdf5-serial-dev
-  sudo apt install libzstd-dev
+  sudo apt install libzstd-dev gcc-multilib 
 ```
 
 All in one line for easy cut/paste:
 
 ```
-sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjson-dev xz-utils autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler libboost-all-dev libsqlite3-dev libhdf5-serial-dev libzstd-dev
+sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjson-dev xz-utils autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler libboost-all-dev libsqlite3-dev libhdf5-serial-dev libzstd-dev gcc-multilib
 ```
 
 --------------------------------------
@@ -332,49 +336,10 @@ Make the source file changes described above (TreeNodeExtensions.hpp/cpp).
     make -j8           # build everything
     #make -j8 olympia  # build the simulator only
     #make -j8 regress  # as it says
+    mkdir -p $TOP/tools/bin
+    cp olympia $TOP/tools/bin/cam
 ```
 
----------
-# Using pipeline data views
-
-A quick example of how to use pipeline data views.
-
-## Prereqs
-
-This assumes you have followed the instructions above for these steps.
-
-- Install Miniconda on Ubuntu 22
-- Install Map/Sparta on Ubuntu 22
-- Install Map/Argos on Ubuntu 22
-- Install riscv-perf-model on Ubuntu 22
-
-## Create example core model
-
-```
-    cd $MAP/sparta/release/example/CoreModel
-    make -j8
-```
-
-## Generate pipeline database
-
-```
-    cd $MAP/sparta/release/example/CoreModel
-    ./sparta_core_example -i 1000 -z pipeout_
-```
-
-## View pipe output
-
-### Pipeline data in single cycle view
-
-```
-    python3 ${MAP}/helios/pipeViewer/pipe_view/argos.py --database pipeout_ --layout-file cpu_layout.alf
-```
-
-### Pipeline data in multi-cycle view
-
-```
-    python3 ${MAP}/helios/pipeViewer/pipe_view/argos.py --database pipeout_ --layout-file cpu_layout.alf
-```
 ----------------------------------
 # Build Dromajo
 
@@ -397,7 +362,7 @@ This fork of dromajo has the proper stf patches already applied.
 
 ```
     cd $TOP
-    git clone https://github.com/Condor-Performance-Modeling/dromajo.git
+    git clone git@github.com:Condor-Performance-Modeling/dromajo.git
     cd dromajo
     ln -s ../stf_lib
 ```
@@ -412,6 +377,8 @@ This fork of dromajo has the proper stf patches already applied.
 <!-- ln -s ../stf_lib                                              -->
 <!-- fix the CMakelists.txt file c++17 line 53                     -->
 
+<!-- OLD No longer necessary with fork, FIXME: rename repo to cpm.dromajo
+
 ## Correct cmake files 
 
 stf_lib/stf-config.cmake must be edited for correct compile.
@@ -425,6 +392,7 @@ stf_lib/stf-config.cmake must be edited for correct compile.
     change line ~53 to (change std to ++17)
         -std=c++17
 ```
+-->
 
 ## Compile dromajo
 
@@ -435,7 +403,11 @@ stf_lib/stf-config.cmake must be edited for correct compile.
     cp $OLYMPIA/traces/stf_trace_gen/trace_macros.h $TOP
     cmake ..
     make -j8
+    mkdir -p $TOP/tools/bin
+    cp dromajo $TOP/tools/bin
 ```
+
+<!-- OLD No longer necessary with fork, FIXME: rename repo to cpm.dromajo
 
 ## Verify patch
 
@@ -447,6 +419,7 @@ Check if patch worked, dromajo should have the --stf_trace option
     console:
         --stf_trace <filename>  Dump an STF trace
 ```
+-->
 
 ------------------------------------------------------------------------
 # Build the Linux kernel
@@ -458,7 +431,7 @@ Check that riscv64-unknown-linux-gnu-gcc is in your path.
 which riscv64-unknown-linux-gnu-gcc
 ```
 
-If not export to your PATH variable as shown.
+If not, add it to your PATH variable as shown.
 
 ```
 export PATH=$RV_LINUX_TOOLS/bin:$PATH
@@ -477,7 +450,10 @@ export PATH=$RV_LINUX_TOOLS/bin:$PATH
 
 ------------------------------------------------------------------------
 # Build the Linux file system
+
 ## Check path to the linux gnu tool chain
+
+If you have already done this step previously you do not need to do it again.
 
 Check that riscv64-unknown-linux-gnu-gcc is in your path.
 
@@ -511,6 +487,8 @@ export PATH=$RV_LINUX_TOOLS/bin:$PATH
 
 ## Check path to the linux gnu tool chain
 
+If you have already done this step previously you do not need to do it again.
+
 Check that riscv64-unknown-linux-gnu-gcc is in your path.
 
 ```
@@ -533,7 +511,6 @@ export PATH=$RV_LINUX_TOOLS/bin:$PATH
     git checkout tags/v0.8 -b temp2
     # works too: git checkout 7be75f519f7705367030258c4410d9ff9ea24a6f -b temp
     make PLATFORM=generic 
-    cd ..
 ```
 
 ------------------------------------------------------------------------
@@ -549,17 +526,67 @@ file system. See instructions above.
 Copy the images/etc from the BuildRoot step to the Dromajo run directory.
 
 ```
-    cd $DROMAJO
-    cp $BUILDROOT/output/images/rootfs.cpio ./run
-    cp $KERNEL/arch/riscv/boot/Image ./run
-    cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin ./run
-    cd run
+    cd $DROMAJO/run
+    cp $BUILDROOT/output/images/rootfs.cpio .
+    cp $KERNEL/arch/riscv/boot/Image .
+    cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin .
     ../build/dromajo boot.cfg
-
 ```
 login is root, password is root
 
 Use Control-C or 'kill <pid>' to exit dromajo.
+
+------------------------------------------------------------------------
+# Build Spike
+
+You must deactivate the conda environment before compiling Spike. Once
+to exit the sparta env, once again to exit the base conda environment. Your
+prompt should not show (base) or (sparta) when you have successfully
+deactivated the environments.
+
+```
+  conda deactivate     # sparta
+  conda deactivate     # base
+  cd <workspace>/condor
+  source how-to/env/setuprc.sh
+```
+
+Proceed with the build.
+
+```
+    cd $TOP
+    git clone git@github.com:riscv/riscv-isa-sim.git
+    cd $SPIKE
+    mkdir -p build; cd build
+    ../configure --prefix=$TOP/tools
+    make
+    make install
+```
+
+------------------------------------------------------------------------
+# Build Whisper
+
+You must deactivate the conda environment before compiling Spike. Once
+to exit the sparta env, once again to exit the base conda environment. Your
+prompt should not show (base) or (sparta) when you have successfully
+deactivated the environments.
+
+```
+  conda deactivate     # sparta
+  conda deactivate     # base
+  cd <workspace>/condor
+  source how-to/env/setuprc.sh
+```
+
+Proceed with the build.
+
+```
+    cd $TOP
+    git clone https://github.com/chipsalliance/VeeR-ISS.git whisper
+    cd $WHISPER
+    make
+    cp build-Linux/whisper $TOOLS/bin
+```
 
 ------------------------------------------------------------------------
 # Build the benchmark suite
@@ -568,14 +595,12 @@ The Condor benchmark repo uses a mix of submodules and copies of external
 repos. The copies contain source modified from the original repo to enable
 STF generation.
 
-
-
 ## Cloning the benchmark repo
 
 ```
 cd $TOP
-cd benchmarks
 git clone git@github.com:Condor-Performance-Modeling/benchmarks.git
+cd benchmarks
 git submodule update --init --recursive
 ```
 
@@ -594,6 +619,11 @@ The results will be in bin.
 
 ## Building riscv-tests
 
+Note this adds the baremetal tool path to you environment. Previously
+the linux based tools where added to your path.
+
+But otherwise if you have done this before you do not need to do it again.
+
 Check that riscv64-unknown-elf-gcc is in your path.
 
 ```
@@ -607,7 +637,6 @@ export PATH=$RV_BAREMETAL_TOOLS/bin:$PATH
 ```
 
 ```
-cd $BENCHMARKS
 cd $BENCHMARKS/riscv-tests-src
 autoconf
 ./configure --prefix=$BENCHMARKS/riscv-tests
@@ -615,9 +644,17 @@ make
 make install
 ```
 
-The results will be in $BENCHMARKS/riscv-tests/share/riscv-tests/benchmarks
-and $BENCHMARKS/riscv-tests/share/riscv-tests/isa
+Binaries (.riscv) and object dump files (.dump) will be placed
+in $BENCHMARKS/riscv-tests/share/riscv-tests/benchmarks and in
+$BENCHMARKS/riscv-tests/share/riscv-tests/isa for the benchmark
+and compliance suites.
 
+## Running the instrumented baremetal benchmarks
+
+```
+cd $BENCHMARKS/instrumented
+make
+```
 
 ## Status of benchmarks
 
@@ -709,7 +746,6 @@ Dromajo run directory and issue this command
 ### Running an uninstrumented exe on Dromajo for standard trace generation
 
 ---------
-
 # Using pipeline data views
 
 A quick example of how to use pipeline data views.
@@ -770,11 +806,13 @@ For now this list is kept here. I might move it later.
 
   - (The instructions above are still necessary for modeling developers)
 
-- Fork dromajo, olympia, map, stf_lib
+- Fork olympia, map, stf_lib, spike, veer(whisper)
 
   - This is to improve stability when bringing up new versions
+  
+  - dromajo has already been forked, rename the repo to cpm.dromajo
 
-  - cpm.dromajo, cpm.olympia, cpm.map, cpm.stf_lib
+  - Use these names cpm.dromajo, cpm.olympia, cpm.map, cpm.stf_lib, cpm.spike, cpm.whisper
 
   - With the forks I can eliminate the need for patched files
 
@@ -800,64 +838,3 @@ For now this list is kept here. I might move it later.
 
 - Consider supplying a model bashrc file to eliminate the need for setrc.sh
 
-<!-- 
-------------------------------------------------------------------------
-# Instrumenting a linux based application
-
-cd $DROMAJO/run
-
-Edit program to contain START_TRACE; and STOP_TRACE;
-
-vi dhrystone/dhry_1.c
-
-...
-START_TRACE;
-for (Run_Index = 1; Run_Index <= Number_Of_Runs; ++Run_Index)
-...
-} /* loop "for Run_Index" */
-STOP_TRACE;
-...
-
-make
-
-riscv64-unknown-elf-gcc -c -O3 -DTIME -I./dhrystone -I../../riscv-perf-model/traces/stf_trace_gen dhrystone/dhry_1.c -o obj/dhry_1.o
-
-riscv64-unknown-elf-gcc -c -O3 -DTIME -I./dhrystone -I../../riscv-perf-model/traces/stf_trace_gen dhrystone/dhry_2.c -o obj/dhry_2.o
-
-riscv64-unknown-elf-gcc  obj/dhry_1.o obj/dhry_2.o -o bin/dhry.riscv.elf
-
-cd $DROMAJO
-sudo cp run/bin/dhry.riscv.elf ./buildroot-2020.05.1/output/target/sbin/
-
-sudo make -C buildroot-2020.05.1
-cd run
-
-cp ../buildroot-2020.05.1/output/images/rootfs.cpio .
-../build/dromajo --ctrlc --stf_trace my_trace.zstf boot.cfg
-
-login: root
-password: root
-
-dhry.riscv.elf
-
--->
-
-<!-- These are notes that will end up in a readme somewhere
-
-Create a new GITHUB repository on the command line
-echo "# condor.new-repo" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin git@github.com:Condor-Performance-Modeling/condor.new-repo.git
-git push -u origin main
-
-
-Push an existing repository from the command line to CPM
-
-git remote add origin git@github.com:Condor-Performance-Modeling/condor.new-repo.git
-git branch -M main
-git push -u origin main
-
--->

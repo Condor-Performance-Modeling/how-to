@@ -92,7 +92,7 @@ makes it simpler. If you need more than one vnc session send me a slack.
 :6  TBH1 (edmund's slot once I have his user name)
 :7  TBH2
 :8  TBH3
-:9  TBH4
+:9  jeffnye demo's
 :10 TBH5
 ```
 

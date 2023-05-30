@@ -1,0 +1,1942 @@
+<html><head><title>@ on _global_node_</title><style type='text/css'>
+table {
+  font-family:courier new, monospace;
+}
+table.report_table {
+  border:1px solid #808080;
+}
+table.subreport_table {
+  border:1px solid #808080;
+}
+.subreport_section {
+  font-size:80%;
+  text-align:left;
+  font-style:italic;
+  color:#505050;
+}
+th.tabletitle {
+  padding:6px;
+  text-align:left;
+  font-family:Helvetica, Verdana, sans-serif;
+  font-size:120%;
+  border-bottom:3px solid #404040;
+  background-color:#fffff0;
+}
+th.tablesection {
+  font-weight:normal;  text-align:left;
+  font-family:Helvetica, Verdana, sans-serif;
+  font-size:80%;
+  border-bottom:1px solid #404040;
+  background-color:#d0d0d0;
+}
+th {
+  font-size:95%;
+  background-color:#d0d0d0;
+  border-bottom:1px solid #707070;
+  border-right:1px solid #C0C0C0;
+  }
+td {
+  border-bottom:1px solid #707070;
+  border-right:1px solid #C0C0C0;
+}
+td.name {
+  font-size:80%;
+  text-align:left;
+  padding-right:4px;
+  width:400px;
+}
+td.value {
+  font-size:80%;
+  width:180px;
+  padding-left:8px;
+  font-weight:bold;
+}
+td.expression {
+  font-size:75%;
+  color:#505050;
+  padding-left:8px;
+}
+td.info {
+  text-align:right;
+  font-style:italic;  font-size:80%;  padding-right:20px;
+}
+span.info_span {
+  font-style:italic;
+  font-size:70%;
+}
+span.units_span {
+  font-size:115%;
+  color:#808080;
+}
+td.infoval {
+  text-align:left;
+  font-style:italic;
+  font-size:90%;
+}
+td.subreport_td {
+  text-align:left;
+  padding:12px 8px 0px 16px;
+}
+</style>
+<script>
+function hideNode(name) {
+    document.getElementById(name).style.display='none';
+    document.getElementById(name + "_show").style.display='inline';
+    document.getElementById(name + "_hide").style.display='none';
+}
+function showNode(name) {
+    document.getElementById(name).style.display='block';
+    document.getElementById(name + "_show").style.display='none';
+    document.getElementById(name + "_hide").style.display='inline';
+}
+</script>
+</head>
+<body style='font-size:8px;'><table style='width:100%; border:1px solid black;'><tbody>
+<tr><td>Name:     Perf Model </td></tr><tr><td>Cmdline:  perfmodel bmi_mm.stf --arch-search-dir arches --arch big_core --report-all bmi_mm.cam.html html</td></tr><tr><td>Exe:      perfmodel</td></tr><tr><td>SimulatorVersion: v0.1.0</td></tr><tr><td>Repro:    </td></tr><tr><td>Start:    Wednesday Wed May 17 15:11:18 2023</td></tr><tr><td>Elapsed:  0.845191s</td></tr></tbody></table>
+<br/><br/>
+
+<table cellpadding=3 cellspacing=0 style='width:100%;' class='report_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('@ on __node__0');" id="@ on _global_node__0_hide" value="-"><input type="button" onclick="showNode('@ on _global_node__0');" id="@ on _global_node__0_show" value="+" style='display:none;'>&nbsp;@ on _global_node_</th></tr></thead>
+<tbody id="@ on _global_node__0"><tr><td colspan=3 class='subreport_td'>
+<table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('scheduler_1');" id="scheduler_1_hide" value="-"><input type="button" onclick="showNode('scheduler_1');" id="scheduler_1_show" value="+" style='display:none;'>&nbsp;scheduler</th></tr></thead>
+<tbody id="scheduler_1"><tr>
+
+<td class='name' title='Current tick number
+scheduler.stats.ticks'>ticks</td>
+<td class='value' title='Current tick number
+scheduler.stats.ticks' style='' >403178</td>
+<td class='expression'>Current tick number</td>
+<tr>
+
+<td class='name' title='Picosecond Count of this Clock
+scheduler.stats.picoseconds'>picoseconds</td>
+<td class='value' title='Picosecond Count of this Clock
+scheduler.stats.picoseconds' style='' >403178</td>
+<td class='expression'>Picosecond Count of this Clock</td>
+<tr>
+
+<td class='name' title='Seconds elapsed
+(scheduler.stats.picoseconds/1e+12)'>seconds</td>
+<td class='value' title='Seconds elapsed
+(scheduler.stats.picoseconds/1e+12)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000000</td>
+<td class='expression'>Seconds elapsed</td>
+<tr>
+
+<td class='name' title='Milliseconds elapsed
+(scheduler.stats.picoseconds/1e+09)'>milliseconds</td>
+<td class='value' title='Milliseconds elapsed
+(scheduler.stats.picoseconds/1e+09)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000403</td>
+<td class='expression'>Milliseconds elapsed</td>
+<tr>
+
+<td class='name' title='Microseconds elapsed
+(scheduler.stats.picoseconds/1e+06)'>microseconds</td>
+<td class='value' title='Microseconds elapsed
+(scheduler.stats.picoseconds/1e+06)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.403178</td>
+<td class='expression'>Microseconds elapsed</td>
+<tr>
+
+<td class='name' title='Nanoseconds elapsed
+(scheduler.stats.picoseconds/1000)'>nanoseconds</td>
+<td class='value' title='Nanoseconds elapsed
+(scheduler.stats.picoseconds/1000)' style='' >&nbsp;&nbsp;&nbsp;403.178000</td>
+<td class='expression'>Nanoseconds elapsed</td>
+<tr>
+
+<td class='name' title='Simulation user runtime in seconds as measured on the host machine
+(scheduler.stats.host_user_time_count_ms/1000)'>host_machine_user_runtime_seconds</td>
+<td class='value' title='Simulation user runtime in seconds as measured on the host machine
+(scheduler.stats.host_user_time_count_ms/1000)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.780000</td>
+<td class='expression'>Simulation user runtime in seconds as measured on the host machine</td>
+<tr>
+
+<td class='name' title='Simulation system runtime in seconds as measured on the host machine
+(scheduler.stats.host_system_time_count_ms/1000)'>host_machine_system_runtime_seconds</td>
+<td class='value' title='Simulation system runtime in seconds as measured on the host machine
+(scheduler.stats.host_system_time_count_ms/1000)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.010000</td>
+<td class='expression'>Simulation system runtime in seconds as measured on the host machine</td>
+<tr>
+
+<td class='name' title='Simulation wall clock runtime in seconds as measured on the host machine
+(scheduler.stats.host_wall_time_count_ms/1000)'>host_machine_wall_runtime_seconds</td>
+<td class='value' title='Simulation wall clock runtime in seconds as measured on the host machine
+(scheduler.stats.host_wall_time_count_ms/1000)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.789000</td>
+<td class='expression'>Simulation wall clock runtime in seconds as measured on the host machine</td>
+<tr>
+
+<td class='name' title='User scheduler performance (not simulated time)
+scheduler.stats.host_user_time_count_ms'>host_user_time_count_ms</td>
+<td class='value' title='User scheduler performance (not simulated time)
+scheduler.stats.host_user_time_count_ms' style='' >&nbsp;&nbsp;&nbsp;780</td>
+<td class='expression'>User scheduler performance (not simulated time)</td>
+<tr>
+
+<td class='name' title='System scheduler performance (not simulated time)
+scheduler.stats.host_system_time_count_ms'>host_system_time_count_ms</td>
+<td class='value' title='System scheduler performance (not simulated time)
+scheduler.stats.host_system_time_count_ms' style='' >&nbsp;&nbsp;&nbsp;&nbsp;10</td>
+<td class='expression'>System scheduler performance (not simulated time)</td>
+<tr>
+
+<td class='name' title='Wall scheduler performance (not simulated time)
+scheduler.stats.host_wall_time_count_ms'>host_wall_time_count_ms</td>
+<td class='value' title='Wall scheduler performance (not simulated time)
+scheduler.stats.host_wall_time_count_ms' style='' >&nbsp;&nbsp;&nbsp;789</td>
+<td class='expression'>Wall scheduler performance (not simulated time)</td>
+</tr>
+</tbody>
+</table><table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top_2');" id="top_2_hide" value="-"><input type="button" onclick="showNode('top_2');" id="top_2_show" value="+" style='display:none;'>&nbsp;top</th></tr></thead>
+<tbody id="top_2"><tr><td colspan=3 class='subreport_td'>
+<table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu_3');" id="top.cpu_3_hide" value="-"><input type="button" onclick="showNode('top.cpu_3');" id="top.cpu_3_show" value="+" style='display:none;'>&nbsp;top.cpu</th></tr></thead>
+<tbody id="top.cpu_3"><tr><td colspan=3 class='subreport_td'>
+<table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu.core0_4');" id="top.cpu.core0_4_hide" value="-"><input type="button" onclick="showNode('top.cpu.core0_4');" id="top.cpu.core0_4_show" value="+" style='display:none;'>&nbsp;top.cpu.core0</th></tr></thead>
+<tbody id="top.cpu.core0_4"><tr><td colspan=3 class='subreport_td'>
+<table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu.core0.decode_5');" id="top.cpu.core0.decode_5_hide" value="-"><input type="button" onclick="showNode('top.cpu.core0.decode_5');" id="top.cpu.core0.decode_5_show" value="+" style='display:none;'>&nbsp;top.cpu.core0.decode</th></tr></thead>
+<tbody id="top.cpu.core0.decode_5"><tr>
+
+<td class='name' title='underflow bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_UF'>FetchQueue_utilization_UF</td>
+<td class='value' title='underflow bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_UF' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>underflow bin</td>
+<tr>
+
+<td class='name' title='Probability of underflow
+(top.cpu.core0.decode.stats.FetchQueue_utilization_UF/top.cpu.core0.decode.stats.FetchQueue_utilization_total)'>FetchQueue_utilization_UF_probability</td>
+<td class='value' title='Probability of underflow
+(top.cpu.core0.decode.stats.FetchQueue_utilization_UF/top.cpu.core0.decode.stats.FetchQueue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>Probability of underflow</td>
+<tr>
+
+<td class='name' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count0'>FetchQueue_utilization_count0</td>
+<td class='value' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count0' style='' >&nbsp;&nbsp;&nbsp;&nbsp;41</td>
+<td class='expression'>FetchQueue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='FetchQueue_utilization_count0 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count0/top.cpu.core0.decode.stats.FetchQueue_utilization_total)'>FetchQueue_utilization_count0_probability</td>
+<td class='value' title='FetchQueue_utilization_count0 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count0/top.cpu.core0.decode.stats.FetchQueue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000102</td>
+<td class='expression'>FetchQueue_utilization_count0 bin probability</td>
+<tr>
+
+<td class='name' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count1'>FetchQueue_utilization_count1</td>
+<td class='value' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count1' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>FetchQueue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='FetchQueue_utilization_count1 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count1/top.cpu.core0.decode.stats.FetchQueue_utilization_total)'>FetchQueue_utilization_count1_probability</td>
+<td class='value' title='FetchQueue_utilization_count1 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count1/top.cpu.core0.decode.stats.FetchQueue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>FetchQueue_utilization_count1 bin probability</td>
+<tr>
+
+<td class='name' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count2'>FetchQueue_utilization_count2</td>
+<td class='value' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count2' style='' >&nbsp;&nbsp;1410</td>
+<td class='expression'>FetchQueue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='FetchQueue_utilization_count2 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count2/top.cpu.core0.decode.stats.FetchQueue_utilization_total)'>FetchQueue_utilization_count2_probability</td>
+<td class='value' title='FetchQueue_utilization_count2 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count2/top.cpu.core0.decode.stats.FetchQueue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.003497</td>
+<td class='expression'>FetchQueue_utilization_count2 bin probability</td>
+<tr>
+
+<td class='name' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count3'>FetchQueue_utilization_count3</td>
+<td class='value' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count3' style='' >&nbsp;&nbsp;&nbsp;367</td>
+<td class='expression'>FetchQueue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='FetchQueue_utilization_count3 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count3/top.cpu.core0.decode.stats.FetchQueue_utilization_total)'>FetchQueue_utilization_count3_probability</td>
+<td class='value' title='FetchQueue_utilization_count3 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count3/top.cpu.core0.decode.stats.FetchQueue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000910</td>
+<td class='expression'>FetchQueue_utilization_count3 bin probability</td>
+<tr>
+
+<td class='name' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count4'>FetchQueue_utilization_count4</td>
+<td class='value' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count4' style='' >&nbsp;&nbsp;1082</td>
+<td class='expression'>FetchQueue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='FetchQueue_utilization_count4 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count4/top.cpu.core0.decode.stats.FetchQueue_utilization_total)'>FetchQueue_utilization_count4_probability</td>
+<td class='value' title='FetchQueue_utilization_count4 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count4/top.cpu.core0.decode.stats.FetchQueue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.002684</td>
+<td class='expression'>FetchQueue_utilization_count4 bin probability</td>
+<tr>
+
+<td class='name' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count5'>FetchQueue_utilization_count5</td>
+<td class='value' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count5' style='' >&nbsp;&nbsp;&nbsp;147</td>
+<td class='expression'>FetchQueue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='FetchQueue_utilization_count5 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count5/top.cpu.core0.decode.stats.FetchQueue_utilization_total)'>FetchQueue_utilization_count5_probability</td>
+<td class='value' title='FetchQueue_utilization_count5 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count5/top.cpu.core0.decode.stats.FetchQueue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000365</td>
+<td class='expression'>FetchQueue_utilization_count5 bin probability</td>
+<tr>
+
+<td class='name' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count6'>FetchQueue_utilization_count6</td>
+<td class='value' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count6' style='' >&nbsp;&nbsp;5934</td>
+<td class='expression'>FetchQueue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='FetchQueue_utilization_count6 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count6/top.cpu.core0.decode.stats.FetchQueue_utilization_total)'>FetchQueue_utilization_count6_probability</td>
+<td class='value' title='FetchQueue_utilization_count6 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count6/top.cpu.core0.decode.stats.FetchQueue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.014718</td>
+<td class='expression'>FetchQueue_utilization_count6 bin probability</td>
+<tr>
+
+<td class='name' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count7'>FetchQueue_utilization_count7</td>
+<td class='value' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count7' style='' >&nbsp;&nbsp;5583</td>
+<td class='expression'>FetchQueue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='FetchQueue_utilization_count7 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count7/top.cpu.core0.decode.stats.FetchQueue_utilization_total)'>FetchQueue_utilization_count7_probability</td>
+<td class='value' title='FetchQueue_utilization_count7 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count7/top.cpu.core0.decode.stats.FetchQueue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.013847</td>
+<td class='expression'>FetchQueue_utilization_count7 bin probability</td>
+<tr>
+
+<td class='name' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count8'>FetchQueue_utilization_count8</td>
+<td class='value' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count8' style='' >&nbsp;46646</td>
+<td class='expression'>FetchQueue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='FetchQueue_utilization_count8 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count8/top.cpu.core0.decode.stats.FetchQueue_utilization_total)'>FetchQueue_utilization_count8_probability</td>
+<td class='value' title='FetchQueue_utilization_count8 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count8/top.cpu.core0.decode.stats.FetchQueue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.115696</td>
+<td class='expression'>FetchQueue_utilization_count8 bin probability</td>
+<tr>
+
+<td class='name' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count9'>FetchQueue_utilization_count9</td>
+<td class='value' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count9' style='' >&nbsp;53207</td>
+<td class='expression'>FetchQueue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='FetchQueue_utilization_count9 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count9/top.cpu.core0.decode.stats.FetchQueue_utilization_total)'>FetchQueue_utilization_count9_probability</td>
+<td class='value' title='FetchQueue_utilization_count9 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count9/top.cpu.core0.decode.stats.FetchQueue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.131969</td>
+<td class='expression'>FetchQueue_utilization_count9 bin probability</td>
+<tr>
+
+<td class='name' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count10'>FetchQueue_utilization_count10</td>
+<td class='value' title='FetchQueue occupancy histogram histogram bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_count10' style='' >288761</td>
+<td class='expression'>FetchQueue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='FetchQueue_utilization_count10 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count10/top.cpu.core0.decode.stats.FetchQueue_utilization_total)'>FetchQueue_utilization_count10_probability</td>
+<td class='value' title='FetchQueue_utilization_count10 bin probability
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count10/top.cpu.core0.decode.stats.FetchQueue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.716212</td>
+<td class='expression'>FetchQueue_utilization_count10 bin probability</td>
+<tr>
+
+<td class='name' title='overflow bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_OF'>FetchQueue_utilization_OF</td>
+<td class='value' title='overflow bin
+top.cpu.core0.decode.stats.FetchQueue_utilization_OF' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>overflow bin</td>
+<tr>
+
+<td class='name' title='Probability of overflow
+(top.cpu.core0.decode.stats.FetchQueue_utilization_OF/top.cpu.core0.decode.stats.FetchQueue_utilization_total)'>FetchQueue_utilization_OF_probability</td>
+<td class='value' title='Probability of overflow
+(top.cpu.core0.decode.stats.FetchQueue_utilization_OF/top.cpu.core0.decode.stats.FetchQueue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>Probability of overflow</td>
+<tr>
+
+<td class='name' title='FetchQueue occupancy histogram
+top.cpu.core0.decode.stats.FetchQueue_utilization_total'>FetchQueue_utilization_total</td>
+<td class='value' title='FetchQueue occupancy histogram
+top.cpu.core0.decode.stats.FetchQueue_utilization_total' style='' >403178</td>
+<td class='expression'>FetchQueue occupancy histogram</td>
+<tr>
+
+<td class='name' title='The maximum value in the histogram
+top.cpu.core0.decode.stats.FetchQueue_utilization_max'>FetchQueue_utilization_max</td>
+<td class='value' title='The maximum value in the histogram
+top.cpu.core0.decode.stats.FetchQueue_utilization_max' style='' >&nbsp;&nbsp;&nbsp;&nbsp;10</td>
+<td class='expression'>The maximum value in the histogram</td>
+<tr>
+
+<td class='name' title='Weighted average
+((((((((((((((0*top.cpu.core0.decode.stats.FetchQueue_utilization_UF)+(0*top.cpu.core0.decode.stats.FetchQueue_utilization_count0))+(1*top.cpu.core0.decode.stats.FetchQueue_utilization_count1))+(2*top.cpu.core0.decode.stats.FetchQueue_utilization_count2))+(3*top.cpu.core0.decode.stats.FetchQueue_utilization_count3))+(4*top.cpu.core0.decode.stats.FetchQueue_utilization_count4))+(5*top.cpu.core0.decode.stats.FetchQueue_utilization_count5))+(6*top.cpu.core0.decode.stats.FetchQueue_utilization_count6))+(7*top.cpu.core0.decode.stats.FetchQueue_utilization_count7))+(8*top.cpu.core0.decode.stats.FetchQueue_utilization_count8))+(9*top.cpu.core0.decode.stats.FetchQueue_utilization_count9))+(10*top.cpu.core0.decode.stats.FetchQueue_utilization_count10))+(10*top.cpu.core0.decode.stats.FetchQueue_utilization_OF))/top.cpu.core0.decode.stats.FetchQueue_utilization_total)'>FetchQueue_utilization_weighted_avg</td>
+<td class='value' title='Weighted average
+((((((((((((((0*top.cpu.core0.decode.stats.FetchQueue_utilization_UF)+(0*top.cpu.core0.decode.stats.FetchQueue_utilization_count0))+(1*top.cpu.core0.decode.stats.FetchQueue_utilization_count1))+(2*top.cpu.core0.decode.stats.FetchQueue_utilization_count2))+(3*top.cpu.core0.decode.stats.FetchQueue_utilization_count3))+(4*top.cpu.core0.decode.stats.FetchQueue_utilization_count4))+(5*top.cpu.core0.decode.stats.FetchQueue_utilization_count5))+(6*top.cpu.core0.decode.stats.FetchQueue_utilization_count6))+(7*top.cpu.core0.decode.stats.FetchQueue_utilization_count7))+(8*top.cpu.core0.decode.stats.FetchQueue_utilization_count8))+(9*top.cpu.core0.decode.stats.FetchQueue_utilization_count9))+(10*top.cpu.core0.decode.stats.FetchQueue_utilization_count10))+(10*top.cpu.core0.decode.stats.FetchQueue_utilization_OF))/top.cpu.core0.decode.stats.FetchQueue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9.482933</td>
+<td class='expression'>Weighted average</td>
+<tr>
+
+<td class='name' title='Weighted nonzero average
+((((((((((((1*top.cpu.core0.decode.stats.FetchQueue_utilization_count1)+(2*top.cpu.core0.decode.stats.FetchQueue_utilization_count2))+(3*top.cpu.core0.decode.stats.FetchQueue_utilization_count3))+(4*top.cpu.core0.decode.stats.FetchQueue_utilization_count4))+(5*top.cpu.core0.decode.stats.FetchQueue_utilization_count5))+(6*top.cpu.core0.decode.stats.FetchQueue_utilization_count6))+(7*top.cpu.core0.decode.stats.FetchQueue_utilization_count7))+(8*top.cpu.core0.decode.stats.FetchQueue_utilization_count8))+(9*top.cpu.core0.decode.stats.FetchQueue_utilization_count9))+(10*top.cpu.core0.decode.stats.FetchQueue_utilization_count10))+(10*top.cpu.core0.decode.stats.FetchQueue_utilization_OF))/(top.cpu.core0.decode.stats.FetchQueue_utilization_total-top.cpu.core0.decode.stats.FetchQueue_utilization_count0))'>FetchQueue_utilization_weighted_nonzero_avg</td>
+<td class='value' title='Weighted nonzero average
+((((((((((((1*top.cpu.core0.decode.stats.FetchQueue_utilization_count1)+(2*top.cpu.core0.decode.stats.FetchQueue_utilization_count2))+(3*top.cpu.core0.decode.stats.FetchQueue_utilization_count3))+(4*top.cpu.core0.decode.stats.FetchQueue_utilization_count4))+(5*top.cpu.core0.decode.stats.FetchQueue_utilization_count5))+(6*top.cpu.core0.decode.stats.FetchQueue_utilization_count6))+(7*top.cpu.core0.decode.stats.FetchQueue_utilization_count7))+(8*top.cpu.core0.decode.stats.FetchQueue_utilization_count8))+(9*top.cpu.core0.decode.stats.FetchQueue_utilization_count9))+(10*top.cpu.core0.decode.stats.FetchQueue_utilization_count10))+(10*top.cpu.core0.decode.stats.FetchQueue_utilization_OF))/(top.cpu.core0.decode.stats.FetchQueue_utilization_total-top.cpu.core0.decode.stats.FetchQueue_utilization_count0))' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9.483898</td>
+<td class='expression'>Weighted nonzero average</td>
+<tr>
+
+<td class='name' title='Fullness
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count10+top.cpu.core0.decode.stats.FetchQueue_utilization_OF)'>FetchQueue_utilization_full</td>
+<td class='value' title='Fullness
+(top.cpu.core0.decode.stats.FetchQueue_utilization_count10+top.cpu.core0.decode.stats.FetchQueue_utilization_OF)' style='' >288761</td>
+<td class='expression'>Fullness</td>
+<tr>
+
+<td class='name' title='Fullness probability
+((top.cpu.core0.decode.stats.FetchQueue_utilization_count10+top.cpu.core0.decode.stats.FetchQueue_utilization_OF)/top.cpu.core0.decode.stats.FetchQueue_utilization_total)'>FetchQueue_utilization_full_probability</td>
+<td class='value' title='Fullness probability
+((top.cpu.core0.decode.stats.FetchQueue_utilization_count10+top.cpu.core0.decode.stats.FetchQueue_utilization_OF)/top.cpu.core0.decode.stats.FetchQueue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.716212</td>
+<td class='expression'>Fullness probability</td>
+</tr>
+</tbody>
+</table><table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu.core0.rename_6');" id="top.cpu.core0.rename_6_hide" value="-"><input type="button" onclick="showNode('top.cpu.core0.rename_6');" id="top.cpu.core0.rename_6_show" value="+" style='display:none;'>&nbsp;top.cpu.core0.rename</th></tr></thead>
+<tbody id="top.cpu.core0.rename_6"><tr>
+
+<td class='name' title='underflow bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_UF'>rename_uop_queue_utilization_UF</td>
+<td class='value' title='underflow bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_UF' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>underflow bin</td>
+<tr>
+
+<td class='name' title='Probability of underflow
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_UF/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)'>rename_uop_queue_utilization_UF_probability</td>
+<td class='value' title='Probability of underflow
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_UF/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>Probability of underflow</td>
+<tr>
+
+<td class='name' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count0'>rename_uop_queue_utilization_count0</td>
+<td class='value' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count0' style='' >&nbsp;&nbsp;&nbsp;&nbsp;30</td>
+<td class='expression'>rename_uop_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='rename_uop_queue_utilization_count0 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count0/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)'>rename_uop_queue_utilization_count0_probability</td>
+<td class='value' title='rename_uop_queue_utilization_count0 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count0/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000074</td>
+<td class='expression'>rename_uop_queue_utilization_count0 bin probability</td>
+<tr>
+
+<td class='name' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count1'>rename_uop_queue_utilization_count1</td>
+<td class='value' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count1' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+<td class='expression'>rename_uop_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='rename_uop_queue_utilization_count1 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count1/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)'>rename_uop_queue_utilization_count1_probability</td>
+<td class='value' title='rename_uop_queue_utilization_count1 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count1/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000002</td>
+<td class='expression'>rename_uop_queue_utilization_count1 bin probability</td>
+<tr>
+
+<td class='name' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count2'>rename_uop_queue_utilization_count2</td>
+<td class='value' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count2' style='' >&nbsp;&nbsp;1411</td>
+<td class='expression'>rename_uop_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='rename_uop_queue_utilization_count2 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count2/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)'>rename_uop_queue_utilization_count2_probability</td>
+<td class='value' title='rename_uop_queue_utilization_count2 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count2/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.003500</td>
+<td class='expression'>rename_uop_queue_utilization_count2 bin probability</td>
+<tr>
+
+<td class='name' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count3'>rename_uop_queue_utilization_count3</td>
+<td class='value' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count3' style='' >&nbsp;&nbsp;&nbsp;368</td>
+<td class='expression'>rename_uop_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='rename_uop_queue_utilization_count3 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count3/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)'>rename_uop_queue_utilization_count3_probability</td>
+<td class='value' title='rename_uop_queue_utilization_count3 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count3/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000913</td>
+<td class='expression'>rename_uop_queue_utilization_count3 bin probability</td>
+<tr>
+
+<td class='name' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count4'>rename_uop_queue_utilization_count4</td>
+<td class='value' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count4' style='' >&nbsp;&nbsp;1083</td>
+<td class='expression'>rename_uop_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='rename_uop_queue_utilization_count4 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count4/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)'>rename_uop_queue_utilization_count4_probability</td>
+<td class='value' title='rename_uop_queue_utilization_count4 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count4/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.002686</td>
+<td class='expression'>rename_uop_queue_utilization_count4 bin probability</td>
+<tr>
+
+<td class='name' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count5'>rename_uop_queue_utilization_count5</td>
+<td class='value' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count5' style='' >&nbsp;&nbsp;&nbsp;147</td>
+<td class='expression'>rename_uop_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='rename_uop_queue_utilization_count5 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count5/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)'>rename_uop_queue_utilization_count5_probability</td>
+<td class='value' title='rename_uop_queue_utilization_count5 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count5/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000365</td>
+<td class='expression'>rename_uop_queue_utilization_count5 bin probability</td>
+<tr>
+
+<td class='name' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count6'>rename_uop_queue_utilization_count6</td>
+<td class='value' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count6' style='' >&nbsp;&nbsp;5935</td>
+<td class='expression'>rename_uop_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='rename_uop_queue_utilization_count6 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count6/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)'>rename_uop_queue_utilization_count6_probability</td>
+<td class='value' title='rename_uop_queue_utilization_count6 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count6/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.014721</td>
+<td class='expression'>rename_uop_queue_utilization_count6 bin probability</td>
+<tr>
+
+<td class='name' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count7'>rename_uop_queue_utilization_count7</td>
+<td class='value' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count7' style='' >&nbsp;&nbsp;5588</td>
+<td class='expression'>rename_uop_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='rename_uop_queue_utilization_count7 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count7/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)'>rename_uop_queue_utilization_count7_probability</td>
+<td class='value' title='rename_uop_queue_utilization_count7 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count7/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.013860</td>
+<td class='expression'>rename_uop_queue_utilization_count7 bin probability</td>
+<tr>
+
+<td class='name' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count8'>rename_uop_queue_utilization_count8</td>
+<td class='value' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count8' style='' >&nbsp;46645</td>
+<td class='expression'>rename_uop_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='rename_uop_queue_utilization_count8 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count8/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)'>rename_uop_queue_utilization_count8_probability</td>
+<td class='value' title='rename_uop_queue_utilization_count8 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count8/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.115693</td>
+<td class='expression'>rename_uop_queue_utilization_count8 bin probability</td>
+<tr>
+
+<td class='name' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count9'>rename_uop_queue_utilization_count9</td>
+<td class='value' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count9' style='' >&nbsp;53209</td>
+<td class='expression'>rename_uop_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='rename_uop_queue_utilization_count9 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count9/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)'>rename_uop_queue_utilization_count9_probability</td>
+<td class='value' title='rename_uop_queue_utilization_count9 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count9/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.131974</td>
+<td class='expression'>rename_uop_queue_utilization_count9 bin probability</td>
+<tr>
+
+<td class='name' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count10'>rename_uop_queue_utilization_count10</td>
+<td class='value' title='rename_uop_queue occupancy histogram histogram bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_count10' style='' >288761</td>
+<td class='expression'>rename_uop_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='rename_uop_queue_utilization_count10 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count10/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)'>rename_uop_queue_utilization_count10_probability</td>
+<td class='value' title='rename_uop_queue_utilization_count10 bin probability
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count10/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.716212</td>
+<td class='expression'>rename_uop_queue_utilization_count10 bin probability</td>
+<tr>
+
+<td class='name' title='overflow bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_OF'>rename_uop_queue_utilization_OF</td>
+<td class='value' title='overflow bin
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_OF' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>overflow bin</td>
+<tr>
+
+<td class='name' title='Probability of overflow
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_OF/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)'>rename_uop_queue_utilization_OF_probability</td>
+<td class='value' title='Probability of overflow
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_OF/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>Probability of overflow</td>
+<tr>
+
+<td class='name' title='rename_uop_queue occupancy histogram
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_total'>rename_uop_queue_utilization_total</td>
+<td class='value' title='rename_uop_queue occupancy histogram
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_total' style='' >403178</td>
+<td class='expression'>rename_uop_queue occupancy histogram</td>
+<tr>
+
+<td class='name' title='The maximum value in the histogram
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_max'>rename_uop_queue_utilization_max</td>
+<td class='value' title='The maximum value in the histogram
+top.cpu.core0.rename.stats.rename_uop_queue_utilization_max' style='' >&nbsp;&nbsp;&nbsp;&nbsp;10</td>
+<td class='expression'>The maximum value in the histogram</td>
+<tr>
+
+<td class='name' title='Weighted average
+((((((((((((((0*top.cpu.core0.rename.stats.rename_uop_queue_utilization_UF)+(0*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count0))+(1*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count1))+(2*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count2))+(3*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count3))+(4*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count4))+(5*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count5))+(6*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count6))+(7*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count7))+(8*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count8))+(9*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count9))+(10*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count10))+(10*top.cpu.core0.rename.stats.rename_uop_queue_utilization_OF))/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)'>rename_uop_queue_utilization_weighted_avg</td>
+<td class='value' title='Weighted average
+((((((((((((((0*top.cpu.core0.rename.stats.rename_uop_queue_utilization_UF)+(0*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count0))+(1*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count1))+(2*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count2))+(3*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count3))+(4*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count4))+(5*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count5))+(6*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count6))+(7*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count7))+(8*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count8))+(9*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count9))+(10*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count10))+(10*top.cpu.core0.rename.stats.rename_uop_queue_utilization_OF))/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9.483084</td>
+<td class='expression'>Weighted average</td>
+<tr>
+
+<td class='name' title='Weighted nonzero average
+((((((((((((1*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count1)+(2*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count2))+(3*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count3))+(4*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count4))+(5*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count5))+(6*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count6))+(7*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count7))+(8*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count8))+(9*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count9))+(10*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count10))+(10*top.cpu.core0.rename.stats.rename_uop_queue_utilization_OF))/(top.cpu.core0.rename.stats.rename_uop_queue_utilization_total-top.cpu.core0.rename.stats.rename_uop_queue_utilization_count0))'>rename_uop_queue_utilization_weighted_nonzero_avg</td>
+<td class='value' title='Weighted nonzero average
+((((((((((((1*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count1)+(2*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count2))+(3*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count3))+(4*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count4))+(5*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count5))+(6*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count6))+(7*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count7))+(8*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count8))+(9*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count9))+(10*top.cpu.core0.rename.stats.rename_uop_queue_utilization_count10))+(10*top.cpu.core0.rename.stats.rename_uop_queue_utilization_OF))/(top.cpu.core0.rename.stats.rename_uop_queue_utilization_total-top.cpu.core0.rename.stats.rename_uop_queue_utilization_count0))' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9.483790</td>
+<td class='expression'>Weighted nonzero average</td>
+<tr>
+
+<td class='name' title='Fullness
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count10+top.cpu.core0.rename.stats.rename_uop_queue_utilization_OF)'>rename_uop_queue_utilization_full</td>
+<td class='value' title='Fullness
+(top.cpu.core0.rename.stats.rename_uop_queue_utilization_count10+top.cpu.core0.rename.stats.rename_uop_queue_utilization_OF)' style='' >288761</td>
+<td class='expression'>Fullness</td>
+<tr>
+
+<td class='name' title='Fullness probability
+((top.cpu.core0.rename.stats.rename_uop_queue_utilization_count10+top.cpu.core0.rename.stats.rename_uop_queue_utilization_OF)/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)'>rename_uop_queue_utilization_full_probability</td>
+<td class='value' title='Fullness probability
+((top.cpu.core0.rename.stats.rename_uop_queue_utilization_count10+top.cpu.core0.rename.stats.rename_uop_queue_utilization_OF)/top.cpu.core0.rename.stats.rename_uop_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.716212</td>
+<td class='expression'>Fullness probability</td>
+</tr>
+</tbody>
+</table><table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu.core0.dispatch_7');" id="top.cpu.core0.dispatch_7_hide" value="-"><input type="button" onclick="showNode('top.cpu.core0.dispatch_7');" id="top.cpu.core0.dispatch_7_show" value="+" style='display:none;'>&nbsp;top.cpu.core0.dispatch</th></tr></thead>
+<tbody id="top.cpu.core0.dispatch_7"><tr>
+
+<td class='name' title='underflow bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_UF'>dispatch_queue_utilization_UF</td>
+<td class='value' title='underflow bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_UF' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>underflow bin</td>
+<tr>
+
+<td class='name' title='Probability of underflow
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_UF/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)'>dispatch_queue_utilization_UF_probability</td>
+<td class='value' title='Probability of underflow
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_UF/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>Probability of underflow</td>
+<tr>
+
+<td class='name' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count0'>dispatch_queue_utilization_count0</td>
+<td class='value' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count0' style='' >&nbsp;&nbsp;&nbsp;&nbsp;19</td>
+<td class='expression'>dispatch_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='dispatch_queue_utilization_count0 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count0/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)'>dispatch_queue_utilization_count0_probability</td>
+<td class='value' title='dispatch_queue_utilization_count0 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count0/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000047</td>
+<td class='expression'>dispatch_queue_utilization_count0 bin probability</td>
+<tr>
+
+<td class='name' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count1'>dispatch_queue_utilization_count1</td>
+<td class='value' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count1' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>dispatch_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='dispatch_queue_utilization_count1 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count1/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)'>dispatch_queue_utilization_count1_probability</td>
+<td class='value' title='dispatch_queue_utilization_count1 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count1/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>dispatch_queue_utilization_count1 bin probability</td>
+<tr>
+
+<td class='name' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count2'>dispatch_queue_utilization_count2</td>
+<td class='value' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count2' style='' >&nbsp;&nbsp;1411</td>
+<td class='expression'>dispatch_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='dispatch_queue_utilization_count2 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count2/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)'>dispatch_queue_utilization_count2_probability</td>
+<td class='value' title='dispatch_queue_utilization_count2 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count2/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.003500</td>
+<td class='expression'>dispatch_queue_utilization_count2 bin probability</td>
+<tr>
+
+<td class='name' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count3'>dispatch_queue_utilization_count3</td>
+<td class='value' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count3' style='' >&nbsp;&nbsp;&nbsp;368</td>
+<td class='expression'>dispatch_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='dispatch_queue_utilization_count3 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count3/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)'>dispatch_queue_utilization_count3_probability</td>
+<td class='value' title='dispatch_queue_utilization_count3 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count3/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000913</td>
+<td class='expression'>dispatch_queue_utilization_count3 bin probability</td>
+<tr>
+
+<td class='name' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count4'>dispatch_queue_utilization_count4</td>
+<td class='value' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count4' style='' >&nbsp;&nbsp;1085</td>
+<td class='expression'>dispatch_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='dispatch_queue_utilization_count4 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count4/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)'>dispatch_queue_utilization_count4_probability</td>
+<td class='value' title='dispatch_queue_utilization_count4 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count4/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.002691</td>
+<td class='expression'>dispatch_queue_utilization_count4 bin probability</td>
+<tr>
+
+<td class='name' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count5'>dispatch_queue_utilization_count5</td>
+<td class='value' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count5' style='' >&nbsp;&nbsp;&nbsp;148</td>
+<td class='expression'>dispatch_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='dispatch_queue_utilization_count5 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count5/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)'>dispatch_queue_utilization_count5_probability</td>
+<td class='value' title='dispatch_queue_utilization_count5 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count5/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000367</td>
+<td class='expression'>dispatch_queue_utilization_count5 bin probability</td>
+<tr>
+
+<td class='name' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count6'>dispatch_queue_utilization_count6</td>
+<td class='value' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count6' style='' >&nbsp;&nbsp;5941</td>
+<td class='expression'>dispatch_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='dispatch_queue_utilization_count6 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count6/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)'>dispatch_queue_utilization_count6_probability</td>
+<td class='value' title='dispatch_queue_utilization_count6 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count6/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.014735</td>
+<td class='expression'>dispatch_queue_utilization_count6 bin probability</td>
+<tr>
+
+<td class='name' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count7'>dispatch_queue_utilization_count7</td>
+<td class='value' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count7' style='' >&nbsp;&nbsp;5583</td>
+<td class='expression'>dispatch_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='dispatch_queue_utilization_count7 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count7/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)'>dispatch_queue_utilization_count7_probability</td>
+<td class='value' title='dispatch_queue_utilization_count7 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count7/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.013847</td>
+<td class='expression'>dispatch_queue_utilization_count7 bin probability</td>
+<tr>
+
+<td class='name' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count8'>dispatch_queue_utilization_count8</td>
+<td class='value' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count8' style='' >&nbsp;46645</td>
+<td class='expression'>dispatch_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='dispatch_queue_utilization_count8 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count8/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)'>dispatch_queue_utilization_count8_probability</td>
+<td class='value' title='dispatch_queue_utilization_count8 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count8/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.115693</td>
+<td class='expression'>dispatch_queue_utilization_count8 bin probability</td>
+<tr>
+
+<td class='name' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count9'>dispatch_queue_utilization_count9</td>
+<td class='value' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count9' style='' >&nbsp;53212</td>
+<td class='expression'>dispatch_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='dispatch_queue_utilization_count9 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count9/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)'>dispatch_queue_utilization_count9_probability</td>
+<td class='value' title='dispatch_queue_utilization_count9 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count9/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.131981</td>
+<td class='expression'>dispatch_queue_utilization_count9 bin probability</td>
+<tr>
+
+<td class='name' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count10'>dispatch_queue_utilization_count10</td>
+<td class='value' title='dispatch_queue occupancy histogram histogram bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count10' style='' >288766</td>
+<td class='expression'>dispatch_queue occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='dispatch_queue_utilization_count10 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count10/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)'>dispatch_queue_utilization_count10_probability</td>
+<td class='value' title='dispatch_queue_utilization_count10 bin probability
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count10/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.716225</td>
+<td class='expression'>dispatch_queue_utilization_count10 bin probability</td>
+<tr>
+
+<td class='name' title='overflow bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_OF'>dispatch_queue_utilization_OF</td>
+<td class='value' title='overflow bin
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_OF' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>overflow bin</td>
+<tr>
+
+<td class='name' title='Probability of overflow
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_OF/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)'>dispatch_queue_utilization_OF_probability</td>
+<td class='value' title='Probability of overflow
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_OF/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>Probability of overflow</td>
+<tr>
+
+<td class='name' title='dispatch_queue occupancy histogram
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total'>dispatch_queue_utilization_total</td>
+<td class='value' title='dispatch_queue occupancy histogram
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total' style='' >403178</td>
+<td class='expression'>dispatch_queue occupancy histogram</td>
+<tr>
+
+<td class='name' title='The maximum value in the histogram
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_max'>dispatch_queue_utilization_max</td>
+<td class='value' title='The maximum value in the histogram
+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_max' style='' >&nbsp;&nbsp;&nbsp;&nbsp;10</td>
+<td class='expression'>The maximum value in the histogram</td>
+<tr>
+
+<td class='name' title='Weighted average
+((((((((((((((0*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_UF)+(0*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count0))+(1*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count1))+(2*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count2))+(3*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count3))+(4*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count4))+(5*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count5))+(6*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count6))+(7*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count7))+(8*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count8))+(9*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count9))+(10*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count10))+(10*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_OF))/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)'>dispatch_queue_utilization_weighted_avg</td>
+<td class='value' title='Weighted average
+((((((((((((((0*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_UF)+(0*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count0))+(1*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count1))+(2*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count2))+(3*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count3))+(4*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count4))+(5*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count5))+(6*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count6))+(7*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count7))+(8*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count8))+(9*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count9))+(10*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count10))+(10*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_OF))/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9.483308</td>
+<td class='expression'>Weighted average</td>
+<tr>
+
+<td class='name' title='Weighted nonzero average
+((((((((((((1*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count1)+(2*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count2))+(3*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count3))+(4*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count4))+(5*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count5))+(6*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count6))+(7*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count7))+(8*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count8))+(9*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count9))+(10*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count10))+(10*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_OF))/(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total-top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count0))'>dispatch_queue_utilization_weighted_nonzero_avg</td>
+<td class='value' title='Weighted nonzero average
+((((((((((((1*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count1)+(2*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count2))+(3*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count3))+(4*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count4))+(5*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count5))+(6*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count6))+(7*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count7))+(8*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count8))+(9*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count9))+(10*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count10))+(10*top.cpu.core0.dispatch.stats.dispatch_queue_utilization_OF))/(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total-top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count0))' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9.483755</td>
+<td class='expression'>Weighted nonzero average</td>
+<tr>
+
+<td class='name' title='Fullness
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count10+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_OF)'>dispatch_queue_utilization_full</td>
+<td class='value' title='Fullness
+(top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count10+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_OF)' style='' >288766</td>
+<td class='expression'>Fullness</td>
+<tr>
+
+<td class='name' title='Fullness probability
+((top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count10+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_OF)/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)'>dispatch_queue_utilization_full_probability</td>
+<td class='value' title='Fullness probability
+((top.cpu.core0.dispatch.stats.dispatch_queue_utilization_count10+top.cpu.core0.dispatch.stats.dispatch_queue_utilization_OF)/top.cpu.core0.dispatch.stats.dispatch_queue_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.716225</td>
+<td class='expression'>Fullness probability</td>
+<tr>
+
+<td class='name' title='ALU busy
+top.cpu.core0.dispatch.stats.stall_alu_busy'>stall_alu_busy</td>
+<td class='value' title='ALU busy
+top.cpu.core0.dispatch.stats.stall_alu_busy' style='' >&nbsp;&nbsp;1013</td>
+<td class='expression'>ALU busy</td>
+<tr>
+
+<td class='name' title='FPU busy
+top.cpu.core0.dispatch.stats.stall_fpu_busy'>stall_fpu_busy</td>
+<td class='value' title='FPU busy
+top.cpu.core0.dispatch.stats.stall_fpu_busy' style='' >&nbsp;51840</td>
+<td class='expression'>FPU busy</td>
+<tr>
+
+<td class='name' title='BR busy
+top.cpu.core0.dispatch.stats.stall_br_busy'>stall_br_busy</td>
+<td class='value' title='BR busy
+top.cpu.core0.dispatch.stats.stall_br_busy' style='' >&nbsp;&nbsp;&nbsp;152</td>
+<td class='expression'>BR busy</td>
+<tr>
+
+<td class='name' title='LSU busy
+top.cpu.core0.dispatch.stats.stall_lsu_busy'>stall_lsu_busy</td>
+<td class='value' title='LSU busy
+top.cpu.core0.dispatch.stats.stall_lsu_busy' style='' >346478</td>
+<td class='expression'>LSU busy</td>
+<tr>
+
+<td class='name' title='No credits from ROB
+top.cpu.core0.dispatch.stats.stall_no_rob_credits'>stall_no_rob_credits</td>
+<td class='value' title='No credits from ROB
+top.cpu.core0.dispatch.stats.stall_no_rob_credits' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>No credits from ROB</td>
+<tr>
+
+<td class='name' title='Dispatch not stalled, all instructions dispatched
+top.cpu.core0.dispatch.stats.stall_not_stalled'>stall_not_stalled</td>
+<td class='value' title='Dispatch not stalled, all instructions dispatched
+top.cpu.core0.dispatch.stats.stall_not_stalled' style='' >&nbsp;&nbsp;3695</td>
+<td class='expression'>Dispatch not stalled, all instructions dispatched</td>
+<tr>
+
+<td class='name' title='Total ALU insts
+top.cpu.core0.dispatch.stats.count_alu_insts'>count_alu_insts</td>
+<td class='value' title='Total ALU insts
+top.cpu.core0.dispatch.stats.count_alu_insts' style='' >&nbsp;23547</td>
+<td class='expression'>Total ALU insts</td>
+<tr>
+
+<td class='name' title='Total FPU insts
+top.cpu.core0.dispatch.stats.count_fpu_insts'>count_fpu_insts</td>
+<td class='value' title='Total FPU insts
+top.cpu.core0.dispatch.stats.count_fpu_insts' style='' >115200</td>
+<td class='expression'>Total FPU insts</td>
+<tr>
+
+<td class='name' title='Total BR insts
+top.cpu.core0.dispatch.stats.count_br_insts'>count_br_insts</td>
+<td class='value' title='Total BR insts
+top.cpu.core0.dispatch.stats.count_br_insts' style='' >&nbsp;&nbsp;3176</td>
+<td class='expression'>Total BR insts</td>
+<tr>
+
+<td class='name' title='Total LSU insts
+top.cpu.core0.dispatch.stats.count_lsu_insts'>count_lsu_insts</td>
+<td class='value' title='Total LSU insts
+top.cpu.core0.dispatch.stats.count_lsu_insts' style='' >&nbsp;66171</td>
+<td class='expression'>Total LSU insts</td>
+<tr>
+
+<td class='name' title='Total ROB insts
+top.cpu.core0.dispatch.stats.count_rob_insts'>count_rob_insts</td>
+<td class='value' title='Total ROB insts
+top.cpu.core0.dispatch.stats.count_rob_insts' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>Total ROB insts</td>
+<tr>
+
+<td class='name' title='Unit distributions aggregate
+((((top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count0+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count1)+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count2)+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count3)+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count4)'>count_insts_per_unit</td>
+<td class='value' title='Unit distributions aggregate
+((((top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count0+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count1)+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count2)+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count3)+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count4)' style='' >208094</td>
+<td class='expression'>Unit distributions aggregate</td>
+<tr>
+
+<td class='name' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count0'>count_insts_per_unit_dispatch_inst_count0</td>
+<td class='value' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count0' style='' >&nbsp;23547</td>
+<td class='expression'>A context of counter count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count1'>count_insts_per_unit_dispatch_inst_count1</td>
+<td class='value' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count1' style='' >115200</td>
+<td class='expression'>A context of counter count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count2'>count_insts_per_unit_dispatch_inst_count2</td>
+<td class='value' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count2' style='' >&nbsp;&nbsp;3176</td>
+<td class='expression'>A context of counter count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count3'>count_insts_per_unit_dispatch_inst_count3</td>
+<td class='value' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count3' style='' >&nbsp;66171</td>
+<td class='expression'>A context of counter count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count4'>count_insts_per_unit_dispatch_inst_count4</td>
+<td class='value' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count4' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>A context of counter count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count0'>count_insts_per_unit.dispatch_inst_count0</td>
+<td class='value' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count0' style='' >&nbsp;23547</td>
+<td class='expression'>A context of counter count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count1'>count_insts_per_unit.dispatch_inst_count1</td>
+<td class='value' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count1' style='' >115200</td>
+<td class='expression'>A context of counter count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count2'>count_insts_per_unit.dispatch_inst_count2</td>
+<td class='value' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count2' style='' >&nbsp;&nbsp;3176</td>
+<td class='expression'>A context of counter count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count3'>count_insts_per_unit.dispatch_inst_count3</td>
+<td class='value' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count3' style='' >&nbsp;66171</td>
+<td class='expression'>A context of counter count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count4'>count_insts_per_unit.dispatch_inst_count4</td>
+<td class='value' title='A context of counter count_insts_per_unit
+top.cpu.core0.dispatch.stats.count_insts_per_unit.dispatch_inst_count4' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>A context of counter count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='Weighted unit distributions aggregate
+((((top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing0+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing1)+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing2)+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing3)+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing4)'>weighted_count_insts_per_unit</td>
+<td class='value' title='Weighted unit distributions aggregate
+((((top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing0+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing1)+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing2)+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing3)+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing4)' style='' >208094</td>
+<td class='expression'>Weighted unit distributions aggregate</td>
+<tr>
+
+<td class='name' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing0'>weighted_count_insts_per_unit_Testing0</td>
+<td class='value' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing0' style='' >&nbsp;23547</td>
+<td class='expression'>A context of counter weighted_count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing1'>weighted_count_insts_per_unit_Testing1</td>
+<td class='value' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing1' style='' >115200</td>
+<td class='expression'>A context of counter weighted_count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing2'>weighted_count_insts_per_unit_Testing2</td>
+<td class='value' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing2' style='' >&nbsp;&nbsp;3176</td>
+<td class='expression'>A context of counter weighted_count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing3'>weighted_count_insts_per_unit_Testing3</td>
+<td class='value' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing3' style='' >&nbsp;66171</td>
+<td class='expression'>A context of counter weighted_count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing4'>weighted_count_insts_per_unit_Testing4</td>
+<td class='value' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing4' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>A context of counter weighted_count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing0'>weighted_count_insts_per_unit.Testing0</td>
+<td class='value' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing0' style='' >&nbsp;23547</td>
+<td class='expression'>A context of counter weighted_count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing1'>weighted_count_insts_per_unit.Testing1</td>
+<td class='value' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing1' style='' >115200</td>
+<td class='expression'>A context of counter weighted_count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing2'>weighted_count_insts_per_unit.Testing2</td>
+<td class='value' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing2' style='' >&nbsp;&nbsp;3176</td>
+<td class='expression'>A context of counter weighted_count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing3'>weighted_count_insts_per_unit.Testing3</td>
+<td class='value' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing3' style='' >&nbsp;66171</td>
+<td class='expression'>A context of counter weighted_count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing4'>weighted_count_insts_per_unit.Testing4</td>
+<td class='value' title='A context of counter weighted_count_insts_per_unit
+top.cpu.core0.dispatch.stats.weighted_count_insts_per_unit.Testing4' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>A context of counter weighted_count_insts_per_unit</td>
+<tr>
+
+<td class='name' title='ALU instruction count aggregate
+top.cpu.core0.dispatch.stats.context_count_alu_insts.dispatch_alu_inst_count0'>context_count_alu_insts</td>
+<td class='value' title='ALU instruction count aggregate
+top.cpu.core0.dispatch.stats.context_count_alu_insts.dispatch_alu_inst_count0' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>ALU instruction count aggregate</td>
+<tr>
+
+<td class='name' title='A context of counter context_count_alu_insts
+top.cpu.core0.dispatch.stats.context_count_alu_insts.dispatch_alu_inst_count0'>context_count_alu_insts_dispatch_alu_inst_count0</td>
+<td class='value' title='A context of counter context_count_alu_insts
+top.cpu.core0.dispatch.stats.context_count_alu_insts.dispatch_alu_inst_count0' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>A context of counter context_count_alu_insts</td>
+<tr>
+
+<td class='name' title='A context of counter context_count_alu_insts
+top.cpu.core0.dispatch.stats.context_count_alu_insts.dispatch_alu_inst_count0'>context_count_alu_insts.dispatch_alu_inst_count0</td>
+<td class='value' title='A context of counter context_count_alu_insts
+top.cpu.core0.dispatch.stats.context_count_alu_insts.dispatch_alu_inst_count0' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>A context of counter context_count_alu_insts</td>
+<tr>
+
+<td class='name' title='Total number of instructions dispatched
+((top.cpu.core0.dispatch.stats.count_alu_insts+top.cpu.core0.dispatch.stats.count_fpu_insts)+top.cpu.core0.dispatch.stats.count_lsu_insts)'>count_total_insts_dispatched</td>
+<td class='value' title='Total number of instructions dispatched
+((top.cpu.core0.dispatch.stats.count_alu_insts+top.cpu.core0.dispatch.stats.count_fpu_insts)+top.cpu.core0.dispatch.stats.count_lsu_insts)' style='' >204918</td>
+<td class='expression'>Total number of instructions dispatched</td>
+</tr>
+</tbody>
+</table><table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu.core0.execute_8');" id="top.cpu.core0.execute_8_hide" value="-"><input type="button" onclick="showNode('top.cpu.core0.execute_8');" id="top.cpu.core0.execute_8_show" value="+" style='display:none;'>&nbsp;top.cpu.core0.execute</th></tr></thead>
+<tbody id="top.cpu.core0.execute_8"><tr><td colspan=3 class='subreport_td'>
+<table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu.core0.execute.alu0_9');" id="top.cpu.core0.execute.alu0_9_hide" value="-"><input type="button" onclick="showNode('top.cpu.core0.execute.alu0_9');" id="top.cpu.core0.execute.alu0_9_show" value="+" style='display:none;'>&nbsp;top.cpu.core0.execute.alu0</th></tr></thead>
+<tbody id="top.cpu.core0.execute.alu0_9"><tr>
+
+<td class='name' title='Total instructions issued
+top.cpu.core0.execute.alu0.stats.total_insts_issued'>total_insts_issued</td>
+<td class='value' title='Total instructions issued
+top.cpu.core0.execute.alu0.stats.total_insts_issued' style='' >10493</td>
+<td class='expression'>Total instructions issued</td>
+<tr>
+
+<td class='name' title='Total instructions executed
+top.cpu.core0.execute.alu0.stats.total_insts_executed'>total_insts_executed</td>
+<td class='value' title='Total instructions executed
+top.cpu.core0.execute.alu0.stats.total_insts_executed' style='' >10493</td>
+<td class='expression'>Total instructions executed</td>
+</tr>
+</tbody>
+</table><table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu.core0.execute.alu1_10');" id="top.cpu.core0.execute.alu1_10_hide" value="-"><input type="button" onclick="showNode('top.cpu.core0.execute.alu1_10');" id="top.cpu.core0.execute.alu1_10_show" value="+" style='display:none;'>&nbsp;top.cpu.core0.execute.alu1</th></tr></thead>
+<tbody id="top.cpu.core0.execute.alu1_10"><tr>
+
+<td class='name' title='Total instructions issued
+top.cpu.core0.execute.alu1.stats.total_insts_issued'>total_insts_issued</td>
+<td class='value' title='Total instructions issued
+top.cpu.core0.execute.alu1.stats.total_insts_issued' style='' >3405</td>
+<td class='expression'>Total instructions issued</td>
+<tr>
+
+<td class='name' title='Total instructions executed
+top.cpu.core0.execute.alu1.stats.total_insts_executed'>total_insts_executed</td>
+<td class='value' title='Total instructions executed
+top.cpu.core0.execute.alu1.stats.total_insts_executed' style='' >3405</td>
+<td class='expression'>Total instructions executed</td>
+</tr>
+</tbody>
+</table><table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu.core0.execute.alu2_11');" id="top.cpu.core0.execute.alu2_11_hide" value="-"><input type="button" onclick="showNode('top.cpu.core0.execute.alu2_11');" id="top.cpu.core0.execute.alu2_11_show" value="+" style='display:none;'>&nbsp;top.cpu.core0.execute.alu2</th></tr></thead>
+<tbody id="top.cpu.core0.execute.alu2_11"><tr>
+
+<td class='name' title='Total instructions issued
+top.cpu.core0.execute.alu2.stats.total_insts_issued'>total_insts_issued</td>
+<td class='value' title='Total instructions issued
+top.cpu.core0.execute.alu2.stats.total_insts_issued' style='' >3160</td>
+<td class='expression'>Total instructions issued</td>
+<tr>
+
+<td class='name' title='Total instructions executed
+top.cpu.core0.execute.alu2.stats.total_insts_executed'>total_insts_executed</td>
+<td class='value' title='Total instructions executed
+top.cpu.core0.execute.alu2.stats.total_insts_executed' style='' >3160</td>
+<td class='expression'>Total instructions executed</td>
+</tr>
+</tbody>
+</table><table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu.core0.execute.alu3_12');" id="top.cpu.core0.execute.alu3_12_hide" value="-"><input type="button" onclick="showNode('top.cpu.core0.execute.alu3_12');" id="top.cpu.core0.execute.alu3_12_show" value="+" style='display:none;'>&nbsp;top.cpu.core0.execute.alu3</th></tr></thead>
+<tbody id="top.cpu.core0.execute.alu3_12"><tr>
+
+<td class='name' title='Total instructions issued
+top.cpu.core0.execute.alu3.stats.total_insts_issued'>total_insts_issued</td>
+<td class='value' title='Total instructions issued
+top.cpu.core0.execute.alu3.stats.total_insts_issued' style='' >2974</td>
+<td class='expression'>Total instructions issued</td>
+<tr>
+
+<td class='name' title='Total instructions executed
+top.cpu.core0.execute.alu3.stats.total_insts_executed'>total_insts_executed</td>
+<td class='value' title='Total instructions executed
+top.cpu.core0.execute.alu3.stats.total_insts_executed' style='' >2974</td>
+<td class='expression'>Total instructions executed</td>
+</tr>
+</tbody>
+</table><table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu.core0.execute.alu4_13');" id="top.cpu.core0.execute.alu4_13_hide" value="-"><input type="button" onclick="showNode('top.cpu.core0.execute.alu4_13');" id="top.cpu.core0.execute.alu4_13_show" value="+" style='display:none;'>&nbsp;top.cpu.core0.execute.alu4</th></tr></thead>
+<tbody id="top.cpu.core0.execute.alu4_13"><tr>
+
+<td class='name' title='Total instructions issued
+top.cpu.core0.execute.alu4.stats.total_insts_issued'>total_insts_issued</td>
+<td class='value' title='Total instructions issued
+top.cpu.core0.execute.alu4.stats.total_insts_issued' style='' >2077</td>
+<td class='expression'>Total instructions issued</td>
+<tr>
+
+<td class='name' title='Total instructions executed
+top.cpu.core0.execute.alu4.stats.total_insts_executed'>total_insts_executed</td>
+<td class='value' title='Total instructions executed
+top.cpu.core0.execute.alu4.stats.total_insts_executed' style='' >2077</td>
+<td class='expression'>Total instructions executed</td>
+</tr>
+</tbody>
+</table><table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu.core0.execute.alu5_14');" id="top.cpu.core0.execute.alu5_14_hide" value="-"><input type="button" onclick="showNode('top.cpu.core0.execute.alu5_14');" id="top.cpu.core0.execute.alu5_14_show" value="+" style='display:none;'>&nbsp;top.cpu.core0.execute.alu5</th></tr></thead>
+<tbody id="top.cpu.core0.execute.alu5_14"><tr>
+
+<td class='name' title='Total instructions issued
+top.cpu.core0.execute.alu5.stats.total_insts_issued'>total_insts_issued</td>
+<td class='value' title='Total instructions issued
+top.cpu.core0.execute.alu5.stats.total_insts_issued' style='' >1438</td>
+<td class='expression'>Total instructions issued</td>
+<tr>
+
+<td class='name' title='Total instructions executed
+top.cpu.core0.execute.alu5.stats.total_insts_executed'>total_insts_executed</td>
+<td class='value' title='Total instructions executed
+top.cpu.core0.execute.alu5.stats.total_insts_executed' style='' >1438</td>
+<td class='expression'>Total instructions executed</td>
+</tr>
+</tbody>
+</table><table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu.core0.execute.fpu0_15');" id="top.cpu.core0.execute.fpu0_15_hide" value="-"><input type="button" onclick="showNode('top.cpu.core0.execute.fpu0_15');" id="top.cpu.core0.execute.fpu0_15_show" value="+" style='display:none;'>&nbsp;top.cpu.core0.execute.fpu0</th></tr></thead>
+<tbody id="top.cpu.core0.execute.fpu0_15"><tr>
+
+<td class='name' title='Total instructions issued
+top.cpu.core0.execute.fpu0.stats.total_insts_issued'>total_insts_issued</td>
+<td class='value' title='Total instructions issued
+top.cpu.core0.execute.fpu0.stats.total_insts_issued' style='' >57600</td>
+<td class='expression'>Total instructions issued</td>
+<tr>
+
+<td class='name' title='Total instructions executed
+top.cpu.core0.execute.fpu0.stats.total_insts_executed'>total_insts_executed</td>
+<td class='value' title='Total instructions executed
+top.cpu.core0.execute.fpu0.stats.total_insts_executed' style='' >57600</td>
+<td class='expression'>Total instructions executed</td>
+</tr>
+</tbody>
+</table><table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu.core0.execute.fpu1_16');" id="top.cpu.core0.execute.fpu1_16_hide" value="-"><input type="button" onclick="showNode('top.cpu.core0.execute.fpu1_16');" id="top.cpu.core0.execute.fpu1_16_show" value="+" style='display:none;'>&nbsp;top.cpu.core0.execute.fpu1</th></tr></thead>
+<tbody id="top.cpu.core0.execute.fpu1_16"><tr>
+
+<td class='name' title='Total instructions issued
+top.cpu.core0.execute.fpu1.stats.total_insts_issued'>total_insts_issued</td>
+<td class='value' title='Total instructions issued
+top.cpu.core0.execute.fpu1.stats.total_insts_issued' style='' >57600</td>
+<td class='expression'>Total instructions issued</td>
+<tr>
+
+<td class='name' title='Total instructions executed
+top.cpu.core0.execute.fpu1.stats.total_insts_executed'>total_insts_executed</td>
+<td class='value' title='Total instructions executed
+top.cpu.core0.execute.fpu1.stats.total_insts_executed' style='' >57600</td>
+<td class='expression'>Total instructions executed</td>
+</tr>
+</tbody>
+</table><table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu.core0.execute.br0_17');" id="top.cpu.core0.execute.br0_17_hide" value="-"><input type="button" onclick="showNode('top.cpu.core0.execute.br0_17');" id="top.cpu.core0.execute.br0_17_show" value="+" style='display:none;'>&nbsp;top.cpu.core0.execute.br0</th></tr></thead>
+<tbody id="top.cpu.core0.execute.br0_17"><tr>
+
+<td class='name' title='Total instructions issued
+top.cpu.core0.execute.br0.stats.total_insts_issued'>total_insts_issued</td>
+<td class='value' title='Total instructions issued
+top.cpu.core0.execute.br0.stats.total_insts_issued' style='' >2966</td>
+<td class='expression'>Total instructions issued</td>
+<tr>
+
+<td class='name' title='Total instructions executed
+top.cpu.core0.execute.br0.stats.total_insts_executed'>total_insts_executed</td>
+<td class='value' title='Total instructions executed
+top.cpu.core0.execute.br0.stats.total_insts_executed' style='' >2966</td>
+<td class='expression'>Total instructions executed</td>
+</tr>
+</tbody>
+</table><table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu.core0.execute.br1_18');" id="top.cpu.core0.execute.br1_18_hide" value="-"><input type="button" onclick="showNode('top.cpu.core0.execute.br1_18');" id="top.cpu.core0.execute.br1_18_show" value="+" style='display:none;'>&nbsp;top.cpu.core0.execute.br1</th></tr></thead>
+<tbody id="top.cpu.core0.execute.br1_18"><tr>
+
+<td class='name' title='Total instructions issued
+top.cpu.core0.execute.br1.stats.total_insts_issued'>total_insts_issued</td>
+<td class='value' title='Total instructions issued
+top.cpu.core0.execute.br1.stats.total_insts_issued' style='' >210</td>
+<td class='expression'>Total instructions issued</td>
+<tr>
+
+<td class='name' title='Total instructions executed
+top.cpu.core0.execute.br1.stats.total_insts_executed'>total_insts_executed</td>
+<td class='value' title='Total instructions executed
+top.cpu.core0.execute.br1.stats.total_insts_executed' style='' >210</td>
+<td class='expression'>Total instructions executed</td>
+</tr>
+</tbody>
+</table><br/></td></tr>
+</tbody>
+</table><table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu.core0.lsu_19');" id="top.cpu.core0.lsu_19_hide" value="-"><input type="button" onclick="showNode('top.cpu.core0.lsu_19');" id="top.cpu.core0.lsu_19_show" value="+" style='display:none;'>&nbsp;top.cpu.core0.lsu</th></tr></thead>
+<tbody id="top.cpu.core0.lsu_19"><tr>
+
+<td class='name' title='Number of LSU instructions dispatched
+top.cpu.core0.lsu.stats.lsu_insts_dispatched'>lsu_insts_dispatched</td>
+<td class='value' title='Number of LSU instructions dispatched
+top.cpu.core0.lsu.stats.lsu_insts_dispatched' style='' >&nbsp;66171</td>
+<td class='expression'>Number of LSU instructions dispatched</td>
+<tr>
+
+<td class='name' title='Number of stores retired
+top.cpu.core0.lsu.stats.stores_retired'>stores_retired</td>
+<td class='value' title='Number of stores retired
+top.cpu.core0.lsu.stats.stores_retired' style='' >&nbsp;66171</td>
+<td class='expression'>Number of stores retired</td>
+<tr>
+
+<td class='name' title='Number of LSU instructions issued
+top.cpu.core0.lsu.stats.lsu_insts_issued'>lsu_insts_issued</td>
+<td class='value' title='Number of LSU instructions issued
+top.cpu.core0.lsu.stats.lsu_insts_issued' style='' >132355</td>
+<td class='expression'>Number of LSU instructions issued</td>
+<tr>
+
+<td class='name' title='Number of LSU instructions completed
+top.cpu.core0.lsu.stats.lsu_insts_completed'>lsu_insts_completed</td>
+<td class='value' title='Number of LSU instructions completed
+top.cpu.core0.lsu.stats.lsu_insts_completed' style='' >&nbsp;66169</td>
+<td class='expression'>Number of LSU instructions completed</td>
+<tr>
+
+<td class='name' title='Number of instruction flushes at LSU
+top.cpu.core0.lsu.stats.lsu_flushes'>lsu_flushes</td>
+<td class='value' title='Number of instruction flushes at LSU
+top.cpu.core0.lsu.stats.lsu_flushes' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>Number of instruction flushes at LSU</td>
+<tr>
+
+<td class='name' title='Number of TLB hits
+top.cpu.core0.lsu.stats.tlb_hits'>tlb_hits</td>
+<td class='value' title='Number of TLB hits
+top.cpu.core0.lsu.stats.tlb_hits' style='' >&nbsp;66171</td>
+<td class='expression'>Number of TLB hits</td>
+<tr>
+
+<td class='name' title='Number of TLB misses
+top.cpu.core0.lsu.stats.tlb_misses'>tlb_misses</td>
+<td class='value' title='Number of TLB misses
+top.cpu.core0.lsu.stats.tlb_misses' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8</td>
+<td class='expression'>Number of TLB misses</td>
+<tr>
+
+<td class='name' title='Number of DL1 cache hits
+top.cpu.core0.lsu.stats.dl1_cache_hits'>dl1_cache_hits</td>
+<td class='value' title='Number of DL1 cache hits
+top.cpu.core0.lsu.stats.dl1_cache_hits' style='' >&nbsp;66169</td>
+<td class='expression'>Number of DL1 cache hits</td>
+<tr>
+
+<td class='name' title='Number of DL1 cache misses
+top.cpu.core0.lsu.stats.dl1_cache_misses'>dl1_cache_misses</td>
+<td class='value' title='Number of DL1 cache misses
+top.cpu.core0.lsu.stats.dl1_cache_misses' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5</td>
+<td class='expression'>Number of DL1 cache misses</td>
+<tr>
+
+<td class='name' title='Number of BIU reqs
+top.cpu.core0.lsu.stats.biu_reqs'>biu_reqs</td>
+<td class='value' title='Number of BIU reqs
+top.cpu.core0.lsu.stats.biu_reqs' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2</td>
+<td class='expression'>Number of BIU reqs</td>
+</tr>
+<tr><td colspan=3 class='subreport_td'>
+<table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu.core0.lsu.tlb_20');" id="top.cpu.core0.lsu.tlb_20_hide" value="-"><input type="button" onclick="showNode('top.cpu.core0.lsu.tlb_20');" id="top.cpu.core0.lsu.tlb_20_show" value="+" style='display:none;'>&nbsp;top.cpu.core0.lsu.tlb</th></tr></thead>
+<tbody id="top.cpu.core0.lsu.tlb_20"><tr>
+
+<td class='name' title='number of TLB hits
+top.cpu.core0.lsu.tlb.stats.tlb_hits'>tlb_hits</td>
+<td class='value' title='number of TLB hits
+top.cpu.core0.lsu.tlb.stats.tlb_hits' style='' >66171</td>
+<td class='expression'>number of TLB hits</td>
+</tr>
+</tbody>
+</table><br/></td></tr>
+</tbody>
+</table><table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('top.cpu.core0.rob_21');" id="top.cpu.core0.rob_21_hide" value="-"><input type="button" onclick="showNode('top.cpu.core0.rob_21');" id="top.cpu.core0.rob_21_show" value="+" style='display:none;'>&nbsp;top.cpu.core0.rob</th></tr></thead>
+<tbody id="top.cpu.core0.rob_21"><tr>
+
+<td class='name' title='Instructions retired per cycle
+(top.cpu.core0.rob.stats.total_number_retired/clocks.Root.stats.cycles)'>ipc</td>
+<td class='value' title='Instructions retired per cycle
+(top.cpu.core0.rob.stats.total_number_retired/clocks.Root.stats.cycles)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.516133</td>
+<td class='expression'>Instructions retired per cycle</td>
+<tr>
+
+<td class='name' title='The total number of instructions retired by this core
+top.cpu.core0.rob.stats.total_number_retired'>total_number_retired</td>
+<td class='value' title='The total number of instructions retired by this core
+top.cpu.core0.rob.stats.total_number_retired' style='' >208094</td>
+<td class='expression'>The total number of instructions retired by this core</td>
+<tr>
+
+<td class='name' title='The total number of flushes performed by the ROB
+top.cpu.core0.rob.stats.total_number_of_flushes'>total_number_of_flushes</td>
+<td class='value' title='The total number of flushes performed by the ROB
+top.cpu.core0.rob.stats.total_number_of_flushes' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>The total number of flushes performed by the ROB</td>
+<tr>
+
+<td class='name' title='underflow bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_UF'>ReorderBuffer_utilization_UF</td>
+<td class='value' title='underflow bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_UF' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>underflow bin</td>
+<tr>
+
+<td class='name' title='Probability of underflow
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_UF/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_UF_probability</td>
+<td class='value' title='Probability of underflow
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_UF/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>Probability of underflow</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count0'>ReorderBuffer_utilization_count0</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count0' style='' >&nbsp;23068</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count0 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count0/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count0_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count0 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count0/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.057215</td>
+<td class='expression'>ReorderBuffer_utilization_count0 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count1'>ReorderBuffer_utilization_count1</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count1' style='' >&nbsp;&nbsp;&nbsp;510</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count1 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count1/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count1_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count1 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count1/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.001265</td>
+<td class='expression'>ReorderBuffer_utilization_count1 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count2'>ReorderBuffer_utilization_count2</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count2' style='' >&nbsp;&nbsp;&nbsp;256</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count2 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count2/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count2_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count2 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count2/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000635</td>
+<td class='expression'>ReorderBuffer_utilization_count2 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count3'>ReorderBuffer_utilization_count3</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count3' style='' >&nbsp;11277</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count3 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count3/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count3_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count3 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count3/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.027970</td>
+<td class='expression'>ReorderBuffer_utilization_count3 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count4'>ReorderBuffer_utilization_count4</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count4' style='' >&nbsp;&nbsp;5031</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count4 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count4/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count4_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count4 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count4/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.012478</td>
+<td class='expression'>ReorderBuffer_utilization_count4 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count5'>ReorderBuffer_utilization_count5</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count5' style='' >&nbsp;&nbsp;7891</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count5 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count5/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count5_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count5 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count5/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.019572</td>
+<td class='expression'>ReorderBuffer_utilization_count5 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count6'>ReorderBuffer_utilization_count6</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count6' style='' >&nbsp;&nbsp;4087</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count6 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count6/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count6_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count6 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count6/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.010137</td>
+<td class='expression'>ReorderBuffer_utilization_count6 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count7'>ReorderBuffer_utilization_count7</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count7' style='' >&nbsp;&nbsp;7498</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count7 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count7/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count7_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count7 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count7/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.018597</td>
+<td class='expression'>ReorderBuffer_utilization_count7 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count8'>ReorderBuffer_utilization_count8</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count8' style='' >&nbsp;&nbsp;2574</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count8 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count8/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count8_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count8 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count8/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.006384</td>
+<td class='expression'>ReorderBuffer_utilization_count8 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count9'>ReorderBuffer_utilization_count9</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count9' style='' >&nbsp;&nbsp;5456</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count9 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count9/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count9_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count9 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count9/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.013532</td>
+<td class='expression'>ReorderBuffer_utilization_count9 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count10'>ReorderBuffer_utilization_count10</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count10' style='' >&nbsp;&nbsp;2169</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count10 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count10/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count10_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count10 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count10/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.005380</td>
+<td class='expression'>ReorderBuffer_utilization_count10 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count11'>ReorderBuffer_utilization_count11</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count11' style='' >&nbsp;34634</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count11 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count11/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count11_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count11 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count11/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.085903</td>
+<td class='expression'>ReorderBuffer_utilization_count11 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count12'>ReorderBuffer_utilization_count12</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count12' style='' >&nbsp;&nbsp;2449</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count12 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count12/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count12_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count12 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count12/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.006074</td>
+<td class='expression'>ReorderBuffer_utilization_count12 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count13'>ReorderBuffer_utilization_count13</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count13' style='' >&nbsp;34939</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count13 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count13/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count13_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count13 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count13/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.086659</td>
+<td class='expression'>ReorderBuffer_utilization_count13 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count14'>ReorderBuffer_utilization_count14</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count14' style='' >&nbsp;&nbsp;2726</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count14 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count14/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count14_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count14 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count14/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.006761</td>
+<td class='expression'>ReorderBuffer_utilization_count14 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count15'>ReorderBuffer_utilization_count15</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count15' style='' >&nbsp;39006</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count15 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count15/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count15_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count15 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count15/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.096746</td>
+<td class='expression'>ReorderBuffer_utilization_count15 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count16'>ReorderBuffer_utilization_count16</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count16' style='' >&nbsp;&nbsp;7127</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count16 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count16/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count16_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count16 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count16/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.017677</td>
+<td class='expression'>ReorderBuffer_utilization_count16 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count17'>ReorderBuffer_utilization_count17</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count17' style='' >&nbsp;39500</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count17 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count17/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count17_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count17 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count17/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.097972</td>
+<td class='expression'>ReorderBuffer_utilization_count17 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count18'>ReorderBuffer_utilization_count18</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count18' style='' >&nbsp;&nbsp;1689</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count18 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count18/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count18_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count18 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count18/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.004189</td>
+<td class='expression'>ReorderBuffer_utilization_count18 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count19'>ReorderBuffer_utilization_count19</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count19' style='' >&nbsp;34864</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count19 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count19/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count19_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count19 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count19/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.086473</td>
+<td class='expression'>ReorderBuffer_utilization_count19 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count20'>ReorderBuffer_utilization_count20</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count20' style='' >&nbsp;&nbsp;4828</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count20 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count20/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count20_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count20 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count20/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.011975</td>
+<td class='expression'>ReorderBuffer_utilization_count20 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count21'>ReorderBuffer_utilization_count21</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count21' style='' >&nbsp;44065</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count21 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count21/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count21_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count21 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count21/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.109294</td>
+<td class='expression'>ReorderBuffer_utilization_count21 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count22'>ReorderBuffer_utilization_count22</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count22' style='' >&nbsp;&nbsp;9749</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count22 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count22/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count22_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count22 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count22/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.024180</td>
+<td class='expression'>ReorderBuffer_utilization_count22 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count23'>ReorderBuffer_utilization_count23</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count23' style='' >&nbsp;39570</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count23 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count23/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count23_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count23 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count23/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.098145</td>
+<td class='expression'>ReorderBuffer_utilization_count23 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count24'>ReorderBuffer_utilization_count24</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count24' style='' >&nbsp;&nbsp;6352</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count24 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count24/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count24_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count24 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count24/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.015755</td>
+<td class='expression'>ReorderBuffer_utilization_count24 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count25'>ReorderBuffer_utilization_count25</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count25' style='' >&nbsp;16680</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count25 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count25/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count25_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count25 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count25/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.041371</td>
+<td class='expression'>ReorderBuffer_utilization_count25 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count26'>ReorderBuffer_utilization_count26</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count26' style='' >&nbsp;&nbsp;2149</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count26 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count26/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count26_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count26 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count26/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.005330</td>
+<td class='expression'>ReorderBuffer_utilization_count26 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count27'>ReorderBuffer_utilization_count27</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count27' style='' >&nbsp;&nbsp;6999</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count27 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count27/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count27_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count27 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count27/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.017360</td>
+<td class='expression'>ReorderBuffer_utilization_count27 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count28'>ReorderBuffer_utilization_count28</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count28' style='' >&nbsp;&nbsp;1333</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count28 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count28/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count28_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count28 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count28/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.003306</td>
+<td class='expression'>ReorderBuffer_utilization_count28 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count29'>ReorderBuffer_utilization_count29</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count29' style='' >&nbsp;&nbsp;3442</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count29 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count29/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count29_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count29 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count29/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.008537</td>
+<td class='expression'>ReorderBuffer_utilization_count29 bin probability</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count30'>ReorderBuffer_utilization_count30</td>
+<td class='value' title='ReorderBuffer occupancy histogram histogram bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_count30' style='' >&nbsp;&nbsp;1260</td>
+<td class='expression'>ReorderBuffer occupancy histogram histogram bin</td>
+<tr>
+
+<td class='name' title='ReorderBuffer_utilization_count30 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count30/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_count30_probability</td>
+<td class='value' title='ReorderBuffer_utilization_count30 bin probability
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count30/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.003125</td>
+<td class='expression'>ReorderBuffer_utilization_count30 bin probability</td>
+<tr>
+
+<td class='name' title='overflow bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_OF'>ReorderBuffer_utilization_OF</td>
+<td class='value' title='overflow bin
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_OF' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>overflow bin</td>
+<tr>
+
+<td class='name' title='Probability of overflow
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_OF/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_OF_probability</td>
+<td class='value' title='Probability of overflow
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_OF/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class='expression'>Probability of overflow</td>
+<tr>
+
+<td class='name' title='ReorderBuffer occupancy histogram
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_total'>ReorderBuffer_utilization_total</td>
+<td class='value' title='ReorderBuffer occupancy histogram
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_total' style='' >403178</td>
+<td class='expression'>ReorderBuffer occupancy histogram</td>
+<tr>
+
+<td class='name' title='The maximum value in the histogram
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_max'>ReorderBuffer_utilization_max</td>
+<td class='value' title='The maximum value in the histogram
+top.cpu.core0.rob.stats.ReorderBuffer_utilization_max' style='' >&nbsp;&nbsp;&nbsp;&nbsp;30</td>
+<td class='expression'>The maximum value in the histogram</td>
+<tr>
+
+<td class='name' title='Weighted average
+((((((((((((((((((((((((((((((((((0*top.cpu.core0.rob.stats.ReorderBuffer_utilization_UF)+(0*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count0))+(1*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count1))+(2*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count2))+(3*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count3))+(4*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count4))+(5*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count5))+(6*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count6))+(7*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count7))+(8*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count8))+(9*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count9))+(10*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count10))+(11*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count11))+(12*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count12))+(13*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count13))+(14*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count14))+(15*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count15))+(16*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count16))+(17*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count17))+(18*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count18))+(19*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count19))+(20*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count20))+(21*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count21))+(22*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count22))+(23*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count23))+(24*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count24))+(25*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count25))+(26*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count26))+(27*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count27))+(28*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count28))+(29*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count29))+(30*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count30))+(30*top.cpu.core0.rob.stats.ReorderBuffer_utilization_OF))/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_weighted_avg</td>
+<td class='value' title='Weighted average
+((((((((((((((((((((((((((((((((((0*top.cpu.core0.rob.stats.ReorderBuffer_utilization_UF)+(0*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count0))+(1*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count1))+(2*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count2))+(3*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count3))+(4*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count4))+(5*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count5))+(6*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count6))+(7*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count7))+(8*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count8))+(9*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count9))+(10*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count10))+(11*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count11))+(12*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count12))+(13*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count13))+(14*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count14))+(15*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count15))+(16*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count16))+(17*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count17))+(18*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count18))+(19*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count19))+(20*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count20))+(21*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count21))+(22*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count22))+(23*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count23))+(24*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count24))+(25*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count25))+(26*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count26))+(27*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count27))+(28*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count28))+(29*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count29))+(30*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count30))+(30*top.cpu.core0.rob.stats.ReorderBuffer_utilization_OF))/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;15.786449</td>
+<td class='expression'>Weighted average</td>
+<tr>
+
+<td class='name' title='Weighted nonzero average
+((((((((((((((((((((((((((((((((1*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count1)+(2*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count2))+(3*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count3))+(4*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count4))+(5*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count5))+(6*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count6))+(7*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count7))+(8*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count8))+(9*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count9))+(10*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count10))+(11*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count11))+(12*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count12))+(13*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count13))+(14*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count14))+(15*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count15))+(16*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count16))+(17*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count17))+(18*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count18))+(19*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count19))+(20*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count20))+(21*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count21))+(22*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count22))+(23*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count23))+(24*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count24))+(25*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count25))+(26*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count26))+(27*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count27))+(28*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count28))+(29*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count29))+(30*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count30))+(30*top.cpu.core0.rob.stats.ReorderBuffer_utilization_OF))/(top.cpu.core0.rob.stats.ReorderBuffer_utilization_total-top.cpu.core0.rob.stats.ReorderBuffer_utilization_count0))'>ReorderBuffer_utilization_weighted_nonzero_avg</td>
+<td class='value' title='Weighted nonzero average
+((((((((((((((((((((((((((((((((1*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count1)+(2*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count2))+(3*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count3))+(4*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count4))+(5*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count5))+(6*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count6))+(7*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count7))+(8*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count8))+(9*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count9))+(10*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count10))+(11*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count11))+(12*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count12))+(13*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count13))+(14*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count14))+(15*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count15))+(16*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count16))+(17*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count17))+(18*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count18))+(19*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count19))+(20*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count20))+(21*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count21))+(22*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count22))+(23*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count23))+(24*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count24))+(25*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count25))+(26*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count26))+(27*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count27))+(28*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count28))+(29*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count29))+(30*top.cpu.core0.rob.stats.ReorderBuffer_utilization_count30))+(30*top.cpu.core0.rob.stats.ReorderBuffer_utilization_OF))/(top.cpu.core0.rob.stats.ReorderBuffer_utilization_total-top.cpu.core0.rob.stats.ReorderBuffer_utilization_count0))' style='' >&nbsp;&nbsp;&nbsp;&nbsp;16.744492</td>
+<td class='expression'>Weighted nonzero average</td>
+<tr>
+
+<td class='name' title='Fullness
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count30+top.cpu.core0.rob.stats.ReorderBuffer_utilization_OF)'>ReorderBuffer_utilization_full</td>
+<td class='value' title='Fullness
+(top.cpu.core0.rob.stats.ReorderBuffer_utilization_count30+top.cpu.core0.rob.stats.ReorderBuffer_utilization_OF)' style='' >&nbsp;&nbsp;1260</td>
+<td class='expression'>Fullness</td>
+<tr>
+
+<td class='name' title='Fullness probability
+((top.cpu.core0.rob.stats.ReorderBuffer_utilization_count30+top.cpu.core0.rob.stats.ReorderBuffer_utilization_OF)/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)'>ReorderBuffer_utilization_full_probability</td>
+<td class='value' title='Fullness probability
+((top.cpu.core0.rob.stats.ReorderBuffer_utilization_count30+top.cpu.core0.rob.stats.ReorderBuffer_utilization_OF)/top.cpu.core0.rob.stats.ReorderBuffer_utilization_total)' style='' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.003125</td>
+<td class='expression'>Fullness probability</td>
+</tr>
+</tbody>
+</table><br/></td></tr>
+</tbody>
+</table><br/></td></tr>
+</tbody>
+</table><br/></td></tr>
+</tbody>
+</table><table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('clocks_22');" id="clocks_22_hide" value="-"><input type="button" onclick="showNode('clocks_22');" id="clocks_22_show" value="+" style='display:none;'>&nbsp;clocks</th></tr></thead>
+<tbody id="clocks_22"><tr><td colspan=3 class='subreport_td'>
+<table cellpadding=3 cellspacing=0 style='width:100%;' class='subreport_table'><thead><tr><th colspan=3 class='tabletitle'><input type="button" onclick="hideNode('clocks.Root_23');" id="clocks.Root_23_hide" value="-"><input type="button" onclick="showNode('clocks.Root_23');" id="clocks.Root_23_show" value="+" style='display:none;'>&nbsp;clocks.Root</th></tr></thead>
+<tbody id="clocks.Root_23"><tr>
+
+<td class='name' title='Cycle Count of this Clock
+clocks.Root.stats.cycles'>cycles</td>
+<td class='value' title='Cycle Count of this Clock
+clocks.Root.stats.cycles' style='' >403179</td>
+<td class='expression'>Cycle Count of this Clock</td>
+</tr>
+</tbody>
+</table><br/></td></tr>
+</tbody>
+</table><br/></td></tr>
+</tbody>
+</table></body></html>
