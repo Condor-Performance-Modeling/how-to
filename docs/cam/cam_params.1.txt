@@ -1,0 +1,104 @@
+# Name:     Olympia RISC-V Perf Model 
+# Cmdline:  ./olympia --show-parameters --no-run
+# Exe:      ./olympia
+# SimulatorVersion: v0.1.0
+# Repro:    
+# Start:    Wednesday Wed May 17 10:58:27 2023
+# Elapsed:  0.000329s
+# Sparta Version: map_v1.1.0-4-g277037f3
+  [in] Arch Config: ArchCfg Node "" <- file: "/home/jeff/Development/condor/riscv-perf-model/arches/small_core.yaml"
+
+Setting up Simulation Content...
+Resources:
+  cpu
+Building tree...
+Configuring tree...
+
+Parameters (After Configuration):
+top : 
++-cpu :
+  +-core0 :
+    +-fetch :
+    | +-params : 1 params
+    | | +-num_to_fetch : def=2
+    +-decode :
+    | +-params : 2 params
+    | | +-num_to_decode : def=2
+    | | +-fetch_queue_size : def=10
+    +-rename :
+    | +-params : 2 params
+    | | +-num_to_rename : def=2
+    | | +-rename_queue_depth : def=10
+    | +-scoreboards :
+    | | +-integer :
+    | | | +-params : 1 params
+    | | | | +-latency_matrix : MxN
+    | | +-float :
+    | | | +-params : 1 params
+    | | | | +-latency_matrix : MxN
+    +-dispatch :
+    | +-params : 3 params
+    | | +-num_to_dispatch : def=2
+    | | +-dispatch_queue_depth : def=10
+    | | +-context_weights : def=[1]
+    +-execute :
+    | +-alu0 :
+    | | +-params : 4 params
+    | | | +-ignore_inst_execute_time : def=false
+    | | | +-execute_time : def=1
+    | | | +-scheduler_size : def=8
+    | | | +-in_order_issue : def=true
+    | +-fpu0 :
+    | | +-params : 4 params
+    | | | +-ignore_inst_execute_time : def=false
+    | | | +-execute_time : def=1
+    | | | +-scheduler_size : def=8
+    | | | +-in_order_issue : def=true
+    | +-br0 :
+    | | +-params : 4 params
+    | | | +-ignore_inst_execute_time : def=false
+    | | | +-execute_time : def=1
+    | | | +-scheduler_size : def=8
+    | | | +-in_order_issue : def=true
+    +-lsu :
+    | +-params : 10 params
+    | | +-ldst_inst_queue_size : def=8
+    | | +-tlb_always_hit : def=false
+    | | +-dl1_line_size : def=64
+    | | +-dl1_size_kb : def=16
+    | | +-dl1_associativity : def=8
+    | | +-dl1_always_hit : def=false
+    | | +-issue_latency : def=1
+    | | +-mmu_latency : def=1
+    | | +-cache_latency : def=1
+    | | +-complete_latency : def=1
+    | +-tlb :
+    | | +-params : 3 params
+    | | | +-tlb_page_size : def=4096
+    | | | +-tlb_num_of_entries : def=32
+    | | | +-tlb_associativity : def=32, write=0 read: 0 ignored: 0> (privacy: 1)
+    +-biu :
+    | +-params : 2 params
+    | | +-biu_req_queue_size : def=4
+    | | +-biu_latency : def=1
+    +-mss :
+    | +-params : 1 params
+    | | +-mss_latency : def=5
+    +-rob :
+    | +-params : 5 params
+    | | +-num_to_retire : def=2
+    | | +-retire_queue_depth : def=30
+    | | +-num_insts_to_retire : def=0, write=0 read: 0 ignored: 0> (privacy: 0)
+    | | +-retire_heartbeat : def=1000000
+    | | +-retire_timeout_interval : def=10000
+    +-preloader :
+    | +-params : 1 params
+    | | +-preload_file : def=''
+    +-mavis :
+      +-params : 5 params
+      | +-isa_file_path : def=mavis_isa_files
+        +-uarch_file_path : def=arches/isa_json
+        +-pseudo_file_path : def=''
+        +-uarch_overrides_json : def=''
+        +-uarch_overrides : def=[]
+

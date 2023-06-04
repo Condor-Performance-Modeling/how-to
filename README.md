@@ -98,13 +98,13 @@ Install the Ubuntu support packages:
   sudo apt install build-essential bison flex texinfo gperf libtool patchutils 
   sudo apt install bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler
   sudo apt install libboost-all-dev  libsqlite3-dev libhdf5-serial-dev
-  sudo apt install libzstd-dev gcc-multilib 
+  sudo apt install libzstd-dev gcc-multilib qt5-dev qt5-qmake pkg-config
 ```
 
 All in one line for easy cut/paste:
 
 ```
-sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjson-dev xz-utils autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler libboost-all-dev libsqlite3-dev libhdf5-serial-dev libzstd-dev gcc-multilib
+sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjson-dev xz-utils autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler libboost-all-dev libsqlite3-dev libhdf5-serial-dev libzstd-dev gcc-multilib qt5-dev qt5-qmake pkg-config
 ```
 
 --------------------------------------
@@ -838,3 +838,38 @@ For now this list is kept here. I might move it later.
 
 - Consider supplying a model bashrc file to eliminate the need for setrc.sh
 
+- Document how to build benchmark related items - tmp instrs below:
+  - For coremark-pro
+    - cd benchmarks/riscv-coremark-pro/coremark-pro
+    - make TARGET=riscv64 TOOLS=$TOP/riscv64-unknown-linux-gnu clean
+    - make TARGET=riscv64 TOOLS=$TOP/riscv64-unknown-linux-gnu build
+    - cp -r builds/riscv64/riscv-gcc64/bin ../../benchfs/coremark-pro/bin/
+  - for benchfs
+    - cd $TOP
+    - sudo rm -rf buildroot-2020.05.1/output/target/root/benchfs
+    - sudo cp -r benchmarks/benchfs buildroot-2020.05.1/output/target/root
+    - sudo make -C buildroot-2020.05.1
+  - for dromajo
+    - cd dromajo/run
+    - cp ../../buildroot-2020.05.1/output/images/rootfs.cpio .
+    - ../build/dromajo --stf_trace coremark-pro.stf boot.cfg
+    - root/root
+    - $> cd benchfs
+    - $> ./run.coremark-pro.sh cjpeg    (done)
+    - <move stf file>
+    - $> ./run.coremark-pro.sh core     (done) alt   <deleted>
+    - <move stf file>
+    - $> ./run.coremark-pro.sh linear   (done) alt.2 <deleted>
+    - <move stf file>
+    - $> ./run.coremark-pro.sh loops    (needs restart alt.3 file name already ...loops)
+    - <move stf file>
+    - $> ./run.coremark-pro.sh nnet     (needs restart alt.4 file name already ...nnet)
+    - <move stf file>
+    - $> ./run.coremark-pro.sh parser   (done) 
+    - <move stf file>
+    - $> ./run.coremark-pro.sh radix2   (done) 
+    - <move stf file>
+    - $> ./run.coremark-pro.sh sha      (done)
+    - <move stf file>
+    - $> ./run.coremark-pro.sh zip      (done)
+    - <move stf file>
