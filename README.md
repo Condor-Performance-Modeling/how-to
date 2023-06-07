@@ -863,7 +863,7 @@ For now this list is kept here. I might move it later.
     - <move stf file>
     - $> ./run.coremark-pro.sh loops    (needs restart alt.3 file name already ...loops)
     - <move stf file>
-    - $> ./run.coremark-pro.sh nnet     (needs restart alt.4 file name already ...nnet)
+    - $> ./run.coremark-pro.sh nnet     (done)
     - <move stf file>
     - $> ./run.coremark-pro.sh parser   (done) 
     - <move stf file>

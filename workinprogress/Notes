@@ -1,0 +1,61 @@
+<!-- 
+------------------------------------------------------------------------
+# Instrumenting a linux based application
+
+cd $DROMAJO/run
+
+Edit program to contain START_TRACE; and STOP_TRACE;
+
+vi dhrystone/dhry_1.c
+
+...
+START_TRACE;
+for (Run_Index = 1; Run_Index <= Number_Of_Runs; ++Run_Index)
+...
+} /* loop "for Run_Index" */
+STOP_TRACE;
+...
+
+make
+
+riscv64-unknown-elf-gcc -c -O3 -DTIME -I./dhrystone -I../../riscv-perf-model/traces/stf_trace_gen dhrystone/dhry_1.c -o obj/dhry_1.o
+
+riscv64-unknown-elf-gcc -c -O3 -DTIME -I./dhrystone -I../../riscv-perf-model/traces/stf_trace_gen dhrystone/dhry_2.c -o obj/dhry_2.o
+
+riscv64-unknown-elf-gcc  obj/dhry_1.o obj/dhry_2.o -o bin/dhry.riscv.elf
+
+cd $DROMAJO
+sudo cp run/bin/dhry.riscv.elf ./buildroot-2020.05.1/output/target/sbin/
+
+sudo make -C buildroot-2020.05.1
+cd run
+
+cp ../buildroot-2020.05.1/output/images/rootfs.cpio .
+../build/dromajo --ctrlc --stf_trace my_trace.zstf boot.cfg
+
+login: root
+password: root
+
+dhry.riscv.elf
+
+-->
+
+<!-- These are notes that will end up in a readme somewhere
+
+Create a new GITHUB repository on the command line
+echo "# condor.new-repo" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:Condor-Performance-Modeling/condor.new-repo.git
+git push -u origin main
+
+
+Push an existing repository from the command line to CPM
+
+git remote add origin git@github.com:Condor-Performance-Modeling/condor.new-repo.git
+git branch -M main
+git push -u origin main
+-->
+
