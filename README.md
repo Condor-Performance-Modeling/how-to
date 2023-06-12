@@ -712,13 +712,14 @@ Dromajo's run directory. Finally executing on Dromajo
 
 ```
   cd $TOP
-  sudo cp $BENCHMARKS/bin/coremark.riscv $BUILDROOT/output/target/sbin
+  sudo rm -r $BUILDROOT/output/target/root/benchfs	
+  sudo cp -r $BENCHMARKS/benchfs $BUILDROOT/output/target/root
   sudo make -C $BUILDROOT
   cp $BUILDROOT/output/images/rootfs.cpio $DROMAJO/run
   cd $DROMAJO/run
   ../build/dromajo --stf_trace my_trace.zstf boot.cfg
 ```
-
+<!-- sudo cp $BENCHMARKS/bin/coremark.riscv $BUILDROOT/output/target/sbin -->
 <!-- some versions require --ctrlc, some do not accept it        -->
 <!-- ../build/dromajo --ctrlc --stf_trace my_trace.zstf boot.cfg -->
 
