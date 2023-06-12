@@ -73,6 +73,7 @@ cd condor
 git clone git@github.com:Condor-Performance-Modeling/how-to.git
 ```
 
+```
 These are unformatted notes from Kiran's try to use these instructions
 
 In VCAD you need to add
@@ -84,7 +85,7 @@ From a session on the main vcad do this
   - (base) [564] aw01ut01 ../cuzco > chmod 700 ~/.ssh
   - (base) [565] aw01ut01 ../cuzco > chmod 600 ~/.ssh/*
   - ssh aw01lv03
-
+```
 
 
 
