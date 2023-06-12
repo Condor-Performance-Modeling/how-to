@@ -58,6 +58,8 @@ Presumably you are reading this how-to from the web or a local copy. The
 instructions in subsequent sections use the paths and environment
 variables created here. Follow these steps:
 
+- If you are running this from within Cadence/VCAD you must sent the proxy to open github access
+    -  export https_proxy=http://aw01-proxy:3129
 - Change directory to the place you want to install condor tools 
   and environment.
 - Make a directory called condor
@@ -70,6 +72,21 @@ mkdir condor
 cd condor
 git clone git@github.com:Condor-Performance-Modeling/how-to.git
 ```
+
+These are unformatted notes from Kiran's try to use these instructions
+
+In VCAD you need to add
+  -  export https_proxy=http://aw01-proxy:3129
+
+Create ssh keys on VCAD  <add instructions on how>
+Add those to your github account <add instructions>
+From a session on the main vcad do this
+  - (base) [564] aw01ut01 ../cuzco > chmod 700 ~/.ssh
+  - (base) [565] aw01ut01 ../cuzco > chmod 600 ~/.ssh/*
+  - ssh aw01lv03
+
+
+
 
 --------------------------------------
 # Set local environment variables
