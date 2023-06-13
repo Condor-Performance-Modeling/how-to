@@ -71,6 +71,8 @@ variables created here. Follow these steps:
 mkdir condor
 cd condor
 git clone git@github.com:Condor-Performance-Modeling/how-to.git
+OR
+git clone https://github.com/Condor-Performance-Modeling/how-to.git
 ```
 
 ```
@@ -381,6 +383,8 @@ This fork of dromajo has the proper stf patches already applied.
 ```
     cd $TOP
     git clone git@github.com:Condor-Performance-Modeling/dromajo.git
+OR
+    git clone https://github.com/Condor-Performance-Modeling/dromajo.git
     cd dromajo
     ln -s ../stf_lib
 ```
