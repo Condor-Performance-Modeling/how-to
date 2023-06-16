@@ -58,6 +58,8 @@ Presumably you are reading this how-to from the web or a local copy. The
 instructions in subsequent sections use the paths and environment
 variables created here. Follow these steps:
 
+- If you are running this from within Cadence/VCAD you must sent the proxy to open github access
+    -  export https_proxy=http://aw01-proxy:3129
 - Change directory to the place you want to install condor tools 
   and environment.
 - Make a directory called condor
@@ -69,7 +71,25 @@ variables created here. Follow these steps:
 mkdir condor
 cd condor
 git clone git@github.com:Condor-Performance-Modeling/how-to.git
+OR
+git clone https://github.com/Condor-Performance-Modeling/how-to.git
 ```
+
+```
+These are unformatted notes from Kiran's try to use these instructions
+
+In VCAD you need to add
+  -  export https_proxy=http://aw01-proxy:3129
+
+Create ssh keys on VCAD  <add instructions on how>
+Add those to your github account <add instructions>
+From a session on the main vcad do this
+  - (base) [564] aw01ut01 ../cuzco > chmod 700 ~/.ssh
+  - (base) [565] aw01ut01 ../cuzco > chmod 600 ~/.ssh/*
+  - ssh aw01lv03
+```
+
+
 
 --------------------------------------
 # Set local environment variables
@@ -363,6 +383,8 @@ This fork of dromajo has the proper stf patches already applied.
 ```
     cd $TOP
     git clone git@github.com:Condor-Performance-Modeling/dromajo.git
+OR
+    git clone https://github.com/Condor-Performance-Modeling/dromajo.git
     cd dromajo
     ln -s ../stf_lib
 ```
@@ -712,13 +734,14 @@ Dromajo's run directory. Finally executing on Dromajo
 
 ```
   cd $TOP
-  sudo cp $BENCHMARKS/bin/coremark.riscv $BUILDROOT/output/target/sbin
+  sudo rm -r $BUILDROOT/output/target/root/benchfs	
+  sudo cp -r $BENCHMARKS/benchfs $BUILDROOT/output/target/root
   sudo make -C $BUILDROOT
   cp $BUILDROOT/output/images/rootfs.cpio $DROMAJO/run
   cd $DROMAJO/run
   ../build/dromajo --stf_trace my_trace.zstf boot.cfg
 ```
-
+<!-- sudo cp $BENCHMARKS/bin/coremark.riscv $BUILDROOT/output/target/sbin -->
 <!-- some versions require --ctrlc, some do not accept it        -->
 <!-- ../build/dromajo --ctrlc --stf_trace my_trace.zstf boot.cfg -->
 
