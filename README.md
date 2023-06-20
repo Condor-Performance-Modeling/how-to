@@ -45,6 +45,8 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Build Whisper](#build-whisper)
 
+1. [Build the analysis tool suite](#build-the-analysis-tool-suite)
+
 1. [Build the benchmark suite](#build-the-benchmark-suite)
 
 1. [Running programs on Dromajo](#running-programs-on-dromajo)
@@ -58,13 +60,93 @@ Presumably you are reading this how-to from the web or a local copy. The
 instructions in subsequent sections use the paths and environment
 variables created here. Follow these steps:
 
-- If you are running this from within Cadence/VCAD you must sent the proxy to open github access
-    -  export https_proxy=http://aw01-proxy:3129
+There are two Ubuntu environments at present, Condor AWS aka C-AWS, and 
+VCAD. C-AWS is Condor managed, with assistance from OutServ. Contact Jeff
+if you need support. VCAD is a Cadence layer over AWS. Instructions which
+are specific to an environment are marked. Unmarked instructions apply to
+both environments
+
+In both cases I(Jeff) have to add you to the Condor Performance Modeling 
+GitHub group before you can access the private repos in this list. Send me
+a GitHub account name in slack or email.
+
+## Send Jeff your GitHub account name
+
+You must be a member of Condor Performance Modeling (CPM) GitHub 
+organization before you can access the private repos in this list.
+
+Send me your account via slack or email. I will send you back the same
+once I have added you to CPM.
+
+## (C-AWS) Send Jeff your VCAD user name and ID's
+
+To create your C-AWS account I need your VCAD account name along with the 
+output of the ID command. Do this in VCAD
+```
+linux> id
+uid=123456(jeffnye) gid=789(ccusers) groups=654(ccusers),1111(condorperf),2222(cuzco)
+```
+
+Once I have created your C-AWS account I will send you slack/email.
+
+## (C-AWS) Send Jeff your VCAD user name and ID's
+
+Note: We are contracting an IT service company to manage C-AWS users. I will
+update the instructions when this transition happens. 
+
+In the meantime, once I have let you know you have an C-AWS account, to 
+access it follow the instructions found here [LINK](./AWS.md)
+
+## (C-AWS/VCAD) Creating ssh keys
+
+These key generation instructions assume you will use the default naming.
+The exception is do not use an empty passphrase. Once created change the file
+permissions explicitly.
+```
+	aw01ut01 ../~ > cd $HOME
+	aw01ut01 ../~ > ssh-keygen
+
+  Enter file in which to save the key (some/path): 
+  Enter passphrase (empty for no passphrase): <your passphrase>
+  Enter same passphrase again: <your passphrase>
+
+  aw01ut01 ../~ > chmod 700 ~/.ssh
+  aw01ut01 ../~ > chmod 600 ~/.ssh/*
+```
+
+## (C-AWS/VCAD) Adding keys to your GitHub account
+
+Add your ssh key(s) to your GitHub account. 
+
+GitHub provides instructions here: [LINK](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account?platform=windows). 
+
+This URL was accurate at the time of writing (2023.06.23).  Slack Jeff if 
+this is no longer up to date.
+
+## (VCAD) Set the http proxy environment variable.
+
+To access GitHub and other domains you must set the http_proxy environment
+variable in the shell you are using. I am not documenting this publicly,
+send me slack/email if you need the setting.
+
+This info is also available inside Condor at this private URL:
+https://condorcomp.atlassian.net/wiki/spaces/CC/pages/1572972/How+To#HTTPS_PROXY
+
+## (C-AWS/VCAD) Clone the how-to repo
+
+Login into your environment. The remaining instructions are not specific
+to the environment. 
+
+The How-To repo contains files, patches, environment settings and other 
+instructions used in the remaining steps.  Once the above is done clone 
+the how-to repo.
+
 - Change directory to the place you want to install condor tools 
   and environment.
 - Make a directory called condor
 - cd to condor
 - clone the condor performance modeling how-to repo
+
 
 ```
 [cd workspace]
@@ -75,22 +157,6 @@ OR
 git clone https://github.com/Condor-Performance-Modeling/how-to.git
 ```
 
-```
-These are unformatted notes from Kiran's try to use these instructions
-
-In VCAD you need to add
-  -  export https_proxy=http://aw01-proxy:3129
-
-Create ssh keys on VCAD  <add instructions on how>
-Add those to your github account <add instructions>
-From a session on the main vcad do this
-  - (base) [564] aw01ut01 ../cuzco > chmod 700 ~/.ssh
-  - (base) [565] aw01ut01 ../cuzco > chmod 600 ~/.ssh/*
-  - ssh aw01lv03
-```
-
-
-
 --------------------------------------
 # Set local environment variables
 
@@ -99,7 +165,7 @@ are shared with other build instructions.
 
 The new location is [LINK](./SET_LOCAL_ENV.md)
 
-Without the details, you can just do this:
+If you do not want the details you can safely just do this:
 
 ```
 cd condor
@@ -609,6 +675,29 @@ Proceed with the build.
     make
     cp build-Linux/whisper $TOOLS/bin
 ```
+
+<!--
+
+------------------------------------------------------------------------
+# Build the STF analysis tools
+
+Performance analysis uses a mix of Condor created tools and external tools.
+A set of external tools is provided for STF analysis and data mining. I
+have made changes to these tools for use by the CPM flow.
+
+The original git repo is under the sparcians group, and is located here:
+https://github.com/sparcians/stf_tools
+
+The version used by CPM is located in a Condor managed repo. This repo
+retains the original license etc.
+
+To build the STF analysis tools:
+
+```
+	cd $TOP
+
+--> 
+
 
 ------------------------------------------------------------------------
 # Build the benchmark suite
