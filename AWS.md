@@ -208,17 +208,43 @@ STOPPED HERE
 I follow these instructions [LINK](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/managing-users.html#create-user-account)
 
 ## Create key/pair
-https://us-west-2.console.aws.amazon.com/ec2/home?region=us-west-2#Home:
-
-Select Keypairs
-Select Create keypair
-For Name user USER name
-Select RSA, and .pem
-Move the generated file someplace
-Load the PEM file into puttygen
-Cut and paste the public key into a text file 
+- Goto https://us-west-2.console.aws.amazon.com/ec2/home?region=us-west-2#Home:
+- Select Keypairs
+- Select Create keypair
+- For Name user USER name
+- Select RSA, and .pem
+- Move the generated file someplace
+- Load the PEM file into puttygen
+- Cut and paste the public key into a text file 
     - the instructions above go through this.
+- ftp <newuser>.pem file to aws instance
 
+## On the instance: change the permissions and create pub key
+
+```
+chmod 400 <newuser>.pem 
+ssh-keygen -y -f <newuser>.pem   >   <newuser>.id_rsa.pub
+```
+
+## Create the user account
+
+outserv-x
+
+```
+sudo adduser --home /home/outserv-x --shell /bin/bash --ingroup ccusers --disabled-password outserv-x
+
+sudo usermod -a -G contractor
+sudo usermod -a -G condorperf
+```
+
+```
+sudo su -- outserv-x
+cd
+mkdir .ssh
+chmod 700 .ssh
+touch .ssh/authorized_keys
+vi .ssh/autorized_keys
+<read in the <newuser>.id_rsa.pub into this file
 STOPPED HERE
 
 
