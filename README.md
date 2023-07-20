@@ -14,18 +14,7 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Boot strapping the environment](#boot-strapping-the-environment)
 
-1. [Clone the CPM repo's](#clone-the-cpm-repos)
-
-1. [Set local environment variables](#set-local-environment-variables)
-
-1. [Install the Ubuntu collateral](#install-the-ubuntu-collateral)
-
-1. [Install riscv gnu tool chain](#install-riscv-gnu-tool-chain)
-
-    
 1. [Build STF Lib](#build-stf-lib)
-
-1. [Install Miniconda](#install-miniconda)
 
 1. [Build/Install MAP](#build-install-map)
 
@@ -66,6 +55,9 @@ In order to proceed you need a linux machine with git installed. In
 production this machine would be part of the C-AWS domain.
 
 ## C-AWS and VCAD
+<details>
+  <summary>Details</summary>
+
 There are two* Ubuntu environments at present, Condor AWS aka C-AWS, and 
 VCAD. C-AWS is Condor managed, with assistance from OutServ. 
 
@@ -75,8 +67,9 @@ you are creating a CPM environment in VCAD.
 *Caveat: You can also use these instructions on a local machine not under 
 C-AWS. The long term solution is to use your C-AWS account and resources. 
 
-## Send Jeff your GitHub account name
+</details>
 
+## Become member of Github CPM organization
 You must be a member of Condor Performance Modeling (CPM) GitHub 
 organization before you can access the private repos in this list.
 
@@ -84,18 +77,23 @@ Send me your account name via slack or email. I will send you back a
 note when I have added your account to CPM.
 
 ## Request an account on C-AWS
-
 You can skip this step short term, if you are running on a local linux machine.
+<details>
+  <summary>Details</summary>
 
 Send me a slack or email telling me you need a C-AWS account. I will send
 you back the instructions on how to get an account and then how to access
 it.  I'm doing it this way to avoid exposing the process, sorry.
+</details>
 
 ## Create and register your ssh keys.
 
 Once you have access to a linux machine generate your public SSH keys. You will
 add this key to your github account. You need to do this for each machine that
 will clone or push to the CPM repo.
+
+<details>
+  <summary>Details</summary>
 
 ### Create you keys
 
@@ -134,7 +132,7 @@ Follow the instructions [GITHUB-2](https://docs.github.com/en/authentication/con
 
 Note your ssh public key is in this file $HOME/.ssh/id_rsa.pub. The contents
 of this file are pasted at step 7.
-
+</details>
 
 ## Clone the CPM repos
 
@@ -162,8 +160,7 @@ git clone git@github.com:Condor-Performance-Modeling/utils.git
 
 <!-- git clone git@github.com:Condor-Performance-Modeling/benchmarks.git -->
 
---------------------------------------
-# Set local environment variables
+## Setup the build environment variables
 
 I have moved the instructions to a separate file because the instructions 
 are shared with other build instructions.
@@ -177,8 +174,13 @@ cd condor
 source how-to/env/setuprc.sh
 ```
 
---------------------------------------
-# Install the Ubuntu collateral
+## Install the Ubuntu collateral
+
+This will be done once for everyone. If you are not setting up a new machine 
+you can skip this step.
+
+<details>
+  <summary>Details</summary>
 
 Install the Ubuntu support packages:
 
@@ -198,9 +200,9 @@ All in one line for easy cut/paste:
 ```
 sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjson-dev xz-utils autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler libboost-all-dev libsqlite3-dev libhdf5-serial-dev libzstd-dev gcc-multilib qt5-dev qt5-qmake pkg-config clang-tidy npm nodejs
 ```
+</details>
 
---------------------------------------
-# Install RISCV GNU Tool Chain
+## Install RISCV GNU Tool Chain
 
 Some estimates say ~7GB of space is needed for these tools.
 
@@ -220,8 +222,7 @@ Example:
   ln -s /usr/local/riscv64-unknown-linux-gnu
 ```
 
-----------------------------------------------------------
-# Install Miniconda
+## Install Miniconda
 
 Miniconda package manager is used by Sparcians.
 
@@ -356,6 +357,8 @@ the proper stf patches already applied.
 # Build Fast Dromajo
 
 This set is optional if you do not need STF generation.
+<details>
+  <summary> Details</summary>
 
 This verision of Dromajo is fast but does not include STF trace generation
 support. 
@@ -374,6 +377,7 @@ mkdir -p build; cd build
 cmake ..
 make -j8
 ```
+</details>
 
 ------------------------------------------------------------------------
 # Build the Linux kernel and file system
@@ -430,6 +434,10 @@ This final make is not expected to fail.
 ------------------------------------------------------------------------
 # Build OpenSBI
 ### PATH check
+If you have done this previously you can skip the path check
+<details>
+  <summary> Details</summary>
+
 Check that riscv64-unknown-linux-gnu-gcc is in your path.
 ```
 which riscv64-unknown-linux-gnu-gcc
@@ -442,6 +450,7 @@ CROSS_COMPILE is now set in the CPM environment RC file.  To set it manually:
 ```
 export CROSS_COMPILE=riscv64-unknown-linux-gnu-
 ```
+</details>
 
 ### Download and compile OpenSBI
 ```
