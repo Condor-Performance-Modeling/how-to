@@ -4,6 +4,7 @@ unset TOP; export TOP=`pwd`
 unset BENCHMARKS; export BENCHMARKS=$TOP/benchmarks
 unset BUILDROOT; export BUILDROOT=$TOP/buildroot-2020.05.1
 unset CPM_ENV; export CPM_ENV=$TOP/how-to/env
+unset CPM_DROMAJO; export CPM_DROMAJO=$TOP/cpm.dromajo
 unset DROMAJO; export DROMAJO=$TOP/dromajo
 unset KERNEL; export KERNEL=$TOP/linux-5.8-rc4
 unset MAP; export MAP=$TOP/map

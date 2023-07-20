@@ -33,13 +33,15 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Using pipeline data views](#using-pipeline-data-views)
 
-1. [Build Dromajo](#build-dromajo)
+1. [Build CPM Dromajo](#build-cpm-dromajo)
 
 1. [Build the Linux kernel](#build-the-linux-kernel)
 
 1. [Build the Linux file system](#build-the-linux-file-system)
 
-1. [Boot Linux on Dromajo](#boot-linux-on-dromajo)
+1. [Boot Linux on CPM Dromajo](#boot-linux-on-cpm-dromajo)
+
+1. [Build fast Dromajo](#build-fast-dromajo)
 
 1. [Build Spike](#build-spike)
 
@@ -49,7 +51,7 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Build the benchmark suite](#build-the-benchmark-suite)
 
-1. [Running programs on Dromajo](#running-programs-on-dromajo)
+1. [Running programs on CPM Dromajo](#running-programs-on-cpm-dromajo)
 
 1. [Perf flow to-do list](#perf-flow-to-do-list)
 
@@ -156,8 +158,9 @@ mkdir condor
 cd condor
 git clone git@github.com:Condor-Performance-Modeling/how-to.git
 git clone git@github.com:Condor-Performance-Modeling/utils.git
-git clone git@github.com:Condor-Performance-Modeling/benchmarks.git
 ```
+
+<!-- git clone git@github.com:Condor-Performance-Modeling/benchmarks.git -->
 
 --------------------------------------
 # Set local environment variables
@@ -329,39 +332,16 @@ STF is a library supporting the Simulation Trace Format.
 ```
 
 ----------------------------------
-# Build Dromajo
-
-This verision of Dromajo is fast but does not include STF trace generation
-support. For now the tracing version is maintained as a separate build.
-
-The optimizations which make Dromajo fast are structurally present in the
-instruction decode and execute loop. With time I will create patch files
-that allow tracing or turn off tracing and recover the model speed.
-
-For now there are two distinct builds.
-
-```
-git clone https://github.com/chipsalliance/dromajo
-cd $DROMAJO
-ln -s ../stf_lib
-mkdir -p build; cd build
-cmake ..
-make -j8
-
-
-----------------------------------
 # Build CPM Dromajo
 
-CPM Dromajo is enabled for generating STF traces. Tracing adds overhead
-to Dromajo execution. If you do not need STF trace generation the standard
-dromajo will perform much better.
+CPM Dromajo is a patched version of Dromajo enabled for generating STF traces.
+Tracing adds overhead to Dromajo execution. If you do not need STF trace 
+generation the unpatched dromajo will perform much better. See 
+'Build Fast Dromajo'
 
-
-The original README for adding tracing to dromajo is in the olympia 
-traces readme,  $OLYMPIA/traces/README.md
-
-This fork of dromajo has the proper stf patches already applied. 
-
+For reference: the original README for adding tracing to dromajo is in the 
+olympia traces readme, $OLYMPIA/traces/README.md. This fork of dromajo has 
+the proper stf patches already applied. 
 ```
   cd $TOP
   git clone git@github.com:Condor-Performance-Modeling/dromajo.git cpm.dromajo
@@ -372,46 +352,28 @@ This fork of dromajo has the proper stf patches already applied.
   make -j8
 ```
 
-<!-- The original repo is here, above is our fork                  -->
-<!-- A patch is supplied to modify Dromajo to generate STF traces. -->
-<!-- These steps clone the repo, checkout the known compatible     -->
-<!-- commit and patch the source.                                  -->
-<!-- git clone https://github.com/chipsalliance/dromajo            -->
-<!-- git checkout 86125b31                                         -->
-<!-- git apply $PATCHES/dromajo_stf_lib.patch                      -->
-<!-- ln -s ../stf_lib                                              -->
-<!-- fix the CMakelists.txt file c++17 line 53                     -->
+----------------------------------
+# Build Fast Dromajo
 
-<!-- OLD No longer necessary with fork, FIXME: rename repo to cpm.dromajo
+This set is optional if you do not need STF generation.
 
-## Correct cmake files 
+This verision of Dromajo is fast but does not include STF trace generation
+support. 
 
-stf_lib/stf-config.cmake must be edited for correct compile.
+The optimizations which make Dromajo fast are structurally present in the
+instruction decode and execute loop. With time I will create patch files
+that enable/disable tracing with in a single build and retain the performance
+when tracing is not enabled.
 
+For now there are two distinct builds.
 ```
-    cd $DROMAJO
-    vi $OLYMPIA/stf_lib/cmake/stf-config.cmake
-    change line ~14 to (remove _GLOBAL):
-        set_target_properties(Threads::Threads PROPERTIES IMPORTED TRUE)
-    vi ./CMakeLists.txt
-    change line ~53 to (change std to ++17)
-        -std=c++17
+git clone https://github.com/chipsalliance/dromajo
+cd $DROMAJO
+ln -s ../stf_lib
+mkdir -p build; cd build
+cmake ..
+make -j8
 ```
--->
-
-<!-- OLD No longer necessary with fork, FIXME: rename repo to cpm.dromajo
-
-## Verify patch
-
-Check if patch worked, dromajo should have the --stf_trace option
-
-```
-    cd $DROMAJO/build
-    ./dromajo | grep stf_trace
-    console:
-        --stf_trace <filename>  Dump an STF trace
-```
--->
 
 ------------------------------------------------------------------------
 # Build the Linux kernel and file system
@@ -450,7 +412,7 @@ This is not optimal, it is the current work around for issues in c-stack.c, and 
 cd $TOP
 wget --no-check-certificate https://github.com/buildroot/buildroot/archive/2020.05.1.tar.gz
 tar xf 2020.05.1.tar.gz
-cp dromajo/run/config-buildroot-2020.05.1 buildroot-2020.05.1/.config
+cp $CPM_DROMAJO/run/config-buildroot-2020.05.1 buildroot-2020.05.1/.config
 make -C buildroot-2020.05.1
 ```
 This will fail, so patch the file and make again
@@ -489,13 +451,31 @@ export CROSS_COMPILE=riscv64-unknown-linux-gnu-
   make PLATFORM=generic -j8
 ```
 ------------------------------------------------------------------------
-# Boot Linux on Dromajo
+# Boot Linux on the Dromajo(s)
 
-The above steps create the necessary collateral to boot linux on
-dromajo.
+The above steps create the necessary collateral to boot linux on either 
+Dromajo version.
 
-## Copy collateral and boot linux
-Copy the images/etc from the BuildRoot step to the Dromajo run directory.
+If you need STF generation use $CPM_DROMAJO, else $DROMAJO is the faster
+version.
+
+login is root, password is root for both versions.
+
+## CPM DROMAJO - copy collateral and boot linux 
+Copy the images/etc from the BuildRoot step to the CPM Dromajo run directory.
+```
+  cd $CPM_DROMAJO/run
+  cp $BUILDROOT/output/images/rootfs.cpio .
+  cp $KERNEL/arch/riscv/boot/Image .
+  cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin .
+  cp $PATCHES/boot.cfg .
+  ../build/dromajo --stf_trace example.stf --ctrlc boot.cfg
+```
+
+Control C exit is enabled in this version.
+
+## Fast DROMAJO - copy collateral and boot linux 
+Copy the images/etc from the BuildRoot step to the Fast Dromajo run directory.
 
 ```
   cd $DROMAJO/run
@@ -505,7 +485,6 @@ Copy the images/etc from the BuildRoot step to the Dromajo run directory.
   cp $PATCHES/boot.cfg .
   ../build/dromajo --ctrlc boot.cfg
 ```
-login is root, password is root
 
 --ctrlc allows Control-C to exit the simulator. Without --ctrlc use kill
 to terminate eh simulator.
@@ -569,29 +548,8 @@ Proceed with the build.
     cp build-Linux/whisper $TOOLS/bin
 ```
 
-<!--
-
-------------------------------------------------------------------------
-# Build the STF analysis tools
-
-Performance analysis uses a mix of Condor created tools and external tools.
-A set of external tools is provided for STF analysis and data mining. I
-have made changes to these tools for use by the CPM flow.
-
-The original git repo is under the sparcians group, and is located here:
-https://github.com/sparcians/stf_tools
-
-The version used by CPM is located in a Condor managed repo. This repo
-retains the original license etc.
-
-To build the STF analysis tools:
-
-```
-	cd $TOP
-
---> 
-
-
+<!-- 
+I need to fix this section
 ------------------------------------------------------------------------
 # Build the benchmark suite
 
@@ -599,24 +557,16 @@ The Condor benchmark repo uses a mix of submodules and copies of external
 repos. The copies contain source modified from the original repo to enable
 STF generation.
 
-## Cloning the benchmark repo
+## Cloning and build the benchmark repo
 
 ```
 cd $TOP
 git clone git@github.com:Condor-Performance-Modeling/benchmarks.git
-cd benchmarks
+cd $BENCHMARKS
 git submodule update --init --recursive
-```
+export RISCV=$RV_BAREMETAL_TOOLS
+make 
 
-## Building coremark
-
-You must set the RISCV environment macro to the location of your
-RISCV tool chain.
-
-```
-  cd $BENCHMARKS
-  export RISCV=$RV_BAREMETAL_TOOLS
-	make coremark
 ```
 
 The results will be in bin.
@@ -667,7 +617,9 @@ done through a confluence page, for now I"m doing this in a side
 .md file. 
 
 This is the current [LINK](./BENCHSTATUS.md).
+-->
 
+<!-- I need to verify this section
 ------------------------------------------------------------------------
 # Running programs on Dromajo
 
@@ -705,7 +657,9 @@ MAIN\_RETURN\_TYPE main(int argc, char *argv[]) {
 }  
 
 ```
+-->
 
+<!-- I need to verify this section
 ### Adding the instrumented exe to the linux image and running Dromajo
 
 This assumes you have previously built the benchmark suite. 
@@ -723,15 +677,17 @@ Dromajo's run directory. Finally executing on Dromajo
   cd $DROMAJO/run
   ../build/dromajo --stf_trace my_trace.zstf boot.cfg
 ```
+-->
+
 <!-- sudo cp $BENCHMARKS/bin/coremark.riscv $BUILDROOT/output/target/sbin -->
 <!-- some versions require --ctrlc, some do not accept it        -->
 <!-- ../build/dromajo --ctrlc --stf_trace my_trace.zstf boot.cfg -->
 
+<!--  I need to verify this section
 </i>
 Once linux has booted and login is complete, the application will be
 found in /sbin. In this example the executable will be 
 /sbin/coremark.riscv.
-
 
 ## Running a bare metal exe on Dromajo directly
 
@@ -749,7 +705,30 @@ Dromajo run directory and issue this command
 ```
 
 ### Running an uninstrumented exe on Dromajo for standard trace generation
+-->
 
+<!--
+------------------------------------------------------------------------
+# Build the STF analysis tools
+
+Performance analysis uses a mix of Condor created tools and external tools.
+A set of external tools is provided for STF analysis and data mining. I
+have made changes to these tools for use by the CPM flow.
+
+The original git repo is under the sparcians group, and is located here:
+https://github.com/sparcians/stf_tools
+
+The version used by CPM is located in a Condor managed repo. This repo
+retains the original license etc.
+
+To build the STF analysis tools:
+
+```
+	cd $TOP
+```
+--> 
+
+<!-- This section needs to be updated
 ---------
 # Using pipeline data views
 
@@ -791,6 +770,9 @@ This assumes you have followed the instructions above for these steps.
 ```
     python3 ${MAP}/helios/pipeViewer/pipe_view/argos.py --database pipeout_ --layout-f
 ```
+-->
+
+<!-- This section needs clean up
 --------------------------------------
 # External references
 
@@ -878,3 +860,5 @@ For now this list is kept here. I might move it later.
     - <move stf file>
     - $> ./run.coremark-pro.sh zip      (done)
     - <move stf file>
+
+-->
