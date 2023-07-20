@@ -14,35 +14,33 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Boot strapping the environment](#boot-strapping-the-environment)
 
-1. [Build STF Lib](#build-stf-lib)
-
 1. [Build/Install MAP](#build-install-map)
 
 1. [Build/Install Olympia](#build-install-olympia)
 
-1. [Using pipeline data views](#using-pipeline-data-views)
+1. [Build STF Lib](#build-stf-lib)
 
 1. [Build CPM Dromajo](#build-cpm-dromajo)
 
-1. [Build the Linux kernel](#build-the-linux-kernel)
-
-1. [Build the Linux file system](#build-the-linux-file-system)
-
-1. [Boot Linux on CPM Dromajo](#boot-linux-on-cpm-dromajo)
-
 1. [Build fast Dromajo](#build-fast-dromajo)
+
+1. [Build the Linux kernel and file system](#build-the-linux-kernel-and-file-system)
+
+1. [Build OpenSBI](#build-opensbi)
+
+1. [Boot Linux on the Dromajo(s)](#boot-linux-on-the-dromajos)
 
 1. [Build Spike](#build-spike)
 
 1. [Build Whisper](#build-whisper)
 
+<!--
 1. [Build the analysis tool suite](#build-the-analysis-tool-suite)
-
 1. [Build the benchmark suite](#build-the-benchmark-suite)
-
 1. [Running programs on CPM Dromajo](#running-programs-on-cpm-dromajo)
-
 1. [Perf flow to-do list](#perf-flow-to-do-list)
+1. [Using pipeline data views](#using-pipeline-data-views)
+-->
 
 --------------------------------------
 # Boot strapping the environment
@@ -136,10 +134,11 @@ of this file are pasted at step 7.
 
 ## Clone the CPM repos
 
-Login into your C-AWS account. 
-
-Clone the how-to repo locally, it contains settings which are assumed by
+Clone the How-To repo locally, it contains settings which are assumed by
 the remaining instructions, as well as patches for the tools.
+
+<details>
+  <summary>Details</summary>
 
 The process is:
 
@@ -157,6 +156,7 @@ cd condor
 git clone git@github.com:Condor-Performance-Modeling/how-to.git
 git clone git@github.com:Condor-Performance-Modeling/utils.git
 ```
+</details>
 
 <!-- git clone git@github.com:Condor-Performance-Modeling/benchmarks.git -->
 
@@ -204,13 +204,17 @@ sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjs
 
 ## Install RISCV GNU Tool Chain
 
+Note: For now ask me where these tools are kept, once Outserv is done 
+these will have a fixed home, e.g. /usr/local
+
+<details>
+  <summary>Details</summary>
+
 Some estimates say ~7GB of space is needed for these tools.
 
 There are pre-built versions of the bare metal and linux tools. See
 Jeff to get the link. These versions can save hours of compile time.
 
-Note: For now ask me where they are, once Outserv is done these will have
-a fixed home, likely /usr/local/....
 
 <!-- For the DIY-ers see this page: [LINK](./CROSS_TOOL_CHAIN.md) -->
 <!-- I have not checked this in a while, commented until i can check it -->
@@ -221,10 +225,14 @@ Example:
   ln -s /usr/local/riscv64-unknown-elf
   ln -s /usr/local/riscv64-unknown-linux-gnu
 ```
+</details>
 
 ## Install Miniconda
 
 Miniconda package manager is used by Sparcians.
+
+<details>
+  <summary>Details</summary>
 
 In accepting the license:
 
@@ -239,6 +247,8 @@ startup
 - conda config --set auto_activate_base false
 
 - I am not executing this command
+
+</details>
 
 ```
 cd $TOP
