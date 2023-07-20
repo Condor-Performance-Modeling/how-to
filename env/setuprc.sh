@@ -21,4 +21,5 @@ unset WHISPER; export WHISPER=$TOP/whisper
 # export WGETTMP=$TOP/how-to/downloads
 unset WGETTMP; export WGETTMP=/tmp
 unset RISCV_PREFIX; export RISCV_PREFIX=riscv64-unknown-elf-
+unset CROSS_COMPILE; export CROSS_COMPILE=riscv64-unknown-linux-gnu-
 #unset RISCV; export RISCV=$TOP/riscv64-unknown-elf

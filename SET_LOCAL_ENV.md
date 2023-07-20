@@ -18,7 +18,6 @@ The script is sourced while in the condor directory.
 
 ```
 cd condor
-mkdir Downloads
 source how-to/env/setupenv.sh
 ```
 
@@ -40,6 +39,10 @@ Once the script is sourced these variables will exist in your current shell.
 - CPM_ENV
     - A directory with environment scripts and resource files
     - <b>export CPM_ENV=$TOP/how-to/env</b>
+
+- CROSS_COMPILE
+    - Used by the linux build process
+    - <b>export CROSS_COMPILE=riscv64-unknown-linux-gnu-</b>
 
 - DROMAJO
     - This var points to the dromajo under riscv-perf-model
@@ -77,8 +80,27 @@ Once the script is sourced these variables will exist in your current shell.
     - This var points to the tool chain source directory
     - <b>export RV_TOOLS_SRC=$TOP/riscv-gnu-toolchain</b>
 
+- SPIKE
+    - This var points to riscv-isa-sim aka Spike
+    - <b>export $TOP/riscv-isa-sim</b>
+
+- TOOLS
+    - Tools install directory
+    - <b>export $TOP/tools</b>
+
+- VEER
+    - This var points to the Veer golden model aka Whisper
+    - <b>export $TOP/whisper</b>
+
+- WHISPER
+    - alias for the above
+    - <b>export $TOP/whisper</b>
+
 - WGETTMP
     - Some packages require manual download using wget.
     - This a temporary directory for that purpose.
     - <b>export WGETTMP=/tmp</b>
 
+- RISCV_PREFIX
+    - Used by the baremetal build process
+    - <b> export RISCV_PREFIX=riscv64-unknown-elf-</b>

@@ -14,22 +14,22 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Boot strapping the environment](#boot-strapping-the-environment)
 
+1. [Clone the CPM repo's](#clone-the-cpm-repos)
+
 1. [Set local environment variables](#set-local-environment-variables)
 
 1. [Install the Ubuntu collateral](#install-the-ubuntu-collateral)
 
 1. [Install riscv gnu tool chain](#install-riscv-gnu-tool-chain)
+
     
 1. [Build STF Lib](#build-stf-lib)
 
-1. [Install MAP](#install-map)
+1. [Install Miniconda](#install-miniconda)
 
-    1. [Install Miniconda](#install-miniconda)
-    1. [Install Conda components](#install-conda-components)
-    1. [Build and install Map](#build-and-install-map)
-    1. [Build and install Helios/Argos](#build-and-install-helios-argos)
+1. [Build/Install MAP](#build-install-map)
 
-1. [Install Olympia](#install-olympia)
+1. [Build/Install Olympia](#build-install-olympia)
 
 1. [Using pipeline data views](#using-pipeline-data-views)
 
@@ -56,90 +56,92 @@ perf modeling environment and provide instructions on how to use it.
 --------------------------------------
 # Boot strapping the environment
 
-Presumably you are reading this how-to from the web or a local copy. The
-instructions in subsequent sections use the paths and environment
-variables created here. Follow these steps:
+Presumably you are reading this how-to from the web or a local copy.  This
+section contains instructions to boot strap the Condor Performance Modeling 
+(CPM) environment.
 
-There are two Ubuntu environments at present, Condor AWS aka C-AWS, and 
-VCAD. C-AWS is Condor managed, with assistance from OutServ. Contact Jeff
-if you need support. VCAD is a Cadence layer over AWS. Instructions which
-are specific to an environment are marked. Unmarked instructions apply to
-both environments
+In order to proceed you need a linux machine with git installed. In 
+production this machine would be part of the C-AWS domain.
 
-In both cases I(Jeff) have to add you to the Condor Performance Modeling 
-GitHub group before you can access the private repos in this list. Send me
-a GitHub account name in slack or email.
+## C-AWS and VCAD
+There are two* Ubuntu environments at present, Condor AWS aka C-AWS, and 
+VCAD. C-AWS is Condor managed, with assistance from OutServ. 
+
+These instructions are not for the VCAD environment. See Jeff if 
+you are creating a CPM environment in VCAD.
+
+*Caveat: You can also use these instructions on a local machine not under 
+C-AWS. The long term solution is to use your C-AWS account and resources. 
 
 ## Send Jeff your GitHub account name
 
 You must be a member of Condor Performance Modeling (CPM) GitHub 
 organization before you can access the private repos in this list.
 
-Send me your account via slack or email. I will send you back the same
-once I have added you to CPM.
+Send me your account name via slack or email. I will send you back a
+note when I have added your account to CPM.
 
-## (C-AWS) Send Jeff your VCAD user name and ID's
+## Request an account on C-AWS
 
-To create your C-AWS account I need your VCAD account name along with the 
-output of the ID command. Do this in VCAD
+You can skip this step short term, if you are running on a local linux machine.
+
+Send me a slack or email telling me you need a C-AWS account. I will send
+you back the instructions on how to get an account and then how to access
+it.  I'm doing it this way to avoid exposing the process, sorry.
+
+## Create and register your ssh keys.
+
+Once you have access to a linux machine generate your public SSH keys. You will
+add this key to your github account. You need to do this for each machine that
+will clone or push to the CPM repo.
+
+### Create you keys
+
 ```
-linux> id
-uid=123456(jeffnye) gid=789(ccusers) groups=654(ccusers),1111(condorperf),2222(cuzco)
-```
-
-Once I have created your C-AWS account I will send you slack/email.
-
-## (C-AWS) Send Jeff your VCAD user name and ID's
-
-Note: We are contracting an IT service company to manage C-AWS users. I will
-update the instructions when this transition happens. 
-
-In the meantime, once I have let you know you have an C-AWS account, to 
-access it follow the instructions found here [LINK](./AWS.md)
-
-## (C-AWS/VCAD) Creating ssh keys
-
-These key generation instructions assume you will use the default naming.
-The exception is do not use an empty passphrase. Once created change the file
-permissions explicitly.
-```
-	aw01ut01 ../~ > cd $HOME
-	aw01ut01 ../~ > ssh-keygen
+  aw01ut01: cd $HOME
+  aw01ut01: ssh-keygen
 
   Enter file in which to save the key (some/path): 
   Enter passphrase (empty for no passphrase): <your passphrase>
-  Enter same passphrase again: <your passphrase>
-
-  aw01ut01 ../~ > chmod 700 ~/.ssh
-  aw01ut01 ../~ > chmod 600 ~/.ssh/*
 ```
 
-## (C-AWS/VCAD) Adding keys to your GitHub account
+<b>Do not use an empty passphrase. </b>
 
-Add your ssh key(s) to your GitHub account. 
+```
+  Enter same passphrase again: <your passphrase>
 
-GitHub provides instructions here: [LINK](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account?platform=windows). 
+  aw01ut01> chmod 700 ~/.ssh
+  aw01ut01> chmod 600 ~/.ssh/*
+```
 
-This URL was accurate at the time of writing (2023.06.23).  Slack Jeff if 
-this is no longer up to date.
+You will use your passphrase in place of a password when cloning and pushing.
 
-## (VCAD) Set the http proxy environment variable.
+### Add your keys to ssh-agent
 
-To access GitHub and other domains you must set the http_proxy environment
-variable in the shell you are using. I am not documenting this publicly,
-send me slack/email if you need the setting.
+```
+  eval `ssh-agent`
+  ssh-add -K $HOME/.ssh/id_rsa
 
-This info is also available inside Condor at this private URL:
-https://condorcomp.atlassian.net/wiki/spaces/CC/pages/1572972/How+To#HTTPS_PROXY
+```
 
-## (C-AWS/VCAD) Clone the how-to repo
+More details can be found [GITHUB](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) and [ATLASSIAN](https://www.atlassian.com/git/tutorials/git-ssh)
 
-Login into your environment. The remaining instructions are not specific
-to the environment. 
+### Register your keys with github
 
-The How-To repo contains files, patches, environment settings and other 
-instructions used in the remaining steps.  Once the above is done clone 
-the how-to repo.
+Follow the instructions [GITHUB-2](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
+
+Note your ssh public key is in this file $HOME/.ssh/id_rsa.pub. The contents
+of this file are pasted at step 7.
+
+
+## Clone the CPM repos
+
+Login into your C-AWS account. 
+
+Clone the how-to repo locally, it contains settings which are assumed by
+the remaining instructions, as well as patches for the tools.
+
+The process is:
 
 - Change directory to the place you want to install condor tools 
   and environment.
@@ -153,8 +155,8 @@ the how-to repo.
 mkdir condor
 cd condor
 git clone git@github.com:Condor-Performance-Modeling/how-to.git
-OR
-git clone https://github.com/Condor-Performance-Modeling/how-to.git
+git clone git@github.com:Condor-Performance-Modeling/utils.git
+git clone git@github.com:Condor-Performance-Modeling/benchmarks.git
 ```
 
 --------------------------------------
@@ -169,7 +171,7 @@ If you do not want the details you can safely just do this:
 
 ```
 cd condor
-source how-to/env/setupenv.sh
+source how-to/env/setuprc.sh
 ```
 
 --------------------------------------
@@ -202,42 +204,29 @@ Some estimates say ~7GB of space is needed for these tools.
 There are pre-built versions of the bare metal and linux tools. See
 Jeff to get the link. These versions can save hours of compile time.
 
-For the DIY-ers see this page: [LINK](./CROSS_TOOL_CHAIN.md)
+Note: For now ask me where they are, once Outserv is done these will have
+a fixed home, likely /usr/local/....
 
----------
+<!-- For the DIY-ers see this page: [LINK](./CROSS_TOOL_CHAIN.md) -->
+<!-- I have not checked this in a while, commented until i can check it -->
 
-# Build STF Lib
-
-STF is a library supporting the Simulation Trace Format.
-
+Example:
 ```
-    cd $TOP
-    git clone https://github.com/sparcians/stf_lib.git
-    cd stf_lib
-    git checkout 742037fb80bfe97cb27d7063e24f9bb60b0144f3
-    mkdir -p release; cd release
-    cmake -DCMAKE_BUILD_TYPE=Release ..
-    make -j8
+  cd $TOP
+  ln -s /usr/local/riscv64-unknown-elf
+  ln -s /usr/local/riscv64-unknown-linux-gnu
 ```
 
 ----------------------------------------------------------
-# Install MAP
-
-This section builds and installs Map and it's components, the conda
-environment, Sparta, and Helios/Argos
-
-## Install Miniconda
+# Install Miniconda
 
 Miniconda package manager is used by Sparcians.
 
 In accepting the license:
 
 - I am using the default install location
-
 - I am allowing the installer to run conda init
-
 - I am allowing the installer to modify my .bashrc
-
 - I manually move the conda init lines from .bashrc to my .bashrc.private
 
 The instructions tell you how to disable miniconda activation at 
@@ -248,212 +237,139 @@ startup
 - I am not executing this command
 
 ```
-cd $WGETTMP
+cd $TOP
+
 wget --no-check-certificate https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
 sh ./Miniconda3-latest-Linux-x86_64.sh
+
+Do you accept the license terms? [yes|no]
+[no] >>> yes
+
+Do you wish the installer to initialize Miniconda3
+by running conda init? [yes|no]
+[no] >>> yes
+
 ```
 
-<i> Make sure you move the added .bashrc lines to a private rc file if 
-you are in a managed environment.</i>
+<i> if you are in a managed environment, like VCAD, make sure you move the 
+added .bashrc lines to a private rc file.</i>
 
-## Active conda
+<b>Close this terminal and open a new terminal</b>
 
-Start a new shell to activate conda, your prompt should look similar to this:
+Your prompt should start with <b>(base)</b>
 
-```
-(base) jeff@reynaldo:~/Development/condor
-```
-
-Then re-source the CPM environment script.
+## Install the Miniconda components
 
 ```
 cd <workspace>/condor
 source how-to/env/setuprc.sh
+
+conda activate
+conda install -c conda-forge jq
+Proceed ([y]/n)? y
+conda install -c conda-forge yq
+Proceed ([y]/n)? y
 ```
 
 ----------------------------------------------------------
-## Clone map and it's components
+# Build/Install MAP
+
+This section builds and installs Map and it's components: Sparta and Sparta's 
+conda environment, and Helios/Argos
 
 ```
-    cd $TOP
-    git clone https://github.com/sparcians/map.git
-    cd map
-    previous: git checkout 277037f3cc2594df0ba04e3ad92d41d95e9ea3f9
-    broken:   git checkout map_v2
+  cd $TOP
+  git clone https://github.com/sparcians/map.git
+  cd $MAP
+  ./scripts/create_conda_env.sh sparta dev
+  conda activate sparta
 ```
-
-## Patch the source files (for Olympia)
-
-<b>FIXME: Create actual patch files, for now copy the pre-edited files</b>
-
-If you are building Olympia (riscv-perf-model) then copy over these two files.
+Your prompt should now start with (sparta)
 
 ```
-    cd $MAP/sparta
-    cp $PATCHES/TreeNodeExtensions.cpp $MAP/sparta/src/TreeNodeExtensions.cpp
-    cp $PATCHES/TreeNodeExtensions.hpp $MAP/sparta/sparta/simulation/TreeNodeExtensions.hpp
+  cd $MAP/sparta; mkdir release; cd release
+  cmake .. -DCMAKE_BUILD_TYPE=Release
+  make -j8
+  cmake --install . --prefix $CONDA_PREFIX
+  cd $MAP/helios; mkdir release; cd release
+  cmake -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta ..
+  make -j8
+  cmake --install . --prefix $CONDA_PREFIX
 ```
-
-## Install Conda components
-
-If not already active, activate the conda environment
-
-```
-  conda activate
-```
-
-Install the conda packages, activate the sparta conda environment
-
-```
-    cd $MAP
-    conda install -c conda-forge jq 
-    conda install -c conda-forge yq
-    ./scripts/create_conda_env.sh sparta dev
-```
-
-<!-- during this the following warnings are issues, FIXME check into these
-are they harmless? 
-WARNING:conda_build.render:Returning non-final recipe for map-map_v1.1.0-4_h1234567_g277037f3; one or more dependencies was unsatisfiable:                      
-Build: llvm-tools, clangxx, boost, python, doxygen, clang, rsync, cppcheck      
-WARNING:conda_build.render:Build: llvm-tools, clangxx, boost, python, doxygen, clang, rsync, cppcheck                                                           
-Host: hdf5, boost-cpp, python
-WARNING:conda_build.render:Host: hdf5, boost-cpp, python
--->
-
-Now active the sparta environment
-
-```
-    conda activate sparta
-```
-
-<!--
-#    cd $(git rev-parse --show-toplevel);
-#    mkdir -p release; cd release
-#    mkdir helios
--->
-
-A successfully activated sparta/conda environment will change your 
-prompt to (sparta):
-
-```
-(sparta) jeff@reynaldo:~/Development/condor/map
-```
-
-<!--
-For future reference the commands to activate and deactivate are shown. These can be issued in any directory.
-```
-> conda activate sparta                                                   
-> conda deactivate 
-```
--->
-
-## Build map and sparta
-
-```
-    conda activate sparta
-    cd $MAP/sparta
-    mkdir release; cd release
-    cmake .. -DCMAKE_BUILD_TYPE=Release
-    make -j8
-    cmake --install . --prefix $CONDA_PREFIX
-```
-
-CONDA_PREFIX is set during conda activation.
 
 ---------
 
-## Build Helios and Argos
-
-Argos is a python pipe viewer for trace based performance models. It is 
-variously named, even within the repo, as Helio, Argos, pipeViewer, 
-or pipe_view. 
-
-The python script is argos.py, the path is $MAP/helios/pipeViewer/argos.py.
-
-Your terminal should have an active sparta/conda dev environment.
+# Build/Install Olympia
 
 ```
-    cd $MAP
-    conda activate sparta
-    cd $MAP/helios
-    mkdir -p release; cd release
-    cp $PATCHES/transactiondb_CMakeLists.txt ../pipeViewer/transactiondb/CMakeLists.txt
-    cp $PATCHES/transactionsearch_CMakeLists.txt ../pipeViewer/transactionsearch/CMakeLists.txt
-    cmake -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta ..
-    make -j8
-    cmake --install . --prefix $CONDA_PREFIX
-    mkdir -p $MAP/release/helios
-    cd $MAP/release/helios
-    cp -r ../../helios/release/pipeViewer .
+  cd $TOP
+  git clone --recursive https://@github.com/riscv-software-src/riscv-perf-model.git
+
+  cd $OLYMPIA
+  mkdir -p release; cd release
+  cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
+  make -j8
+  cmake --install . --prefix $CONDA_PREFIX
 ```
+
 ---------
-# Install Olympia
 
-riscv-perf-model aka Olympia. Olympia is a trace driven OOO 
-performance model.  The Olympia model is intended as a template,
-micro-architecture modeling has not completed.
+# Build STF Lib
 
-Olympia does have some interesting capabilities in terms of trace input formats in [STF](https://github.com/sparcians/stf_spec) and [JSON](https://github.com/riscv-software-src/riscv-perf-model/tree/master/traces#json-inputs).
-
-The Condor Architecture Model (CAM) will be a fork of
-Olympia. Instructions will be added here when that fork occurs.
-
-## Clone the repo
-
-There are errors in map/Sparta source files when compiling for Olympia.  
-Make the source file changes described above (TreeNodeExtensions.hpp/cpp).
-
-<!-- There is also an error in Dispatch.hpp, see below. -->
+STF is a library supporting the Simulation Trace Format.
 
 ```
-    cd $TOP
-    git clone --recursive https://@github.com/riscv-software-src/riscv-perf-model.git
-    git checkout af3120490e96cc4e06735653e1bbe794aae3a111
-```
-
-<!--    git af3120490e96cc4e06735653e1bbe794aae3a111 -->
-
-## Build the Olympia performance model.
-
-```
-    cd $OLYMPIA
-    mkdir -p release; cd release
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
-    # Select the build level
-    make -j8           # build everything
-    #make -j8 olympia  # build the simulator only
-    #make -j8 regress  # as it says
-    mkdir -p $TOP/tools/bin
-    cp olympia $TOP/tools/bin/cam
+  cd $TOP
+  git clone https://github.com/sparcians/stf_lib.git
+  cd stf_lib
+  mkdir -p release; cd release
+  cmake -DCMAKE_BUILD_TYPE=Release ..
+  make -j8
 ```
 
 ----------------------------------
 # Build Dromajo
 
+This verision of Dromajo is fast but does not include STF trace generation
+support. For now the tracing version is maintained as a separate build.
+
+The optimizations which make Dromajo fast are structurally present in the
+instruction decode and execute loop. With time I will create patch files
+that allow tracing or turn off tracing and recover the model speed.
+
+For now there are two distinct builds.
+
+```
+git clone https://github.com/chipsalliance/dromajo
+cd $DROMAJO
+ln -s ../stf_lib
+mkdir -p build; cd build
+cmake ..
+make -j8
+
+
+----------------------------------
+# Build CPM Dromajo
+
+CPM Dromajo is enabled for generating STF traces. Tracing adds overhead
+to Dromajo execution. If you do not need STF trace generation the standard
+dromajo will perform much better.
+
+
 The original README for adding tracing to dromajo is in the olympia 
-traces readme.  $OLYMPIA/traces/README.md
-
-## Clone dromajo, link to STF LIB
-
-<!-- 
-This is old info, kept for reference
-OLD FIXME: I need to re-create the patch, there was a fix for console io 
-performance in dromajo, so the checksum below is no longer used, and 
-I need to verify that the patch still works.
-The issue is the trace macros are not detected. The perf improvement 
-executes instructions in batches of 1000. I believe in this scheme the
-trace macro is not detected. This is a theory.
--->
+traces readme,  $OLYMPIA/traces/README.md
 
 This fork of dromajo has the proper stf patches already applied. 
 
 ```
-    cd $TOP
-    git clone git@github.com:Condor-Performance-Modeling/dromajo.git
-OR
-    git clone https://github.com/Condor-Performance-Modeling/dromajo.git
-    cd dromajo
-    ln -s ../stf_lib
+  cd $TOP
+  git clone git@github.com:Condor-Performance-Modeling/dromajo.git cpm.dromajo
+  cd $CPM_DROMAJO
+  ln -s ../stf_lib
+  mkdir -p build; cd build
+  cmake ..
+  make -j8
 ```
 
 <!-- The original repo is here, above is our fork                  -->
@@ -483,19 +399,6 @@ stf_lib/stf-config.cmake must be edited for correct compile.
 ```
 -->
 
-## Compile dromajo
-
-```
-    cd $DROMAJO
-    mkdir -p build; cd build
-    # FIXME: this is an uglier than normal hack
-    cp $OLYMPIA/traces/stf_trace_gen/trace_macros.h $TOP
-    cmake ..
-    make -j8
-    mkdir -p $TOP/tools/bin
-    cp dromajo $TOP/tools/bin
-```
-
 <!-- OLD No longer necessary with fork, FIXME: rename repo to cpm.dromajo
 
 ## Verify patch
@@ -511,119 +414,101 @@ Check if patch worked, dromajo should have the --stf_trace option
 -->
 
 ------------------------------------------------------------------------
-# Build the Linux kernel
-## Check path to the linux gnu tool chain
+# Build the Linux kernel and file system
 
+### PATH check
 Check that riscv64-unknown-linux-gnu-gcc is in your path.
-
 ```
 which riscv64-unknown-linux-gnu-gcc
 ```
-
 If not, add it to your PATH variable as shown.
-
 ```
 export PATH=$RV_LINUX_TOOLS/bin:$PATH
 ```
-
-### Get and build kernel
-
+CROSS_COMPILE is now set in the CPM environment RC file.  To set it manually:
 ```
-    cd $TOP
-    export CROSS_COMPILE=riscv64-unknown-linux-gnu-
-    wget --no-check-certificate -nc https://git.kernel.org/torvalds/t/linux-5.8-rc4.tar.gz
-    tar -xf linux-5.8-rc4.tar.gz
-    make -C linux-5.8-rc4 ARCH=riscv defconfig
-    make -C linux-5.8-rc4 ARCH=riscv -j8
+export CROSS_COMPILE=riscv64-unknown-linux-gnu-
 ```
 
-------------------------------------------------------------------------
-# Build the Linux file system
-
-## Check path to the linux gnu tool chain
-
-If you have already done this step previously you do not need to do it again.
-
-Check that riscv64-unknown-linux-gnu-gcc is in your path.
-
+### WGET and build kernel
 ```
-which riscv64-unknown-linux-gnu-gcc
+  cd $TOP
+  wget --no-check-certificate -nc https://git.kernel.org/torvalds/t/linux-5.8-rc4.tar.gz
+  tar -xf linux-5.8-rc4.tar.gz
+  make -C linux-5.8-rc4 ARCH=riscv defconfig
+  make -C linux-5.8-rc4 ARCH=riscv -j8
 ```
 
-If not export to your PATH variable as shown.
+### WGET and build the file system
 
-```
-export PATH=$RV_LINUX_TOOLS/bin:$PATH
-```
+Unfortunately the packages downloaded during make require manual patching.
+Make is run three times so that the package download advances to the point
+that the patches can be applied. 
 
-## Create buildroot image
+This is not optimal, it is the current work around for issues in c-stack.c, and libfakeroot.c.
 ```
-    cd $TOP
-    wget --no-check-certificate https://github.com/buildroot/buildroot/archive/2020.05.1.tar.gz
-    tar xf 2020.05.1.tar.gz
-    cp $DROMAJO/run/config-buildroot-2020.05.1 buildroot-2020.05.1/.config
-    make -C buildroot-2020.05.1
-    (this may fail, if so copy this file)
-    cp $PATCHES/c-stack.c ./buildroot-2020.05.1/output/build/host-m4-1.4.18/lib/c-stack.c
-    make -C buildroot-2020.05.1
-    (this may fail, if so copy this file)
-    cp $PATCHES/libfakeroot.c ./buildroot-2020.05.1/output/build/host-fakeroot-1.20.2/libfakeroot.c
-    sudo make -C buildroot-2020.05.1
-    (this is expected to finish without error)
+cd $TOP
+wget --no-check-certificate https://github.com/buildroot/buildroot/archive/2020.05.1.tar.gz
+tar xf 2020.05.1.tar.gz
+cp dromajo/run/config-buildroot-2020.05.1 buildroot-2020.05.1/.config
+make -C buildroot-2020.05.1
 ```
+This will fail, so patch the file and make again
+```
+cp $PATCHES/c-stack.c ./buildroot-2020.05.1/output/build/host-m4-1.4.18/lib/c-stack.c
+make -C buildroot-2020.05.1
+```
+This will fail, so patch the file and make again
+```
+cp $PATCHES/libfakeroot.c ./buildroot-2020.05.1/output/build/host-fakeroot-1.20.2/libfakeroot.c
+sudo make -C buildroot-2020.05.1
+```
+This final make is not expected to fail.
+
 ------------------------------------------------------------------------
 # Build OpenSBI
-
-## Check path to the linux gnu tool chain
-
-If you have already done this step previously you do not need to do it again.
-
+### PATH check
 Check that riscv64-unknown-linux-gnu-gcc is in your path.
-
 ```
 which riscv64-unknown-linux-gnu-gcc
 ```
-
-If not export to your PATH variable as shown.
-
+If not, add it to your PATH variable as shown.
 ```
 export PATH=$RV_LINUX_TOOLS/bin:$PATH
 ```
-
-## Download and compile OpenSBI
-
+CROSS_COMPILE is now set in the CPM environment RC file.  To set it manually:
 ```
-    cd $TOP
-    export CROSS_COMPILE=riscv64-unknown-linux-gnu-
-    git clone https://github.com/riscv/opensbi.git
-    cd opensbi
-    git checkout tags/v0.8 -b temp2
-    # works too: git checkout 7be75f519f7705367030258c4410d9ff9ea24a6f -b temp
-    make PLATFORM=generic 
+export CROSS_COMPILE=riscv64-unknown-linux-gnu-
 ```
 
+### Download and compile OpenSBI
+```
+  cd $TOP
+  git clone https://github.com/riscv/opensbi.git
+  cd opensbi
+  make PLATFORM=generic -j8
+```
 ------------------------------------------------------------------------
 # Boot Linux on Dromajo
 
-You must have previously installed the riscv gnu tool chain.
-See [Install riscv gnu tool chain](#install-riscv-gnu-tool-chain)
-
-This assumes you have built the pre-reqs, opensbi, linux kernel and linux 
-file system. See instructions above.
+The above steps create the necessary collateral to boot linux on
+dromajo.
 
 ## Copy collateral and boot linux
 Copy the images/etc from the BuildRoot step to the Dromajo run directory.
 
 ```
-    cd $DROMAJO/run
-    cp $BUILDROOT/output/images/rootfs.cpio .
-    cp $KERNEL/arch/riscv/boot/Image .
-    cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin .
-    ../build/dromajo boot.cfg
+  cd $DROMAJO/run
+  cp $BUILDROOT/output/images/rootfs.cpio .
+  cp $KERNEL/arch/riscv/boot/Image .
+  cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin .
+  cp $PATCHES/boot.cfg .
+  ../build/dromajo --ctrlc boot.cfg
 ```
 login is root, password is root
 
-Use Control-C or 'kill <pid>' to exit dromajo.
+--ctrlc allows Control-C to exit the simulator. Without --ctrlc use kill
+to terminate eh simulator.
 
 ------------------------------------------------------------------------
 # Build Spike
@@ -636,19 +521,23 @@ deactivated the environments.
 ```
   conda deactivate     # sparta
   conda deactivate     # base
+```
+<!--
+  this may no longer be necessary
   cd <workspace>/condor
   source how-to/env/setuprc.sh
-```
+-->
 
 Proceed with the build.
 
 ```
     cd $TOP
+    mkdir -p $TOOLS
     git clone git@github.com:riscv/riscv-isa-sim.git
     cd $SPIKE
     mkdir -p build; cd build
     ../configure --prefix=$TOP/tools
-    make
+    make -j8
     make install
 ```
 
@@ -663,17 +552,20 @@ deactivated the environments.
 ```
   conda deactivate     # sparta
   conda deactivate     # base
+```
+<!--
   cd <workspace>/condor
   source how-to/env/setuprc.sh
-```
+-->
 
 Proceed with the build.
 
 ```
     cd $TOP
+    mkdir -p $TOOLS/bin
     git clone https://github.com/chipsalliance/VeeR-ISS.git whisper
     cd $WHISPER
-    make
+    make -j8
     cp build-Linux/whisper $TOOLS/bin
 ```
 

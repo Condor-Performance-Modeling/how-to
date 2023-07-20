@@ -1,0 +1,97 @@
+# Set up environment
+git clone git@github.com:Condor-Performance-Modeling/how-to.git
+source how-to/env/setuprc.sh
+export PATH=$PATH:$RV_BAREMETAL_TOOLS/bin:$RV_LINUX_TOOLS/bin
+
+# Clone the CPM repos
+git clone git@github.com:Condor-Performance-Modeling/utils.git
+git clone git@github.com:Condor-Performance-Modeling/benchmarks.git
+
+# Build stf_lib
+cd $TOP
+git clone https://github.com/sparcians/stf_lib.git
+cd stf_lib
+mkdir -p release; cd release
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make -j8
+
+# Install miniconda
+cd $TOP
+wget --no-check-certificate https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+sh ./Miniconda3-latest-Linux-x86_64.sh
+# Install conda components
+conda activate
+conda install -c conda-forge jq
+conda install -c conda-forge yq
+
+# Install MAP
+git clone git@github.com:sparcians/map.git
+cd $MAP
+./scripts/create_conda_env.sh sparta dev
+conda activate sparta
+cd $MAP/sparta; mkdir release; cd release
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j8
+cmake --install . --prefix $CONDA_PREFIX
+cd $MAP/helios; mkdir release; cd release
+cmake -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta ..
+make -j8
+cmake --install . --prefix $CONDA_PREFIX
+
+## Build sample MAP model
+#cd $MAP/sparta/release/example/CoreModel
+#make -j8
+#./sparta_core_example -i 1000 -z pipeout_
+#python3 ${MAP}/helios/pipeViewer/pipe_view/argos.py --database pipeout_ --layout-file ${MAP}/helios/pipeViewer/scripts/gen_alf/core.alf
+
+# Build olympia
+cd $TOP
+git clone --recursive https://@github.com/riscv-software-src/riscv-perf-model.git
+cd $OLYMPIA
+mkdir -p release; cd release
+cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
+make -j8
+
+# Build dromajo
+git clone https://github.com/chipsalliance/dromajo
+cd $DROMAJO
+ln -s ../stf_lib
+mkdir -p build; cd build
+cmake ..
+make -j8
+
+# Build linux kernel and file system
+cd $TOP
+export CROSS_COMPILE=riscv64-unknown-linux-gnu-
+wget --no-check-certificate -nc https://git.kernel.org/torvalds/t/linux-5.8-rc4.tar.gz
+make -C linux-5.8-rc4 ARCH=riscv defconfig
+make -C linux-5.8-rc4 ARCH=riscv -j8
+
+# Get and build the linux filesystem
+cd $TOP
+wget --no-check-certificate https://github.com/buildroot/buildroot/archive/2020.05.1.tar.gz
+tar xf 2020.05.1.tar.gz
+cp dromajo/run/config-buildroot-2020.05.1 buildroot-2020.05.1/.config
+make -C buildroot-2020.05.1
+cp $PATCHES/c-stack.c ./buildroot-2020.05.1/output/build/host-m4-1.4.18/lib/c-stack.c
+make -C buildroot-2020.05.1
+cp $PATCHES/libfakeroot.c ./buildroot-2020.05.1/output/build/host-fakeroot-1.20.2/libfakeroot.c
+sudo make -C buildroot-2020.05.1
+
+# Build opensbi
+cd $TOP
+git clone https://github.com/riscv/opensbi.git
+cd opensbi
+make PLATFORM=generic -j8
+
+# Copy over linux collateral to dromajo run
+cd $TOP
+cp $PATCHES/boot.cfg $DROMAJO/run
+cp buildroot-2020.05.1/output/images/rootfs.cpio $DROMAJO/run
+cp linux-5.8-rc4/arch/riscv/boot/Image $DROMAJO/run
+cp opensbi/build/platform/generic/firmware/fw_jump.bin $DROMAJO/run
+
+# Run linux
+cd $DROMAJO/run
+../build/dromajo --ctrlc boot.cfg
+
