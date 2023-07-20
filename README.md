@@ -93,7 +93,7 @@ will clone or push to the CPM repo.
 <details>
   <summary>Details</summary>
 
-### Create you keys
+### Create your keys
 
 ```
   aw01ut01: cd $HOME
