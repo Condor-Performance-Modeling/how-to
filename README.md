@@ -14,6 +14,8 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Boot strapping the environment](#boot-strapping-the-environment)
 
+1. [Clone the CPM repos](#clone-the-cpm-repos)
+
 1. [Build/Install MAP](#build-install-map)
 
 1. [Build/Install Olympia](#build-install-olympia)
@@ -34,6 +36,8 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Build Whisper](#build-whisper)
 
+1. [Cloning the benchmark repo](#cloning-the-benchmark-repo)
+
 <!--
 1. [Build the analysis tool suite](#build-the-analysis-tool-suite)
 1. [Build the benchmark suite](#build-the-benchmark-suite)
@@ -49,12 +53,22 @@ Presumably you are reading this how-to from the web or a local copy.  This
 section contains instructions to boot strap the Condor Performance Modeling 
 (CPM) environment.
 
-In order to proceed you need a linux machine with git installed. In 
-production this machine would be part of the C-AWS domain.
+## Linux, C-AWS and VCAD environments
 
-## C-AWS and VCAD
+In order to proceed you need a linux machine with git installed. In 
+production this machine would be part of the C-AWS domain. In development
+local linux machines are supported. 
+
+You must have an account with C-AWS, you must be registered with CPM.
+
+You will want to have your ssh keys installed and registered with GitHub 
+and ssh-agent. 
+
+If you have done this already you can skip this section.
+
 <details>
   <summary>Details</summary>
+
 
 There are two* Ubuntu environments at present, Condor AWS aka C-AWS, and 
 VCAD. C-AWS is Condor managed, with assistance from OutServ. 
@@ -65,8 +79,6 @@ you are creating a CPM environment in VCAD.
 *Caveat: You can also use these instructions on a local machine not under 
 C-AWS. The long term solution is to use your C-AWS account and resources. 
 
-</details>
-
 ## Become member of Github CPM organization
 You must be a member of Condor Performance Modeling (CPM) GitHub 
 organization before you can access the private repos in this list.
@@ -76,22 +88,16 @@ note when I have added your account to CPM.
 
 ## Request an account on C-AWS
 You can skip this step short term, if you are running on a local linux machine.
-<details>
-  <summary>Details</summary>
 
 Send me a slack or email telling me you need a C-AWS account. I will send
 you back the instructions on how to get an account and then how to access
 it.  I'm doing it this way to avoid exposing the process, sorry.
-</details>
 
 ## Create and register your ssh keys.
 
 Once you have access to a linux machine generate your public SSH keys. You will
 add this key to your github account. You need to do this for each machine that
 will clone or push to the CPM repo.
-
-<details>
-  <summary>Details</summary>
 
 ### Create your keys
 
@@ -132,13 +138,10 @@ Note your ssh public key is in this file $HOME/.ssh/id_rsa.pub. The contents
 of this file are pasted at step 7.
 </details>
 
-## Clone the CPM repos
+# Clone the CPM repos
 
 Clone the How-To repo locally, it contains settings which are assumed by
 the remaining instructions, as well as patches for the tools.
-
-<details>
-  <summary>Details</summary>
 
 The process is:
 
@@ -153,13 +156,17 @@ The process is:
 [cd workspace]
 mkdir condor
 cd condor
+
 git clone git@github.com:Condor-Performance-Modeling/how-to.git
+
 git clone git@github.com:Condor-Performance-Modeling/utils.git
+
+git clone git@github.com:Condor-Performance-Modeling/benchmarks.git
+cd $BENCHMARKS
+git submodule update --init --recursive
 ```
-</details>
 
-<!-- git clone git@github.com:Condor-Performance-Modeling/benchmarks.git -->
-
+The CPM repos 
 ## Setup the build environment variables
 
 I have moved the instructions to a separate file because the instructions 
@@ -229,7 +236,20 @@ Example:
 
 ## Install Miniconda
 
-Miniconda package manager is used by Sparcians.
+Miniconda package manager is used by Sparcians. If you have done this once
+you can skip this step. The base conda packages are stored in your home
+directory. 
+
+That means if you are installing multiple $TOP environments you
+only need to install miniconda once.
+
+<b>NOTE: if not installing, you need to activate your conda environment:</b>
+
+```
+conda activate
+```
+
+With correct activation your prompt will start with (base).
 
 <details>
   <summary>Details</summary>
@@ -248,7 +268,6 @@ startup
 
 - I am not executing this command
 
-</details>
 
 ```
 cd $TOP
@@ -273,6 +292,7 @@ added .bashrc lines to a private rc file.</i>
 
 Your prompt should start with <b>(base)</b>
 
+
 ## Install the Miniconda components
 
 ```
@@ -286,11 +306,17 @@ conda install -c conda-forge yq
 Proceed ([y]/n)? y
 ```
 
+</details>
+
 ----------------------------------------------------------
 # Build/Install MAP
 
 This section builds and installs Map and it's components: Sparta and Sparta's 
 conda environment, and Helios/Argos
+
+If you have previously install MAP you will have a MAP Conda environment
+in you home directory and you may receive the "prefix already exists"
+message when creating the conda environment. This is benign.
 
 ```
   cd $TOP
@@ -355,13 +381,20 @@ olympia traces readme, $OLYMPIA/traces/README.md. This fork of dromajo has
 the proper stf patches already applied. 
 ```
   cd $TOP
+  mkdir -p $TOP/tools/bin $TOP/tools/lib
   git clone git@github.com:Condor-Performance-Modeling/dromajo.git cpm.dromajo
   cd $CPM_DROMAJO
   ln -s ../stf_lib
   mkdir -p build; cd build
-  cmake ..
+  cmake .. 
   make -j8
+  mkdir -p $TOP/tools/bin $TOP/tools/lib
+  cp dromajo $TOP/tools/bin/cpm.dromajo
+  cp libdromajo_cosim.a $TOP/tools/lib/libcpm_dromajo_cosim.a
 ```
+
+Note: the cmake control file for dromajo does not include a complete INSTALL
+target. The install is done by hand. Also note the renames: cpm.dromajo.
 
 ----------------------------------
 # Build Fast Dromajo
@@ -380,12 +413,15 @@ when tracing is not enabled.
 
 For now there are two distinct builds.
 ```
-git clone https://github.com/chipsalliance/dromajo
-cd $DROMAJO
-ln -s ../stf_lib
-mkdir -p build; cd build
-cmake ..
-make -j8
+  git clone https://github.com/chipsalliance/dromajo
+  cd $DROMAJO
+  ln -s ../stf_lib
+  mkdir -p build; cd build
+  cmake ..
+  make -j8
+  mkdir -p $TOP/tools/bin $TOP/tools/lib
+  cp dromajo $TOP/tools/bin/dromajo
+  cp libdromajo_cosim.a $TOP/tools/lib/libdromajo_cosim.a
 ```
 </details>
 
@@ -413,6 +449,8 @@ export CROSS_COMPILE=riscv64-unknown-linux-gnu-
   tar -xf linux-5.8-rc4.tar.gz
   make -C linux-5.8-rc4 ARCH=riscv defconfig
   make -C linux-5.8-rc4 ARCH=riscv -j8
+  mkdir -p $TOP/tools/riscv-linux
+  cp linux-5.8-rc4/arch/riscv/boot/Image $TOP/tools/riscv-linux/Image
 ```
 
 ### WGET and build the file system
@@ -427,17 +465,20 @@ cd $TOP
 wget --no-check-certificate https://github.com/buildroot/buildroot/archive/2020.05.1.tar.gz
 tar xf 2020.05.1.tar.gz
 cp $CPM_DROMAJO/run/config-buildroot-2020.05.1 buildroot-2020.05.1/.config
-make -C buildroot-2020.05.1
+make -C buildroot-2020.05.1 -j8
 ```
-This will fail, so patch the file and make again
+The above make will fail, patch the c-stack file and make again
 ```
 cp $PATCHES/c-stack.c ./buildroot-2020.05.1/output/build/host-m4-1.4.18/lib/c-stack.c
-make -C buildroot-2020.05.1
+make -C buildroot-2020.05.1 -j8
 ```
-This will fail, so patch the file and make again
+The above will fail again, requires another patch and then make again
 ```
 cp $PATCHES/libfakeroot.c ./buildroot-2020.05.1/output/build/host-fakeroot-1.20.2/libfakeroot.c
-sudo make -C buildroot-2020.05.1
+sudo make -C buildroot-2020.05.1 -j8
+
+mkdir -p $TOP/tools/riscv-linux
+cp $BUILDROOT/output/images/rootfs.cpio $TOP/tools/riscv-linux/rootfs.cpio
 ```
 This final make is not expected to fail.
 
@@ -468,6 +509,8 @@ export CROSS_COMPILE=riscv64-unknown-linux-gnu-
   git clone https://github.com/riscv/opensbi.git
   cd opensbi
   make PLATFORM=generic -j8
+  mkdir -p $TOP/tools/riscv-linux
+  cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin $TOP/tools/riscv-linux/fw_jump.bin
 ```
 ------------------------------------------------------------------------
 # Boot Linux on the Dromajo(s)
@@ -481,15 +524,24 @@ version.
 login is root, password is root for both versions.
 
 ## CPM DROMAJO - copy collateral and boot linux 
-Copy the images/etc from the BuildRoot step to the CPM Dromajo run directory.
+Copy the images/etc from previous steps to the CPM Dromajo run directory.
+```
+cp $TOOLS/riscv-linux/* $CPM_DROMAJO/run
+cp $PATCHES/cpm.boot.cfg  $CPM_DROMAJO/run
+cd $CPM_DROMAJO/run
+$TOP/tools/bin/cpm.dromajo --stf_trace example.stf cpm.boot.cfg
+```
+
+<!--
 ```
   cd $CPM_DROMAJO/run
   cp $BUILDROOT/output/images/rootfs.cpio .
   cp $KERNEL/arch/riscv/boot/Image .
   cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin .
-  cp $PATCHES/boot.cfg .
-  ../build/dromajo --stf_trace example.stf --ctrlc boot.cfg
+  cp $PATCHES/cpm.boot.cfg .
+  ../build/dromajo --stf_trace example.stf --ctrlc cpm.boot.cfg
 ```
+-->
 
 Control C exit is enabled in this version.
 
@@ -497,14 +549,21 @@ Control C exit is enabled in this version.
 Copy the images/etc from the BuildRoot step to the Fast Dromajo run directory.
 
 ```
+cp $TOOLS/riscv-linux/* $DROMAJO/run
+cp $PATCHES/fast.boot.cfg  $DROMAJO/run
+cd $DROMAJO/run
+$TOP/tools/bin/dromajo --ctrlc fast.boot.cfg
+```
+<!--
+```
   cd $DROMAJO/run
   cp $BUILDROOT/output/images/rootfs.cpio .
   cp $KERNEL/arch/riscv/boot/Image .
   cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin .
-  cp $PATCHES/boot.cfg .
-  ../build/dromajo --ctrlc boot.cfg
+  cp $PATCHES/fast.boot.cfg .
+  ../build/dromajo --ctrlc fast.boot.cfg
 ```
-
+-->
 --ctrlc allows Control-C to exit the simulator. Without --ctrlc use kill
 to terminate eh simulator.
 
@@ -566,6 +625,27 @@ Proceed with the build.
     make -j8
     cp build-Linux/whisper $TOOLS/bin
 ```
+
+------------------------------------------------------------------------
+# Cloning the benchmark repo
+
+The Condor benchmark repo uses a mix of submodules and copies of external
+repos. The copies contain source modified from the original repo to enable
+STF generation.
+
+These instructions tell you how to clone the repo. Once the repo has been
+cloned there is a separate README for building and maintaining the suite.
+
+
+
+```
+cd $TOP
+git clone git@github.com:Condor-Performance-Modeling/benchmarks.git
+cd $BENCHMARKS
+git submodule update --init --recursive
+```
+
+The remaining instructions are now available in benchmarks/README.md.
 
 <!-- 
 I need to fix this section
