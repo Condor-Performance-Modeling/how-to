@@ -523,7 +523,7 @@ version.
 
 login is root, password is root for both versions.
 
-## CPM DROMAJO - copy collateral and boot linux 
+## Boot linux - CPM DROMAJO 
 Copy the images/etc from previous steps to the CPM Dromajo run directory.
 ```
 cp $TOOLS/riscv-linux/* $CPM_DROMAJO/run
@@ -545,7 +545,7 @@ $TOP/tools/bin/cpm.dromajo --stf_trace example.stf cpm.boot.cfg
 
 Control C exit is enabled in this version.
 
-## Fast DROMAJO - copy collateral and boot linux 
+## Boot linux - Fast DROMAJO 
 Copy the images/etc from the BuildRoot step to the Fast Dromajo run directory.
 
 ```
@@ -570,14 +570,16 @@ to terminate eh simulator.
 ------------------------------------------------------------------------
 # Build Spike
 
+## Exit Conda
+
 You must deactivate the conda environment before compiling Spike. Once
-to exit the sparta env, once again to exit the base conda environment. Your
-prompt should not show (base) or (sparta) when you have successfully
-deactivated the environments.
+to exit the sparta environment, once again to exit the base conda 
+environment. Your prompt should not show (base) or (sparta) when you have 
+successfully deactivated the environments.
 
 ```
-  conda deactivate     # sparta
-  conda deactivate     # base
+  conda deactivate     # leave sparta
+  conda deactivate     # leave base
 ```
 <!--
   this may no longer be necessary
@@ -585,7 +587,7 @@ deactivated the environments.
   source how-to/env/setuprc.sh
 -->
 
-Proceed with the build.
+## Build Spike
 
 ```
     cd $TOP
@@ -601,15 +603,25 @@ Proceed with the build.
 ------------------------------------------------------------------------
 # Build Whisper
 
-You must deactivate the conda environment before compiling Spike. Once
-to exit the sparta env, once again to exit the base conda environment. Your
-prompt should not show (base) or (sparta) when you have successfully
-deactivated the environments.
+## Exit Conda
+
+If you have exited the conda environments above you can proceed with the
+build steps.
+
+<details>
+  <summary>Details</summary>
+
+You must deactivate the conda environment before compiling Spike.
+Once to exit the sparta environment, once again to exit the base conda 
+environment. Your prompt should not show (base) or (sparta) when you have 
+successfully deactivated the environments.
 
 ```
   conda deactivate     # sparta
   conda deactivate     # base
 ```
+</details>
+
 <!--
   cd <workspace>/condor
   source how-to/env/setuprc.sh
@@ -627,16 +639,15 @@ Proceed with the build.
 ```
 
 ------------------------------------------------------------------------
+------------------------------------------------------------------------
 # Cloning the benchmark repo
 
 The Condor benchmark repo uses a mix of submodules and copies of external
 repos. The copies contain source modified from the original repo to enable
 STF generation.
 
-These instructions tell you how to clone the repo. Once the repo has been
+The steps below tell you how to clone the repo. Once the repo has been
 cloned there is a separate README for building and maintaining the suite.
-
-
 
 ```
 cd $TOP
