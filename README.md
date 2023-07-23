@@ -344,6 +344,7 @@ Your prompt should now start with (sparta)
 
 ```
   cd $TOP
+  mkdir -p tools/bin
   git clone --recursive https://@github.com/riscv-software-src/riscv-perf-model.git
 
   cd $OLYMPIA
@@ -351,6 +352,7 @@ Your prompt should now start with (sparta)
   cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
   make -j8
   cmake --install . --prefix $CONDA_PREFIX
+  cp olympia $TOP/tools/bin/cam
 ```
 
 ---------
