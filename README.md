@@ -198,7 +198,7 @@ Install the Ubuntu support packages:
   sudo apt install build-essential bison flex texinfo gperf libtool patchutils 
   sudo apt install bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler
   sudo apt install libboost-all-dev  libsqlite3-dev libhdf5-serial-dev
-  sudo apt install libzstd-dev gcc-multilib qt5-dev qt5-qmake pkg-config
+  sudo apt install libzstd-dev gcc-multilib qtbase5-dev qt5-qmake pkg-config
   sudo apt install clang-tidy npm nodejs
 ```
 
