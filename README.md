@@ -166,7 +166,6 @@ cd $BENCHMARKS
 git submodule update --init --recursive
 ```
 
-The CPM repos 
 ## Setup the build environment variables
 
 I have moved the instructions to a separate file because the instructions 
