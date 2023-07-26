@@ -244,7 +244,7 @@ directory.
 That means if you are installing multiple $TOP environments you
 only need to install miniconda once.
 
-<b>NOTE: if not installing, you need to activate your conda environment:</b>
+<b>NOTE: if you have an existing miniconda install you need to activate your conda environment:</b>
 
 ```
 conda activate
