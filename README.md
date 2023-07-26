@@ -124,7 +124,7 @@ You will use your passphrase in place of a password when cloning and pushing.
 
 ```
   eval `ssh-agent`
-  ssh-add -K $HOME/.ssh/id_rsa
+  ssh-add $HOME/.ssh/id_rsa
 
 ```
 
