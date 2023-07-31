@@ -199,12 +199,12 @@ Install the Ubuntu support packages:
   sudo apt install libboost-all-dev  libsqlite3-dev libhdf5-serial-dev
   sudo apt install libzstd-dev gcc-multilib clang-tidy pkg-config
 
-  sudo apt install qtbase5-dev qt5-qmake qtdeclarative5-dev qml-module-qtquick-controls
-  sudo apt install qml-module-qtquick-layouts qml-module-qtquick-controls2 qml-module-qtquick-extras
-  sudo apt install qtcreator
+NOTE: im working through the qt requirements - this will change
+  sudo add-apt-repository universe
+  sudo apt install qt-base6-dev qt6-qmake
 
+NOTE: im working through the Node.js requirements - this will change
   sudo apt install npm nodejs pip 
-
   sudo pip install flask docopt path_and_address grip
 ```
 
