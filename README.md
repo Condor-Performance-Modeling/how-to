@@ -198,7 +198,10 @@ Install the Ubuntu support packages:
   sudo apt install bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler
   sudo apt install libboost-all-dev  libsqlite3-dev libhdf5-serial-dev
   sudo apt install libzstd-dev gcc-multilib clang-tidy pkg-config
-  sudo apt install qtbase5-dev qt5-qmake qtdeclarative5-dev
+
+  sudo apt install qtbase5-dev qt5-qmake qtdeclarative5-dev qml-module-qtquick-controls
+  sudo apt install qml-module-qtquick-layouts qml-module-qtquick-controls2 qml-module-qtquick-extras
+  sudo apt install qtcreator
 
   sudo apt install npm nodejs pip 
 
