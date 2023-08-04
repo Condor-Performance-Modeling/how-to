@@ -18,6 +18,8 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Build/Install MAP](#build-install-map)
 
+1. [Build/Install CAM](#build-install-cam)
+
 1. [Build/Install Olympia](#build-install-olympia)
 
 1. [Build STF Lib](#build-stf-lib)
@@ -162,6 +164,8 @@ git clone git@github.com:Condor-Performance-Modeling/how-to.git
 git clone git@github.com:Condor-Performance-Modeling/utils.git
 
 git clone git@github.com:Condor-Performance-Modeling/tools.git
+
+git clone git@github.com:Condor-Performance-Modeling/cam.git
 
 git clone git@github.com:Condor-Performance-Modeling/benchmarks.git
 cd $BENCHMARKS
@@ -348,6 +352,25 @@ Your prompt should now start with (sparta)
 
 ---------
 
+# Build/Install CAM
+This builds the Condor fork of olympia (Cuzco Architecture Model). The build
+process is similar to Olympia.
+
+```
+  cd $TOP
+  mkdir -p tools/bin
+  git clone git@github.com:Condor-Performance-Modeling/cam.git
+
+  cd $CAM
+  mkdir -p release; cd release
+  cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
+  make -j8
+  cmake --install . --prefix $CONDA_PREFIX
+  cp olympia $TOP/tools/bin/cam
+```
+
+---------
+
 # Build/Install Olympia
 
 ```
@@ -360,7 +383,7 @@ Your prompt should now start with (sparta)
   cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
   make -j8
   cmake --install . --prefix $CONDA_PREFIX
-  cp olympia $TOP/tools/bin/cam
+  cp olympia $TOP/tools/bin/olympia
 ```
 
 ---------
