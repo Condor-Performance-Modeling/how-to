@@ -161,15 +161,14 @@ cd condor
 
 git clone git@github.com:Condor-Performance-Modeling/how-to.git
 
-git clone git@github.com:Condor-Performance-Modeling/utils.git
-
-git clone git@github.com:Condor-Performance-Modeling/tools.git
+git clone --recurse-submodules git@github.com:Condor-Performance-Modeling/benchmarks.git
 
 git clone git@github.com:Condor-Performance-Modeling/cam.git
 
-git clone git@github.com:Condor-Performance-Modeling/benchmarks.git
-cd $BENCHMARKS
-git submodule update --init --recursive
+git clone git@github.com:Condor-Performance-Modeling/tools.git
+
+git clone git@github.com:Condor-Performance-Modeling/utils.git
+
 ```
 
 ## Setup the build environment variables
