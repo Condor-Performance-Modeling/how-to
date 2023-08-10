@@ -1,13 +1,38 @@
 # Readme 
 
-# Condor-Performance-Modeling
+<b> THIS IS INCOMPLETE NOT READY FOR USE </b>
 
-Condor-Performance-Modeling (CPM) is a github organization. 
+There are two environments, called From-Scratch and Incremental. 
 
-CPM contains a number of repo's used by Condor. 
-Condor-Performance-Modeling/how-to contains documentation, patches and 
-support scripts. The steps that follow document building the Condor 
-perf modeling environment and provide instructions on how to use it.
+This is the instruction set for the Incremental environment. 
+
+## From-Scratch
+
+The From-Scratch environment was the version of the environment  created
+prior to the transition to C-AWS.
+
+The From-Scratch environment builds all tools and packages locally, with
+few exceptions. From-Scratch is primarily used by package maintainers. The
+instructions for From-Scratch are in $TOP/how-to/README.md
+
+## Incremental
+
+The Incremental environment uses pre-installed versions of all but the
+targeted tool set. For example if you are developing models for CAM and
+are not modifying Dromajo you can use the installed version of Dromajo
+and save building it from scratch.
+
+The distinction between Incremental and From-Scratch is not crisp, it
+is possible to move between the two by replacing links to the installed
+tools with clones of the appropriate repo.
+
+A fully incremental environment is less effort to setup. Most of the setup is
+handled in a single C-AWS specific script.
+
+## Condor-Performance-Modeling
+
+Condor-Performance-Modeling (CPM) is our github organization. It is 
+described in how-to/README.md. CPM may be referenced below.
 
 --------------------------------------
 # ToC
@@ -49,322 +74,126 @@ perf modeling environment and provide instructions on how to use it.
 -->
 
 --------------------------------------
-# Boot strapping the environment
+# Prequisites
 
 Presumably you are reading this how-to from the web or a local copy.  This
-section contains instructions to boot strap the Condor Performance Modeling 
-(CPM) environment.
+section contains instructions to configure an Incremental build environment.
 
-## Linux, C-AWS and VCAD environments
+You must be logged into your linux account on C-AWS. I assume interactive1
+is being used. Please do not do this on gui1.
 
-In order to proceed you need a linux machine with git installed. In 
-production this machine would be part of the C-AWS domain. In development
-local linux machines are supported. 
+# Setup shell RC file
 
-You must have an account with C-AWS, you must be registered with CPM.
+FIXME: any users of other shells can contribute their instructions
 
-You will want to have your ssh keys installed and registered with GitHub 
-and ssh-agent. 
+## For bash
 
-If you have done this already you can skip this section.
-
-<details>
-  <summary>Details</summary>
-
-
-There are two* Ubuntu environments at present, Condor AWS aka C-AWS, and 
-VCAD. C-AWS is Condor managed, with assistance from OutServ. 
-
-These instructions are not for the VCAD environment. See Jeff if 
-you are creating a CPM environment in VCAD.
-
-*Caveat: You can also use these instructions on a local machine not under 
-C-AWS. The long term solution is to use your C-AWS account and resources. 
-
-## Become member of Github CPM organization
-You must be a member of Condor Performance Modeling (CPM) GitHub 
-organization before you can access the private repos in this list.
-
-Send me your account name via slack or email. I will send you back a
-note when I have added your account to CPM.
-
-## Request an account on C-AWS
-You can skip this step short term, if you are running on a local linux machine.
-
-Send me a slack or email telling me you need a C-AWS account. I will send
-you back the instructions on how to get an account and then how to access
-it.  I'm doing it this way to avoid exposing the process, sorry.
-
-## Create and register your ssh keys.
-
-Once you have access to a linux machine generate your public SSH keys. You will
-add this key to your github account. You need to do this for each machine that
-will clone or push to the CPM repo.
-
-### Create your keys
+Add this to the end of your .bashrc file:
 
 ```
-  aw01ut01: cd $HOME
-  aw01ut01: ssh-keygen
-
-  Enter file in which to save the key (some/path): 
-  Enter passphrase (empty for no passphrase): <your passphrase>
+if [ -f ~/.bashrc_user ]; then
+    . ~/.bashrc_user
+fi
 ```
 
-<b>Do not use an empty passphrase. </b>
+Add this to your .bashrc_user file
 
 ```
-  Enter same passphrase again: <your passphrase>
-
-  aw01ut01> chmod 700 ~/.ssh
-  aw01ut01> chmod 600 ~/.ssh/*
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/tools/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/tools/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/tools/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/tools/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 ```
 
-You will use your passphrase in place of a password when cloning and pushing.
+## Recommended for bash
 
-### Add your keys to ssh-agent
-
-```
-  eval `ssh-agent`
-  ssh-add $HOME/.ssh/id_rsa
+I also add these to the beginning of my bashrc_user file. YMMV.
 
 ```
+export GIT_EDITOR=vim
+stty   sane
+export EDITOR=vim
+export BASH_ENV=/home/$USER/.bashrc
 
-More details can be found [GITHUB](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) and [ATLASSIAN](https://www.atlassian.com/git/tutorials/git-ssh)
+export WS=/data/users/$USER
+export EXTT=/exttools
+export TOOLS=/tools
 
-### Register your keys with github
+shopt -s checkwinsize
+shopt -s histappend
 
-Follow the instructions [GITHUB-2](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
-
-Note your ssh public key is in this file $HOME/.ssh/id_rsa.pub. The contents
-of this file are pasted at step 7.
-</details>
-
-# Clone the CPM repos
-
-Clone the How-To repo locally, it contains settings which are assumed by
-the remaining instructions, as well as patches for the tools.
-
-The process is:
-
-- Change directory to the place you want to install condor tools 
-  and environment.
-- Make a directory called condor
-- cd to condor
-- clone the condor performance modeling how-to repo
-
+HISTCONTROL=ignoredups:erasedups
+HISTSIZE=2000
+HISTFILESIZE=10000
 
 ```
-[cd workspace]
-mkdir condor
-cd condor
+# Create a work area and (optional) grab the how-to repo
 
-git clone git@github.com:Condor-Performance-Modeling/how-to.git
+It is useful to have a local copy of the How-To repo. It is not strictly 
+required.
 
-git clone --recurse-submodules git@github.com:Condor-Performance-Modeling/benchmarks.git
-
-git clone git@github.com:Condor-Performance-Modeling/cam.git
-
-git clone git@github.com:Condor-Performance-Modeling/tools.git
-
-git clone git@github.com:Condor-Performance-Modeling/utils.git
+Here is one way to do this:
 
 ```
-<!--
-## Setup a local build environment 
-A local build environment assumes you are building all tools in your
-work area, and not relying on the /tools installation of Condor tools.
--->
+cd /data/users
+mkdir -p <userid>/condor
+cd <userid>/condor
 
-## Setup the build environment variables
-
-I have moved the instructions to a separate file because the instructions 
-are shared with other build instructions.
-
-The new location is [LINK](./SET_LOCAL_ENV.md)
-
-If you do not want the details you can safely just do this:
-
-```
-cd condor
-source how-to/env/setuprc.sh
+<optional> git clone git@github.com:Condor-Performance-Modeling/how-to.git
 ```
 
-<!--
-## Setup a local build environment 
-
-## Setup a build environment that uses the preinstalled Condor tools
-A local build environment assumes you are building all tools in your
-work area, and not relying on the /tools installation of Condor tools.
--->
-```
-```
-
--->
-## Install the Ubuntu collateral
-
-This will be done once for everyone. If you are not setting up a new machine 
-you can skip this step.
-
-<details>
-  <summary>Details</summary>
-
-Install the Ubuntu support packages:
+# Execute the master setup script
 
 ```
-  sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev
-  sudo apt install rapidjson-dev xz-utils autoconf automake autotools-dev 
-  sudo apt install curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk 
-  sudo apt install build-essential bison flex texinfo gperf libtool patchutils 
-  sudo apt install bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler
-  sudo apt install libboost-all-dev  libsqlite3-dev libhdf5-serial-dev
-  sudo apt install libzstd-dev gcc-multilib clang-tidy pkg-config
-
-NOTE: im working through the qt requirements - this will change
-  sudo add-apt-repository universe
-  sudo apt install qt-base6-dev qt6-qmake
-
-NOTE: im working through the Node.js requirements - this will change
-  sudo apt install npm nodejs pip 
-  sudo pip install flask docopt path_and_address grip
+cd /data/users/$USER
+bash /tools/scripts/incremental.sh
 ```
 
-All in one line for easy cut/paste:
+# Install RISCV GNU Tool Chain
 
-```
-sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjson-dev xz-utils autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler libboost-all-dev libsqlite3-dev libhdf5-serial-dev libzstd-dev gcc-multilib qt5-dev qt5-qmake pkg-config clang-tidy npm nodejs
-```
-</details>
+These tools are preinstalled in /tools. Create links to these tools in
+your work area.
 
-## Install RISCV GNU Tool Chain
-
-Note: For now ask me where these tools are kept, once Outserv is done 
-these will have a fixed home, e.g. /usr/local
-
-<details>
-  <summary>Details</summary>
-
-Some estimates say ~7GB of space is needed for these tools.
-
-There are pre-built versions of the bare metal and linux tools. See
-Jeff to get the link. These versions can save hours of compile time.
-
-
-<!-- For the DIY-ers see this page: [LINK](./CROSS_TOOL_CHAIN.md) -->
-<!-- I have not checked this in a while, commented until i can check it -->
-
-Example:
 ```
   cd $TOP
-  ln -s /usr/local/riscv64-unknown-elf
-  ln -s /usr/local/riscv64-unknown-linux-gnu
+  ln -s /tools/riscv64-unknown-elf
+  ln -s /tools/riscv64-unknown-linux-gnu
 ```
 </details>
 
-## Install Miniconda
+## Activate Miniconda
 
-Miniconda package manager is used by Sparcians. If you have done this once
-you can skip this step. The base conda packages are stored in your home
-directory. 
+Miniconda package manager is used by Sparcians. There is a preinstalled
+version of miniconda in /tools. You need support in your bashrc file
+and you will need to activate it.
 
-That means if you are installing multiple $TOP environments you
-only need to install miniconda once.
-
-<b>NOTE: if you have an existing miniconda install you need to activate your conda environment:</b>
+Bashrc instructions are above. To activate the environment simply issue:
 
 ```
 conda activate
 ```
 
-With correct activation your prompt will start with (base).
+Your prompt should now have the "(base)" prefix.
 
-<details>
-  <summary>Details</summary>
+---------
+# Remainder of the setup
 
-In accepting the license:
-
-- I am using the default install location
-- I am allowing the installer to run conda init
-- I am allowing the installer to modify my .bashrc
-- I manually move the conda init lines from .bashrc to my .bashrc.private
-
-The instructions tell you how to disable miniconda activation at 
-startup
-
-- conda config --set auto_activate_base false
-
-- I am not executing this command
-
-
-```
-cd $TOP
-
-wget --no-check-certificate https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-
-sh ./Miniconda3-latest-Linux-x86_64.sh
-
-Do you accept the license terms? [yes|no]
-[no] >>> yes
-
-Do you wish the installer to initialize Miniconda3
-by running conda init? [yes|no]
-[no] >>> yes
-
-```
-
-<i> if you are in a managed environment, like VCAD, make sure you move the 
-added .bashrc lines to a private rc file.</i>
-
-<b>Close this terminal and open a new terminal</b>
-
-Your prompt should start with <b>(base)</b>
-
-
-## Install the Miniconda components
-
-```
-cd <workspace>/condor
-source how-to/env/setuprc.sh
-
-conda activate
-conda install -c conda-forge jq
-Proceed ([y]/n)? y
-conda install -c conda-forge yq
-Proceed ([y]/n)? y
-```
-
-</details>
-
-----------------------------------------------------------
-# Build/Install MAP
-
-This section builds and installs Map and it's components: Sparta and Sparta's 
-conda environment, and Helios/Argos
-
-If you have previously install MAP you will have a MAP Conda environment
-in you home directory and you may receive the "prefix already exists"
-message when creating the conda environment. This is benign.
+Create a link to the preinstalled MAP/Sparta tool set.
 
 ```
   cd $TOP
-  git clone https://github.com/sparcians/map.git
-  cd $MAP
-  ./scripts/create_conda_env.sh sparta dev
-  conda activate sparta
+  ln -s /tools/map
 ```
-Your prompt should now start with (sparta)
-
-```
-  cd $MAP/sparta; mkdir release; cd release
-  cmake .. -DCMAKE_BUILD_TYPE=Release
-  make -j8
-  cmake --install . --prefix $CONDA_PREFIX
-  cd $MAP/helios; mkdir release; cd release
-  cmake -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta ..
-  make -j8
-  cmake --install . --prefix $CONDA_PREFIX
-```
-
 ---------
 
 # Build/Install CAM
