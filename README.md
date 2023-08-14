@@ -197,17 +197,13 @@ source how-to/env/setuprc.sh
 A local build environment assumes you are building all tools in your
 work area, and not relying on the /tools installation of Condor tools.
 -->
-```
-```
 
--->
 ## Install the Ubuntu collateral
 
-This will be done once for everyone. If you are not setting up a new machine 
-you can skip this step.
+You normally do not need to do this. It has been done for you.
 
 <details>
-  <summary>Details</summary>
+  <summary>Details: Install the Ubuntu collateral</summary>
 
 Install the Ubuntu support packages:
 
@@ -238,28 +234,13 @@ sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjs
 
 ## Install RISCV GNU Tool Chain
 
-Note: For now ask me where these tools are kept, once Outserv is done 
-these will have a fixed home, e.g. /usr/local
+You only need to create links to the pre-installed tools. 
 
-<details>
-  <summary>Details</summary>
-
-Some estimates say ~7GB of space is needed for these tools.
-
-There are pre-built versions of the bare metal and linux tools. See
-Jeff to get the link. These versions can save hours of compile time.
-
-
-<!-- For the DIY-ers see this page: [LINK](./CROSS_TOOL_CHAIN.md) -->
-<!-- I have not checked this in a while, commented until i can check it -->
-
-Example:
 ```
   cd $TOP
-  ln -s /usr/local/riscv64-unknown-elf
-  ln -s /usr/local/riscv64-unknown-linux-gnu
+  ln -s /tools/riscv64-unknown-elf
+  ln -s /tools/riscv64-unknown-linux-gnu
 ```
-</details>
 
 ## Install Miniconda
 
@@ -279,7 +260,7 @@ conda activate
 With correct activation your prompt will start with (base).
 
 <details>
-  <summary>Details</summary>
+  <summary>Details: How to install miniconda</summary>
 
 In accepting the license:
 
@@ -295,6 +276,10 @@ startup
 
 - I am not executing this command
 
+- Installing miniconda creates a .condarc  file in your home. 
+  - To fully uninstall conda this file should also be deleted.
+  - For information only, the auto_activate_base setting is stored in this
+    file
 
 ```
 cd $TOP
@@ -436,7 +421,6 @@ the proper stf patches already applied.
   mkdir -p build; cd build
   cmake .. 
   make -j8
-  mkdir -p $TOP/tools/bin $TOP/tools/lib
   cp dromajo $TOP/tools/bin/cpm.dromajo
   cp libdromajo_cosim.a $TOP/tools/lib/libcpm_dromajo_cosim.a
 ```
