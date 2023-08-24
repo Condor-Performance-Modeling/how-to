@@ -557,7 +557,7 @@ Dromajo version.
 If you need STF generation use $CPM_DROMAJO, else $DROMAJO is the faster
 version.
 
-login is root, password is root for both versions.
+<b>login is root, password is root</b> for both versions.
 
 ## Boot linux - CPM DROMAJO 
 Copy the images/etc from previous steps to the CPM Dromajo run directory.
