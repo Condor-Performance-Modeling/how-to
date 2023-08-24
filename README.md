@@ -682,6 +682,8 @@ The Condor benchmark repo uses a mix of submodules and copies of external
 repos. The copies contain source modified from the original repo to enable
 STF generation.
 
+If you have a cloned benchmarks repo you do not need to clone it again.
+
 The steps below tell you how to clone the repo. Once the repo has been
 cloned there is a separate README for building and maintaining the suite.
 
@@ -705,6 +707,7 @@ STF generation.
 
 ## Cloning and build the benchmark repo
 
+If you have a cloned benchmarks repo you do not need to clone it again.
 ```
 cd $TOP
 git clone git@github.com:Condor-Performance-Modeling/benchmarks.git
@@ -712,7 +715,6 @@ cd $BENCHMARKS
 git submodule update --init --recursive
 export RISCV=$RV_BAREMETAL_TOOLS
 make 
-
 ```
 
 The results will be in bin.
