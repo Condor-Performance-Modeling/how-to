@@ -4,8 +4,23 @@ There are pre-built packages for these tools. The preferred method is to
 use the pre-built tools.
 
 # Pre-built tool chain available
-I maintain a set for Ubuntu 22.04. Send me a slack for the link. Otherwise
-instructions for building GNU tools is below.
+I maintain a set for Ubuntu 22.04. There are two locations.
+
+Most people will link to the version in c-aws:: /tools
+```
+jeffnye@interactive1$ ls -l /tools
+drwxr-xr-x 8 jeffnye ccusers      6144 Jul 25 09:54 riscv64-unknown-elf
+drwxr-xr-x 9 jeffnye ccusers      6144 Jul 25 09:56 riscv64-unknown-linux-gnu
+```
+
+Or send me a slack for the google drive link.
+
+For the DIY'ers instructions for building GNU tools are below.
+
+<b>
+NOTE: These instructions where last tested before the move to C-AWS. 
+Slack Jeff with problems.
+</b>
 
 --------------------------------------
 # ToC

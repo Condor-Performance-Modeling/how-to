@@ -23,84 +23,72 @@ source how-to/env/setupenv.sh
 
 Once the script is sourced these variables will exist in your current shell.
 
+```
+# $TOP is deprecated, eliminated when I get a minute to clean up the
+# dependencies
+# ------------------------------------------------------------------------
+# This var points to where all CPM repo's will live. 
+# This is essentially /path/to/condor
+unset TOP;        export TOP=`pwd`
+unset CONDOR_TOP; export CONDOR_TOP=`pwd`
 
-- TOP
-    - This var points to where all CPM repo's will live. This is essentially /path/to/condor.
-    - <b>export TOP=\`pwd\`</b>
+# Path to the repo containing the CPM benchmarks
+unset BENCHMARKS; export BENCHMARKS=$TOP/benchmarks
 
-- BENCHMARKS
-    - Path to the repo containing the CPM benchmarks
-    - <b>export CPM_ENV=$TOP/benchmarks</b>
+# The linux file system source used by dromajo to boot linux
+unset BUILDROOT; export BUILDROOT=$TOP/buildroot-2020.05.1
 
-- BUILDROOT
-    - The linux file system source used by dromajo to boot linux
-    - <b>export BUILDROOT=$TOP/buildroot-2020.05.1</b>
+# A directory containing the Condor Olympia fork
+unset CAM; export CAM=$TOP/cam
 
-- CPM_ENV
-    - A directory with environment scripts and resource files
-    - <b>export CPM_ENV=$TOP/how-to/env</b>
+# This var points to the Condor fork of dromajo 
+unset CPM_DROMAJO; export CPM_DROMAJO=$TOP/cpm.dromajo
 
-- CROSS_COMPILE
-    - Used by the linux build process
-    - <b>export CROSS_COMPILE=riscv64-unknown-linux-gnu-</b>
+# Local workspace installed tools
+unset CPM_TOOLS; export CPM_TOOLS=$TOP/tools
 
-- DROMAJO
-    - This var points to the dromajo under riscv-perf-model
-    - <b>export DROMAJO=$TOP/dromajo</b>
+# Used by the linux build process
+unset CROSS_COMPILE; export CROSS_COMPILE=riscv64-unknown-linux-gnu-
 
-- KERNEL
-    - The linux kernel source used for running linux on dromajo.
-    - <b>export KERNEL=$TOP/linux-5.8-rc4</b>
+# This chipsalliance dromajo version
+unset DROMAJO; export DROMAJO=$TOP/dromajo
 
-- MAP
-    - This var points to the Sparcians/Map repo copy
-    - <b>export MAP=$TOP/map</b>
+# The linux kernel source used for running linux on dromajo.
+unset KERNEL; export KERNEL=$TOP/linux-5.8-rc4
 
-- OLYMPIA
-    - This var points to the riscv-perf-model (aka Olympia) repo copy
-    - <b>export OLYMPIA=$TOP/riscv-perf-model</b>
+# This var points to the Sparcians/Map repo copy
+unset MAP; export MAP=$TOP/map
 
-- OPENSBI
-    - This the open supervisor binary interface source used by dromajo
-    - <b>export OPENSBI=$TOP/opensbi</b>
+# This var points to the riscv-perf-model (aka Olympia) repo copy
+unset OLYMPIA; export OLYMPIA=$TOP/riscv-perf-model
 
-- PATCHES
-    - A directory with pre-modified source files and patch files
-    - <b>export PATCHES=$TOP/how-to/patches</b>
+# This the open supervisor binary interface source used by dromajo
+unset OPENSBI; export OPENSBI=$TOP/opensbi
 
-- RV_BAREMETAL_TOOLS
-    - This var points to the gnu bare metal tool chain install directory.
-    - <b>export RV_BAREMETAL_TOOLS=$TOP/riscv64-unknown-elf</b>
+# A directory with pre-modified source files and patch files
+unset PATCHES; export PATCHES=$TOP/how-to/patches
 
-- RV_LINUX_TOOLS
-    - This var points to the gnu linux tool chain install directory.
-    - <b>export RV_LINUX_TOOLS=$TOP/riscv64-unknown-linux-gnu</b>
+# Used by the baremetal build process
+unset RISCV_PREFIX; export RISCV_PREFIX=riscv64-unknown-elf-
 
-- RV_TOOLS_SRC
-    - This var points to the tool chain source directory
-    - <b>export RV_TOOLS_SRC=$TOP/riscv-gnu-toolchain</b>
+# This var points to the gnu bare metal tool chain install directory.
+unset RV_BAREMETAL_TOOLS; export RV_BAREMETAL_TOOLS=$TOP/riscv64-unknown-elf
 
-- SPIKE
-    - This var points to riscv-isa-sim aka Spike
-    - <b>export $TOP/riscv-isa-sim</b>
+# This var points to the gnu linux tool chain install directory.
+unset RV_LINUX_TOOLS; export RV_LINUX_TOOLS=$TOP/riscv64-unknown-linux-gnu
 
-- TOOLS
-    - Tools install directory
-    - <b>export $TOP/tools</b>
+# Short cut to Sparcians/Map/Sparta, simplifies build instructions
+unset SPARTA; export SPARTA=$TOP/map/sparta
 
-- VEER
-    - This var points to the Veer golden model aka Whisper
-    - <b>export $TOP/whisper</b>
+# This var points to riscv-isa-sim aka Spike
+unset SPIKE; export SPIKE=$TOP/riscv-isa-sim
 
-- WHISPER
-    - alias for the above
-    - <b>export $TOP/whisper</b>
+# Workspace local tools install directory
+unset TOOLS; export TOOLS=$TOP/tools
 
-- WGETTMP
-    - Some packages require manual download using wget.
-    - This a temporary directory for that purpose.
-    - <b>export WGETTMP=/tmp</b>
+# This var points to the Veer golden model from chipsalliance/VeeR-ISS
+unset VEER; export VEER=$TOP/whisper
 
-- RISCV_PREFIX
-    - Used by the baremetal build process
-    - <b> export RISCV_PREFIX=riscv64-unknown-elf-</b>
+# For now this is a duplicate of veer
+unset WHISPER; export WHISPER=$TOP/whisper
+```
