@@ -356,11 +356,13 @@ Your prompt should now start with (sparta)
 This builds the Condor fork of olympia (Cuzco Architecture Model). The build
 process is similar to Olympia.
 
+If you have previously cloned CAM you do not need to do it again.
 ```
   cd $TOP
   mkdir -p tools/bin
   git clone git@github.com:Condor-Performance-Modeling/cam.git
-
+```
+```
   cd $CAM
   mkdir -p release; cd release
   cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
