@@ -23,7 +23,7 @@ blocked or your code will not be reviewed which is bad.
 If it becomes necessary we can decide on a more advanced naming
 convention. I hopefully this is enough.
 
-# How to create PR
+# How to create a PR
 <b>I have not tested this yet.</b>
 
 You can create a PR from github.com or from the CLI
@@ -37,11 +37,21 @@ git switch -c <new branch name>
 ```
 git push -u origin <branch name>
 ```
-
 # How to merge a branch with main
 ```
 git checkout main
 git pull origin main
 git merge <branch name>
 git push origin main
+```
+# How to show branches
+```
+git branch       # local branches
+git branch -r    # remote branches
+```
+# How to delete branches
+Do not delete the branch you are currently sitting on.
+```
+git branch -d <branch name>         # delete local branch
+git push origin -d <branch name>    # delete a remote branch
 ```
