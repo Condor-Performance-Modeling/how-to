@@ -73,7 +73,7 @@ If you have done this already you can skip this section.
 
 
 There are two* Ubuntu environments at present, Condor AWS aka C-AWS, and 
-VCAD. C-AWS is Condor managed, with assistance from OutServ. 
+VCAD. C-AWS is Condor managed, with assistance from IT contractors. 
 
 These instructions are not for the VCAD environment. See Jeff if 
 you are creating a CPM environment in VCAD.
@@ -101,7 +101,38 @@ Once you have access to a linux machine generate your public SSH keys. You will
 add this key to your github account. You need to do this for each machine that
 will clone or push to the CPM repo.
 
+# Choose a host
+There are two types of machines, interactiveN and computeN.
+(As of 2024 N=1, this will change)
+
+The instructions for NoMachine will land you on gui1. Your desktop is served by gui1.
+
+It is intended only for serving desktops. If you run anything substantial you
+risk cratering the whole system for everyone. There are load monitors that will
+kill your job if you make a mistake. If you manage to crater the system please
+let me know so we can adjust the monitors.
+
+From gui1 you should ssh to interactiveN or computeN.
+
+gui1> ssh interactive1
+
+At present the distinction, interactive/compute, is small. In the future logging in to computeN 
+will only be possible through LSF but this is months away.
+
+Note interactive1 has better disk performance than compute1. 
+
+## Create a work area
+Create a work area in C-AWS at /data/users/<login id>
+
+interactive1> cd /data/users
+interactive1> mkdir your_login_id
+interactive1> cd your_login_id, etc etc.
+
+/data is NFS mounted across all interactive and compute machines.
+
 ### Create your keys
+Your home directory is /nfshome/<login id>
+CD to your home and create your ssh keys.
 
 ```
   aw01ut01: cd $HOME
@@ -123,11 +154,11 @@ will clone or push to the CPM repo.
 You will use your passphrase in place of a password when cloning and pushing.
 
 ### Add your keys to ssh-agent
+If you do this in a terminal you will no longer have to supply your phrase for GitHub transactions.
 
 ```
   eval `ssh-agent`
   ssh-add $HOME/.ssh/id_rsa
-
 ```
 
 More details can be found [GITHUB](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) and [ATLASSIAN](https://www.atlassian.com/git/tutorials/git-ssh)
