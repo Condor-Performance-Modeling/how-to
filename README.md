@@ -101,7 +101,7 @@ Once you have access to a linux machine generate your public SSH keys. You will
 add this key to your github account. You need to do this for each machine that
 will clone or push to the CPM repo.
 
-# Choose a host
+## Choose a host
 There are two types of machines, interactiveN and computeN.
 (As of 2024 N=1, this will change)
 
