@@ -98,7 +98,8 @@ add this key to your github account. You need to do this for each machine that
 will clone or push to the CPM repo.
 
 ### Create your keys
-Your home directory is /nfshome/<login id>
+Your home directory is /nfshome/\<login id\>
+
 CD to your home and create your ssh keys.
 
 ```
