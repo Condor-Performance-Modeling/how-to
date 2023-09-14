@@ -100,13 +100,13 @@ will clone or push to the CPM repo.
 ### Create your keys
 Your home directory is /nfshome/\<login id\>
 
-CD to your home and create your ssh keys.
+CD to your home and create your ssh keys. Use the default file name and path.
 
 ```
   aw01ut01: cd $HOME
   aw01ut01: ssh-keygen
 
-  Enter file in which to save the key (some/path): 
+  Enter file in which to save the key (/nfshome/yourlogin/.ssh/id_rsa): 
   Enter passphrase (empty for no passphrase): <your passphrase>
 ```
 
@@ -119,7 +119,7 @@ CD to your home and create your ssh keys.
   aw01ut01> chmod 600 ~/.ssh/*
 ```
 
-You will use your passphrase in place of a password when cloning and pushing.
+<b>You will use your passphrase in place of a password when cloning and pushing.</b>
 
 ### Add your keys to ssh-agent
 If you do this in a terminal you will no longer have to supply your phrase for GitHub transactions.
