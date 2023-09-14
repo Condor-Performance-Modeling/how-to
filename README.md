@@ -68,9 +68,10 @@ and ssh-agent.
 
 If you have done this already you can skip this section.
 
-<details>
+<!-- <details>
   <summary>Details</summary>
-
+-->
+###Details
 
 There are two* Ubuntu environments at present, Condor AWS aka C-AWS, and 
 VCAD. C-AWS is Condor managed, with assistance from IT contractors. 
