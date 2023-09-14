@@ -94,8 +94,7 @@ it.  I'm doing it this way to avoid exposing the process, sorry.
 ## Create and register your ssh keys.
 
 Once you have access to a linux machine generate your public SSH keys. You will
-add this key to your github account. You need to do this for each machine that
-will clone or push to the CPM repo.
+add this key to your github account. 
 
 ### Create your keys
 Your home directory is /nfshome/\<login id\>
