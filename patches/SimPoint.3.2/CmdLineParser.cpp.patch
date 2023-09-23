@@ -1,0 +1,10 @@
+--- Orig/CmdLineParser.cpp	2023-09-23 15:06:40.828540622 -0500
++++ analysiscode/CmdLineParser.cpp	2023-09-23 15:07:33.449192317 -0500
+@@ -71,6 +71,7 @@
+ 
+ 
+ #include "CmdLineParser.h"
++#include <cstring>
+ 
+ bool CmdLineParser::parseCmdLine(int argc, char **argv) {
+     for (int argNdx = 0; argNdx < argc; argNdx++) {

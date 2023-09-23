@@ -1,0 +1,20 @@
+--- Orig/FVParser.cpp	2023-09-23 15:16:49.927954552 -0500
++++ analysiscode/FVParser.cpp	2023-09-23 15:20:17.118518403 -0500
+@@ -79,6 +79,7 @@
+ #include "FVParser.h"
+ #include "Utilities.h"
+ #include <string>
++#include <cstring>
+ 
+ // take care of a difference between G++ 2.96 and 3.x
+ #if (__GNUC__ >= 3)
+@@ -102,7 +103,8 @@
+     char buffer[BUF_SIZE];
+     buffer[0] = '\0';
+     do {
+-        fgets(buffer, BUF_SIZE, input);
++        char *ret = fgets(buffer, BUF_SIZE, input);
++        (void)ret; //hide the unused warning
+     } while ((! eof()) && ((strlen(buffer) == 0) || ('T' != buffer[0])));
+     Utilities::check(strlen(buffer) != BUF_SIZE - 1,
+             "FVParser::nextLine() lines are too long for buffer");

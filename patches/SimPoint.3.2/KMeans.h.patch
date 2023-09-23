@@ -1,0 +1,29 @@
+--- Orig/KMeans.h	2023-09-23 15:18:43.073344349 -0500
++++ analysiscode/KMeans.h	2023-09-23 15:19:15.133735759 -0500
+@@ -82,6 +82,7 @@
+  ***********************************************************************/
+ 
+ #include "Dataset.h"
++#include <vector>
+ 
+ class KMeans {
+     public:
+@@ -106,15 +107,15 @@
+         // NULL (in which case the distances are not recorded). labels cannot
+         // be NULL.
+         static void findLabelsAndDists(const Dataset &data, const Dataset &centers,
+-                                       vector<int> *labels, Datapoint *dists = NULL);
++                                       std::vector<int> *labels, Datapoint *dists = NULL);
+ 
+         // Find the number of occurrences of each number in labels, and
+         // store the count in the weights (out) parameter.
+-        static void findWeights(const vector<int> &labels, vector<int> *weights);
++        static void findWeights(const std::vector<int> &labels, std::vector<int> *weights);
+ 
+         // Find the sum of the squares of the distance between each data
+         // point and its closest center.
+-        static double distortion(const Dataset &data, const vector<int> &labels,
++        static double distortion(const Dataset &data, const std::vector<int> &labels,
+                            const Dataset &centers, Datapoint *distortionPerCluster = 0);
+ 
+         // Find the BIC score for this dataset.

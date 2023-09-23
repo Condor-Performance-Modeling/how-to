@@ -1,0 +1,46 @@
+--- Orig/Datapoint.h	2023-09-23 15:08:13.061676738 -0500
++++ analysiscode/Datapoint.h	2023-09-23 15:12:41.604956091 -0500
+@@ -83,10 +83,12 @@
+ 
+ #include <vector>
+ #include <cstdio>
++#include <ostream>
++#include <istream>
+ 
+-using namespace std;
++//using namespace std;
+ 
+-class Datapoint : public vector<double> {
++class Datapoint : public std::vector<double> {
+     public:
+         Datapoint();
+         Datapoint(unsigned int length);
+@@ -108,23 +110,23 @@
+ 
+         // write out all the data with a length indicator in advance
+         // (format: "length: (*this)[0] (*this)[1]...")
+-        void write(ostream &os) const;
++        void write(std::ostream &os) const;
+         void write(FILE *out) const;
+ 
+-        void read(istream &is);
++        void read(std::istream &is);
+         void read(FILE *in);
+ 
+         // write/read in binary format (PLATFORM-SPECIFIC)
+-        void writeBinary(ostream &os) const;
++        void writeBinary(std::ostream &os) const;
+         void writeBinary(FILE *out) const;
+ 
+-        void readBinary(istream &is);
++        void readBinary(std::istream &is);
+         void readBinary(FILE *in);
+ };
+ 
+ 
+ // print it out in a human-readable way
+-ostream &operator<<(ostream &os, const Datapoint &dp);
++std::ostream &operator<<(std::ostream &os, const Datapoint &dp);
+ 
+ #endif
+ 

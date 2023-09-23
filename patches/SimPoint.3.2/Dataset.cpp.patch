@@ -1,0 +1,56 @@
+--- Orig/Dataset.cpp	2023-09-23 15:39:45.660848083 -0500
++++ analysiscode/Dataset.cpp	2023-09-23 15:40:56.809724554 -0500
+@@ -171,7 +171,7 @@
+ 
+ void Dataset::read(FILE *in) {
+     unsigned int length;
+-    fscanf(in, "%u", &length);
++    int ret = fscanf(in, "%u", &length);
+ 
+     char c = fgetc(in);
+     Utilities::check(':' == c, "Dataset::read() missing : separator");
+@@ -186,13 +186,15 @@
+ 
+     for (unsigned int i = 0; i < length; i++) {
+         if (hasWeights) {
+-            fscanf(in, "%lf", &weight);
++            ret = fscanf(in, "%lf", &weight);
+             setWeight(i, weight);
+         } else {
+             setWeight(i, 1.0 / length);
+         }
+         (*this)[i].read(in);
+     }
++
++    (void)ret;
+ }
+ 
+ void Dataset::writeBinary(ostream &os) const {
+@@ -248,23 +250,24 @@
+ 
+ void Dataset::readBinary(FILE *in) {
+     unsigned int length;
+-    fread((void *)&length, sizeof(unsigned int), 1, in);
++    int ret = fread((void *)&length, sizeof(unsigned int), 1, in);
+ 
+     unsigned int hasWeights;
+-    fread((void *)&hasWeights, sizeof(unsigned int), 1, in);
++    ret = fread((void *)&hasWeights, sizeof(unsigned int), 1, in);
+ 
+     resize(length);
+ 
+     double weight;
+     for (unsigned int i = 0; i < length; i++) {
+         if (hasWeights) {
+-            fread((void *)&weight, sizeof(double), 1, in);
++            ret = fread((void *)&weight, sizeof(double), 1, in);
+             setWeight(i, weight);
+         } else {
+             setWeight(i, 1.0 / length);
+         }
+         (*this)[i].readBinary(in);
+     }
++    (void)ret;
+ }
+ 
+ // this resize() method overrides the one in vector<Datatype> because we have

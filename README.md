@@ -40,6 +40,8 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Cloning the benchmark repo](#cloning-the-benchmark-repo)
 
+1. [Patching SimPoint](#patching-simpoint)
+
 <!--
 1. [Build the analysis tool suite](#build-the-analysis-tool-suite)
 1. [Build the benchmark suite](#build-the-benchmark-suite)
@@ -676,7 +678,6 @@ Proceed with the build.
 ```
 
 ------------------------------------------------------------------------
-------------------------------------------------------------------------
 # Cloning the benchmark repo
 
 The Condor benchmark repo uses a mix of submodules and copies of external
@@ -697,75 +698,47 @@ git submodule update --init --recursive
 
 The remaining instructions are now available in benchmarks/README.md.
 
+
+------------------------------------------------------------------------
+# Patching SimPoint
+
+SimPoint is installed in C-AWS at /data/tools/SimPoint.3.2.
+
+I use this script to patch new builds of 3.2:
+
+$TOP/how-to/patches/patch_simpoint.3.2.sh
+
+```
+tar xf SimPoint.3.2.tar.gz
+cd SimPoint.3.2/analysiscode
+sh $TOP/how-to/patches/patch_simpoint.3.2.sh
+cd ..
+make -j8
+```
+
+<!-- 
+A new section for a minimal install
+
+This makes a lot of assumptions about what is already present,
+like miniconda etc.
+
+# Build a minimal development environment
+
+- clone the how-to
+- make the links to the cross compile tools
+- clone/build cam
+- clone/build benchmarks
+
+
+-->
+
 <!-- 
 I need to fix this section
 ------------------------------------------------------------------------
 # Build the benchmark suite
 
-The Condor benchmark repo uses a mix of submodules and copies of external
-repos. The copies contain source modified from the original repo to enable
-STF generation.
+This is now in benchmarks/README.md
 
-## Cloning and build the benchmark repo
-
-If you have a cloned benchmarks repo you do not need to clone it again.
-```
-cd $TOP
-git clone git@github.com:Condor-Performance-Modeling/benchmarks.git
-cd $BENCHMARKS
-git submodule update --init --recursive
-export RISCV=$RV_BAREMETAL_TOOLS
-make 
-```
-
-The results will be in bin.
-
-## Building riscv-tests
-
-Note this adds the baremetal tool path to you environment. Previously
-the linux based tools where added to your path.
-
-But otherwise if you have done this before you do not need to do it again.
-
-Check that riscv64-unknown-elf-gcc is in your path.
-
-```
-which riscv64-unknown-elf-gcc
-```
-
-If not export to your PATH variable as shown.
-
-```
-export PATH=$RV_BAREMETAL_TOOLS/bin:$PATH
-```
-
-```
-cd $BENCHMARKS/riscv-tests-src
-autoconf
-./configure --prefix=$BENCHMARKS/riscv-tests
-make
-make install
-```
-
-Binaries (.riscv) and object dump files (.dump) will be placed
-in $BENCHMARKS/riscv-tests/share/riscv-tests/benchmarks and in
-$BENCHMARKS/riscv-tests/share/riscv-tests/isa for the benchmark
-and compliance suites.
-
-## Running the instrumented baremetal benchmarks
-
-```
-cd $BENCHMARKS/instrumented
-make
-```
-
-## Status of benchmarks
-
-We keep track of the status of benchmarks.  Long term this will be
-done through a confluence page, for now I"m doing this in a side
-.md file. 
-
-This is the current [LINK](./BENCHSTATUS.md).
 -->
 
 <!-- I need to verify this section

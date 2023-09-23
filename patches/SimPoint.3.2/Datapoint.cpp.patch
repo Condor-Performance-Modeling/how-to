@@ -1,0 +1,37 @@
+--- Orig/Datapoint.cpp	2023-09-23 15:13:05.613249794 -0500
++++ analysiscode/Datapoint.cpp	2023-09-23 15:16:34.203763568 -0500
+@@ -212,7 +212,7 @@
+ 
+ void Datapoint::read(FILE *in) {
+     unsigned int length;
+-    fscanf(in, "%u", &length);
++    int ret = fscanf(in, "%u", &length);
+ 
+     char c = fgetc(in);
+     Utilities::check(':' == c, "Datapoint::read() missing : separator");
+@@ -220,8 +220,10 @@
+     resize(length);
+ 
+     for (unsigned int i = 0; i < length; i++) {
+-        fscanf(in, "%lf", &(*this)[i]);
++        ret = fscanf(in, "%lf", &(*this)[i]);
+     }
++
++    (void) ret; //hide warning for unused fscanf ret value
+ }
+ 
+ 
+@@ -249,10 +251,11 @@
+ 
+ void Datapoint::readBinary(FILE *in) {
+     unsigned int length;
+-    fread((void *)&length, sizeof(unsigned int), 1, in);
++    int ret = fread((void *)&length, sizeof(unsigned int), 1, in);
+     resize(length);
+     Datapoint::iterator b = this->begin();
+-    fread((void *)&(*b), sizeof(double), length, in);
++    ret = fread((void *)&(*b), sizeof(double), length, in);
++    (void) ret; //hide warning for unused fread ret value
+ }
+ 
+ 

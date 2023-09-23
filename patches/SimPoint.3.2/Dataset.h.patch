@@ -1,0 +1,49 @@
+--- Orig/Dataset.h	2023-09-23 15:08:24.001811161 -0500
++++ analysiscode/Dataset.h	2023-09-23 15:12:28.872800680 -0500
+@@ -83,8 +83,10 @@
+ 
+ #include "Datapoint.h"
+ #include <vector>
++#include <istream>
++#include <ostream>
+ 
+-class Dataset : public vector<Datapoint> {
++class Dataset : public std::vector<Datapoint> {
+     public:
+         Dataset();
+         Dataset(unsigned int numPoints, unsigned int numDimensions);
+@@ -99,16 +101,16 @@
+ 
+         // These function similarly to Datapoint::write() and
+         // Datapoint::read()
+-        void write(ostream &os) const;
++        void write(std::ostream &os) const;
+         void write(FILE *out) const;
+ 
+-        void read(istream &is);
++        void read(std::istream &is);
+         void read(FILE *in);
+ 
+-        void writeBinary(ostream &os) const;
++        void writeBinary(std::ostream &os) const;
+         void writeBinary(FILE *out) const;
+ 
+-        void readBinary(istream &is);
++        void readBinary(std::istream &is);
+         void readBinary(FILE *in);
+ 
+         double getWeight(unsigned int ndx) const { return weights[ndx]; }
+@@ -117,11 +119,11 @@
+         void resize(unsigned int new_size, Datapoint prototype = Datapoint());
+ 
+     protected:
+-        vector<double> weights;
++        std::vector<double> weights;
+ };
+ 
+ // print it out in a human-readable way
+-ostream &operator<<(ostream &os, const Dataset &ds);
++std::ostream &operator<<(std::ostream &os, const Dataset &ds);
+ 
+ #endif
+ 
