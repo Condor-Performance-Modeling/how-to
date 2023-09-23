@@ -68,14 +68,10 @@ You must have an account with C-AWS, you must be registered with CPM.
 You will want to have your ssh keys installed and registered with GitHub 
 and ssh-agent. 
 
-If you have done this already you can skip this section.
-
-<details>
-  <summary>Details</summary>
-
+<!-- If you have done this already you can skip this section. -->
 
 There are two* Ubuntu environments at present, Condor AWS aka C-AWS, and 
-VCAD. C-AWS is Condor managed, with assistance from OutServ. 
+VCAD. C-AWS is Condor managed, with assistance from IT contractors. 
 
 These instructions are not for the VCAD environment. See Jeff if 
 you are creating a CPM environment in VCAD.
@@ -83,14 +79,14 @@ you are creating a CPM environment in VCAD.
 *Caveat: You can also use these instructions on a local machine not under 
 C-AWS. The long term solution is to use your C-AWS account and resources. 
 
-## Become member of Github CPM organization
+### Become member of Github CPM organization
 You must be a member of Condor Performance Modeling (CPM) GitHub 
 organization before you can access the private repos in this list.
 
 Send me your account name via slack or email. I will send you back a
 note when I have added your account to CPM.
 
-## Request an account on C-AWS
+### Request an account on C-AWS
 You can skip this step short term, if you are running on a local linux machine.
 
 Send me a slack or email telling me you need a C-AWS account. I will send
@@ -100,16 +96,18 @@ it.  I'm doing it this way to avoid exposing the process, sorry.
 ## Create and register your ssh keys.
 
 Once you have access to a linux machine generate your public SSH keys. You will
-add this key to your github account. You need to do this for each machine that
-will clone or push to the CPM repo.
+add this key to your github account. 
 
 ### Create your keys
+Your home directory is /nfshome/\<login id\>
+
+CD to your home and create your ssh keys. Use the default file name and path.
 
 ```
   aw01ut01: cd $HOME
   aw01ut01: ssh-keygen
 
-  Enter file in which to save the key (some/path): 
+  Enter file in which to save the key (/nfshome/yourlogin/.ssh/id_rsa): 
   Enter passphrase (empty for no passphrase): <your passphrase>
 ```
 
@@ -122,14 +120,14 @@ will clone or push to the CPM repo.
   aw01ut01> chmod 600 ~/.ssh/*
 ```
 
-You will use your passphrase in place of a password when cloning and pushing.
+<b>You will use your passphrase in place of a password when cloning and pushing.</b>
 
 ### Add your keys to ssh-agent
+If you do this in a terminal you will no longer have to supply your phrase for GitHub transactions.
 
 ```
   eval `ssh-agent`
   ssh-add $HOME/.ssh/id_rsa
-
 ```
 
 More details can be found [GITHUB](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) and [ATLASSIAN](https://www.atlassian.com/git/tutorials/git-ssh)
@@ -140,7 +138,36 @@ Follow the instructions [GITHUB-2](https://docs.github.com/en/authentication/con
 
 Note your ssh public key is in this file $HOME/.ssh/id_rsa.pub. The contents
 of this file are pasted at step 7.
-</details>
+
+## Choose a host
+There are two types of machines, interactiveN and computeN.
+(As of 2024 N=1, this will change)
+
+The instructions for NoMachine will land you on gui1. Your desktop is served by gui1.
+
+It is intended only for serving desktops. If you run anything substantial you
+risk cratering the whole system for everyone. There are load monitors that will
+kill your job if you make a mistake. If you manage to crater the system please
+let me know so we can adjust the monitors.
+
+From gui1 you should ssh to interactiveN or computeN.
+
+gui1> ssh interactive1
+
+At present the distinction, interactive/compute, is small. In the future logging in to computeN 
+will only be possible through LSF but this is months away.
+
+Note interactive1 has better disk performance than compute1. 
+
+## Create a work area
+Create a work area in C-AWS at /data/users/<login id>
+
+interactive1> cd /data/users
+interactive1> mkdir your_login_id
+interactive1> cd your_login_id, etc etc.
+
+/data is NFS mounted across all interactive and compute machines.
+
 
 # Clone the CPM repos
 
