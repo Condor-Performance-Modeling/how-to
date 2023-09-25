@@ -33,6 +33,10 @@ CLI: see https://git-scm.com/docs/git-request-pull
 ```
 git switch -c <new branch name>
 ```
+# How to create a branch and move uncommited changes to that branch
+```
+git checkout -b <new branch name>
+```
 # How to push a branch
 ```
 git push -u origin <branch name>
@@ -54,4 +58,8 @@ Do not delete the branch you are currently sitting on.
 ```
 git branch -d <branch name>         # delete local branch
 git push origin -d <branch name>    # delete a remote branch
+```
+# What URL does this repo belong to:
+```
+git config --get remote.origin.url
 ```
