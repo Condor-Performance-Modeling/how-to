@@ -479,6 +479,7 @@ when tracing is not enabled.
 
 For now there are two distinct builds.
 ```
+  cd $TOP
   git clone https://github.com/chipsalliance/dromajo
   cd $DROMAJO
   ln -s ../stf_lib
