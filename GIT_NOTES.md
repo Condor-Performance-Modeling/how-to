@@ -29,6 +29,10 @@ convention. I hopefully this is enough.
 You can create a PR from github.com or from the CLI
 CLI: see https://git-scm.com/docs/git-request-pull
 
+# How to switch to an existing branch
+```
+git checkout <existing branch name>
+```
 # How to create a branch and switch 
 ```
 git switch -c <new branch name>
