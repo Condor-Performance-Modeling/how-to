@@ -168,7 +168,6 @@ interactive1> cd your_login_id, etc etc.
 
 /data is NFS mounted across all interactive and compute machines.
 
-
 # Clone the CPM repos
 
 Clone the How-To repo locally, it contains settings which are assumed by
@@ -182,24 +181,22 @@ The process is:
 - cd to condor
 - clone the condor performance modeling how-to repo
 
-
 ```
 [cd workspace]
 mkdir condor
 cd condor
-
 git clone git@github.com:Condor-Performance-Modeling/how-to.git
-
 git clone --recurse-submodules git@github.com:Condor-Performance-Modeling/benchmarks.git
-
 git clone git@github.com:Condor-Performance-Modeling/cam.git
-
 git clone git@github.com:Condor-Performance-Modeling/tools.git
-
 git clone git@github.com:Condor-Performance-Modeling/utils.git
-
 ```
+
 <!--
+sh how-to/scripts/base_repos.sh
+<enter your ssh pass phrase>
+Once complete the benchmarks, cam, tools and utils repos will be installed
+
 ## Setup a local build environment 
 A local build environment assumes you are building all tools in your
 work area, and not relying on the /tools installation of Condor tools.
@@ -207,17 +204,20 @@ work area, and not relying on the /tools installation of Condor tools.
 
 ## Setup the build environment variables
 
-I have moved the instructions to a separate file because the instructions 
-are shared with other build instructions.
-
-The new location is [LINK](./SET_LOCAL_ENV.md)
-
+This step setups environment variables used by the flow.
 If you do not want the details you can safely just do this:
 
 ```
 cd condor
 source how-to/env/setuprc.sh
 ```
+
+### Details
+I have moved the detailed instructions to a separate file because the instructions 
+are shared with other build instructions.
+
+The new location is [LINK](./SET_LOCAL_ENV.md)
+
 
 <!--
 ## Setup a local build environment 
@@ -342,9 +342,7 @@ cd <workspace>/condor
 source how-to/env/setuprc.sh
 
 conda activate
-conda install -c conda-forge jq
-Proceed ([y]/n)? y
-conda install -c conda-forge yq
+conda install -c conda-forge jq yq 
 Proceed ([y]/n)? y
 ```
 
@@ -395,11 +393,9 @@ If you have previously cloned CAM you do not need to do it again.
 ```
 
 ```
-  cd $CAM
-  mkdir -p release; cd release
+  cd $CAM; mkdir -p release; cd release
   cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
-  make -j8
-  cmake --install . --prefix $CONDA_PREFIX
+  make -j8; cmake --install . --prefix $CONDA_PREFIX
   cp olympia $TOP/tools/bin/cam
 ```
 
@@ -412,11 +408,9 @@ If you have previously cloned CAM you do not need to do it again.
   mkdir -p tools/bin
   git clone --recursive https://@github.com/riscv-software-src/riscv-perf-model.git
 
-  cd $OLYMPIA
-  mkdir -p release; cd release
+  cd $OLYMPIA; mkdir -p release; cd release
   cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
-  make -j8
-  cmake --install . --prefix $CONDA_PREFIX
+  make -j8; cmake --install . --prefix $CONDA_PREFIX
   cp olympia $TOP/tools/bin/olympia
 ```
 
@@ -429,8 +423,7 @@ STF is a library supporting the Simulation Trace Format.
 ```
   cd $TOP
   git clone https://github.com/sparcians/stf_lib.git
-  cd stf_lib
-  mkdir -p release; cd release
+  cd stf_lib; mkdir -p release; cd release
   cmake -DCMAKE_BUILD_TYPE=Release ..
   make -j8
 ```
