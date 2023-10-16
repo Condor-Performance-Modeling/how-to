@@ -16,17 +16,19 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Clone the CPM repos](#clone-the-cpm-repos)
 
-1. [Build/Install MAP](#build-install-map)
+1. [Build and Install MAP](#build-and-install-map)
 
-1. [Build/Install CAM](#build-install-cam)
+1. [Build and Install CAM](#build-and-install-cam)
 
-1. [Build/Install Olympia](#build-install-olympia)
+1. [Build and Install Olympia](#build-and-install-olympia)
 
 1. [Build STF Lib](#build-stf-lib)
 
 1. [Build CPM Dromajo](#build-cpm-dromajo)
 
+<!--
 1. [Build fast Dromajo](#build-fast-dromajo)
+-->
 
 1. [Build the Linux kernel and file system](#build-the-linux-kernel-and-file-system)
 
@@ -351,7 +353,7 @@ Proceed ([y]/n)? y
 </details>
 
 ----------------------------------------------------------
-# Build/Install MAP
+# Build and Install MAP
 
 This section builds and installs Map and it's components: Sparta and Sparta's 
 conda environment, and Helios/Argos
@@ -380,9 +382,8 @@ Your prompt should now start with (sparta)
   cmake --install . --prefix $CONDA_PREFIX
 ```
 
----------
-
-# Build/Install CAM
+--------------------------------------------------------
+# Build and Install CAM
 This builds the Condor fork of olympia (Cuzco Architecture Model). The build
 process is similar to Olympia.
 
@@ -403,9 +404,11 @@ If you have previously cloned CAM you do not need to do it again.
   cp olympia $TOP/tools/bin/cam
 ```
 
----------
+--------------------------------------------------------
+# Build and Install Olympia
 
-# Build/Install Olympia
+This step is optional. Olympia is the reference model. CAM is a fork of the
+reference model. Changes to Olympia are selectively added to CAM.
 
 ```
   cd $TOP
@@ -420,8 +423,7 @@ If you have previously cloned CAM you do not need to do it again.
   cp olympia $TOP/tools/bin/olympia
 ```
 
----------
-
+--------------------------------------------------------
 # Build STF Lib
 
 STF is a library supporting the Simulation Trace Format.
@@ -435,13 +437,14 @@ STF is a library supporting the Simulation Trace Format.
   make -j8
 ```
 
-----------------------------------
+--------------------------------------------------------
 # Build CPM Dromajo
 
 CPM Dromajo is a patched version of Dromajo enabled for generating STF traces.
-Tracing adds overhead to Dromajo execution. If you do not need STF trace 
-generation the unpatched dromajo will perform much better. See 
-'Build Fast Dromajo'
+Tracing adds overhead to Dromajo execution. 
+
+Previously there were two maintained versions of Dromajo. Only CPM Dromajo
+is needed now.
 
 For reference: the original README for adding tracing to dromajo is in the 
 olympia traces readme, $OLYMPIA/traces/README.md. This fork of dromajo has 
@@ -455,13 +458,13 @@ the proper stf patches already applied.
   mkdir -p build; cd build
   cmake .. 
   make -j8
-  cp dromajo $TOP/tools/bin/cpm.dromajo
-  cp libdromajo_cosim.a $TOP/tools/lib/libcpm_dromajo_cosim.a
+  cp cpm_dromajo $TOP/tools/bin
 ```
 
 Note: the cmake control file for dromajo does not include a complete INSTALL
-target. The install is done by hand. Also note the renames: cpm.dromajo.
+target. The install is done by hand. Also note the renames: cpm_dromajo.
 
+<!--
 ----------------------------------
 # Build Fast Dromajo
 
@@ -490,6 +493,7 @@ For now there are two distinct builds.
   cp libdromajo_cosim.a $TOP/tools/lib/libdromajo_cosim.a
 ```
 </details>
+-->
 
 ------------------------------------------------------------------------
 # Build the Linux kernel and file system
@@ -520,7 +524,6 @@ export CROSS_COMPILE=riscv64-unknown-linux-gnu-
 ```
 
 ### WGET and build the file system
-
 Unfortunately the packages downloaded during make require manual patching.
 Make is run three times so that the package download advances to the point
 that the patches can be applied. 
@@ -550,7 +553,10 @@ This final make is not expected to fail.
 
 ------------------------------------------------------------------------
 # Build OpenSBI
-### PATH check
+
+Open Supervisor Binary Interface
+
+## PATH check
 If you have done this previously you can skip the path check
 <details>
   <summary> Details</summary>
@@ -569,23 +575,22 @@ export CROSS_COMPILE=riscv64-unknown-linux-gnu-
 ```
 </details>
 
-### Download and compile OpenSBI
+## Download and compile OpenSBI
 ```
   cd $TOP
   git clone https://github.com/riscv/opensbi.git
   cd opensbi
   make PLATFORM=generic -j8
-  mkdir -p $TOP/tools/riscv-linux
-  cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin $TOP/tools/riscv-linux/fw_jump.bin
+  mkdir -p $TOOLS/riscv-linux
+  cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin $TOOLS/riscv-linux/fw_jump.bin
 ```
 ------------------------------------------------------------------------
 # Boot Linux on the Dromajo(s)
 
-The above steps create the necessary collateral to boot linux on either 
-Dromajo version.
+The above steps create the necessary collateral to boot linux on CPM 
+Dromajo.
 
-If you need STF generation use $CPM_DROMAJO, else $DROMAJO is the faster
-version.
+The steps above create collateral files in $TOOLS/riscv-linux
 
 <b>login is root, password is root</b> for both versions.
 
@@ -595,7 +600,13 @@ Copy the images/etc from previous steps to the CPM Dromajo run directory.
 cp $TOOLS/riscv-linux/* $CPM_DROMAJO/run
 cp $PATCHES/cpm.boot.cfg  $CPM_DROMAJO/run
 cd $CPM_DROMAJO/run
-$TOP/tools/bin/cpm.dromajo --stf_trace example.stf cpm.boot.cfg
+$TOOLS/bin/cpm_dromajo --trace 0 --ctrlc --no_stf_priv_check --stf_trace example.stf cpm.boot.cfg
+```
+
+If you do not need STF trace generation the command line can be simplified
+```
+$TOOLS/bin/cpm_dromajo --ctrlc cpm.boot.cfg   # enable ctrl-c exit
+$TOOLS/bin/cpm_dromajo --trace 0 cpm.boot.cfg # enable console tracing
 ```
 
 <!--
@@ -609,8 +620,6 @@ $TOP/tools/bin/cpm.dromajo --stf_trace example.stf cpm.boot.cfg
 ```
 -->
 
-Control C exit is enabled in this version.
-
 ## Boot linux - Fast DROMAJO 
 Copy the images/etc from the BuildRoot step to the Fast Dromajo run directory.
 
@@ -620,7 +629,9 @@ cp $PATCHES/fast.boot.cfg  $DROMAJO/run
 cd $DROMAJO/run
 $TOP/tools/bin/dromajo --ctrlc fast.boot.cfg
 ```
+
 <!--
+OLD for fast dromajo
 ```
   cd $DROMAJO/run
   cp $BUILDROOT/output/images/rootfs.cpio .
@@ -629,9 +640,9 @@ $TOP/tools/bin/dromajo --ctrlc fast.boot.cfg
   cp $PATCHES/fast.boot.cfg .
   ../build/dromajo --ctrlc fast.boot.cfg
 ```
--->
 --ctrlc allows Control-C to exit the simulator. Without --ctrlc use kill
 to terminate eh simulator.
+-->
 
 ------------------------------------------------------------------------
 # Build Spike
