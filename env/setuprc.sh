@@ -6,7 +6,8 @@
 # ------------------------------------------------------------------------
 # This var points to where all CPM repo's will live. 
 # This is essentially /path/to/condor
-unset TOP;        export TOP=`pwd`
+unset TOP; export TOP=`pwd`
+
 unset CONDOR_TOP; export CONDOR_TOP=`pwd`
 
 # Path to the repo containing the CPM benchmarks

@@ -24,14 +24,35 @@ If it becomes necessary we can decide on a more advanced naming
 convention. I hopefully this is enough.
 
 # How to create a PR
-<b>I have not tested this yet.</b>
+```
+make your changes in a branch
+commit to that branch
+create the pull request using web (or CLI, this assumes web)
+On the Open pull request page select reviewers (on the right)
+hit "Create pull request"
+email/slack any other reviewer, add Jeff as a minimum
+```
 
-You can create a PR from github.com or from the CLI
-CLI: see https://git-scm.com/docs/git-request-pull
+# How to close a PR
+```
+Your reviewers will request changes - make any corrections
+Your reviewers will give an all clear or similar, reviewers please do this as a comment for tracking
+Merge your PR
+```
+If someone does not respond in a reasonable time, vacations, etc, use common sense on when to merge.
 
+
+# How to switch to an existing branch
+```
+git checkout <existing branch name>
+```
 # How to create a branch and switch 
 ```
 git switch -c <new branch name>
+```
+# How to create a branch and move uncommited changes to that branch
+```
+git checkout -b <new branch name>
 ```
 # How to push a branch
 ```
@@ -54,4 +75,8 @@ Do not delete the branch you are currently sitting on.
 ```
 git branch -d <branch name>         # delete local branch
 git push origin -d <branch name>    # delete a remote branch
+```
+# What URL does this repo belong to:
+```
+git config --get remote.origin.url
 ```
