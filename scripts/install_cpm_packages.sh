@@ -1,5 +1,7 @@
 #! /bin/bash
 
+# TODO - I believe this is no longer used, check and remove
+
 if [ -v CONDOR_TOP ]; then 
    echo "Variable is set: $HOME"
 else
