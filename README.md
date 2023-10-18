@@ -16,7 +16,7 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Clone the CPM Repos](#clone-the-cpm-repos)
 
-1. [Build and Install MAP](#build-and-install-MAP)
+1. [Build and Install MAP](#build-and-install-map)
 
 1. [Build and Install CAM](#build-and-install-cam)
 
@@ -340,6 +340,7 @@ message when creating the conda environment. This is benign.
 ```
   cd $TOP
   git clone https://github.com/sparcians/map.git
+  git checkout 2adb710
   cd $MAP
   ./scripts/create_conda_env.sh sparta dev
 
