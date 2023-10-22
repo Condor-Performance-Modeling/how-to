@@ -333,20 +333,37 @@ Proceed ([y]/n)? y
 This section builds and installs Map and it's components: Sparta and Sparta's 
 conda environment, and Helios/Argos
 
-If you have previously install MAP you will have a MAP Conda environment
-in you home directory and you may receive the "prefix already exists"
+If you have previously installed MAP you will have a MAP Conda environment
+available and you may receive the "prefix already exists"
 message when creating the conda environment. This is benign.
+
+<em> Script automation was backed out in this version due to issues with
+conda detection.</em>
 
 ```
   cd $TOP
   git clone https://github.com/sparcians/map.git
-  git checkout 2adb710
   cd $MAP
+  git checkout 2adb710
   ./scripts/create_conda_env.sh sparta dev
 
   conda activate sparta
 ```
+Your prompt should now start with (sparta), then:
+```
+  conda install yaml-cpp
+  cd $MAP/sparta; mkdir release; cd release
+  cmake .. -DCMAKE_BUILD_TYPE=Release
+  make -j8
+  cmake --install . --prefix $CONDA_PREFIX
+  cd $MAP/helios; mkdir -p release; cd release
+  cmake -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta ..
+  make -j8
+  cmake --install . --prefix $CONDA_PREFIX
+```
 
+<!--
+FIXME: has problems w/ detecting conda
 Your prompt should now start with (sparta), then:
 
 ```
@@ -368,6 +385,7 @@ cmake --install . --prefix $CONDA_PREFIX
 ```
 
 </details>
+-->
 
 --------------------------------------------------------
 # Build and Install CAM
