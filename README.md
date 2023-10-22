@@ -16,6 +16,8 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Clone the CPM Repos](#clone-the-cpm-repos)
 
+1. [Install the RISCV GNU Tool Chain](#install-the-riscv-gnu-tool-chain)
+
 1. [Build and Install MAP](#build-and-install-map)
 
 1. [Build and Install CAM](#build-and-install-cam)
@@ -206,16 +208,6 @@ sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjs
 </details>
 
 
-## Install RISCV GNU Tool Chain
-
-You only need to create links to the pre-installed tools. These are C-AWS paths.
-
-```
-  cd $TOP
-  ln -s /tools/riscv64-unknown-elf
-  ln -s /tools/riscv64-unknown-linux-gnu
-```
-
 ## Install Miniconda
 
 Miniconda package manager is used by Sparcians. If you have done this once
@@ -314,6 +306,16 @@ Once complete the benchmarks, cam, tools and utils repos will be installed
 
 The setuprc.sh script is documented here: [LINK](./SET_LOCAL_ENV.md)
 
+----------------------------------------------------------
+# Install RISCV GNU Tool Chain
+
+You only need to create links to the pre-installed tools. These are C-AWS paths.
+
+```
+  cd $TOP
+  ln -s /tools/riscv64-unknown-elf
+  ln -s /tools/riscv64-unknown-linux-gnu
+```
 ----------------------------------------------------------
 # Build and Install MAP
 
