@@ -305,12 +305,14 @@ bash how-to/scripts/base_repos.sh
 
 <details> 
   <summary>Details: Installing the base repo's step by step</summary>
+
 ```
 git clone --recurse-submodules git@github.com:Condor-Performance-Modeling/benchmarks.git
 git clone git@github.com:Condor-Performance-Modeling/cam.git
 git clone git@github.com:Condor-Performance-Modeling/tools.git
 git clone git@github.com:Condor-Performance-Modeling/utils.git
 ```
+
 </details>
 
 Once complete the benchmarks, cam, tools and utils repos will be installed
