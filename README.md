@@ -473,6 +473,12 @@ cp olympia $TOP/tools/bin/olympia
 
 STF is a library supporting the Simulation Trace Format.
 
+Notes: riscv-perf-model checks out these SHAs
+'mavis': checked out 'ba3d7e4141cd1dbce03cf7eb5481179836f2ac0f'
+'stf_lib': checked out '5a3841de3ea97941de481414c897b981c05efda3'
+
+
+
 ```
 cd $TOP
 bash how-to/scripts/build_stf.sh
