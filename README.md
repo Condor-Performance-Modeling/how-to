@@ -500,8 +500,12 @@ make -j8
 --------------------------------------------------------
 # Build CPM Dromajo
 
-CPM Dromajo is a patched version of Dromajo enabled for generating STF traces.
-Tracing adds overhead to Dromajo execution. 
+CPM Dromajo is a fork of Dromajo from chips alliance. There is a branch 
+which enables STF generation. The branch is based on dromajo SHA:f3c3112.
+
+
+The process is to clone the fork and switch to the branch for all CPM
+work.
 
 Previously there were two maintained versions of Dromajo. Only CPM Dromajo
 is needed now.
@@ -520,13 +524,15 @@ bash how-to/scripts/build_cpm_dromajo.sh
 ```
 cd $TOP
 mkdir -p $TOP/tools/bin 
-git clone git@github.com:Condor-Performance-Modeling/cpm.dromajo.git cpm.dromajo
+git clone git@github.com:Condor-Performance-Modeling/dromajo.git cpm.dromajo
 cd $CPM_DROMAJO
+git checkout  jeffnye-gh/dromajo_stf_update
+
 ln -s ../stf_lib
 mkdir -p build; cd build
 cmake .. 
 make -j8
-cp cpm_dromajo $TOP/tools/bin
+cp dromajo $TOP/tools/bin/com_dromajo
 ```
 
 </details>

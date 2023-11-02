@@ -10,14 +10,17 @@ fi
 
 mkdir -p $TOOLS/bin
 
-git clone git@github.com:Condor-Performance-Modeling/cpm.dromajo.git cpm.dromajo
+git clone git@github.com:Condor-Performance-Modeling/dromajo.git cpm.dromajo
 
 cd $CPM_DROMAJO
+# Based on main dromajo SHA:f3c3112
+git checkout jeffnye-gh/dromajo_stf_update
+
 ln -s ../stf_lib
 
-mkdir -p release; cd release
+mkdir -p build; cd build
 cmake .. 
 make -j8;
 
-cp cpm_dromajo $TOOLS/bin
+cp dromajo $TOOLS/bin/cpm_dromajo
 
