@@ -532,7 +532,7 @@ ln -s ../stf_lib
 mkdir -p build; cd build
 cmake .. 
 make -j8
-cp dromajo $TOP/tools/bin/com_dromajo
+cp dromajo $TOP/tools/bin/cpm_dromajo
 ```
 
 </details>
