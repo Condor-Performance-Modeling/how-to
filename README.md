@@ -12,6 +12,8 @@ perf modeling environment and provide instructions on how to use it.
 --------------------------------------
 # ToC
 
+1. [Choosing a host](#choosing-a-host)
+   
 1. [Boot strapping the environment](#boot-strapping-the-environment)
 
 1. [Clone the CPM Repos](#clone-the-cpm-repos)
@@ -49,6 +51,30 @@ perf modeling environment and provide instructions on how to use it.
 -->
 
 --------------------------------------
+# Choosing a host
+You should do most of your work on interactiveN or computeN.  (where N=1 as of 2023.11.03)
+
+When you first access C-AWS you will land you on guiN. Once on guiN you 
+should switch to interactiveN or computeN.
+
+```
+ssh interactive1
+OR
+ssh compute1
+```
+
+## Details
+There are three types of machines: gui, interactive and compute.
+
+GUI machines are sized only big enough to serve your desktop. Interactive machines are intended for development work. Compute machines are intended as sim-farm machines. As of 2023.11 the distinction between interactive and compute machines is only conventional. You can safely do this if the interactive machines are not performing well.
+
+```
+ssh compute1
+```
+
+Running compute or memory intensive jobs on GUI machines will result in some undesirable behavior.
+Your job may run slowly. Your job may be unexpectedly terminated without much explanation.
+
 # Boot strapping the environment
 
 Presumably you are reading this how-to from the web or a local copy.  This
