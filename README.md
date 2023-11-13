@@ -333,29 +333,47 @@ bash how-to/scripts/base_repos.sh
   <summary>Details: Installing the base repo's step by step</summary>
 
 ```
+ln -s /tools/riscv64-unknown-elf
+ln -s /tools/riscv64-unknown-linux-gnu
 git clone --recurse-submodules git@github.com:Condor-Performance-Modeling/benchmarks.git
 git clone git@github.com:Condor-Performance-Modeling/cam.git
 git clone git@github.com:Condor-Performance-Modeling/tools.git
 git clone git@github.com:Condor-Performance-Modeling/utils.git
+git clone --recurse-submodules git@github.com:Condor-Performance-Modeling/riscv-perf-model.git cpm.riscv-perf-model
+git clone git@github.com:Condor-Performance-Modeling/dromajo cpm.dromajo
 ```
 
 </details>
 
-Once complete the benchmarks, cam, tools and utils repos will be installed
+Once the script completes:
+
+    - The cross compilers will be linked.
+    - The CPM repos benchmarks, cam, tools and utils will be cloned
+    - The CPM forks of riscv-perf-model and dromajo will also be cloned.
+
 
 The setuprc.sh script is documented here: [LINK](./SET_LOCAL_ENV.md)
 
 ----------------------------------------------------------
 # Install RISCV GNU Tool Chain
 
+Links to the pre-installed tools were created in the previous step.
+
+<details> 
+  <summary>Details: Cross compiler setup</summary>
+
 You only need to create links to the pre-installed tools. These are C-AWS paths.
 
 ```
-  cd $TOP
-  ln -s /tools/riscv64-unknown-elf
-  ln -s /tools/riscv64-unknown-linux-gnu
+cd $TOP
+ln -s /tools/riscv64-unknown-elf
+ln -s /tools/riscv64-unknown-linux-gnu
 ```
+
+</details>
+
 ----------------------------------------------------------
+
 # Build and Install MAP
 
 ## Install the MAP Miniconda components
@@ -378,70 +396,60 @@ If you have previously installed MAP you will have a MAP Conda environment
 available and you may receive the "prefix already exists"
 message when creating the conda environment. This is benign.
 
-<em> Script automation was backed out in this version due to issues with
-conda detection.</em>
-
-```
-  cd $TOP
-  git clone https://github.com/sparcians/map.git
-  cd $MAP
-  git checkout 2adb710
-  ./scripts/create_conda_env.sh sparta dev
-
-  conda activate sparta
-```
-Your prompt should now start with (sparta), then:
-```
-  conda install yaml-cpp
-  cd $MAP/sparta; mkdir release; cd release
-  cmake .. -DCMAKE_BUILD_TYPE=Release
-  make -j8
-  cmake --install . --prefix $CONDA_PREFIX
-  cd $MAP/helios; mkdir -p release; cd release
-  cmake -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta ..
-  make -j8
-  cmake --install . --prefix $CONDA_PREFIX
-```
-
 <!--
-FIXME: has problems w/ detecting conda
-Your prompt should now start with (sparta), then:
+<em> Script automation was backed out in this version due to issues with
+conda detection.</em> -->
 
 ```
   cd $TOP
   bash how-to/scripts/build_map.sh
 ```
+
+Your prompt should now start with (sparta), then:
+
 <details>
-  <summary>Details: Building MAP step by step</summary>
+  <summary> Build and install map step by step </summary>
 
 ```
+cd $TOP
+git clone https://github.com/sparcians/map.git
+cd $MAP
+git checkout map_v2
+./scripts/create_conda_env.sh sparta dev
+conda activate sparta
+conda install yaml-cpp
+
 cd $MAP/sparta; mkdir release; cd release
 cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j8
+make -j16
 cmake --install . --prefix $CONDA_PREFIX
+
 cd $MAP/helios; mkdir release; cd release
 cmake -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta ..
-make -j8
+make -j16
 cmake --install . --prefix $CONDA_PREFIX
 ```
 
 </details>
--->
+
 
 --------------------------------------------------------
 # Build and Install CAM
 
-This builds the Condor fork of olympia (Cuzco Architecture Model). 
+## Clone CAM
+
+This step was previously executed in "Clone the CPM Repos"
 
 Skip this step if you have previously cloned CAM.
-
-
+ 
 ```
   cd $TOP
   git clone git@github.com:Condor-Performance-Modeling/cam.git
 ```
 
 ## Build CAM
+
+This builds CAM, the Cuzco Architecture Model.
 
 You must have the sparta conda environment activated.
 
@@ -455,11 +463,13 @@ You must have the sparta conda environment activated.
 
 ```
 mkdir -p tools/bin
+cd $TOP
+conda activate sparta
 git clone git@github.com:Condor-Performance-Modeling/cam.git
 cd $CAM; mkdir -p release; cd release
 cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
 make -j8; cmake --install . --prefix $CONDA_PREFIX
-cp olympia $TOP/tools/bin/cam
+cp cam $TOP/tools/bin/cam
 ```
 
 </details>
@@ -489,7 +499,7 @@ git clone --recursive https://@github.com/riscv-software-src/riscv-perf-model.gi
 cd $OLYMPIA; mkdir -p release; cd release
 cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
 make -j8; cmake --install . --prefix $CONDA_PREFIX
-cp olympia $TOP/tools/bin/olympia
+cp olympia $TOOLS/bin/olympia
 ```
 
 </details>
@@ -500,9 +510,10 @@ cp olympia $TOP/tools/bin/olympia
 STF is a library supporting the Simulation Trace Format.
 
 Notes: riscv-perf-model checks out these SHAs
+```
 'mavis': checked out 'ba3d7e4141cd1dbce03cf7eb5481179836f2ac0f'
 'stf_lib': checked out '5a3841de3ea97941de481414c897b981c05efda3'
-
+```
 
 
 ```
