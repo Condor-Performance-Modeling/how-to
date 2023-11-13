@@ -14,7 +14,7 @@ fi
 
 if ! [ -d "$CAM" ]; then
 {
-  echo "-W: cam does exist cloning repo."
+  echo "-W: cam does not exist, cloning repo."
   git clone git@github.com:Condor-Performance-Modeling/cam.git
 }
 fi

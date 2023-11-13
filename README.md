@@ -455,6 +455,7 @@ You must have the sparta conda environment activated.
 
 ```
   cd $TOP
+  conda activate sparta
   bash how-to/scripts/build_cam.sh
 ```
 
@@ -462,9 +463,9 @@ You must have the sparta conda environment activated.
   <summary>Details: Building CAM step by step</summary>
 
 ```
-mkdir -p tools/bin
 cd $TOP
 conda activate sparta
+mkdir -p tools/bin
 git clone git@github.com:Condor-Performance-Modeling/cam.git
 cd $CAM; mkdir -p release; cd release
 cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
