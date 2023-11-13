@@ -70,6 +70,10 @@ unset VEER; export VEER=$TOP/whisper
 # For now this is a duplicate of veer
 unset WHISPER; export WHISPER=$TOP/whisper
 # ------------------------------------------------------------------------
+# ------------------------------------------------------------------------
+# This path is only valid in C-AWS
+unset TRACELIB; export TRACELIB=/data/tracelib
+# ------------------------------------------------------------------------
 # Previous or deprecated settings
 #
 # RISCV is eliminated

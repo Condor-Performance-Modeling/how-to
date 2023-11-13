@@ -13,15 +13,19 @@ perf modeling environment and provide instructions on how to use it.
 
 # Branch name convention
 
-The 'convention' is relaxed, just give some indication in the name 
-what the branch is for, e.g. <rename.1> and not <mystuff.1>
+The naming 'convention' is aligned to common practice. 
 
-Do not mash together a lot of changes in a branch, if your changes
-can not be reviewed in less than 15 mins your PR will likely get
-blocked or your code will not be reviewed which is bad.
+```
+<user-name>/<descriptive-label>{.version}
+```
 
-If it becomes necessary we can decide on a more advanced naming
-convention. I hopefully this is enough.
+Example: jeffnye-gh/ltage_4bank.1
+
+Slash is the conventional connector.  The {.version} is optional.
+
+Use common sense in the number of changes contained in a branch. 
+If your changes can be reviewed in less than an hour then your
+PR will likely get priority.
 
 # How to create a PR
 ```
