@@ -274,12 +274,13 @@ startup
     file
 
 ```
-cd $TOP
+cd <your work area>  # typically /data/users/<username>/condor
 
 wget --no-check-certificate https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 
 sh ./Miniconda3-latest-Linux-x86_64.sh
 
+..please review the license agreement....
 Do you accept the license terms? [yes|no]
 [no] >>> yes
 
@@ -318,13 +319,13 @@ The process is:
 
 mkdir condor; cd condor
 
-git clone git@github.com:Condor-Performance-Modeling/how-to.git
-
-source how-to/env/setuprc.sh  # useful env variables
-
 eval `ssh-agent`
 ssh-add $HOME/.ssh/id_rsa
 <enter pass phrase>
+
+git clone git@github.com:Condor-Performance-Modeling/how-to.git
+
+source how-to/env/setuprc.sh  # useful env variables
 
 bash how-to/scripts/base_repos.sh
 ```
