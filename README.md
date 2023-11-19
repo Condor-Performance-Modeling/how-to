@@ -273,11 +273,10 @@ startup
   - For information only, the auto_activate_base setting is stored in this
     file
 
-cd <your work area>  # typically /data/users/<username>/condor
 ```
+cd <your work area>  # typically /data/users/<username>/condor
 wget --no-check-certificate https://repo.anaconda.com/miniconda/Miniconda3-py311_23.9.0-0-Linux-x86_64.sh
 sh Miniconda3-py311_23.9.0-0-Linux-x86_64.sh
-```
 
 ..please review the license agreement....
 Do you accept the license terms? [yes|no]
