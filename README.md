@@ -300,9 +300,14 @@ Your prompt should start with <b>(base)</b>
 <!--
 Old miniconda path
 wget --no-check-certificate https://repo.anaconda.com/miniconda/
+
 Miniconda3-py311_23.9.0-0-Linux-x86_64.sh
+
 or
+
 Miniconda3-latest-Linux-x86_64.sh
+
+
 -->
 -----------------------------------------------------------
 # Clone the CPM Repos
