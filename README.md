@@ -275,10 +275,10 @@ startup
 
 ```
 cd $TOP
+```
+wget --no-check-certificate https://repo.anaconda.com/miniconda/Miniconda3-py311_23.9.0-0-Linux-x86_64.sh
 
-wget --no-check-certificate https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-
-sh ./Miniconda3-latest-Linux-x86_64.sh
+sh Miniconda3-py311_23.9.0-0-Linux-x86_64.sh
 
 Do you accept the license terms? [yes|no]
 [no] >>> yes
@@ -396,20 +396,6 @@ If you have previously installed MAP you will have a MAP Conda environment
 available and you may receive the "prefix already exists"
 message when creating the conda environment. This is benign.
 
-<!--
-<em> Script automation was backed out in this version due to issues with
-conda detection.</em> -->
-
-```
-  cd $TOP
-  bash how-to/scripts/build_map.sh
-```
-
-Your prompt should now start with (sparta), then:
-
-<details>
-  <summary> Build and install map step by step </summary>
-
 ```
 cd $TOP
 git clone https://github.com/sparcians/map.git
@@ -430,7 +416,26 @@ make -j16
 cmake --install . --prefix $CONDA_PREFIX
 ```
 
+<!--
+<em> Script automation was backed out in this version due to issues with
+conda detection.</em>
+
+```
+  cd $TOP
+  bash how-to/scripts/build_map.sh
+```
+
+<details>
+  <summary> Build and install map step by step </summary>
+
+```
+```
+
 </details>
+-->
+
+Your prompt should now start with (sparta), then:
+
 
 
 --------------------------------------------------------
