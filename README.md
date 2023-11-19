@@ -275,8 +275,7 @@ startup
 
 ```
 cd <your work area>  # typically /data/users/<username>/condor
-wget --no-check-certificate https://repo.anaconda.com/miniconda/Miniconda3-py311_23.9.0-0-Linux-x86_64.sh
-sh Miniconda3-py311_23.9.0-0-Linux-x86_64.sh
+sh /data/tools/env/Miniconda3-py311_23.9.0-0-Linux-x86_64.sh
 
 ..please review the license agreement....
 Do you accept the license terms? [yes|no]
@@ -298,6 +297,13 @@ Your prompt should start with <b>(base)</b>
 
 </details> <!-- end of Linux, C-AWS and VCAD environments -->
 
+<!--
+Old miniconda path
+wget --no-check-certificate https://repo.anaconda.com/miniconda/
+Miniconda3-py311_23.9.0-0-Linux-x86_64.sh
+or
+Miniconda3-latest-Linux-x86_64.sh
+-->
 -----------------------------------------------------------
 # Clone the CPM Repos
 
