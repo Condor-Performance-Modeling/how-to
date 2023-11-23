@@ -46,3 +46,10 @@ fi
 if [ ! -d  cpm.dromajo ]; then
   git clone git@github.com:Condor-Performance-Modeling/dromajo cpm.dromajo
 fi
+
+# create the tools directories explicitly here, to avoid creating
+# files w/ the directory names
+mkdir -p ./tools/bin
+mkdir -p ./tools/lib
+mkdir -p ./tools/include
+mkdir -p ./tools/riscv-linux

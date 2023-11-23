@@ -541,7 +541,6 @@ make -j8
 CPM Dromajo is a fork of Dromajo from chips alliance. There is a branch 
 which enables STF generation. The branch is based on dromajo SHA:f3c3112.
 
-
 The process is to clone the fork and switch to the branch for all CPM
 work.
 
@@ -561,16 +560,27 @@ bash how-to/scripts/build_cpm_dromajo.sh
 
 ```
 cd $TOP
-mkdir -p $TOP/tools/bin 
+mkdir -p $TOOLS/bin
+
 git clone git@github.com:Condor-Performance-Modeling/dromajo.git cpm.dromajo
+
 cd $CPM_DROMAJO
-git checkout  jeffnye-gh/dromajo_stf_update
+git checkout jeffnye-gh/dromajo_stf_update
 
 ln -s ../stf_lib
+
+# The stf version
 mkdir -p build; cd build
-cmake .. 
+cmake ..
 make -j8
-cp dromajo $TOP/tools/bin/cpm_dromajo
+cp dromajo $TOOLS/bin/cpm_dromajo
+
+# The stf + simpoint version
+cd ..
+mkdir -p build-simpoint; cd build-simpoint
+cmake .. -DSIMPOINT=On
+make -j8
+cp dromajo $TOOLS/bin/cpm_simpoint_dromajo
 ```
 
 </details>

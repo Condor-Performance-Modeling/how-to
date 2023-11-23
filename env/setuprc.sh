@@ -92,4 +92,5 @@ unset RISCV; #export RISCV=$TOP/riscv64-unknown-elf
 # export WGETTMP=$TOP/how-to/downloads
 unset WGETTMP; #export WGETTMP=/tmp
 # ------------------------------------------------------------------------
-
+# This is not done by default, it is here for reference
+#export PATH=$RV_BAREMETAL_TOOLS/bin:$RV_LINUX_TOOLS/bin:$PATH
