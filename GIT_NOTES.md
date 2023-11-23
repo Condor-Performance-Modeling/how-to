@@ -74,7 +74,8 @@ If someone does not respond in a reasonable time, vacations, etc, use common sen
 
 ### How to switch to an existing branch
 ```
-git checkout <existing branch name>
+git checkout <existing branch name>    # for a detached HEAD version
+git switch   <existing branch name>    # tracking the remote branch
 ```
 ### How to create a branch and switch 
 ```
