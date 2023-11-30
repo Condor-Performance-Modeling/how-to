@@ -795,7 +795,7 @@ cp $TOOLS/riscv-linux/* $CPM_DROMAJO/run
 cp $PATCHES/cpm.boot.cfg  $CPM_DROMAJO/run
 
 cd $CPM_DROMAJO/run
-$TOOLS/bin/cpm_dromajo --trace 0 --ctrlc --no_stf_priv_check --stf_trace example.stf cpm.boot.cfg
+$TOOLS/bin/cpm_dromajo --trace 0 --ctrlc --stf_no_priv_check --stf_trace example.stf cpm.boot.cfg
 ```
 
 If you do not need STF trace generation the command line can be simplified
