@@ -215,7 +215,7 @@ Install the Ubuntu support packages:
   sudo apt install bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler
   sudo apt install libboost-all-dev  libsqlite3-dev libhdf5-serial-dev
   sudo apt install libzstd-dev gcc-multilib clang-tidy pkg-config
-  sudo apt install tkdiff traceroute mtr scons
+  sudo apt install tkdiff traceroute mtr scons okular
 
 NOTE: im working through the qt requirements - this will change
   sudo add-apt-repository universe
