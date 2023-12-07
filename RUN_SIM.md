@@ -44,8 +44,14 @@ run_sim -ro dhry -- --foo --bar
 
 would pass `--foo --bar` directly to the simulator.
 
-### `--`arch ARCH
-Specify architecture YAML.
+### `--`ARG VAL
+ny pair of arguments in this form (if `run_sim` doesn't recognize `--ARG`) are passed to the simulator.  For example:
+
+```
+run_sim --arch medium_core dhry
+```
+
+Note:  it is assumed the param takes exactly one value.  To pass other types of args directly to the simulator, use `--`.
 
 ### `--`no-run
 Do not run simulator.
@@ -55,6 +61,9 @@ Redirect stdout to file in default directory.
 
 ### -p PARAM VALUE
 Specify param/value pair in simulator.
+
+### -q
+Generate and display command line, but don't invoke simulator.
 
 ### -r, `--`rpt
 Output report file to the current directory.
