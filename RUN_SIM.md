@@ -28,13 +28,13 @@ This script has several key features:
 - Automatically dump simulator parameters so you can specify params with regex.
 
 
-## Arguments (keywords)
+## Arguments
 
-### -h, --help
+### -h, `--`help
 Display help text.
 
-### rpt
+### -r, `--`rpt
 Output report file to the current directory.
 
-### wfc
+### `--`wfc
 Write final config YAML to the current directory.
