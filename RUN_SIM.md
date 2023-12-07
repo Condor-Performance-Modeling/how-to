@@ -1,14 +1,14 @@
-# RUN_CAM Documentation
+# RUN_SIM Documentation
 
-`run_cam` is a script that facilitates running the performance model.
+`run_sim` is a script that facilitates running the performance model.
 
 ## Examples
 
 ```
-run_cam dhry                     # Run the simulator on the Dhrystone workload
-run_cam rpt dhry                 # Run Dhrystone and generate a report in this directory
-run_cam wfc --no-run             # Run the simulator and write the final config YAML
-run_cam --arch medium_core dhry  # Run the simulator using the medium_core arch
+run_sim dhry                     # Run the simulator on the Dhrystone workload
+run_sim -ro dhry                 # Run Dhrystone and send both report and stdout to this directory
+run_sim --wfc --no-run           # Run the simulator and write the final config YAML
+run_sim --arch medium_core dhry  # Run the simulator using the medium_core arch
 ```
 
 ## Setup
@@ -23,7 +23,7 @@ This script has several key features:
 - This script facilitates common simulator settings through the use of keywords.
 
 #### Future features
-- Specify useful defaults in a user config file ~/.run_cam
+- Specify useful defaults in a user config file ~/.run_sim
 - Know where workload repository lives; allow specifying workloads by workload ID.
 - Automatically dump simulator parameters so you can specify params with regex.
 
@@ -33,8 +33,34 @@ This script has several key features:
 ### -h, `--`help
 Display help text.
 
+## `--`
+Eat all remaining arguments, passing them directly to the simulator.
+
+Example:
+
+```
+run_sim -ro dhry -- --foo --bar
+```
+
+would pass `--foo --bar` directly to the simulator.
+
+### `--`arch ARCH
+Specify architecture YAML.
+
+### `--`no-run
+Do not run simulator.
+
+### -o
+Redirect stdout to file in default directory.
+
+### -p PARAM VALUE
+Specify param/value pair in simulator.
+
 ### -r, `--`rpt
 Output report file to the current directory.
 
 ### `--`wfc
 Write final config YAML to the current directory.
+
+### `--`wkld
+Specify workload.
