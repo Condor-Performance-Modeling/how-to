@@ -30,7 +30,7 @@ This script has several key features:
 
 ## Arguments
 
-### -h, `--`help
+### `-h`, `--help`
 Display help text.
 
 ## `--`
@@ -44,8 +44,8 @@ run_sim -ro dhry -- --foo --bar
 
 would pass `--foo --bar` directly to the simulator.
 
-### `--`ARG VAL
-ny pair of arguments in this form (if `run_sim` doesn't recognize `--ARG`) are passed to the simulator.  For example:
+### `--ARG VAL`
+Any pair of arguments in this form (if `run_sim` doesn't recognize `--ARG`) are passed to the simulator.  For example:
 
 ```
 run_sim --arch medium_core dhry
@@ -53,23 +53,23 @@ run_sim --arch medium_core dhry
 
 Note:  it is assumed the param takes exactly one value.  To pass other types of args directly to the simulator, use `--`.
 
-### `--`no-run
+### `--no-run`
 Do not run simulator.
 
-### -o
+### `-o`
 Redirect stdout to file in default directory.
 
-### -p PARAM VALUE
+### `-p PARAM VALUE`
 Specify param/value pair in simulator.
 
-### -q
+### `-q`
 Generate and display command line, but don't invoke simulator.
 
-### -r, `--`rpt
+### `-r`, `--rpt`
 Output report file to the current directory.
 
-### `--`wfc
+### `--wfc`
 Write final config YAML to the current directory.
 
-### `--`wkld
+### `--wkld`
 Specify workload.
