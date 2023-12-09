@@ -215,7 +215,7 @@ Install the Ubuntu support packages:
   sudo apt install bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler
   sudo apt install libboost-all-dev  libsqlite3-dev libhdf5-serial-dev
   sudo apt install libzstd-dev gcc-multilib clang-tidy pkg-config
-  sudo apt install tkdiff traceroute mtr scons okular clang-format
+  sudo apt install tkdiff traceroute mtr scons okular clang-format pylint
 
 NOTE: im working through the qt requirements - this will change
   sudo add-apt-repository universe
@@ -836,15 +836,35 @@ The remaining instructions are in $BENCHMARKS/README.md.
 These instructions document how to build the benchfs file system for linux 
 benchmarking runs.
 
-
 ------------------------------------------------------------------------
 # Patching SimPoint
 
 SimPoint is installed in C-AWS at /data/tools/SimPoint.3.2.
 
-I use this script to patch new builds of 3.2:
+You do not need to install another copy for the standard flow.
 
+
+## About Simpoint
+
+For the description of Simpoint see this url
+```
+https://cseweb.ucsd.edu/~calder/simpoint/
+```
+The releases are available through this url:
+```
+https://cseweb.ucsd.edu/~calder/simpoint/software-release.htm
+```
+
+## Building Simpoint from source
+
+For modern compilers v3.2 needs to be patched. I use this script to 
+patch new builds of 3.2
+
+```
 $TOP/how-to/patches/patch_simpoint.3.2.sh
+```
+
+The process is typically:
 
 ```
 tar xf SimPoint.3.2.tar.gz
