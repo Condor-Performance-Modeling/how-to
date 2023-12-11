@@ -206,7 +206,6 @@ You normally do not need to do this. It has been done for you.
   <summary>Details: Install the Ubuntu collateral</summary>
 
 Install the Ubuntu support packages:
-
 ```
   sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev
   sudo apt install rapidjson-dev xz-utils autoconf automake autotools-dev
@@ -216,6 +215,7 @@ Install the Ubuntu support packages:
   sudo apt install libboost-all-dev  libsqlite3-dev libhdf5-serial-dev
   sudo apt install libzstd-dev gcc-multilib clang-tidy pkg-config
   sudo apt install tkdiff traceroute mtr scons okular clang-format pylint
+  sudo apt install liblzma-dev libbz2-dev
 
 NOTE: im working through the qt requirements - this will change
   sudo add-apt-repository universe
