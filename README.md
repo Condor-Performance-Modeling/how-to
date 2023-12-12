@@ -24,7 +24,7 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Build and Install CAM](#build-and-install-cam)
 
-1. [Build and Install stf-tools](#build-and-install-stf-tools)
+1. [Build and Install stf_tools](#build-and-install-stf_tools)
 
 1. [Build and Install Olympia](#build-and-install-olympia)
 
@@ -494,7 +494,7 @@ cp cam $TOP/tools/bin/cam
 </details>
 
 --------------------------------------------------------
-# Build and Install stf-tools
+# Build and Install stf_tools
 
 This step is optional but the tools created are very helpful in working with the STF traces.
 
