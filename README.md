@@ -24,6 +24,8 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Build and Install CAM](#build-and-install-cam)
 
+1. [Build and Install stf-tools](#build-and-install-stf-tools)
+
 1. [Build and Install Olympia](#build-and-install-olympia)
 
 1. [Build STF Lib](#build-stf-lib)
@@ -490,6 +492,47 @@ cp cam $TOP/tools/bin/cam
 ```
 
 </details>
+
+--------------------------------------------------------
+# Build and Install stf-tools
+
+This step is optional but the tools created are very helpful in working with the STF traces.
+
+The `github` repo is here:  https://github.com/sparcians/stf_tools
+
+Log into `interactive1`.  On this machine, the following libraries have already been installed:
+```
+sudo apt-get install libmpc-dev liblzma-dev libbz2-dev
+```
+
+If you are on a different machine, you may need to install these libraries yourself.
+
+```
+cd $TOP
+conda activate sparta
+git clone git@github.com:sparcians/stf_tools
+cd stf_tools
+
+git checkout 161b983    # This SHA works; this flow has not been tested with later SHAs
+git submodule update --init --recursive
+
+# Here we hack the cmake file to disable some warnings.  This should be root-caused and fixed at some point
+sed -i 's/-Wextra -pedantic -Wconversion/-pedantic/' CMakeLists.txt
+
+mkdir release; cd release
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j8
+```
+
+The tools can be found in `stf-tools/release/tools`.  Each tool is in its own subdirectory.
+Here are some tools you may want to play with to begin:
+```
+cd $TOP/stf_tools/release/tools
+stf_count/stf_count $CAM/traces/dhry_riscv.zstf 
+stf_dump/stf_dump $CAM/traces/dhry_riscv.zstf |head -40
+stf_imem/stf_imem $CAM/traces/dhry_riscv.zstf |head -40
+```
+
 
 --------------------------------------------------------
 # Build and Install Olympia
