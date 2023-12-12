@@ -524,7 +524,7 @@ cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j8
 ```
 
-The tools can be found in `stf-tools/release/tools`.  Each tool is in its own subdirectory.
+The tools can be found in `stf_tools/release/tools`.  Each tool is in its own subdirectory.
 Here are some tools you may want to play with to begin:
 ```
 cd $TOP/stf_tools/release/tools
