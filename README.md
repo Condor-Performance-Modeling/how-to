@@ -217,7 +217,7 @@ Install the Ubuntu support packages:
   sudo apt install libboost-all-dev  libsqlite3-dev libhdf5-serial-dev
   sudo apt install libzstd-dev gcc-multilib clang-tidy pkg-config
   sudo apt install tkdiff traceroute mtr scons okular clang-format pylint
-  sudo apt install liblzma-dev libbz2-dev
+  sudo apt install liblzma-dev libbz2-dev texlive-full
 
 NOTE: im working through the qt requirements - this will change
   sudo add-apt-repository universe
