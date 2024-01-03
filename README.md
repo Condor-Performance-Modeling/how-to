@@ -217,7 +217,7 @@ Install the Ubuntu support packages:
   sudo apt install libboost-all-dev  libsqlite3-dev libhdf5-serial-dev
   sudo apt install libzstd-dev gcc-multilib clang-tidy pkg-config
   sudo apt install tkdiff traceroute mtr scons okular clang-format pylint
-  sudo apt install liblzma-dev libbz2-dev texlive-full
+  sudo apt install liblzma-dev libbz2-dev texlive-full xpdf
 
 NOTE: im working through the qt requirements - this will change
   sudo add-apt-repository universe
@@ -229,10 +229,10 @@ NOTE: im working through the Node.js requirements - this will change
 ```
 
 All in one line for easy cut/paste:
+```
+sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjson-dev xz-utils autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler libboost-all-dev  libsqlite3-dev libhdf5-serial-dev libzstd-dev gcc-multilib clang-tidy pkg-config tkdiff traceroute mtr scons okular clang-format pylint liblzma-dev libbz2-dev texlive-full xpdf
+```
 
-```
-sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjson-dev xz-utils autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler libboost-all-dev libsqlite3-dev libhdf5-serial-dev libzstd-dev gcc-multilib qt5-dev qt5-qmake pkg-config clang-tidy npm nodejs
-```
 </details>
 
 
