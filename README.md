@@ -225,7 +225,7 @@ NOTE: im working through the qt requirements - this will change
 
 NOTE: im working through the Node.js requirements - this will change
   sudo apt install npm nodejs pip
-  sudo pip install flask docopt path_and_address grip
+  sudo pip install flask docopt path_and_address grip numpy seaborn
 ```
 
 All in one line for easy cut/paste:
