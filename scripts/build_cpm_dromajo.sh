@@ -19,7 +19,8 @@ fi
 
 cd $CPM_DROMAJO
 # Based on main dromajo SHA:f3c3112
-git checkout jeffnye-gh/dromajo_stf_update
+# we are now using master, my changes and nitins changes are merged to master
+# git checkout jeffnye-gh/dromajo_stf_update
 
 ln -s ../stf_lib
 
