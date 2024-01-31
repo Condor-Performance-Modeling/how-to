@@ -396,6 +396,11 @@ cd $MAP
 git checkout map_v2
 ./scripts/create_conda_env.sh sparta dev
 conda activate sparta
+```
+
+Your prompt should start with (sparta) after activation. Then:
+
+```
 conda install yaml-cpp
 
 cd $MAP/sparta; mkdir -p release; cd release
@@ -410,31 +415,10 @@ cmake --install . --prefix $CONDA_PREFIX
 ```
 
 <!--
-
   829  git switch map_v2
   830  git log
   831  git checkout 4bb21e8a20bfb83354bb3d54fb067100d4f01a47
-
-<em> Script automation was backed out in this version due to issues with
-conda detection.</em>
-
-```
-  cd $TOP
-  bash how-to/scripts/build_map.sh
-```
-
-<details>
-  <summary> Build and install map step by step </summary>
-
-```
-```
-
-</details>
 -->
-
-Your prompt should now start with (sparta), then:
-
-
 
 --------------------------------------------------------
 # Build and Install CAM
