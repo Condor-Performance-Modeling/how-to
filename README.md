@@ -402,7 +402,6 @@ Your prompt should start with (sparta) after activation. Then:
 
 ```
 conda install yaml-cpp
-```
 
 cd $MAP/sparta; mkdir release; cd release
 cmake .. -DCMAKE_BUILD_TYPE=Release
