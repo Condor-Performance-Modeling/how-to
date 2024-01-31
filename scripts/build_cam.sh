@@ -35,7 +35,11 @@ mkdir -p $TOOLS/bin
 cd $CAM;
 
 mkdir -p release; cd release
-cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
-make -j8; cmake --install . --prefix $CONDA_PREFIX
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j32; cmake --install . --prefix $CONDA_PREFIX
 
-cp cam $TOOLS/bin/cam
+# Adding regress step for sanity
+make -j32 regress
+
+# Now handled in CMakeLists.txt
+#cp cam $TOOLS/bin/cam

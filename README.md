@@ -398,18 +398,23 @@ git checkout map_v2
 conda activate sparta
 conda install yaml-cpp
 
-cd $MAP/sparta; mkdir release; cd release
+cd $MAP/sparta; mkdir -p release; cd release
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j16
 cmake --install . --prefix $CONDA_PREFIX
 
-cd $MAP/helios; mkdir release; cd release
+cd $MAP/helios; mkdir -p release; cd release
 cmake -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta ..
 make -j16
 cmake --install . --prefix $CONDA_PREFIX
 ```
 
 <!--
+
+  829  git switch map_v2
+  830  git log
+  831  git checkout 4bb21e8a20bfb83354bb3d54fb067100d4f01a47
+
 <em> Script automation was backed out in this version due to issues with
 conda detection.</em>
 
@@ -461,14 +466,51 @@ You must have the sparta conda environment activated.
   <summary>Details: Building CAM step by step</summary>
 
 ```
-cd $TOP
-conda activate sparta
-mkdir -p tools/bin
-git clone git@github.com:Condor-Performance-Modeling/cam.git
-cd $CAM; mkdir -p release; cd release
-cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
-make -j8; cmake --install . --prefix $CONDA_PREFIX
-cp cam $TOP/tools/bin/cam
+#! /bin/bash
+
+if [[ -z "${CONDOR_TOP}" ]]; then
+  { echo "-E: CONDOR_TOP is undefined, execute 'source how-to/env/setuprc.sh'";
+exit 1; }
+fi
+
+if [[ -z "${CAM}" ]]; then
+{
+  echo "-E: CAM is undefined, execute 'source how-to/env/setuprc.sh'";
+  exit 1;
+}
+fi
+
+if ! [ -d "$CAM" ]; then
+{
+  echo "-W: cam does not exist, cloning repo."
+  git clone git@github.com:Condor-Performance-Modeling/cam.git
+}
+fi
+
+if ! [ "$CONDA_DEFAULT_ENV" == "sparta" ]; then
+{
+  echo "-E: sparta environment is not enabled";
+  echo "-E: issue 'conda active sparta' and retry.";
+  exit 1;
+}
+else
+{
+  echo "-I: sparta environment detected, proceeding";
+}
+fi
+
+mkdir -p $TOOLS/bin
+cd $CAM;
+
+mkdir -p release; cd release
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j32; cmake --install . --prefix $CONDA_PREFIX
+
+# Adding regress step for sanity
+make -j32 regress
+
+# Now handled in CMakeLists.txt
+#cp cam $TOOLS/bin/cam
 ```
 
 </details>
@@ -866,7 +908,7 @@ git submodule update --init --recursive
 # Here we hack the cmake file to disable some warnings.  This should be root-caused and fixed at some point
 sed -i 's/-Wextra -pedantic -Wconversion/-pedantic/' CMakeLists.txt
 
-mkdir release; cd release
+mkdir -p release; cd release
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j8
 ```
