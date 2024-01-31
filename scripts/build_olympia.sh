@@ -34,7 +34,7 @@ mkdir -p $TOOLS/bin
 cd $OLYMPIA;
 
 mkdir -p release; cd release
-cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
+cmake .. -DCMAKE_BUILD_TYPE=Release 
 make -j8; cmake --install . --prefix $CONDA_PREFIX
 
 cp olympia $TOOLS/bin/olympia

@@ -16,17 +16,13 @@ perf modeling environment and provide instructions on how to use it.
    
 1. [Boot strapping the environment](#boot-strapping-the-environment)
 
-1. [Clone the CPM Repos](#clone-the-cpm-repos)
+1. [Install Miniconda](#install-miniconda)
 
-1. [Install the RISCV GNU Tool Chain](#install-the-riscv-gnu-tool-chain)
+1. [Clone the CPM Repos](#clone-the-cpm-repos)
 
 1. [Build and Install MAP](#build-and-install-map)
 
 1. [Build and Install CAM](#build-and-install-cam)
-
-1. [Build and Install stf_tools](#build-and-install-stf_tools)
-
-1. [Build and Install Olympia](#build-and-install-olympia)
 
 1. [Build STF Lib](#build-stf-lib)
 
@@ -42,7 +38,15 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Cloning the Benchmark Repo](#cloning-the-benchmark-repo)
 
-1. [Patching SimPoint](#patching-simpoint)
+1. [Optional builds](#optional-builds)
+
+    1. [Install the RISCV GNU Tool Chain](#install-the-riscv-gnu-tool-chain)
+
+    1. [Build and Install Olympia](#build-and-install-olympia)
+
+    1. [Build and Install stf_tools](#build-and-install-stf_tools)
+
+    1. [Patching SimPoint](#patching-simpoint)
 
 <!--
 1. [Build the analysis tool suite](#build-the-analysis-tool-suite)
@@ -79,9 +83,11 @@ Your job may run slowly. Your job may be unexpectedly terminated without much ex
 
 # Boot strapping the environment
 
-Presumably you are reading this how-to from the web or a local copy.  This
-section contains instructions to boot strap the Condor Performance Modeling 
-(CPM) environment.
+If this is your first time through the install expand the details below.
+
+If you have already done this skip to 'Install Miniconda'
+
+If you have already installed Miniconda skip to 'Clone the CPM Repos'
 
 ## Linux, C-AWS and VCAD environments
 
@@ -235,26 +241,53 @@ sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjs
 
 </details>
 
+</details> <!-- end of Linux, C-AWS and VCAD environments -->
 
-## Install Miniconda
+-----------------------------------------------------------
+# Install Miniconda
 
-Miniconda package manager is used by Sparcians. If you have done this once
+Miniconda package manager is used by Sparcians. 
+
+<b>NOTE: if you have an existing miniconda install you just need 
+to activate your conda environment:</b>
+
+```
+conda activate
+```
+
+<b>With correct activation your prompt will start with (base).</b>
+
+If you need to install or re-install Miniconda expand the section
+'Details: How to install miniconda'
+
+<details>
+If you have a Miniconda environment already installed you
+
+If you have done this once
 you can skip this step. The base conda packages are stored in your home
 directory. 
 
 That means if you are installing multiple $TOP environments you
 only need to install miniconda once.
 
-<b>NOTE: if you have an existing miniconda install you need to activate your conda environment:</b>
-
-```
-conda activate
-```
-
-With correct activation your prompt will start with (base).
-
-<details>
   <summary>Details: How to install miniconda</summary>
+
+<br>
+
+```
+cd <your work area>  # typically /data/users/<username>/condor
+sh /data/tools/env/Miniconda3-py311_23.9.0-0-Linux-x86_64.sh
+
+..please review the license agreement....
+Do you accept the license terms? [yes|no]
+[no] >>> yes
+
+Do you wish the installer to initialize Miniconda3
+by running conda init? [yes|no]
+[no] >>> yes
+
+```
+<br>
 
 In accepting the license:
 
@@ -275,19 +308,6 @@ startup
   - For information only, the auto_activate_base setting is stored in this
     file
 
-```
-cd <your work area>  # typically /data/users/<username>/condor
-sh /data/tools/env/Miniconda3-py311_23.9.0-0-Linux-x86_64.sh
-
-..please review the license agreement....
-Do you accept the license terms? [yes|no]
-[no] >>> yes
-
-Do you wish the installer to initialize Miniconda3
-by running conda init? [yes|no]
-[no] >>> yes
-
-```
 
 <i> if you are in a managed environment, like VCAD, make sure you move the 
 added .bashrc lines to a private rc file.</i>
@@ -299,49 +319,36 @@ Your prompt should start with <b>(base)</b>
 
 </details> <!-- end of Linux, C-AWS and VCAD environments -->
 
-<!--
-Old miniconda path
-wget --no-check-certificate https://repo.anaconda.com/miniconda/
-
-Miniconda3-py311_23.9.0-0-Linux-x86_64.sh
-
-or
-
-Miniconda3-latest-Linux-x86_64.sh
-
-another id test
-
--->
 -----------------------------------------------------------
 # Clone the CPM Repos
 
-Clone the How-To repo locally, it contains settings which are assumed by
-the remaining instructions, as well as patches for the tools.
+This step clones the How-to repo. The How-to repo contains scripts
+and patch files needed for the remaining install steps.
 
-The process is:
-
-- Change directory to the place you want to install condor tools
-  and environment.
-- Make a directory called condor
-- cd to condor
-- clone the condor performance modeling how-to repo
+If you have not already cloned the How-to repo do this:
 
 ```
-[cd workspace]
-
+cd /data/users/$USER              # or your preferred workspace
 mkdir condor; cd condor
-
-eval `ssh-agent`
-ssh-add $HOME/.ssh/id_rsa
-<enter pass phrase>
-
 git clone git@github.com:Condor-Performance-Modeling/how-to.git
+```
 
+Once cloned source the setup script:
+```
 source how-to/env/setuprc.sh  # useful env variables
+```
 
+The setuprc.sh script is documented here: [LINK](./SET_LOCAL_ENV.md)
+
+
+Then run bash on the base repo script:
+
+```
 bash how-to/scripts/base_repos.sh
 ```
-
+<br>
+Details on what is in the base_repos.sh script is below:
+<br>
 <details> 
   <summary>Details: Installing the base repo's step by step</summary>
 
@@ -358,33 +365,6 @@ git clone git@github.com:Condor-Performance-Modeling/dromajo cpm.dromajo
 
 </details>
 
-Once the script completes:
-
-    - The cross compilers will be linked.
-    - The CPM repos benchmarks, cam, tools and utils will be cloned
-    - The CPM forks of riscv-perf-model and dromajo will also be cloned.
-
-
-The setuprc.sh script is documented here: [LINK](./SET_LOCAL_ENV.md)
-
-----------------------------------------------------------
-# Install RISCV GNU Tool Chain
-
-Links to the pre-installed tools were created in the previous step.
-
-<details> 
-  <summary>Details: Cross compiler setup</summary>
-
-You only need to create links to the pre-installed tools. These are C-AWS paths.
-
-```
-cd $TOP
-ln -s /tools/riscv64-unknown-elf
-ln -s /tools/riscv64-unknown-linux-gnu
-```
-
-</details>
-
 ----------------------------------------------------------
 
 # Build and Install MAP
@@ -392,7 +372,7 @@ ln -s /tools/riscv64-unknown-linux-gnu
 ## Install the MAP Miniconda components
 
 ```
-cd <workspace>/condor
+cd $TOP
 source how-to/env/setuprc.sh
 
 conda activate
@@ -489,77 +469,6 @@ cd $CAM; mkdir -p release; cd release
 cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
 make -j8; cmake --install . --prefix $CONDA_PREFIX
 cp cam $TOP/tools/bin/cam
-```
-
-</details>
-
---------------------------------------------------------
-# Build and Install stf_tools
-
-This step is optional but the tools created are very helpful in working with the STF traces.
-
-The `github` repo is here:  https://github.com/sparcians/stf_tools
-
-Log into `interactive1`.  On this machine, the following libraries have already been installed:
-```
-sudo apt-get install libmpc-dev liblzma-dev libbz2-dev
-```
-
-If you are on a different machine, you may need to install these libraries yourself.
-
-```
-cd $TOP
-conda activate sparta
-git clone git@github.com:sparcians/stf_tools
-cd stf_tools
-
-git checkout 161b983    # This SHA works; this flow has not been tested with later SHAs
-git submodule update --init --recursive
-
-# Here we hack the cmake file to disable some warnings.  This should be root-caused and fixed at some point
-sed -i 's/-Wextra -pedantic -Wconversion/-pedantic/' CMakeLists.txt
-
-mkdir release; cd release
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j8
-```
-
-The tools can be found in `stf_tools/release/tools`.  Each tool is in its own subdirectory.
-Here are some tools you may want to play with to begin:
-```
-cd $TOP/stf_tools/release/tools
-stf_count/stf_count $CAM/traces/dhry_riscv.zstf 
-stf_dump/stf_dump $CAM/traces/dhry_riscv.zstf |head -40
-stf_imem/stf_imem $CAM/traces/dhry_riscv.zstf |head -40
-```
-
-
---------------------------------------------------------
-# Build and Install Olympia
-
-This step is optional. Olympia is the reference model. CAM is a fork of the
-reference model. Changes to Olympia are selectively added to CAM. The 
-Olympia install directory is riscv-perf-sim.
-
-You must have the sparta conda environment activated.
-
-```
-cd $TOP
-bash how-to/scripts/build_olympia.sh
-```
-
-<details>
-  <summary>Details: Building Olympia step by step</summary>
-
-```
-cd $TOP
-mkdir -p tools/bin
-git clone --recursive https://@github.com/riscv-software-src/riscv-perf-model.git
-
-cd $OLYMPIA; mkdir -p release; cd release
-cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
-make -j8; cmake --install . --prefix $CONDA_PREFIX
-cp olympia $TOOLS/bin/olympia
 ```
 
 </details>
@@ -879,8 +788,100 @@ The remaining instructions are in $BENCHMARKS/README.md.
 These instructions document how to build the benchfs file system for linux 
 benchmarking runs.
 
+--------------------------------------------------------
+# Optional builds
+
+<b> The following steps are for information only.  </b>
+
+<b> You do not normally need to proceed beyond this point. </b>
+
+## Install RISCV GNU Tool Chain
+
+Links to the pre-installed tools were created in the previous step.
+
+<details> 
+  <summary>Details: Cross compiler setup</summary>
+
+You only need to create links to the pre-installed tools. These are C-AWS paths.
+
+```
+cd $TOP
+ln -s /tools/riscv64-unknown-elf
+ln -s /tools/riscv64-unknown-linux-gnu
+```
+
+</details>
+
+## Build and Install Olympia
+
+This step is optional. Olympia is the reference model. CAM is a fork of the
+reference model. Changes to Olympia are selectively added to CAM. The
+Olympia install directory is riscv-perf-sim.
+
+You must have the sparta conda environment activated.
+
+```
+cd $TOP
+bash how-to/scripts/build_olympia.sh
+```
+
+<details>
+  <summary>Details: Building Olympia step by step</summary>
+
+```
+cd $TOP
+mkdir -p tools/bin
+git clone --recursive https://@github.com/riscv-software-src/riscv-perf-model.git
+
+cd $OLYMPIA; mkdir -p release; cd release
+cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
+make -j8; cmake --install . --prefix $CONDA_PREFIX
+cp olympia $TOOLS/bin/olympia
+```
+
+</details>
+
+## Build and Install stf_tools
+
+This step is optional but the tools created are very helpful in working with the STF traces.
+
+The `github` repo is here:  https://github.com/sparcians/stf_tools
+
+Log into `interactive1`.  On this machine, the following libraries have already been installed:
+```
+sudo apt-get install libmpc-dev liblzma-dev libbz2-dev
+```
+
+If you are on a different machine, you may need to install these libraries yourself.
+
+```
+cd $TOP
+conda activate sparta
+git clone git@github.com:sparcians/stf_tools
+cd stf_tools
+
+git checkout 161b983    # This SHA works; this flow has not been tested with later SHAs
+git submodule update --init --recursive
+
+# Here we hack the cmake file to disable some warnings.  This should be root-caused and fixed at some point
+sed -i 's/-Wextra -pedantic -Wconversion/-pedantic/' CMakeLists.txt
+
+mkdir release; cd release
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j8
+```
+
+The tools can be found in `stf_tools/release/tools`.  Each tool is in its own subdirectory.
+Here are some tools you may want to play with to begin:
+```
+cd $TOP/stf_tools/release/tools
+stf_count/stf_count $CAM/traces/dhry_riscv.zstf
+stf_dump/stf_dump $CAM/traces/dhry_riscv.zstf |head -40
+stf_imem/stf_imem $CAM/traces/dhry_riscv.zstf |head -40
+```
+
 ------------------------------------------------------------------------
-# Patching SimPoint
+## Patching SimPoint
 
 SimPoint is installed in C-AWS at /data/tools/SimPoint.3.2.
 
