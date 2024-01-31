@@ -396,8 +396,10 @@ cd $MAP
 git checkout map_v2
 ./scripts/create_conda_env.sh sparta dev
 conda activate sparta
-'''
+```
+
 Your prompt should start with (sparta) after activation. Then:
+
 ```
 conda install yaml-cpp
 ```
