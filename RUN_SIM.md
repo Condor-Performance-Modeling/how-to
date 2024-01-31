@@ -7,7 +7,7 @@
 ```
 run_sim dhry                     # Run the simulator on the Dhrystone workload
 run_sim -ro dhry                 # Run Dhrystone and send both report and stdout to this directory
-run_sim --wfc --no-run           # Run the simulator and write the final config YAML
+run_sim -o --wfc --no-run        # Run the simulator and write the final config YAML to this directory
 run_sim --arch medium_core dhry  # Run the simulator using the medium_core arch
 ```
 
