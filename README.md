@@ -409,7 +409,7 @@ make -j16
 cmake --install . --prefix $CONDA_PREFIX
 
 cd $MAP/helios; mkdir release; cd release
-cmake -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta ..
+cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j16
 cmake --install . --prefix $CONDA_PREFIX
 ```
