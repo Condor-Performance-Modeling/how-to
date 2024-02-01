@@ -880,13 +880,7 @@ sudo apt-get install libmpc-dev liblzma-dev libbz2-dev
 
 If you are on a different machine, you may need to install these libraries yourself.
 
-If a higher version of CMake is required than what was found, upgrade the version. With the sparta environment enabled try:
-
 ```
-conda install cmake
-
-```
-
 cd $TOP
 conda activate sparta
 git clone git@github.com:sparcians/stf_tools
@@ -901,6 +895,12 @@ sed -i 's/-Wextra -pedantic -Wconversion/-pedantic/' CMakeLists.txt
 mkdir -p release; cd release
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j8
+```
+
+If a higher version of CMake is required than what was found, upgrade the version. With the sparta environment enabled try:
+
+```
+conda install cmake
 ```
 
 The tools can be found in `stf_tools/release/tools`.  Each tool is in its own subdirectory.
