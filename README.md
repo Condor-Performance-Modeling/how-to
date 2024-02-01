@@ -40,7 +40,7 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Optional builds](#optional-builds)
 
-    1. [Install the RISCV GNU Tool Chain](#install-the-riscv-gnu-tool-chain)
+    1. [Install the RISCV GNU Tool Chain](#install-riscv-gnu-tool-chain)
 
     1. [Build and Install Olympia](#build-and-install-olympia)
 
