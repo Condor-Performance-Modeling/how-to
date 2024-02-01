@@ -897,6 +897,12 @@ cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j8
 ```
 
+If a higher version of CMake is required than what was found, upgrade the version. With the sparta environment enabled try:
+
+```
+conda install cmake
+```
+
 The tools can be found in `stf_tools/release/tools`.  Each tool is in its own subdirectory.
 Here are some tools you may want to play with to begin:
 ```
