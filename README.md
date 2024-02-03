@@ -619,7 +619,7 @@ cp linux-5.8-rc4/arch/riscv/boot/Image $TOP/tools/riscv-linux/Image
 
 ### Build and Install the File System
 
-You map be asked to entry the sudo password in the middle of this process.
+You may be asked to entry the sudo password in the middle of this process.
 
 ```
 cd $TOP
