@@ -71,6 +71,8 @@ idea to use your home directory due to size limits.
 cd /data/users/$USER              # or your preferred workspace
 mkdir condor; cd condor
 git clone git@github.com:Condor-Performance-Modeling/how-to.git
+source how-to/env/setuprc.sh
+echo $TOP                         # this should not be empty
 ```
 
 # Boot strapping the environment
@@ -307,7 +309,6 @@ Your prompt should start with <b>(base)</b>
 
 ```
 cd $TOP
-source how-to/env/setuprc.sh
 
 conda activate
 conda install -c conda-forge jq yq 
@@ -500,7 +501,8 @@ bash how-to/scripts/build_cpm_repos.sh
 
 <details>
   <summary>Details: Installing the CPM repo's step by step</summary>
-
+<br>
+```
 # benchmarks
 if [ ! -d benchmarks ]; then
   git clone --recurse-submodules \
@@ -538,6 +540,7 @@ mkdir -p ./tools/bin
 mkdir -p ./tools/lib
 mkdir -p ./tools/include
 mkdir -p ./tools/riscv-linux
+```
 
 </details>
 
