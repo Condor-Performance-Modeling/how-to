@@ -1,0 +1,43 @@
+diff --git a/core/ExecutePipe.cpp b/core/ExecutePipe.cpp
+index b437cc8..e657794 100644
+--- a/core/ExecutePipe.cpp
++++ b/core/ExecutePipe.cpp
+@@ -60,11 +60,16 @@ namespace olympia
+     {
+         // Setup scoreboard view upon register file
+         std::vector<core_types::RegFile> reg_files = {core_types::RF_INTEGER, core_types::RF_FLOAT};
++        auto cpu_node = getContainer()->findAncestorByName("core.*");
++        if (cpu_node == nullptr)
++        {
++            cpu_node = getContainer()->getRoot();
++        }
+         for(const auto rf : reg_files)
+         {
+             scoreboard_views_[rf].reset(new sparta::ScoreboardView(getContainer()->getName(),
+                                                                    core_types::regfile_names[rf],
+-                                                                   getContainer()));
++                                                                   cpu_node));
+         }
+ 
+         // Send initial credits
+diff --git a/core/LSU.cpp b/core/LSU.cpp
+index dd5554b..1dca22c 100644
+--- a/core/LSU.cpp
++++ b/core/LSU.cpp
+@@ -157,10 +157,15 @@ namespace olympia
+     {
+         // Setup scoreboard view upon register file
+         std::vector<core_types::RegFile> reg_files = {core_types::RF_INTEGER, core_types::RF_FLOAT};
++        auto cpu_node = getContainer()->findAncestorByName("core.*");
++        if (cpu_node == nullptr)
++        {
++            cpu_node = getContainer()->getRoot();
++        }
+         for (const auto rf : reg_files)
+         {
+             scoreboard_views_[rf].reset(new sparta::ScoreboardView(
+-                getContainer()->getName(), core_types::regfile_names[rf], getContainer()));
++                getContainer()->getName(), core_types::regfile_names[rf], cpu_node));
+         }
+     }
+ 

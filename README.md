@@ -14,29 +14,17 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Choosing a host](#choosing-a-host)
    
+1. [Creating a workspace](#creating-a-workspace)
+
 1. [Boot strapping the environment](#boot-strapping-the-environment)
 
 1. [Install Miniconda](#install-miniconda)
 
-1. [Clone the CPM Repos](#clone-the-cpm-repos)
+1. [Install the Sparcians repos](#install-the-sparcians-repos)
 
-1. [Build and Install MAP](#build-and-install-map)
+1. [Install the Linux collateral](#install-the-linux-collateral)
 
-1. [Build and Install CAM](#build-and-install-cam)
-
-1. [Build STF Lib](#build-stf-lib)
-
-1. [Build CPM Dromajo](#build-cpm-dromajo)
-
-1. [Build the Linux Kernel and File System](#build-the-linux-kernel-and-file-system)
-
-1. [Build OpenSBI](#build-opensbi)
-
-1. [Build and Install the Golden Models](#build-and-install-the-golden-models)
-
-1. [Boot Linux on CPM Dromajo](#boot-linux-on-cpm-dromajo)
-
-1. [Cloning the Benchmark Repo](#cloning-the-benchmark-repo)
+1. [Build and Install the CPM Repos](#build-and-install-the-cpm-repos)
 
 1. [Optional builds](#optional-builds)
 
@@ -69,17 +57,21 @@ OR
 ssh compute1
 ```
 
-## Details
-There are three types of machines: gui, interactive and compute.
+Do not run intensive jobs on the GUI machines. They are intended
+for serving desktops and limited browswer use.
 
-GUI machines are sized only big enough to serve your desktop. Interactive machines are intended for development work. Compute machines are intended as sim-farm machines. As of 2023.11 the distinction between interactive and compute machines is only conventional. You can safely do this if the interactive machines are not performing well.
+<i>If you exceed the GUI machine limits your job may be unexpectedly terminated without much explanation. </i>
+
+# Creating a workspace
+
+The convention is to use /data/users for workspaces. It is not a good
+idea to use your home directory due to size limits.
 
 ```
-ssh compute1
+cd /data/users/$USER              # or your preferred workspace
+mkdir condor; cd condor
+git clone git@github.com:Condor-Performance-Modeling/how-to.git
 ```
-
-Running compute or memory intensive jobs on GUI machines will result in some undesirable behavior.
-Your job may run slowly. Your job may be unexpectedly terminated without much explanation.
 
 # Boot strapping the environment
 
@@ -89,20 +81,9 @@ If you have already done this skip to 'Install Miniconda'
 
 If you have already installed Miniconda skip to 'Clone the CPM Repos'
 
-## Linux, C-AWS and VCAD environments
-
-In order to proceed you need a linux machine with git installed. In 
-production this machine would be part of the C-AWS domain. In development
-local linux machines are supported. 
-
-### DETAILS ABOUT THE ENVIRONMENT SETUP
-
-<b>EXPAND THE DETAILS AND FOLLOW THE STEPS IF THIS IS THE FIRST TIME
-YOU ARE CREATING A C-AWS WORKSPACE</b>
-
 <details>
-  <summary> <b>Important details about C-AWS and your account</b> </summary>
-
+  <summary> <b>EXPAND THIS SECTION IF THIS IS THE FIRST TIME YOU ARE CREATING A C-AWS WORKSPACE</b> </summary>
+<br>
 You must have an account with C-AWS, you must be registered with CPM.
 
 You will want to have your ssh keys installed and registered with GitHub 
@@ -243,7 +224,7 @@ sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjs
 
 </details> <!-- end of Linux, C-AWS and VCAD environments -->
 
------------------------------------------------------------
+--------------------------------------
 # Install Miniconda
 
 Miniconda package manager is used by Sparcians. 
@@ -319,55 +300,8 @@ Your prompt should start with <b>(base)</b>
 
 </details> <!-- end of Linux, C-AWS and VCAD environments -->
 
------------------------------------------------------------
-# Clone the CPM Repos
-
-This step clones the How-to repo. The How-to repo contains scripts
-and patch files needed for the remaining install steps.
-
-If you have not already cloned the How-to repo do this:
-
-```
-cd /data/users/$USER              # or your preferred workspace
-mkdir condor; cd condor
-git clone git@github.com:Condor-Performance-Modeling/how-to.git
-```
-
-Once cloned source the setup script:
-```
-source how-to/env/setuprc.sh  # useful env variables
-```
-
-The setuprc.sh script is documented here: [LINK](./SET_LOCAL_ENV.md)
-
-
-Then run bash on the base repo script:
-
-```
-bash how-to/scripts/base_repos.sh
-```
-<br>
-Details on what is in the base_repos.sh script is below:
-<br>
-<details> 
-  <summary>Details: Installing the base repo's step by step</summary>
-
-```
-ln -s /tools/riscv64-unknown-elf
-ln -s /tools/riscv64-unknown-linux-gnu
-git clone --recurse-submodules git@github.com:Condor-Performance-Modeling/benchmarks.git
-git clone git@github.com:Condor-Performance-Modeling/cam.git
-git clone git@github.com:Condor-Performance-Modeling/tools.git
-git clone git@github.com:Condor-Performance-Modeling/utils.git
-git clone --recurse-submodules git@github.com:Condor-Performance-Modeling/riscv-perf-model.git cpm.riscv-perf-model
-git clone git@github.com:Condor-Performance-Modeling/dromajo cpm.dromajo
-```
-
-</details>
-
-----------------------------------------------------------
-
-# Build and Install MAP
+--------------------------------------
+# Install the Sparcians repos
 
 ## Install the MAP Miniconda components
 
@@ -380,13 +314,12 @@ conda install -c conda-forge jq yq
 Proceed ([y]/n)? y
 ```
 
-## Install MAP
+## Create the Sparta Conda environment
 
-This section builds and installs Map and it's components: Sparta and Sparta's 
-conda environment, and Helios/Argos
+This section builds and installs the conda environment used by Map.
 
-If you have previously installed MAP you will have a MAP Conda environment
-available and you may receive the "prefix already exists"
+If you have previously installed MAP you will have a MAP Conda 
+environment available and you may receive the "prefix already exists"
 message when creating the conda environment. This is benign.
 
 ```
@@ -396,23 +329,57 @@ cd $MAP
 git checkout map_v2
 ./scripts/create_conda_env.sh sparta dev
 conda activate sparta
-```
-
-Your prompt should start with (sparta) after activation. Then:
-
-```
 conda install yaml-cpp
+```
 
+Your prompt should start with (sparta) after activation.
+
+## Building Sparcians components
+
+This builds MAP/Sparta, helios and STF_LIB.
+
+```
+conda activate sparta
+cd $TOP
+bash how-to/scripts/build_sparcians.sh
+```
+
+<details> 
+  <summary>Details: Building Map components step by step</summary>
+
+```
+cd $TOP
+
+# MAP/Sparta
 cd $MAP/sparta; mkdir -p release; cd release
 cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j16
+make -j32;
 cmake --install . --prefix $CONDA_PREFIX
 
+# Adding regress step for sanity
+make -j32 regress
+
+# Helios
 cd $MAP/helios; mkdir -p release; cd release
 cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j16
+make -j32
 cmake --install . --prefix $CONDA_PREFIX
+
+# STF_LIB
+cd $TOP
+
+if ! [ -d "stf_lib" ]; then
+{
+  echo "-W: stf_lib does not exist, cloning repo."
+  git clone https://github.com/sparcians/stf_lib.git
+}
+fi
+
+cd stf_lib; mkdir -p release; cd release
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make -j32
 ```
+</details>
 
 <!--
   829  git switch map_v2
@@ -420,167 +387,17 @@ cmake --install . --prefix $CONDA_PREFIX
   831  git checkout 4bb21e8a20bfb83354bb3d54fb067100d4f01a47
 -->
 
---------------------------------------------------------
-# Build and Install CAM
+----------------------------------------------------------
+# Install the Linux collateral
 
-## Clone CAM
+## Link the cross compilers
 
-This step was previously executed in "Clone the CPM Repos"
-
-Skip this step if you have previously cloned CAM.
- 
-```
-  cd $TOP
-  git clone git@github.com:Condor-Performance-Modeling/cam.git
-```
-
-## Build CAM
-
-This builds CAM, the Cuzco Architecture Model.
-
-You must have the sparta conda environment activated.
+If necessary create links to the cross compilers
 
 ```
-  cd $TOP
-  conda activate sparta
-  bash how-to/scripts/build_cam.sh
+  ln -s /tools/riscv64-unknown-elf
+  ln -s /tools/riscv64-unknown-linux-gnu
 ```
-
-<details>
-  <summary>Details: Building CAM step by step</summary>
-
-```
-#! /bin/bash
-
-if [[ -z "${CONDOR_TOP}" ]]; then
-  { echo "-E: CONDOR_TOP is undefined, execute 'source how-to/env/setuprc.sh'";
-exit 1; }
-fi
-
-if [[ -z "${CAM}" ]]; then
-{
-  echo "-E: CAM is undefined, execute 'source how-to/env/setuprc.sh'";
-  exit 1;
-}
-fi
-
-if ! [ -d "$CAM" ]; then
-{
-  echo "-W: cam does not exist, cloning repo."
-  git clone git@github.com:Condor-Performance-Modeling/cam.git
-}
-fi
-
-if ! [ "$CONDA_DEFAULT_ENV" == "sparta" ]; then
-{
-  echo "-E: sparta environment is not enabled";
-  echo "-E: issue 'conda active sparta' and retry.";
-  exit 1;
-}
-else
-{
-  echo "-I: sparta environment detected, proceeding";
-}
-fi
-
-mkdir -p $TOOLS/bin
-cd $CAM;
-
-mkdir -p release; cd release
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j32; cmake --install . --prefix $CONDA_PREFIX
-
-# Adding regress step for sanity
-make -j32 regress
-
-# Now handled in CMakeLists.txt
-#cp cam $TOOLS/bin/cam
-```
-
-</details>
-
---------------------------------------------------------
-# Build STF Lib
-
-STF is a library supporting the Simulation Trace Format.
-
-Notes: riscv-perf-model checks out these SHAs
-```
-'mavis': checked out 'ba3d7e4141cd1dbce03cf7eb5481179836f2ac0f'
-'stf_lib': checked out '5a3841de3ea97941de481414c897b981c05efda3'
-```
-
-
-```
-cd $TOP
-bash how-to/scripts/build_stf.sh
-```
-
-<details>
-  <summary>Details: Building the STF library step by step</summary>
-
-```
-cd $TOP
-git clone https://github.com/sparcians/stf_lib.git
-cd stf_lib; mkdir -p release; cd release
-cmake -DCMAKE_BUILD_TYPE=Release ..
-make -j8
-```
-
-</details>
-
---------------------------------------------------------
-# Build CPM Dromajo
-
-CPM Dromajo is a fork of Dromajo from chips alliance. There is a branch 
-which enables STF generation. The branch is based on dromajo SHA:f3c3112.
-
-The process is to clone the fork and switch to the branch for all CPM
-work.
-
-Previously there were two maintained versions of Dromajo. Only CPM Dromajo
-is needed now.
-
-For reference: the original README for adding tracing to dromajo is in the 
-olympia traces readme, $OLYMPIA/traces/README.md. This fork of dromajo has 
-the proper stf patches already applied. 
-```
-cd $TOP
-bash how-to/scripts/build_cpm_dromajo.sh
-```
-
-<details>
-  <summary>Details: Building the CPM Dromajo step by step</summary>
-
-```
-cd $TOP
-mkdir -p $TOOLS/bin
-
-git clone git@github.com:Condor-Performance-Modeling/dromajo.git cpm.dromajo
-
-cd $CPM_DROMAJO
-git checkout jeffnye-gh/dromajo_stf_update
-
-ln -s ../stf_lib
-
-# The stf version
-mkdir -p build; cd build
-cmake ..
-make -j8
-cp dromajo $TOOLS/bin/cpm_dromajo
-
-# The stf + simpoint version
-cd ..
-mkdir -p build-simpoint; cd build-simpoint
-cmake .. -DSIMPOINT=On
-make -j8
-cp dromajo $TOOLS/bin/cpm_simpoint_dromajo
-```
-
-</details>
-
-------------------------------------------------------------------------
-# Build the Linux Kernel and File System
 
 ## PATH check
 Check that riscv64-unknown-linux-gnu-gcc is in your path.
@@ -596,113 +413,135 @@ CROSS_COMPILE is now set in the CPM environment RC file.  To set it manually:
 export CROSS_COMPILE=riscv64-unknown-linux-gnu-
 ```
 
-### Build and Install the linux kernel
+## Build the Linux collateral
+
+This step downloads and builds the kernel, file system and OpenSBI.
+
+
 ```
 cd $TOP
-bash how-to/scripts/build_kernel.sh
+bash how-to/scripts/build_linux_collateral.sh
 ```
 
 <details>
-  <summary>Details: Building the linux kernel step by step</summary>
+  <summary>Details: Building the linux collateral step by step</summary>
 
 ```
-cd $TOP
+cd $CONDOR_TOP
 mkdir -p $TOOLS/riscv-linux
-wget --no-check-certificate -nc https://git.kernel.org/torvalds/t/linux-5.8-rc4.tar.gz
+
+# Double check the links to the cross compilers
+
+if [ ! -L riscv64-unknown-elf ]; then
+  ln -s /tools/riscv64-unknown-elf
+fi
+
+if [ ! -L riscv64-unknown-linux-gnu ]; then
+  ln -s /tools/riscv64-unknown-linux-gnu
+fi
+
+wget --no-check-certificate -nc \
+        https://git.kernel.org/torvalds/t/linux-5.8-rc4.tar.gz
 tar -xf linux-5.8-rc4.tar.gz
 make -C linux-5.8-rc4 ARCH=riscv defconfig
-make -C linux-5.8-rc4 ARCH=riscv -j8
-cp linux-5.8-rc4/arch/riscv/boot/Image $TOP/tools/riscv-linux/Image
-```
+make -C linux-5.8-rc4 ARCH=riscv -j32
+mkdir -p $TOOLS/riscv-linux
+cp linux-5.8-rc4/arch/riscv/boot/Image $TOOLS/riscv-linux/Image
 
-</details>
+# Build the file system
 
-### Build and Install the File System
-
-You may be asked to entry the sudo password in the middle of this process.
-
-```
-cd $TOP
-bash how-to/scripts/build_rootfs.sh
-```
-
-<details>
-  <summary>Details: Building the file system step by step</summary>
-
-Unfortunately the packages downloaded during make require manual patching.
-Make is run three times so that the package download advances to the point
-that the patches can be applied. 
-
-This is not optimal, it is the current work around for issues in c-stack.c, and libfakeroot.c.
-```
-cd $TOP
-wget --no-check-certificate https://github.com/buildroot/buildroot/archive/2020.05.1.tar.gz
+wget --no-check-certificate \
+         https://github.com/buildroot/buildroot/archive/2020.05.1.tar.gz
 tar xf 2020.05.1.tar.gz
-cp $CPM_DROMAJO/run/config-buildroot-2020.05.1 buildroot-2020.05.1/.config
-make -C buildroot-2020.05.1 -j8
-```
-The above make will fail, patch the c-stack file and make again
-```
-cp $PATCHES/c-stack.c ./buildroot-2020.05.1/output/build/host-m4-1.4.18/lib/c-stack.c
-make -C buildroot-2020.05.1 -j8
-```
-The above will fail again, requires another patch and then make again
-```
-cp $PATCHES/libfakeroot.c ./buildroot-2020.05.1/output/build/host-fakeroot-1.20.2/libfakeroot.c
-sudo make -C buildroot-2020.05.1 -j8
+cp $CONDOR_TOP/how-to/patches/config-buildroot-2020.05.1 buildroot-2020.05.1/.config
 
-mkdir -p $TOP/tools/riscv-linux
-cp $BUILDROOT/output/images/rootfs.cpio $TOP/tools/riscv-linux/rootfs.cpio
-```
-This final make is not expected to fail.
-</details
+# This make will fail, followed by a patch
+make -C buildroot-2020.05.1 -j32
+cp $PATCHES/c-stack.c \
+          ./buildroot-2020.05.1/output/build/host-m4-1.4.18/lib/c-stack.c
 
-------------------------------------------------------------------------
+# This make will also fail, followed by another patch
+make -C buildroot-2020.05.1 -j32
+cp $PATCHES/libfakeroot.c \
+          ./buildroot-2020.05.1/output/build/host-fakeroot-1.20.2/libfakeroot.c
+
+# This make should not fail
+sudo make -C buildroot-2020.05.1 -j32
+
+if ! [ -f $BUILDROOT/output/images/rootfs.cpio ]; then
+  echo "-E: rootfs.cpio build failure"; exit 1;
+fi
+
+cp $BUILDROOT/output/images/rootfs.cpio $CONDOR_TOP/tools/riscv-linux
+
 # Build OpenSBI
 
-Open Supervisor Binary Interface
+cd $CONDOR_TOP
+git clone https://github.com/riscv/opensbi.git
+cd $OPENSBI
+make PLATFORM=generic -j32
+cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin $TOOLS/riscv-linux
 
-## PATH check
-If you have done this previously you can skip the path check
-<details>
-  <summary> Details</summary>
-
-Check that riscv64-unknown-linux-gnu-gcc is in your path.
-```
-which riscv64-unknown-linux-gnu-gcc
-```
-If not, add it to your PATH variable as shown.
-```
-export PATH=$RV_LINUX_TOOLS/bin:$PATH
-```
-CROSS_COMPILE is now set in the CPM environment RC file.  To set it manually:
-```
-export CROSS_COMPILE=riscv64-unknown-linux-gnu-
 ```
 </details>
 
-## Download and compile OpenSBI
+----------------------------------------------------------
+# Install the CPM Repos
+
+CPM -> Condor Performance Modeling
+
+This install the CPM repos: benchmarks, CAM, tools, utils, cpm.riscv-perf-model, cpm.dromajo
 
 ```
 cd $TOP
-bash how-to/scripts/build_opensbi.sh
+bash how-to/scripts/build_cpm_repos.sh
+
 ```
 
 <details>
-  <summary>Build OpenSBI step by step</summary>
+  <summary>Details: Installing the CPM repo's step by step</summary>
 
-```
-  cd $CONDOR_TOP
-  mkdir -p $TOOLS/riscv-linux
-  git clone https://github.com/riscv/opensbi.git
-  cd opensbi
-  make PLATFORM=generic -j8
-  cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin $TOOLS/riscv-linux/fw_jump.bin
-```
+# benchmarks
+if [ ! -d benchmarks ]; then
+  git clone --recurse-submodules \
+            git@github.com:Condor-Performance-Modeling/benchmarks.git
+fi
+
+# Cam
+if [ ! -d cam ]; then
+  git clone git@github.com:Condor-Performance-Modeling/cam.git
+fi
+
+# Tools
+if [ ! -d tools ]; then
+  git clone git@github.com:Condor-Performance-Modeling/tools.git
+fi
+
+# Utils
+if [ ! -d utils ]; then
+  git clone git@github.com:Condor-Performance-Modeling/utils.git
+fi
+
+# Olympia fork
+if [ ! -d cpm.riscv-perf-model ]; then
+git clone --recurse-submodules \
+    git@github.com:Condor-Performance-Modeling/riscv-perf-model.git \
+    cpm.riscv-perf-model
+fi
+
+# Dromajo fork
+if [ ! -d  cpm.dromajo ]; then
+  git clone git@github.com:Condor-Performance-Modeling/dromajo cpm.dromajo
+fi
+
+mkdir -p ./tools/bin
+mkdir -p ./tools/lib
+mkdir -p ./tools/include
+mkdir -p ./tools/riscv-linux
 
 </details>
 
-------------------------------------------------------------------------
+----------------------------------------------------------
 # Build and Install the Golden Models
 
 ## Exit Conda
@@ -754,7 +593,7 @@ cp build-Linux/whisper $TOOLS/bin
 ```
 </details>
 
------------------------------------------------------------------
+----------------------------------------------------------
 # Boot Linux on CPM Dromajo
 
 The above steps create the necessary collateral to boot linux on CPM 
@@ -773,7 +612,7 @@ cp $TOOLS/riscv-linux/* $CPM_DROMAJO/run
 cp $PATCHES/cpm.boot.cfg  $CPM_DROMAJO/run
 
 cd $CPM_DROMAJO/run
-$TOOLS/bin/cpm_dromajo --trace 0 --ctrlc --stf_no_priv_check --stf_trace example.stf cpm.boot.cfg
+$TOOLS/bin/cpm_dromajo --ctrlc --stf_no_priv_check --stf_trace example.stf cpm.boot.cfg
 ```
 
 If you do not need STF trace generation the command line can be simplified
@@ -782,7 +621,7 @@ $TOOLS/bin/cpm_dromajo --ctrlc cpm.boot.cfg   # enable ctrl-c exit
 $TOOLS/bin/cpm_dromajo --trace 0 cpm.boot.cfg # enable console tracing
 ```
 
-------------------------------------------------------------------------
+----------------------------------------------------------
 # Cloning the benchmark repo
 
 The Condor benchmark repo uses a mix of submodules and copies of external
@@ -813,8 +652,7 @@ The remaining instructions are in $BENCHMARKS/README.md.
 
 These instructions document how to build the benchfs file system for linux 
 benchmarking runs.
-
---------------------------------------------------------
+----------------------------------------------------------
 # Optional builds
 
 <b> The following steps are for information only.  </b>
@@ -911,8 +749,7 @@ stf_count/stf_count $CAM/traces/dhry_riscv.zstf
 stf_dump/stf_dump $CAM/traces/dhry_riscv.zstf |head -40
 stf_imem/stf_imem $CAM/traces/dhry_riscv.zstf |head -40
 ```
-
-------------------------------------------------------------------------
+----------------------------------------------------------
 ## Patching SimPoint
 
 SimPoint is installed in C-AWS at /data/tools/SimPoint.3.2.
@@ -950,253 +787,3 @@ cd ..
 make -j8
 ```
 
-
-
-<!--
-------------------------------------------------------------------------
-------------------------------------------------------------------------
-------------------------------------------------------------------------
-
-I need to verify this section
-------------------------------------------------------------------------
-# Running programs on Dromajo
-
-There are two processes, applications run under linux and bare metal
-applications. In both cases the instrumentation process is the same.
-Also in both cases the instrumentation is optional. Instrumentation
-is only required for STF generation. STF generation is required to
-drive Olympia, Dromajo will generate plain text traces or STF traces.
-
-## Instrumenting programs for STF generation
-
-For STF generation instrumentation macros are added to the source
-file covering the region(s) of interest. Instrumentation macros are
-only required for STF output. Dromajo will run uninstrumented 
-binaries and still generate trace information.
-
-The benchmarks repo contains the coremark benchmark that has 
-instrumentation for STF generation.
-
-An example, see this file $BENCHMARKS/riscv64/coremark/core_main.c
-
-An include file and two macros are added to the file.
-
-```
-...
-#include "trace\_macros.h"
-...
-MAIN\_RETURN\_TYPE main(int argc, char *argv[]) {
-#endif
-
-  START_TRACE; //JNYE HERE
-...
-  STOP_TRACE; //JNYE HERE
-  return MAIN_RETURN_VAL;
-}  
-
-```
--->
-
-<!-- I need to verify this section
-### Adding the instrumented exe to the linux image and running Dromajo
-
-This assumes you have previously built the benchmark suite. 
-
-The commands below copy the target exe to the buildroot file system, 
-compiles the file system and copies the resulting rootfs.cpio to 
-Dromajo's run directory. Finally executing on Dromajo
-
-```
-  cd $TOP
-  sudo rm -r $BUILDROOT/output/target/root/benchfs	
-  sudo cp -r $BENCHMARKS/benchfs $BUILDROOT/output/target/root
-  sudo make -C $BUILDROOT
-  cp $BUILDROOT/output/images/rootfs.cpio $DROMAJO/run
-  cd $DROMAJO/run
-  ../build/dromajo --stf_trace my_trace.zstf boot.cfg
-```
--->
-
-<!-- sudo cp $BENCHMARKS/bin/coremark.riscv $BUILDROOT/output/target/sbin -->
-<!-- some versions require --ctrlc, some do not accept it        -->
-<!-- ../build/dromajo --ctrlc --stf_trace my_trace.zstf boot.cfg -->
-
-<!--  I need to verify this section
-</i>
-Once linux has booted and login is complete, the application will be
-found in /sbin. In this example the executable will be 
-/sbin/coremark.riscv.
-
-## Running a bare metal exe on Dromajo directly
-
-The bare metal flow has fewer steps. The instrumentation methods are the
-same. Once the code has been instrumented, copy the executable to the
-Dromajo run directory and issue this command
-
-
-### Running an instrumented exe on Dromajo for STF generation
-
-```
-  cp $BENCHMARKS/dhrystone.bare.riscv $DROMAJO/run
-  cd $DROMAJO/run
-  ../build/dromajo -stf_trace my_trace.zstf ./dhrystone.bare.riscv
-```
-
-### Running an uninstrumented exe on Dromajo for standard trace generation
--->
-
-<!--
-------------------------------------------------------------------------
-# Build the STF analysis tools
-
-Performance analysis uses a mix of Condor created tools and external tools.
-A set of external tools is provided for STF analysis and data mining. I
-have made changes to these tools for use by the CPM flow.
-
-The original git repo is under the sparcians group, and is located here:
-https://github.com/sparcians/stf_tools
-
-The version used by CPM is located in a Condor managed repo. This repo
-retains the original license etc.
-
-To build the STF analysis tools:
-
-```
-	cd $TOP
-```
---> 
-
-<!-- This section needs to be updated
----------
-# Using pipeline data views
-
-A quick example of how to use pipeline data views.
-
-## Prereqs
-
-This assumes you have followed the instructions above for these steps.
-
-- Install Miniconda on Ubuntu 22
-- Install Map/Sparta on Ubuntu 22
-- Install Map/Argos on Ubuntu 22
-- Install riscv-perf-model on Ubuntu 22
-
-## Create example core model
-
-```
-    cd $MAP/sparta/release/example/CoreModel
-    make -j8
-```
-
-## Generate pipeline database
-
-```
-    cd $MAP/sparta/release/example/CoreModel
-    ./sparta_core_example -i 1000 -z pipeout_
-```
-
-## View pipe output
-
-### Pipeline data in single cycle view
-
-```
-    python3 ${MAP}/helios/pipeViewer/pipe_view/argos.py --database pipeout_ --layout-file cpu_layout.alf
-```
-
-### Pipeline data in multi-cycle view
-
-```
-    python3 ${MAP}/helios/pipeViewer/pipe_view/argos.py --database pipeout_ --layout-f
-```
--->
-
-<!-- This section needs clean up
---------------------------------------
-# External references
-
-External docs for running dromajo.
-
-[Running baremetal and linux based apps on dromajo](https://github.com/chipsalliance/dromajo/blob/master/doc/setup.md)
-
-[Running instrumented apps on dromajo to generate STF traces](https://github.com/riscv-software-src/riscv-perf-model/tree/master/traces)
-
---------------------------------------
-# Perf flow to do list
-
-For now this list is kept here. I might move it later.
-
-- Install the binaries for the CPM flow for users in /tools
-
-  - Also store these binaries in a hosted site that supports big private files
-
-  - (The instructions above are still necessary for modeling developers)
-
-- Fork olympia, map, stf_lib, spike, veer(whisper)
-
-  - This is to improve stability when bringing up new versions
-  
-  - dromajo has already been forked, rename the repo to cpm.dromajo
-
-  - Use these names cpm.dromajo, cpm.olympia, cpm.map, cpm.stf_lib, cpm.spike, cpm.whisper
-
-  - With the forks I can eliminate the need for patched files
-
-- Olympia seems to have an issue with running outside of it's build dir
-
-  - This is in spite of what the command line options imply
-
-  - Confirm/duplicate the issue, debug/fix/commit
-
-- Merge latest riscv-perf-model commit with current
-
-  - We use olympia from af3120490e96cc4e06735653e1bbe794aae3a111
-
-  - Latest (2023.05.22) sha 2c6f628 in github does not build with MAP
-
-      - This appears to be a bad checkin to the main repo
-
-      - This commit adds a olympia conda environment, it seems broken
-
-- It would be great if this could all be done with a script or two
-
-  - Consider defining this so contractors could help out
-
-- Consider supplying a model bashrc file to eliminate the need for setrc.sh
-
-- Document how to build benchmark related items - tmp instrs below:
-  - For coremark-pro
-    - cd benchmarks/riscv-coremark-pro/coremark-pro
-    - make TARGET=riscv64 TOOLS=$TOP/riscv64-unknown-linux-gnu clean
-    - make TARGET=riscv64 TOOLS=$TOP/riscv64-unknown-linux-gnu build
-    - cp -r builds/riscv64/riscv-gcc64/bin ../../benchfs/coremark-pro/bin/
-  - for benchfs
-    - cd $TOP
-    - sudo rm -rf buildroot-2020.05.1/output/target/root/benchfs
-    - sudo cp -r benchmarks/benchfs buildroot-2020.05.1/output/target/root
-    - sudo make -C buildroot-2020.05.1
-  - for dromajo
-    - cd dromajo/run
-    - cp ../../buildroot-2020.05.1/output/images/rootfs.cpio .
-    - ../build/dromajo --stf_trace coremark-pro.stf boot.cfg
-    - root/root
-    - $> cd benchfs
-    - $> ./run.coremark-pro.sh cjpeg    (done)
-    - <move stf file>
-    - $> ./run.coremark-pro.sh core     (done) alt   <deleted>
-    - <move stf file>
-    - $> ./run.coremark-pro.sh linear   (done) alt.2 <deleted>
-    - <move stf file>
-    - $> ./run.coremark-pro.sh loops    (needs restart alt.3 file name already ...loops)
-    - <move stf file>
-    - $> ./run.coremark-pro.sh nnet     (done)
-    - <move stf file>
-    - $> ./run.coremark-pro.sh parser   (done) 
-    - <move stf file>
-    - $> ./run.coremark-pro.sh radix2   (done) 
-    - <move stf file>
-    - $> ./run.coremark-pro.sh sha      (done)
-    - <move stf file>
-    - $> ./run.coremark-pro.sh zip      (done)
-    - <move stf file>
-
--->
