@@ -1,4 +1,6 @@
 #! /bin/bash
+
+
 if [[ -z "${CONDOR_TOP}" ]]; then
   { echo "CONDOR_TOP is undefined, execute 'source how-to/env/setuprc.sh'"; exit 1; }
 fi
@@ -17,12 +19,26 @@ if [[ -z "${WHISPER}" ]]; then
 }
 fi
 
+mkdir -p $TOOLS/bin
+
+# Spike
+cd $TOP
+
 if ! [ -d "$SPIKE" ]; then
 {
   echo "-W: riscv-isa-sim does not exist, cloning repo."
   git clone git@github.com:riscv/riscv-isa-sim.git
 }
 fi
+
+cd $SPIKE
+mkdir -p build; cd build
+../configure --prefix=$TOP/tools
+make -j32 
+make install
+
+# Whisper
+cd $TOP
 
 if ! [ -d "$WHISPER" ]; then
 {
@@ -31,21 +47,7 @@ if ! [ -d "$WHISPER" ]; then
 }
 fi
 
-mkdir -p $TOOLS/bin
-
-# once for sparta, once for base
-conda deactivate
-conda deactivate
-
-# Spike
-cd $SPIKE
-mkdir -p build; cd build
-../configure --prefix=$TOP/tools
-make -j8 
-make install
-
-# Whisper
 cd $WHISPER
-make -j8 
+make -j32
 cp build-Linux/whisper $TOOLS/bin
 

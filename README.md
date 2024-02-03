@@ -24,7 +24,11 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Install the Linux collateral](#install-the-linux-collateral)
 
-1. [Build and Install the CPM Repos](#build-and-install-the-cpm-repos)
+1. [Install the CPM Repos](#install-the-cpm-repos)
+
+1. [Boot Linux on CPM Dromajo](#boot-linux-on-cpm-dromajo)
+
+1. [Proceed to benchmarks](#proceed-to-benchmarks)
 
 1. [Optional builds](#optional-builds)
 
@@ -501,17 +505,103 @@ bash how-to/scripts/build_cpm_repos.sh
 
 <details>
   <summary>Details: Installing the CPM repo's step by step</summary>
+
 <br>
+
 ```
+#! /bin/bash
+
+set -e
+
+if [[ -z "${CONDOR_TOP}" ]]; then
+  { echo "-E: CONDOR_TOP is undefined, execute 'source how-to/env/setuprc.sh'"; 
+exit 1; }
+fi
+
+if [[ -z "${CAM}" ]]; then
+{
+  echo "-E: CAM is undefined, execute 'source how-to/env/setuprc.sh'"; 
+  exit 1;
+}
+fi
+
+cd $TOP
+# create the tools directories explicitly here, to avoid creating
+# files w/ the directory names
+mkdir -p $TOOLS/bin
+mkdir -p $TOOLS/lib
+mkdir -p $TOOLS/include
+mkdir -p $TOOLS/riscv-linux
+
+# CAM
+if ! [ -d "$CAM" ]; then
+{
+  echo "-W: cam does not exist, cloning repo."
+  git clone git@github.com:Condor-Performance-Modeling/cam.git
+}
+fi
+
+cd $CAM;
+
+#ignore the error if already patched
+git patch $TOP/how-to/patches/scoreboard_patch_map_v2.patch || true
+
+mkdir -p release; cd release
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j32;
+cmake --install . --prefix $CONDA_PREFIX
+
+# Adding regress step for sanity
+make -j32 regress
+
+# Dromajo fork
+cd $TOP
+
+if ! [ -d "cpm.dromajo" ]; then
+{
+  echo "-W: cpm.dromajo does not exist, cloning repo."
+  git clone git@github.com:Condor-Performance-Modeling/dromajo.git cpm.dromajo
+}
+fi
+
+cd $CPM_DROMAJO
+
+ln -s ../stf_lib
+
+# The stf version
+mkdir -p build; cd build
+cmake ..
+make -j32
+cp dromajo $TOOLS/bin/cpm_dromajo
+
+# The stf + simpoint version
+cd ..
+mkdir -p build-simpoint; cd build-simpoint
+cmake .. -DSIMPOINT=On
+make -j32
+cp dromajo $TOOLS/bin/cpm_simpoint_dromajo
+
+# -------------------------------------------------------
+# Sym link the cross compilers
+# -------------------------------------------------------
+if [ ! -L riscv64-unknown-elf ]; then
+  ln -s /tools/riscv64-unknown-elf
+fi
+
+if [ ! -L riscv64-unknown-linux-gnu ]; then
+  ln -s /tools/riscv64-unknown-linux-gnu
+fi
+
+# -------------------------------------------------------
+# Repos
+# -------------------------------------------------------
+
+cd $TOP
+
 # benchmarks
 if [ ! -d benchmarks ]; then
   git clone --recurse-submodules \
             git@github.com:Condor-Performance-Modeling/benchmarks.git
-fi
-
-# Cam
-if [ ! -d cam ]; then
-  git clone git@github.com:Condor-Performance-Modeling/cam.git
 fi
 
 # Tools
@@ -524,76 +614,9 @@ if [ ! -d utils ]; then
   git clone git@github.com:Condor-Performance-Modeling/utils.git
 fi
 
-# Olympia fork
-if [ ! -d cpm.riscv-perf-model ]; then
-git clone --recurse-submodules \
-    git@github.com:Condor-Performance-Modeling/riscv-perf-model.git \
-    cpm.riscv-perf-model
-fi
-
-# Dromajo fork
-if [ ! -d  cpm.dromajo ]; then
-  git clone git@github.com:Condor-Performance-Modeling/dromajo cpm.dromajo
-fi
-
-mkdir -p ./tools/bin
-mkdir -p ./tools/lib
-mkdir -p ./tools/include
-mkdir -p ./tools/riscv-linux
-```
-
-</details>
-
-----------------------------------------------------------
-# Build and Install the Golden Models
-
-## Exit Conda
-
-<b>You must deactivate the conda environment before compiling the golden models.</b>
-
-Deactivate once to exit the sparta environment, once again to exit the base conda
-environment. 
-
-Your prompt should not show (base) or (sparta) when you have
-successfully deactivated the environments.
 
 ```
-  conda deactivate     # leave sparta
-  conda deactivate     # leave base
-```
 
-## Build the Golden Models
-
-```
-cd $TOP
-bash how-to/scripts/build_golden_models.sh
-```
-
-<details>
-  <summary>Build Spike step by step</summary>
-
-```
-cd $TOP
-mkdir -p $TOOLS
-git clone git@github.com:riscv/riscv-isa-sim.git
-cd $SPIKE
-mkdir -p build; cd build
-../configure --prefix=$TOP/tools
-make -j8
-make install
-```
-</details>
-
-<details>
-  <summary>Build Whisper step by step</summary>
-```
-cd $TOP
-mkdir -p $TOOLS/bin
-git clone https://github.com/chipsalliance/VeeR-ISS.git whisper
-cd $WHISPER
-make -j8
-cp build-Linux/whisper $TOOLS/bin
-```
 </details>
 
 ----------------------------------------------------------
@@ -618,66 +641,113 @@ cd $CPM_DROMAJO/run
 $TOOLS/bin/cpm_dromajo --ctrlc --stf_no_priv_check --stf_trace example.stf cpm.boot.cfg
 ```
 
+<!--
+TMI
+
 If you do not need STF trace generation the command line can be simplified
 ```
 $TOOLS/bin/cpm_dromajo --ctrlc cpm.boot.cfg   # enable ctrl-c exit
 $TOOLS/bin/cpm_dromajo --trace 0 cpm.boot.cfg # enable console tracing
 ```
+-->
 
 ----------------------------------------------------------
-# Cloning the benchmark repo
+# Build and Install the Golden Models
 
-The Condor benchmark repo uses a mix of submodules and copies of external
-repos. The copies contain source modified from the original repo to enable
-STF generation.
+## Exit Conda
 
-If you have a cloned benchmarks repo you do not need to clone it again.
+<b>You must deactivate the conda environment before compiling the golden models.</b>
 
-The steps below tell you how to clone the repo. Once the repo has been
-cloned there is a separate README for building and maintaining the suite.
+Deactivate once to exit the sparta environment, once again to exit the base conda
+environment.
+
+Your prompt should not show (base) or (sparta) when you have
+successfully deactivated the environments.
+
+```
+  conda deactivate     # leave sparta
+  conda deactivate     # leave base
+```
+
+## Build the Golden Models
 
 ```
 cd $TOP
-git clone git@github.com:Condor-Performance-Modeling/benchmarks.git
-cd $BENCHMARKS
-git submodule update --init --recursive
+bash how-to/scripts/build_golden_models.sh
 ```
 
-The benchmarks are built with a single make command. The bare metal versions
-of the benchmarks are run at the same time.
+<details>
+  <summary>Build the golden models step by step</summary>
 
 ```
-cd $BENCHMARKS
-make
+#! /bin/bash
+
+
+if [[ -z "${CONDOR_TOP}" ]]; then
+  { echo "CONDOR_TOP is undefined, execute 'source how-to/env/setuprc.sh'"; exit 1; }
+fi
+
+if [[ -z "${SPIKE}" ]]; then
+{
+  echo "-E: SPIKE is undefined, execute 'source how-to/env/setuprc.sh'";
+  exit 1;
+}
+fi
+
+if [[ -z "${WHISPER}" ]]; then
+{
+  echo "-E: WHISPER is undefined, execute 'source how-to/env/setuprc.sh'";
+  exit 1;
+}
+fi
+
+mkdir -p $TOOLS/bin
+
+# Spike
+cd $TOP
+
+if ! [ -d "$SPIKE" ]; then
+{
+  echo "-W: riscv-isa-sim does not exist, cloning repo."
+  git clone git@github.com:riscv/riscv-isa-sim.git
+}
+fi
+
+cd $SPIKE
+mkdir -p build; cd build
+../configure --prefix=$TOP/tools
+make -j32 
+make install
+
+# Whisper
+cd $TOP
+
+if ! [ -d "$WHISPER" ]; then
+{
+  echo "-W: whisper does not exist, cloning repo."
+  git clone https://github.com/chipsalliance/VeeR-ISS.git whisper
+}
+fi
+
+cd $WHISPER
+make -j32
+cp build-Linux/whisper $TOOLS/bin
+
 ```
+
+</details>
+
+----------------------------------------------------------
+# Proceed to benchmarks
 
 The remaining instructions are in $BENCHMARKS/README.md.
 
-These instructions document how to build the benchfs file system for linux 
-benchmarking runs.
 ----------------------------------------------------------
 # Optional builds
 
 <b> The following steps are for information only.  </b>
 
 <b> You do not normally need to proceed beyond this point. </b>
-
-## Install RISCV GNU Tool Chain
-
-Links to the pre-installed tools were created in the previous step.
-
-<details> 
-  <summary>Details: Cross compiler setup</summary>
-
-You only need to create links to the pre-installed tools. These are C-AWS paths.
-
-```
-cd $TOP
-ln -s /tools/riscv64-unknown-elf
-ln -s /tools/riscv64-unknown-linux-gnu
-```
-
-</details>
 
 ## Build and Install Olympia
 
