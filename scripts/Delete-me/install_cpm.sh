@@ -1,23 +1,21 @@
 #! /bin/bash
 
-set -e
-
 if [[ -z "${CONDOR_TOP}" ]]; then
   { echo "-E: CONDOR_TOP is undefined, execute 'source how-to/env/setuprc.sh'"; 
 exit 1; }
 fi
 
-if [[ -z "${OLYMPIA}" ]]; then
+if [[ -z "${CAM}" ]]; then
 {
-  echo "-E: OLYMPIA is undefined, execute 'source how-to/env/setuprc.sh'"; 
+  echo "-E: CAM is undefined, execute 'source how-to/env/setuprc.sh'"; 
   exit 1;
 }
 fi
 
-if ! [ -d "$OLYMPIA" ]; then
+if ! [ -d "$CAM" ]; then
 {
-  echo "-W: riscv-perf-model does exist cloning repo."
-  git clone --recursive https://@github.com/riscv-software-src/riscv-perf-model.git
+  echo "-W: cam does not exist, cloning repo."
+  git clone git@github.com:Condor-Performance-Modeling/cam.git
 }
 fi
 
@@ -34,10 +32,14 @@ else
 fi
   
 mkdir -p $TOOLS/bin
-cd $OLYMPIA;
+cd $CAM;
 
 mkdir -p release; cd release
-cmake .. -DCMAKE_BUILD_TYPE=Release 
-make -j8; cmake --install . --prefix $CONDA_PREFIX
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j32; cmake --install . --prefix $CONDA_PREFIX
 
-cp olympia $TOOLS/bin/olympia
+# Adding regress step for sanity
+make -j32 regress
+
+# Now handled in CMakeLists.txt
+#cp cam $TOOLS/bin/cam
