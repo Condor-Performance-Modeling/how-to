@@ -299,7 +299,7 @@ startup
 <i> if you are in a managed environment, like VCAD, make sure you move the 
 added .bashrc lines to a private rc file.</i>
 
-<b>Close this terminal and open a new terminal</b>
+<H2>Close this terminal and open a new terminal</H2>
 
 Your prompt should start with <b>(base)</b>
 </details>
@@ -311,10 +311,13 @@ Your prompt should start with <b>(base)</b>
 
 ## Install the MAP Miniconda components
 
-```
-cd $TOP
+Verify your conda environment is active. '(base)' should be in your prompt.
 
+```
 conda activate
+cd /data/users/$USER/condor   # or your work area
+source how-to/env/setuprc.sh
+
 conda install -c conda-forge jq yq 
 Proceed ([y]/n)? y
 ```
