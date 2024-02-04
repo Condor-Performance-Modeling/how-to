@@ -1,5 +1,4 @@
 #! /bin/bash
-set -e
 
 if [[ -z "${CONDOR_TOP}" ]]; then
   { echo "CONDOR_TOP is undefined, execute 'source how-to/env/setuprc.sh'"; exit 1; }
@@ -36,12 +35,16 @@ tar xf 2020.05.1.tar.gz
 cp $CONDOR_TOP/how-to/patches/config-buildroot-2020.05.1 buildroot-2020.05.1/.config
 
 # This make will fail, followed by a patch
+set +e
 make -C buildroot-2020.05.1 -j32
+set -e
 cp $PATCHES/c-stack.c \
           ./buildroot-2020.05.1/output/build/host-m4-1.4.18/lib/c-stack.c
 
 # This make will also fail, followed by another patch
+set +e
 make -C buildroot-2020.05.1 -j32
+set -e
 cp $PATCHES/libfakeroot.c \
           ./buildroot-2020.05.1/output/build/host-fakeroot-1.20.2/libfakeroot.c
 

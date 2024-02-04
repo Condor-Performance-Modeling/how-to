@@ -21,23 +21,16 @@ if ! [ -d "$OLYMPIA" ]; then
 }
 fi
 
-if ! [ "$CONDA_DEFAULT_ENV" == "sparta" ]; then
-{
-  echo "-E: sparta environment is not enabled";
-  echo "-E: issue 'conda active sparta' and retry.";
-  exit 1;
-}
-else
-{
-  echo "-I: sparta environment detected, proceeding";
-}
-fi
-  
 mkdir -p $TOOLS/bin
 cd $OLYMPIA;
 
+git apply $TOP/how-to/patches/scoreboard_patch_map_v2.patch || true
+
 mkdir -p release; cd release
 cmake .. -DCMAKE_BUILD_TYPE=Release 
-make -j8; cmake --install . --prefix $CONDA_PREFIX
+make -j32;
+cmake --install . --prefix $CONDA_PREFIX
+
+make -j32 regress
 
 cp olympia $TOOLS/bin/olympia

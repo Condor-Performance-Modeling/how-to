@@ -400,6 +400,7 @@ make -j32
 If necessary create links to the cross compilers
 
 ```
+  cd $TOP
   ln -s /tools/riscv64-unknown-elf
   ln -s /tools/riscv64-unknown-linux-gnu
 ```
