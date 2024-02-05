@@ -7,9 +7,12 @@
 ```
 run_sim dhry                                 # Run the simulator on the Dhrystone workload
 run_sim -ro dhry                             # Run Dhrystone and send both report and stdout to this directory
-run_sim -o --wfc --no-run                    # Write the default final config YAML to this directory without running a workload
+run_sim --wfc --no-run                       # Write the default final config YAML to this directory without running a workload
 run_sim -ro --arch cuzco_arch dhry           # Run the simulator using the cuzco_arch arch, writing results to this directory
 run_sim -o --arch cuzco_arch --wfc --no-run  # Write the cuzco_arch final config YAML to this directory without running a workload
+
+# Example of specifying a parameter
+run_sim -ro --arch cuzco_arch -p top.cpu.core0.fetch.params.num_to_fetch 12 dhry
 ```
 
 ## Setup
@@ -63,6 +66,12 @@ Redirect stdout to file in default directory.
 ### `-p PARAM VALUE`
 Specify param/value pair in simulator.
 
+Example:
+
+```
+run_sim -ro --arch cuzco_arch -p top.cpu.core0.fetch.params.num_to_fetch 12 dhry
+```
+
 ### `-q`
 Generate and display command line, but don't invoke simulator.
 
@@ -71,6 +80,14 @@ Output report file to the current directory.
 
 ### `--wfc`
 Write final config YAML to the current directory.
+
+Usually used with `--no-run`
+
+Example:
+
+```
+run_sim --arch cuzco_arch --wfc --no-run
+```
 
 ### `--wkld`
 Specify workload.
