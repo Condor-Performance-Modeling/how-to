@@ -5,11 +5,11 @@
 ## Examples
 
 ```
-run_sim dhry                               # Run the simulator on the Dhrystone workload
-run_sim -ro dhry                           # Run Dhrystone and send both report and stdout to this directory
-run_sim -o --wfc --no-run                  # Write the default final config YAML to this directory without running a workload
-run_sim -ro --arch medium_core dhry        # Run the simulator using the medium_core arch, writing results to this directory
-run_sim -o --arch big_core --wfc --no-run  # Write the big_core final config YAML to this directory without running a workload
+run_sim dhry                                 # Run the simulator on the Dhrystone workload
+run_sim -ro dhry                             # Run Dhrystone and send both report and stdout to this directory
+run_sim -o --wfc --no-run                    # Write the default final config YAML to this directory without running a workload
+run_sim -ro --arch cuzco_arch dhry           # Run the simulator using the cuzco_arch arch, writing results to this directory
+run_sim -o --arch cuzco_arch --wfc --no-run  # Write the cuzco_arch final config YAML to this directory without running a workload
 ```
 
 ## Setup
