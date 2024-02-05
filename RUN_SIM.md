@@ -35,7 +35,7 @@ This script has several key features:
 - Automatically dump simulator parameters so you can specify params with regex.
 
 ## Workload ID
-When specifying a workload, you may supply a numeric workload ID.  `run_sim` will then look for this workload in the $TRACELIB directory.
+When specifying a workload, you may supply a numeric workload ID.  `run_sim` will then look for this workload in the `$TRACELIB` directory.
 
 For example:
 ```
