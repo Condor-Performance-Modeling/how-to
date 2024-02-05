@@ -43,7 +43,7 @@ run_sim -ro 7
 ```
 will find this workload:
 ```
-$TRACELIB/0000/007/bzip2_dryer_test_7_91_2024-02-01_100m_0.0689655.zstf
+$TRACELIB/0001/007/bzip2_dryer_test_7_91_2024-02-01_100m_0.0689655.zstf
 ```
 
 ## Arguments
