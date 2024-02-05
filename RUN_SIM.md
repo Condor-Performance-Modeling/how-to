@@ -13,6 +13,9 @@ run_sim -o --arch cuzco_arch --wfc --no-run  # Write the cuzco_arch final config
 
 # Example of specifying a parameter
 run_sim -ro --arch cuzco_arch -p top.cpu.core0.fetch.params.num_to_fetch 12 dhry
+
+# Example of running only the first 1000 instructions
+run_sim -ro --arch cuzco_arch -i 1k dhry
 ```
 
 ## Setup
@@ -41,7 +44,6 @@ Display help text.
 Eat all remaining arguments, passing them directly to the simulator.
 
 Example:
-
 ```
 run_sim -ro dhry -- --foo --bar
 ```
@@ -51,11 +53,20 @@ would pass `--foo --bar` directly to the simulator.
 ### `--ARG VAL`
 Any pair of arguments in this form (if `run_sim` doesn't recognize `--ARG`) are passed to the simulator.  For example:
 
+Example:
 ```
-run_sim --arch medium_core dhry
+run_sim --arch cuzco_arch dhry
 ```
 
 Note:  it is assumed the param takes exactly one value.  To pass other types of args directly to the simulator, use `--`.
+
+### `-i INSTS`
+Limit the number of instructions to INSTS.  Understand common abbreviations like `k` = 1000 and `m` = 1,000,000
+
+Example:
+```
+run_sim -ro --arch cuzco_arch -i 1k dhry     # Stop after running the first 1000 instructions
+```
 
 ### `--no-run`
 Do not run simulator.
@@ -67,7 +78,6 @@ Redirect stdout to file in default directory.
 Specify param/value pair in simulator.
 
 Example:
-
 ```
 run_sim -ro --arch cuzco_arch -p top.cpu.core0.fetch.params.num_to_fetch 12 dhry
 ```
