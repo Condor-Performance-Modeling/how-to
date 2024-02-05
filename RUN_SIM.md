@@ -19,7 +19,7 @@ run_sim -ro --arch cuzco_arch -i 1k dhry
 ```
 
 ## Setup
-
+(This section TBD; talks about setting up config files)
 
 ## General info
 
@@ -34,6 +34,18 @@ This script has several key features:
 - Know where workload repository lives; allow specifying workloads by workload ID.
 - Automatically dump simulator parameters so you can specify params with regex.
 
+## Workload ID
+
+When specifying a workload, you may supply a numeric workload ID.  It will then look for this workload in the $TRACELIB directory.
+
+For example:
+```
+run_sim -ro 7
+```
+will find this workload:
+```
+$TRACELIB/0000/007/bzip2_dryer_test_7_91_2024-02-01_100m_0.0689655.zstf
+```
 
 ## Arguments
 
