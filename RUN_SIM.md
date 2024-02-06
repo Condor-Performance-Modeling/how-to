@@ -71,7 +71,7 @@ run_sim --arch cuzco_arch dhry
 
 Note:  it is assumed the param takes exactly one value.  To pass other types of args directly to the simulator, use `--`.
 
-### `-i INSTS`
+### `-i INSTS`, `--insts INSTS`
 Limit the number of instructions to INSTS.  Understand common abbreviations like `k` = 1000 and `m` = 1,000,000
 
 Example:
