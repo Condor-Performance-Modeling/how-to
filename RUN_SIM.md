@@ -105,10 +105,15 @@ Write final config YAML to the current directory.
 Usually used with `--no-run`
 
 Example:
-
 ```
 run_sim --arch cuzco_arch --wfc --no-run
 ```
 
-### `--wkld`
-Specify workload.
+### `--wkld WLKD`
+This is an alternate way to specify a workload, which may be useful in certain scripting situations.
+
+These two commands are equivalent:
+```
+run_sim dhry
+run_sim --wkld dhry
+```
