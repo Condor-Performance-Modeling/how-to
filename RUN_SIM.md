@@ -8,14 +8,14 @@
 run_sim dhry                                 # Run the simulator on the Dhrystone workload
 run_sim -ro dhry                             # Run Dhrystone and send both report and stdout to this directory
 run_sim --wfc --no-run                       # Write the default final config YAML to this directory without running a workload
-run_sim -ro --arch cuzco_arch dhry           # Run the simulator using the cuzco_arch arch, writing results to this directory
-run_sim -o --arch cuzco_arch --wfc --no-run  # Write the cuzco_arch final config YAML to this directory without running a workload
+run_sim -ro --arch cuzco dhry                # Run the simulator using the cuzco arch, writing results to this directory
+run_sim -o --arch cuzco --wfc --no-run       # Write the cuzco final config YAML to this directory without running a workload
 
 # Example of specifying a parameter
-run_sim -ro --arch cuzco_arch -p top.cpu.core0.fetch.params.num_to_fetch 12 dhry
+run_sim -ro --arch cuzco -p top.cpu.core0.fetch.params.num_to_fetch 12 dhry
 
 # Example of running only the first 1000 instructions
-run_sim -ro --arch cuzco_arch -i 1k dhry
+run_sim -ro --arch cuzco -i 1k dhry
 ```
 
 ## Setup
@@ -66,7 +66,7 @@ Any pair of arguments in this form (if `run_sim` doesn't recognize `--ARG`) are 
 
 Example:
 ```
-run_sim --arch cuzco_arch dhry
+run_sim --arch cuzco dhry
 ```
 
 Note:  it is assumed the param takes exactly one value.  To pass other types of args directly to the simulator, use `--`.
@@ -76,7 +76,7 @@ Limit the number of instructions to INSTS.  Understand common abbreviations like
 
 Example:
 ```
-run_sim -ro --arch cuzco_arch -i 1k dhry     # Stop after running the first 1000 instructions
+run_sim -ro --arch cuzco -i 1k dhry     # Stop after running the first 1000 instructions
 ```
 
 ### `--no-run`
@@ -90,7 +90,7 @@ Specify param/value pair in simulator.
 
 Example:
 ```
-run_sim -ro --arch cuzco_arch -p top.cpu.core0.fetch.params.num_to_fetch 12 dhry
+run_sim -ro --arch cuzco -p top.cpu.core0.fetch.params.num_to_fetch 12 dhry
 ```
 
 ### `-q`
@@ -106,7 +106,7 @@ Usually used with `--no-run`
 
 Example:
 ```
-run_sim --arch cuzco_arch --wfc --no-run
+run_sim --arch cuzco --wfc --no-run
 ```
 
 ### `--wkld WLKD`
