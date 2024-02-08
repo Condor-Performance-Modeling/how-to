@@ -16,6 +16,9 @@ run_sim -ro --arch cuzco -p top.cpu.core0.fetch.params.num_to_fetch 12 dhry
 
 # Example of running only the first 1000 instructions
 run_sim -ro --arch cuzco -i 1k dhry
+
+# Example of running the workload and also writing the final config YAML
+run_sim -ro --arch cuzco --wfc dhry
 ```
 
 ## Setup
