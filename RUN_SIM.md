@@ -34,8 +34,7 @@ This script has several key features:
 
 #### Future features
 - Specify useful defaults in a user config file ~/.run_sim
-- Know where workload repository lives; allow specifying workloads by workload ID.
-- Automatically dump simulator parameters so you can specify params with regex.
+- Automatically dump simulator parameters so you can specify params with regex
 
 ## Workload ID
 When specifying a workload, you may supply a numeric workload ID.  `run_sim` will then look for this workload in the `$TRACELIB` directory.
@@ -73,6 +72,14 @@ run_sim --arch cuzco dhry
 ```
 
 Note:  it is assumed the param takes exactly one value.  To pass other types of args directly to the simulator, use `--`.
+
+### `--dbg INSTS`
+Dump debug and info at `top` node, starting at this inst count.  Usually used with `-i`.
+
+Example:
+```
+run_sim -ro --arch cuzco --dbg 1k -i 2k dhry   # Dump debug and info between 1000 and 2000 instructions
+```
 
 ### `-i INSTS`, `--insts INSTS`
 Limit the number of instructions to INSTS.  Understand common abbreviations like `k` = 1000 and `m` = 1,000,000
