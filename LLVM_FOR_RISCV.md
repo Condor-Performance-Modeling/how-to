@@ -101,8 +101,7 @@ int main(){
 **Compile the code:**
 
 ```bash
-clang -O -c hello.c
-riscv64-unknown-elf-gcc hello.o -o hello -march=rv64imac -mabi=lp64
+clang -march=rv64gc -mabi=lp64d hello.c -o hello
 ```
 
 ## Cloning and Building the RISC-V GNU Toolchain
