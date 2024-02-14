@@ -37,11 +37,11 @@ This script has several key features:
 - Automatically dump simulator parameters so you can specify params with regex
 
 ## Workload ID
-When specifying a workload, you may supply a numeric workload ID.  `run_sim` will then look for this workload in the `$TRACELIB` directory.
+When specifying a workload, you may supply a numeric workload ID in the form `CCCCDDD`, where `CCCC` is the 4-digit cluster ID and `DDD` is the index of the workload within the cluster.  `run_sim` will then look for this workload in the `$TRACELIB` directory, in `$TRACELIB/CCCC/DDD/`.
 
 For example:
 ```
-run_sim -ro 7
+run_sim -ro 1007
 ```
 will find this workload:
 ```
