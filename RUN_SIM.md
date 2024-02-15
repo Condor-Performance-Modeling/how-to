@@ -81,6 +81,22 @@ Example:
 run_sim -ro --arch cuzco --dbg 1k -i 2k dhry   # Dump debug and info between 1000 and 2000 instructions
 ```
 
+### `--dbgn NODE INSTS`
+Dump debug and info at `NODE` node, starting at this inst count.  Usually used with `-i`.
+
+Example:
+```
+run_sim -ro --arch cuzco --dbgn top.cpu.core0.rename 1k -i 2k dhry   # Dump debug and info for rename unit between 1000 and 2000 instructions
+```
+
+### `--dbglsu INSTS`
+Dump debug and info at `top.cpu.core0.lsu` node, starting at this inst count.  Usually used with `-i`.
+
+Example:
+```
+run_sim -ro --arch cuzco --dbglsu 1k -i 2k dhry   # Dump debug and info for lsu unit between 1000 and 2000 instructions
+```
+
 ### `-i INSTS`, `--insts INSTS`
 Limit the number of instructions to INSTS.  Understand common abbreviations like `k` = 1000 and `m` = 1,000,000
 
