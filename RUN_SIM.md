@@ -86,10 +86,10 @@ File locking has not been added to the params cache file, so for now care must b
 ### Parameter regexes are topology-based
 The params cache file contains a different set of params for each topology.  Topology detection is currently fairly primitive:  it is based on the `--arch` specified.  For example, running with these two commands:
 ```
-run_sim --arch cuzco
-run_sim --arch small_core
+run_sim --arch cuzco ...
+run_sim --arch small_core ...
 ```
-would put two different sets of parameters in the params cache.
+would store two different sets of parameters in the params cache.
 
 Any other topology changes (such as made by specifying `-p` options) are not currently detected and would need to be added to `run_sim` as needed.
 
