@@ -74,9 +74,24 @@ which sets all of the following parameters to 12:
 
 Some important considerations with parameter regexes are mentioned below.
 
-### Parameter regexes are topology-based
+### Parameters are cached in a file
+The list of available parameters is obtained by running the simulator with `--write-final-config` and `--no-run`, parsing the output YAML, and storing the results in a params cache file that lives with the simulator.  If the simulator's modification time changes, the params cache file is regenerated.  The params cache file may also be manually deleted.
 
-### Parameter cache file is not locked
+### The parameter cache file is not locked
+File locking has not been added to the params cache file, so for now care must be taken to not thrash this file with simultaneous writes or out-of-date reads.  In situations with simultaneous accesses (such as running a study), it is recommended that these steps be followed:
+
+1.  The simulator is run once in the beginning (as part of sanity checking that the simulator works) to generate an up-to-date params cache file for all the runs.
+2.  Each of the simultaneous runs can then read the params cache file without trying to regenerate the parameters.  For added safety, these runs should use the `--no-write-params-cache` option.
+
+### Parameter regexes are topology-based
+The params cache file contains a different set of params for each topology.  Topology detection is currently fairly primitive:  it is based on the `--arch` specified.  For example, running with these two commands:
+```
+run_sim --arch cuzco
+run_sim --arch small_core
+```
+would put two different sets of parameters in the params cache.
+
+Any other topology changes (such as made by specifying `-p` options) are not currently detected and would need to be added to `run_sim` as needed.
 
 ## Arguments
 
@@ -151,7 +166,7 @@ See [Parameter Regexes](#parameter-regexes) for more information.
 ### `--no-run`
 Do not run simulator.
 
-### `--no_write_params_cache`
+### `--no-write-params-cache`
 Do not write the params cache file
 
 ### `-o`
