@@ -49,6 +49,34 @@ $TRACELIB/0001/007/bzip2_dryer_test_7_91_2024-02-01_100m_0.0689655.zstf
 ```
 
 ## Parameter Regexes
+The [-P](#-p-regex-value) and [-M](#-m-regex-value) options allow specifying a parameter regex rather than the full parameter name.  For example, `-P 'num.*fetch' 12` is equivalent to `-p top.cpu.core0.fetch.params.num_to_fetch 12`.
+
+You can also use this to search for relevant parameters, for example:
+```
+(sparta) int1:a$ run_sim -ro --arch cuzco -P fetch foo -q
+run_sim: error: Param regex "fetch" matches more than one param:
+- top.cpu.core0.fetch.params.num_to_fetch
+- top.cpu.core0.fetch.params.skip_nonuser_mode
+- top.cpu.core0.fetch.params.input_file
+- top.cpu.core0.fetch.params.statpred_accuracy
+- top.cpu.core0.fetch.params.statpred_seed
+```
+
+You may also set multiple params at the same time, such as parameters that are replicated across multiple units:
+```
+(sparta) int1:a$ run_sim -ro --arch cuzco -M scheduler_size 12 -q
+```
+which sets all of the following parameters to 12:
+- `top.cpu.core0.execute.iq0.params.scheduler_size`
+- `top.cpu.core0.execute.iq1.params.scheduler_size`
+- `top.cpu.core0.execute.iq2.params.scheduler_size`
+- `top.cpu.core0.execute.iq3.params.scheduler_size`
+
+Some important considerations with parameter regexes are mentioned below:
+
+### Parameter regexes are topology-based
+
+### Parameter cache file is not locked
 
 ## Arguments
 
@@ -107,8 +135,24 @@ Example:
 run_sim -ro --arch cuzco -i 1k dhry     # Stop after running the first 1000 instructions
 ```
 
+### `-M REGEX VALUE`
+Same as `-P`, but allow multi-matches.  For example:
+```
+run_sim -ro --arch cuzco -M scheduler_size 12 --wfc dhry
+```
+would set all of these parameters to `12`:
+- `top.cpu.core0.execute.iq0.params.scheduler_size`
+- `top.cpu.core0.execute.iq1.params.scheduler_size`
+- `top.cpu.core0.execute.iq2.params.scheduler_size`
+- `top.cpu.core0.execute.iq3.params.scheduler_size`
+
+See [Parameter Regexes](#parameter-regexes) for more information.
+
 ### `--no-run`
 Do not run simulator.
+
+### `--no_write_params_cache
+Do not write the params cache file
 
 ### `-o`
 Redirect stdout to file in default directory.
@@ -132,24 +176,14 @@ would set the parameter `top.cpu.core0.fetch.params.num_to_fetch` to `12`.
 
 This is also a convenient way to list relevant parameters.  For example:
 ```
-$ run_sim --arch cuzco_arch -P scheduler_size 10 --no-run
+$ run_sim --arch cuzco -P scheduler_size foo -q
 run_sim: error: Param regex "scheduler_size" matches more than one param:
 - top.cpu.core0.execute.iq0.params.scheduler_size
 - top.cpu.core0.execute.iq1.params.scheduler_size
 - top.cpu.core0.execute.iq2.params.scheduler_size
 - top.cpu.core0.execute.iq3.params.scheduler_size
 ```
-
-### `--PP REGEX VALUE`
-Same as `-P`, but allow multi-matches.  For example:
-```
-run_sim -ro --arch cuzco -P scheduler_size 12 --wfc dhry
-```
-would set all of these parameters to `12`:
-- `top.cpu.core0.execute.iq0.params.scheduler_size`
-- `top.cpu.core0.execute.iq1.params.scheduler_size`
-- `top.cpu.core0.execute.iq2.params.scheduler_size`
-- `top.cpu.core0.execute.iq3.params.scheduler_size`
+See [Parameter Regexes](#parameter-regexes) for more information.
 
 ### `-q`
 Generate and display command line, but don't invoke simulator.
