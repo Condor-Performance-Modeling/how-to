@@ -75,7 +75,7 @@ which sets all of the following parameters to 12:
 Some important considerations with parameter regexes are mentioned below.
 
 ### Parameters are cached in a file
-The list of available parameters is obtained by running the simulator with `--write-final-config` and `--no-run`, parsing the output YAML, and storing the results in a params cache file that lives with the simulator.  If the simulator's modification time changes, the params cache file is regenerated.  The params cache file may also be manually deleted.
+The list of available parameters is obtained by running the simulator with `--write-final-config` and `--no-run`, parsing the output YAML, and storing the results in a params cache file that lives with the simulator.  If the simulator's modification time changes, the params cache file is regenerated.  The params cache file may also be manually deleted to force it to be regenerated.
 
 ### The parameter cache file is not locked
 File locking has not been added to the params cache file, so for now care must be taken to not thrash this file with simultaneous writes or out-of-date reads.  In situations with simultaneous accesses (such as running a study), it is recommended that these steps be followed:
