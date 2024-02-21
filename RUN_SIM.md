@@ -48,6 +48,8 @@ will find this workload:
 $TRACELIB/0001/007/bzip2_dryer_test_7_91_2024-02-01_100m_0.0689655.zstf
 ```
 
+## Parameter Regexes
+
 ## Arguments
 
 ### `-h`, `--help`
@@ -118,6 +120,36 @@ Example:
 ```
 run_sim -ro --arch cuzco -p top.cpu.core0.fetch.params.num_to_fetch 12 dhry
 ```
+
+### `-P REGEX VALUE`
+Specify param regex/value pair in simulator.
+
+Example:
+```
+run_sim -ro --arch cuzco -P 'num.*fetch` 12 --wfc dhry
+```
+would set the parameter `top.cpu.core0.fetch.params.num_to_fetch` to `12`.
+
+This is also a convenient way to list relevant parameters.  For example:
+```
+$ run_sim --arch cuzco_arch -P scheduler_size 10 --no-run
+run_sim: error: Param regex "scheduler_size" matches more than one param:
+- top.cpu.core0.execute.iq0.params.scheduler_size
+- top.cpu.core0.execute.iq1.params.scheduler_size
+- top.cpu.core0.execute.iq2.params.scheduler_size
+- top.cpu.core0.execute.iq3.params.scheduler_size
+```
+
+### `--PP REGEX VALUE`
+Same as `-P`, but allow multi-matches.  For example:
+```
+run_sim -ro --arch cuzco -P scheduler_size 12 --wfc dhry
+```
+would set all of these parameters to `12`:
+- `top.cpu.core0.execute.iq0.params.scheduler_size`
+- `top.cpu.core0.execute.iq1.params.scheduler_size`
+- `top.cpu.core0.execute.iq2.params.scheduler_size`
+- `top.cpu.core0.execute.iq3.params.scheduler_size`
 
 ### `-q`
 Generate and display command line, but don't invoke simulator.
