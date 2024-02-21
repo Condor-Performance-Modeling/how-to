@@ -53,7 +53,7 @@ The [-P](#-p-regex-value) and [-M](#-m-regex-value) options allow specifying a p
 
 You can also use this to search for relevant parameters, for example:
 ```
-(sparta) int1:a$ run_sim -ro --arch cuzco -P fetch foo -q
+$ run_sim -ro --arch cuzco -P fetch foo -q
 run_sim: error: Param regex "fetch" matches more than one param:
 - top.cpu.core0.fetch.params.num_to_fetch
 - top.cpu.core0.fetch.params.skip_nonuser_mode
@@ -64,7 +64,7 @@ run_sim: error: Param regex "fetch" matches more than one param:
 
 You may also set multiple params at the same time, such as parameters that are replicated across multiple units:
 ```
-(sparta) int1:a$ run_sim -ro --arch cuzco -M scheduler_size 12 -q
+$ run_sim -ro --arch cuzco -M scheduler_size 12 -q
 ```
 which sets all of the following parameters to 12:
 - `top.cpu.core0.execute.iq0.params.scheduler_size`
@@ -72,7 +72,7 @@ which sets all of the following parameters to 12:
 - `top.cpu.core0.execute.iq2.params.scheduler_size`
 - `top.cpu.core0.execute.iq3.params.scheduler_size`
 
-Some important considerations with parameter regexes are mentioned below:
+Some important considerations with parameter regexes are mentioned below.
 
 ### Parameter regexes are topology-based
 
@@ -151,7 +151,7 @@ See [Parameter Regexes](#parameter-regexes) for more information.
 ### `--no-run`
 Do not run simulator.
 
-### `--no_write_params_cache
+### `--no_write_params_cache`
 Do not write the params cache file
 
 ### `-o`
