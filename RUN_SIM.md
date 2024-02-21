@@ -20,6 +20,9 @@ run_sim -ro --arch cuzco -i 1k dhry
 
 # Example of running the workload and also writing the final config YAML
 run_sim -ro --arch cuzco --wfc dhry
+
+# Example of generating debug logs from 1000 to 2000 instructions
+run_sim -ro --arch cuzco --wfc --dbg 1k -i 2k dhry
 ```
 
 ## Setup
