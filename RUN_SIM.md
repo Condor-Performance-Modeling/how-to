@@ -11,8 +11,9 @@ run_sim --wfc --no-run                       # Write the default final config YA
 run_sim -ro --arch cuzco dhry                # Run the simulator using the cuzco arch, writing results to this directory
 run_sim -o --arch cuzco --wfc --no-run       # Write the cuzco final config YAML to this directory without running a workload
 
-# Example of specifying a parameter
+# Examples of specifying a parameter
 run_sim -ro --arch cuzco -p top.cpu.core0.fetch.params.num_to_fetch 12 dhry
+run_sim -ro --arch cuzco -P 'num.*fetch' 12 dhry
 
 # Example of running only the first 1000 instructions
 run_sim -ro --arch cuzco -i 1k dhry
