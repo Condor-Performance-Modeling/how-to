@@ -22,6 +22,8 @@ perf modeling environment and provide instructions on how to use it.
 
     1. [How to create a new branch](#how-to-create-a-new-branch)
 
+    1. [How to change the name of a branch](#how-to-change-the-name-of-a-branch)
+
     1. [How to move uncommitted changes to a new branch](#how-to-move-uncommitted-changes-to-a-new-branch)
 
     1. [How to copy a branch to a new branch](#how-to-copy-a-branch-to-a-new-branch)
@@ -81,6 +83,18 @@ git switch   <existing branch name>    # tracking the remote branch
 ### How to create a new branch
 ```
 git switch -c <new branch name>
+```
+
+### How to change the name of a branch
+Change the name of your current local branch
+```
+git branch -m new-branch-name
+git push origin -u new-branch-name
+```
+Change the name of a different local branch
+```
+git branch -m old-branch-name new-branch-name
+git push origin -u new-branch-name
 ```
 
 ### How to move uncommitted changes to a new branch
