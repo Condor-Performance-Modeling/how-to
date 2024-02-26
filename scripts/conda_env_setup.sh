@@ -1,13 +1,14 @@
 #!/bin/bash
 
 if [[ -z "$TOP" ]] || [[ -z "$MAP" ]]; then
-    echo "The TOP or MAP environment variables are not set. Please set them before continuing."
+    echo "One or more required environment variables (TOP, MAP) are not set."
+    echo "Please set them before continuing."
     exit 1
 fi
 
 if [[ "$CONDA_DEFAULT_ENV" != "base" ]]; then
     echo "The 'conda' environment is not active. Please activate it before continuing."
-    echo "To activate the 'conda' environment, run: conda activate conda"
+    echo "To activate the 'conda' environment, run: conda activate"
     exit 1
 fi
 
