@@ -40,7 +40,23 @@ successfully deactivated the environments.
   conda deactivate     # leave base
 ```
 
-# LLVM for Baremetal
+# Use script to build LLVM
+
+**Before Running the Script:**
+
+- Ensure you have set the `TOP` environment variable to your desired workspace directory.
+- Confirm that any active `Conda`/`Sparta` environments are deactivated.
+- This script assumes the `RISC-V GNU Toolchain` for Linux is already built and available at `/data/tools/riscv64-unknown-linux-gnu`. If this is not the case, you would need to build or adjust this part accordingly.
+
+**Running the Script:**
+
+```bash
+cd $TOP
+bash how-to/scripts/build_llvm.sh
+```
+
+<details>
+  <summary>Details: Building LLVM for Baremetal step by step</summary>
 
 ## Directory Setup for Build Files and Installation (Baremetal)
 
@@ -55,13 +71,15 @@ mkdir _install
 
 ## The RISC-V GNU Toolchain for Baremetal
 
-The `RISC-V GNU toolchain` is necessary to use the LLVM, you should be able to find it under `/data/tools/riscv64-unknown-elf`. Copy it to the `_install` directory in your workspace
+This step compiles the `RISC-V toolchain` for baremetal. It is crucial that you use `--with-cmodel=medany` for this toolchain.
 
 ```bash
-cp -fa /data/tools/riscv64-unknown-elf/* _install/
+git clone --recursive https://github.com/riscv/riscv-gnu-toolchain
+pushd riscv-gnu-toolchain
+./configure --prefix=`pwd`/../_install --enable-multilib --with-cmodel=medany
+make -j 32
+popd
 ```
-
-If you don't have the `RISC-V GNU toolchain` ready under `/data/tools/riscv64-unknown-elf`, you can clone and compile it yourself folowing [this section](#cloning-and-building-the-risc-v-gnu-toolchain) instead of copying it.
 
 ## Cloning and Building LLVM for RISC-V (Baremetal)
 
@@ -86,7 +104,10 @@ cmake --build . --target install
 popd
 ```
 
-# LLVM for Linux
+</details>
+
+<details>
+  <summary>Details: Building LLVM for Linux step by step</summary>
 
 ## Directory Setup for Build Files and Installation (Linux)
 
@@ -133,7 +154,9 @@ cmake --build . --target install
 popd
 ```
 
-# Compiling a Simple C/C++ Program for RISC-V 64-bit
+</details>
+
+## Compiling a Simple C/C++ Program for RISC-V 64-bit
 
 Create a source file `hello.c`:
 
@@ -157,16 +180,4 @@ Linux:
 
 ```bash
 [PATH_TO_YOUR_LLVM_LINUX_INSTALL]/bin/clang --target=riscv64-unknown-linux-gnu -o hello hello.c
-```
-
-# Cloning and Building the RISC-V GNU Toolchain
-
-This step compiles the `RISC-V toolchain` for baremetal, which is necessary for the `-DDEFAULT_SYSROOT` setting. If you already have the toolchain files in a different directory, you can skip this step and use that path instead.
-
-```bash
-git clone --recursive https://github.com/riscv/riscv-gnu-toolchain
-pushd riscv-gnu-toolchain
-./configure --prefix=`pwd`/../_install --enable-multilib # adjust to your chosen install path
-make -j 32
-popd
 ```
