@@ -38,8 +38,7 @@ fi
 if ! check_progress "map_miniconda_installed"; then
     echo_stage "Install the MAP Miniconda components"
     # Assuming conda is already installed and configured
-    conda activate
-    cd /data/users/$USER/condor || exit
+    cd $TOP || exit
     source how-to/env/setuprc.sh
     conda install -c conda-forge jq yq -y
     update_progress "map_miniconda_installed"
