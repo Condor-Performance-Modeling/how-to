@@ -13,6 +13,7 @@ set_up_onboarding_environment() {
 
     if [[ "$CONDA_DEFAULT_ENV" != "sparta" ]]; then
         echo "The 'sparta' environment is not active. Please activate it before continuing."
+        echo "To activate the 'conda' environment, run: conda activate"
         echo "To activate the 'sparta' environment, run: conda activate sparta"
         exit 1
     fi
@@ -20,15 +21,13 @@ set_up_onboarding_environment() {
     PROGRESS_FILE="$TOP/.onboarding_env_setup_progress"
 
     update_progress() {
-        echo "$1" > "$PROGRESS_FILE"
+        echo "$1" >> "$PROGRESS_FILE"
     }
 
     check_progress() {
         if [[ -f "$PROGRESS_FILE" ]]; then
-            LAST_STEP=$(cat "$PROGRESS_FILE")
-            if [[ "$LAST_STEP" == "$1" ]]; then
-                return 0
-            fi
+            grep -Fxq "$1" "$PROGRESS_FILE"
+            return $?
         fi
         return 1
     }
@@ -40,7 +39,7 @@ set_up_onboarding_environment() {
     # Building Sparcians components
     if ! check_progress "build_sparcians"; then
         echo_stage "Building Sparcians components"
-        conda install -c conda-forge yaml-cpp
+        conda install yaml-cpp -y
         cd $TOP
         bash how-to/scripts/build_sparcians.sh
         if [ $? -ne 0 ]; then
