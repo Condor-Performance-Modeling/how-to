@@ -12,7 +12,7 @@ fi
 
 if [[ "$CONDA_DEFAULT_ENV" != "sparta" ]]; then
     echo "The 'sparta' environment is not active. Please activate it before continuing."
-    echo "To activate the 'conda' environment, run: conda activate sparta"
+    echo "To activate the 'sparta' environment, run: conda activate sparta"
     exit 1
 fi
 
