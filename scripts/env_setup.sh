@@ -2,7 +2,6 @@
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 LOG_FILE="${TIMESTAMP}_env_setup.log"
-exec > >(tee -a "$LOG_FILE") 2>&1
 
 set_up_onboarding_environment() {
 
