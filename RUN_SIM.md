@@ -237,6 +237,9 @@ Generate and display command line, but don't invoke simulator.
 ### `-r`, `--rpt`
 Output report file to the current directory.
 
+### `-w INSTS`, `--warmup INSTS`
+The warmup period ends after this number of instructions retire.  The default report effectively ignores stat accumulations during warmup.
+
 ### `--wfc`
 Write final config YAML to the current directory.
 
