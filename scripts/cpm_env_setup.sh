@@ -1,13 +1,18 @@
 #!/bin/bash
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-LOG_FILE="${TIMESTAMP}_env_setup.log"
+LOG_FILE="${TIMESTAMP}_cmp_env_setup.log"
+KEEP_PROGRESS_FILE=false
+
+if [[ "$1" == "--keep-progress-file" ]]; then
+    KEEP_PROGRESS_FILE=true
+fi
 
 set_up_onboarding_environment() {
 
     if [[ -z "$TOP" ]] || [[ -z "$RV_LINUX_TOOLS" ]] || [[ -z "$CPM_DROMAJO" ]] || [[ -z "$TOOLS" ]] || [[ -z "$PATCHES" ]]; then
         echo "One or more required environment variables (TOP, RV_LINUX_TOOLS, CPM_DROMAJO, TOOLS, PATCHES) are not set."
-        echo "Please set them before continuing."
+        echo "To set the required environment variables, cd into your work area and run: source how-to/env/setuprc.sh"
         exit 1
     fi
 
@@ -43,7 +48,7 @@ set_up_onboarding_environment() {
         cd $TOP
         bash how-to/scripts/build_sparcians.sh
         if [ $? -ne 0 ]; then
-            echo "Failed to build Sparcians components. Please check the errors above."
+            echo "Failed to build Sparcians components. Please check the errors above or refer to the log file: $LOG_FILE"
             exit 1
         fi
         update_progress "build_sparcians"
@@ -53,8 +58,13 @@ set_up_onboarding_environment() {
     if ! check_progress "cross_compilers_and_tools_checked"; then
         echo_stage "Checking /tools for necessary directories and linking cross compilers"
 
-        if [ ! -d "/tools/riscv64-unknown-elf" ] || [ ! -d "/tools/riscv64-unknown-linux-gnu" ]; then
-            echo "Required directories in /tools are missing."
+        if [ ! -d "/tools/riscv64-unknown-elf" ]; then
+            echo "The required directory /tools/riscv64-unknown-elf is missing. Please ensure it exists before continuing."
+            exit 1
+        fi
+
+        if [ ! -d "/tools/riscv64-unknown-linux-gnu" ]; then
+            echo "The required directory /tools/riscv64-unknown-linux-gnu is missing. Please ensure it exists before continuing."
             exit 1
         fi
 
@@ -73,7 +83,7 @@ set_up_onboarding_environment() {
         cd $TOP
         bash how-to/scripts/build_linux_collateral.sh
         if [ $? -ne 0 ]; then
-            echo "Failed to build the Linux collateral. Please check the errors above."
+            echo "Failed to build the Linux collateral. Please check the errors above or refer to the log file: $LOG_FILE"
             exit 1
         fi
         update_progress "linux_collateral_built"
@@ -85,7 +95,7 @@ set_up_onboarding_environment() {
         cd $TOP
         bash how-to/scripts/build_cpm_repos.sh
         if [ $? -ne 0 ]; then
-            echo "Failed to install CPM repos. Please check the errors above."
+            echo "Failed to install CPM repos. Please check the errors above or refer to the log file: $LOG_FILE"
             exit 1
         fi
         update_progress "cpm_repos_installed"
@@ -97,12 +107,13 @@ set_up_onboarding_environment() {
         cd $TOP
         bash how-to/scripts/build_olympia.sh    
         if [ $? -ne 0 ]; then
-            echo "Failed to build Olympia. Please check the errors above."
+            echo "Failed to build Olympia. Please check the errors above or refer to the log file: $LOG_FILE"
             exit 1
         fi
         update_progress "olympia_built"
     fi
 
+: '
     # Boot Linux on CPM Dromajo
     if ! check_progress "linux_booted_on_cpm_dromajo"; then
         echo_stage "Booting Linux on CPM Dromajo"
@@ -114,14 +125,21 @@ set_up_onboarding_environment() {
         cd $CPM_DROMAJO/run
         $TOOLS/bin/cpm_dromajo --ctrlc --stf_no_priv_check --stf_trace example.stf cpm.boot.cfg
         if [ $? -ne 0 ]; then
-            echo "Failed to boot Linux on CPM Dromajo. Please check the errors above."
+            echo "Failed to boot Linux on CPM Dromajo. Please check the errors above or refer to the log file: $LOG_FILE"
             exit 1
         fi
         update_progress "linux_booted_on_cpm_dromajo"
     fi
+'
 
     echo "Onboarding setup process completed successfully."
-    rm -f "$PROGRESS_FILE"
+
+    if ! $KEEP_PROGRESS_FILE; then
+        echo "Removing progress file."
+        rm -f "$PROGRESS_FILE"
+    else
+        echo "Keeping progress file as requested."
+    fi
 
 }
 
