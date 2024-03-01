@@ -45,6 +45,8 @@ perf modeling environment and provide instructions on how to use it.
 
     1. [How to close a PR](#how-to-close-a-pr)
 
+    1. [How to merge a remote PR](#how-to-merge-a-remote-PR)
+
 1. [GIT config info](#git-config-info)
 
     1. [What URL does this repo belong to](#what-url-does-this-repo-belong-to)
@@ -176,6 +178,20 @@ Merge your PR
 ```
 If someone does not respond in a reasonable time, vacations, etc, use common sense on when to merge.
 
+### How to merge a remote PR
+The situation is someone has created a PR against our repo, that person does not have write permission
+
+Replace ID with the PR id number. 
+Replace BRANCHNAME with a local branch name
+```
+git fetch origin pull/ID/head:BRANCHNAME
+```
+example:
+```
+cd cpm.dromajo
+git fetch origin pull/3/head:kathlenemagnus/stf_improvements
+git switch kathlenemagnus/stf_improvements
+```
 
 ## GIT config info
 
