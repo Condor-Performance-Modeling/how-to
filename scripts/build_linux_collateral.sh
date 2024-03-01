@@ -10,11 +10,11 @@ mkdir -p $TOOLS/riscv-linux
 # Double check the links to the cross compilers
 
 if [ ! -L riscv64-unknown-elf ]; then
-  ln -s /tools/riscv64-unknown-elf
+  ln -sfv /tools/riscv64-unknown-elf
 fi
 
 if [ ! -L riscv64-unknown-linux-gnu ]; then
-  ln -s /tools/riscv64-unknown-linux-gnu
+  ln -sfv /tools/riscv64-unknown-linux-gnu
 fi
 
 # Build the kernel
@@ -60,7 +60,11 @@ cp $BUILDROOT/output/images/rootfs.cpio $CONDOR_TOP/tools/riscv-linux
 # Build OpenSBI
 
 cd $CONDOR_TOP
-git clone https://github.com/riscv/opensbi.git
+if [ ! -d "$CONDOR_TOP/opensbi" ]; then
+  git clone https://github.com/riscv/opensbi.git
+else
+  cd opensbi && git pull
+fi
 cd $OPENSBI
 make PLATFORM=generic -j32
 cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin $TOOLS/riscv-linux

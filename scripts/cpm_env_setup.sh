@@ -8,7 +8,7 @@ if [[ "$1" == "--keep-progress-file" ]]; then
     KEEP_PROGRESS_FILE=true
 fi
 
-set_up_onboarding_environment() {
+set_up_cpm_environment() {
 
     if [[ -z "$TOP" ]] || [[ -z "$RV_LINUX_TOOLS" ]] || [[ -z "$CPM_DROMAJO" ]] || [[ -z "$TOOLS" ]] || [[ -z "$PATCHES" ]]; then
         echo "One or more required environment variables (TOP, RV_LINUX_TOOLS, CPM_DROMAJO, TOOLS, PATCHES) are not set."
@@ -38,7 +38,15 @@ set_up_onboarding_environment() {
     }
 
     echo_stage() {
-        echo "Starting: $1"
+        echo "Starting Script Stage: $1"
+    }
+
+    pretty_error() {
+        echo
+        echo -e "\t#### -------------------------------------------------"
+        echo -e "\t#### $1"
+        echo -e "\t#### -------------------------------------------------"
+        echo
     }
 
     # Building Sparcians components
@@ -48,7 +56,7 @@ set_up_onboarding_environment() {
         cd $TOP
         bash how-to/scripts/build_sparcians.sh
         if [ $? -ne 0 ]; then
-            echo "Failed to build Sparcians components. Please check the errors above or refer to the log file: $LOG_FILE"
+            pretty_error "Failed to build Sparcians components. Please check the errors above or refer to the log file: $LOG_FILE"
             exit 1
         fi
         update_progress "build_sparcians"
@@ -59,12 +67,12 @@ set_up_onboarding_environment() {
         echo_stage "Checking /tools for necessary directories and linking cross compilers"
 
         if [ ! -d "/tools/riscv64-unknown-elf" ]; then
-            echo "The required directory /tools/riscv64-unknown-elf is missing. Please ensure it exists before continuing."
+            pretty_error "The required directory /tools/riscv64-unknown-elf is missing. Please ensure it exists before continuing."
             exit 1
         fi
 
         if [ ! -d "/tools/riscv64-unknown-linux-gnu" ]; then
-            echo "The required directory /tools/riscv64-unknown-linux-gnu is missing. Please ensure it exists before continuing."
+            pretty_error "The required directory /tools/riscv64-unknown-linux-gnu is missing. Please ensure it exists before continuing."
             exit 1
         fi
 
@@ -83,7 +91,7 @@ set_up_onboarding_environment() {
         cd $TOP
         bash how-to/scripts/build_linux_collateral.sh
         if [ $? -ne 0 ]; then
-            echo "Failed to build the Linux collateral. Please check the errors above or refer to the log file: $LOG_FILE"
+            pretty_error "Failed to build the Linux collateral. Please check the errors above or refer to the log file: $LOG_FILE"
             exit 1
         fi
         update_progress "linux_collateral_built"
@@ -95,7 +103,7 @@ set_up_onboarding_environment() {
         cd $TOP
         bash how-to/scripts/build_cpm_repos.sh
         if [ $? -ne 0 ]; then
-            echo "Failed to install CPM repos. Please check the errors above or refer to the log file: $LOG_FILE"
+            pretty_error "Failed to install CPM repos. Please check the errors above or refer to the log file: $LOG_FILE"
             exit 1
         fi
         update_progress "cpm_repos_installed"
@@ -107,7 +115,7 @@ set_up_onboarding_environment() {
         cd $TOP
         bash how-to/scripts/build_olympia.sh    
         if [ $? -ne 0 ]; then
-            echo "Failed to build Olympia. Please check the errors above or refer to the log file: $LOG_FILE"
+            pretty_error "Failed to build Olympia. Please check the errors above or refer to the log file: $LOG_FILE"
             exit 1
         fi
         update_progress "olympia_built"
@@ -123,16 +131,16 @@ set_up_onboarding_environment() {
         cp $PATCHES/cpm.boot.cfg $CPM_DROMAJO/run
 
         cd $CPM_DROMAJO/run
-        $TOOLS/bin/cpm_dromajo --ctrlc --stf_no_priv_check --stf_trace example.stf cpm.boot.cfg
-        if [ $? -ne 0 ]; then
-            echo "Failed to boot Linux on CPM Dromajo. Please check the errors above or refer to the log file: $LOG_FILE"
+        $TOOLS/bin/cpm_dromajo --ctrlc --stf_essential_mode --stf_priv_modes USHM --stf_trace example.stf cpm.boot.cfg
+	if [ $? -ne 0 ]; then
+            pretty_error "Failed to boot Linux on CPM Dromajo. Please check the errors above or refer to the log file: $LOG_FILE"
             exit 1
         fi
         update_progress "linux_booted_on_cpm_dromajo"
     fi
 '
 
-    echo "Onboarding setup process completed successfully."
+    echo "CPM environment setup process completed successfully."
 
     if ! $KEEP_PROGRESS_FILE; then
         echo "Removing progress file."
@@ -141,6 +149,7 @@ set_up_onboarding_environment() {
         echo "Keeping progress file as requested."
     fi
 
+    echo "Please continue with the README section: Boot Linux on CPM Dromajo."
 }
 
-set_up_onboarding_environment "$@" 2>&1 | tee -a "$LOG_FILE"
+set_up_cpm_environment "$@" 2>&1 | tee -a "$LOG_FILE"

@@ -55,7 +55,7 @@ fi
 
 cd $CPM_DROMAJO
 
-ln -s ../stf_lib
+ln -sfv ../stf_lib
 
 # The stf version
 mkdir -p build; cd build
@@ -74,11 +74,11 @@ cp dromajo $TOOLS/bin/cpm_simpoint_dromajo
 # Sym link the cross compilers
 # -------------------------------------------------------
 if [ ! -L riscv64-unknown-elf ]; then
-  ln -s /tools/riscv64-unknown-elf
+  ln -sfv /tools/riscv64-unknown-elf
 fi
 
 if [ ! -L riscv64-unknown-linux-gnu ]; then
-  ln -s /tools/riscv64-unknown-linux-gnu
+  ln -sfv /tools/riscv64-unknown-linux-gnu
 fi
 
 # -------------------------------------------------------

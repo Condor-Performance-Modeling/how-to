@@ -39,11 +39,13 @@ cmake --install . --prefix $CONDA_PREFIX
 # STF_LIB
 cd $TOP
 
-if ! [ -d "stf_lib" ]; then
-{
+if [ -d "stf_lib" ]; then
+  echo "-I: stf_lib exists, pulling latest changes."
+  cd stf_lib && git pull
+  cd ..
+else
   echo "-W: stf_lib does not exist, cloning repo."
   git clone https://github.com/sparcians/stf_lib.git
-}
 fi
 
 cd stf_lib; mkdir -p release; cd release
