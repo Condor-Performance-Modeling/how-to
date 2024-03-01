@@ -307,7 +307,7 @@ Your prompt should start with <b>(base)</b>
 
 ## Prequisites
 
-Verify your conda environment is active. '(base)' should be in your prompt.
+Verify your conda environment is active. (base) should be in your prompt.
 
 ```bash
 conda activate
@@ -315,27 +315,29 @@ cd /data/users/$USER/condor   # or your work area
 source how-to/env/setuprc.sh
 ```
 
-Make sure that your SSH key was added to the ssh-agent to clone repositories without interruptions. Instructions on how to do it can be found [here](#create-and-register-your-ssh-keys).
+Make sure that your SSH key was added to the ssh-agent to clone repositories without interruptions. Instructions on how to do it can be found in [Boot strapping the environment](#boot-strapping-the-environment) section.
 
 ## Setup Instructions
 
-Conda environment setup
+Run script to set up Conda environment:
 
 ```bash
 bash how-to/scripts/conda_env_setup.sh
 conda activate sparta
 ```
 
-Script below completes the following stages:
+Your prompt should start with (sparta) after activation. Then run:
+
+```bash
+bash how-to/scripts/cpm_env_setup.sh
+```
+
+This script completes the following stages:
 
 1. Building Sparcians components
 1. Building the Linux collateral
 1. Building and Installing the CPM Repos
 1. Building and Installing Olympia
-
-```bash
-bash how-to/scripts/cpm_env_setup.sh
-```
 
 ## Troubleshooting
 
