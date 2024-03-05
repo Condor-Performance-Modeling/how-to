@@ -126,6 +126,14 @@ run_sim --arch cuzco dhry
 
 Note:  it is assumed the param takes exactly one value.  To pass other types of args directly to the simulator, use `--`.
 
+### `--build BUILD_DIR`
+Set the name of the build directory (default is `release`).
+
+Example:
+```
+$ run_sim -ro --arch cuzco --build debug dhry
+```
+
 ### `--dbg INSTS`
 Dump debug log at `top` node, starting at this inst count.  Usually used with `-i`.
 
