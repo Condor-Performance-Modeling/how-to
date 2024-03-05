@@ -61,17 +61,9 @@ int main(){
 }
 ```
 
-**Compile the code:**
-
-Baremetal:
+Compile the code:
 
 ```bash
-[PATH_TO_YOUR_LLVM_BAREMETAL_INSTALL]/bin/clang -march=rv64gc -mabi=lp64d hello.c -o hello
-```
-
-Linux:
-
-```bash
-[PATH_TO_YOUR_LLVM_LINUX_INSTALL]/bin/clang --target=riscv64-unknown-linux-gnu -o hello hello.c
+[PATH_TO_YOUR_LLVM__INSTALL]/bin/clang -march=rv64gc -mabi=lp64d hello.c -o hello
 ```
 

@@ -11,11 +11,31 @@ if [ -z "$TOP" ] || [ ! -d "$TOP" ]; then
     exit 1
 fi
 
-echo "Using TOP directory: $TOP"
-echo "Environment check passed."
+read -p "Enter the install path [default is $TOP]: " INSTALL_PATH
+INSTALL_PATH=${INSTALL_PATH:-$TOP}
 
-mkdir -p "$TOP/llvm_source"
-cd "$TOP/llvm_source" || exit
+if [ -d "$INSTALL_PATH/llvm" ]; then
+    echo "Install path already exists. Exiting."
+    exit 1
+else
+    mkdir -p "$INSTALL_PATH/llvm" || { echo "Failed to create install path. Exiting."; exit 1; }
+    mkdir -p "$INSTALL_PATH/llvm/llvm-baremetal" || { echo "Failed to create llvm-baremetal directory. Exiting."; exit 1; }
+    mkdir -p "$INSTALL_PATH/llvm/llvm-linux" || { echo "Failed to create llvm-linux directory. Exiting."; exit 1; }
+    echo "Using install path: $INSTALL_PATH"
+fi
+
+read -p "Enter the source directory path [default is $TOP]: " SOURCE_DIR
+SOURCE_DIR=${SOURCE_DIR:-$TOP}
+
+if [ -d "$SOURCE_DIR/llvm_source" ]; then
+    echo "Source directory already exists. Exiting."
+    exit 1
+else
+    mkdir -p "$SOURCE_DIR/llvm_source" || { echo "Failed to create source directory. Exiting."; exit 1; }
+    echo "Using source directory: $SOURCE_DIR/llvm_source"
+fi
+
+cd "$SOURCE_DIR/llvm_source" || exit
 
 if [ ! -d "riscv-gnu-toolchain" ]; then
     echo "Cloning the RISC-V GNU Toolchain..."
@@ -29,26 +49,18 @@ if [ ! -d "llvm-project" ]; then
     ln -s ../../clang llvm/tools || true
 fi
 
-read -p "Enter the install path [$TOP]: " INSTALL_PATH
-INSTALL_PATH=${INSTALL_PATH:-$TOP}
-
-echo "Using install path: $INSTALL_PATH"
-
-mkdir -p "$INSTALL_PATH/llvm/llvm-baremetal"
-mkdir -p "$INSTALL_PATH/llvm/llvm-linux"
-
 cd "$INSTALL_PATH/llvm/llvm-baremetal" || exit
 echo "Setting up directories for LLVM Baremetal..."
 mkdir -p _install
 
 echo "Compiling RISC-V GNU Toolchain for Baremetal..."
-cd "$TOP/llvm_source/riscv-gnu-toolchain" || exit
+cd "$SOURCE_DIR/llvm_source/riscv-gnu-toolchain" || exit
 make clean
 ./configure --prefix="$INSTALL_PATH/llvm/llvm-baremetal/_install" --enable-multilib --with-cmodel=medany
 make -j $(nproc)
 
 echo "Compiling LLVM for Baremetal..."
-cd "$TOP/llvm_source/riscv-llvm" || exit
+cd "$SOURCE_DIR/llvm_source/riscv-llvm" || exit
 rm -rf _build
 mkdir _build
 cd _build || exit
@@ -85,14 +97,14 @@ fi
 
 if [ "$compile_linux_toolchain" = true ]; then
     echo "Compiling RISC-V GNU Toolchain for Linux from source..."
-    cd "$TOP/llvm_source/riscv-gnu-toolchain" || exit
+    cd "$SOURCE_DIR/llvm_source/riscv-gnu-toolchain" || exit
     make clean
     ./configure --prefix="$INSTALL_PATH/llvm/llvm-linux/_install" --with-arch=rv64gc --with-abi=lp64d --enable-linux
     make linux -j $(nproc)
 fi
 
 echo "Compiling LLVM for Linux..."
-cd "$TOP/llvm_source/riscv-llvm" || exit
+cd "$SOURCE_DIR/llvm_source/riscv-llvm" || exit
 rm -rf _build
 mkdir _build
 cd _build || exit
@@ -110,6 +122,6 @@ cmake -G Ninja \
       ../llvm
 cmake --build . --target install
 
+echo "LLVM setup for Baremetal and Linux has been completed."
 echo "LLVM for Baremetal installed at: $INSTALL_PATH/llvm/llvm-baremetal/_install"
 echo "LLVM for Linux installed at: $INSTALL_PATH/llvm/llvm-linux/_install"
-echo "LLVM setup for Baremetal and Linux has been completed."
