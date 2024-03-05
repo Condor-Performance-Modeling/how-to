@@ -31,7 +31,16 @@ run_sim -ro --arch cuzco --dbg 1k --inf 1k -i 2k dhry  # Dump debug and info log
 ```
 
 ## Setup
-(This section TBD; talks about setting up config files)
+No special setup needs to be done.  However, you can specify some configuration defaults in a user-configuration file located in your home directory:
+```
+~/.run_sim.yaml
+```
+This is typically only used to change the default `cam` build directory name.  In the script, this defaults to `release`.  To change it to, say, `debug`, create the above file and place the following line in the file:
+```
+build_dir: debug
+```
+
+Note that these settings will be overridden by command-line options.  For example, the `--build` command line option will override the setting in the user-configuration file.
 
 ## General info
 
