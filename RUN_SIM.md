@@ -31,7 +31,12 @@ run_sim -ro --arch cuzco --dbg 1k --inf 1k -i 2k dhry  # Dump debug and info log
 ```
 
 ## Setup
-No special setup needs to be done.  However, configuration defaults can be set in a user-configuration file located in your home directory:
+Make sure the environment variable `TRACELIB` points to the trace library, e.g.:
+```
+export TRACELIB=/data/tracelib
+```
+
+Configuration defaults can optionally be set in a user-configuration file located in your home directory:
 ```
 ~/.run_sim.yaml
 ```
