@@ -141,7 +141,7 @@ clone_repositories() {
         echo "Skipping cloning RISC-V GNU Toolchain because pre-built toolchains for both Baremetal and Linux will be used."
     fi
 
-    if [ ! -d "riscv-gnu-toolchain" ]; then
+    if [ ! -d "riscv-llvm" ]; then
         echo "Cloning LLVM project..."
         git clone https://github.com/llvm/llvm-project.git riscv-llvm || { echo "Failed to clone LLVM project."; exit 1; }
         cd riscv-llvm || { echo "Failed to enter riscv-llvm directory."; exit 1; }
@@ -160,7 +160,7 @@ compile_or_copy_riscv_gnu_toolchain_baremetal() {
     else
         echo "Compiling RISC-V GNU Toolchain for Baremetal from source..."
         cd "$SOURCE_DIR/riscv-gnu-toolchain" || { echo "Failed to change directory to riscv-gnu-toolchain."; exit 1; }
-        make clean || { echo "Failed to clean previous builds."; exit 1; }
+        make clean || echo "make clean failed or not configured. Proceeding without cleaning..."
         ./configure --prefix="$BAREMETAL_INSTALL_PATH" --enable-multilib --with-cmodel=medany || { echo "Failed to configure RISC-V GNU Toolchain for Baremetal."; exit 1; }
         make -j $(nproc) || { echo "Failed to compile RISC-V GNU Toolchain for Baremetal."; exit 1; }
     fi
@@ -176,7 +176,7 @@ compile_or_copy_riscv_gnu_toolchain_linux() {
     else
         echo "Compiling RISC-V GNU Toolchain for Linux from source..."
         cd "$SOURCE_DIR/riscv-gnu-toolchain" || { echo "Failed to change directory to riscv-gnu-toolchain."; exit 1; }
-        make clean || { echo "Failed to clean previous builds."; exit 1; }
+        make clean || echo "make clean failed or not configured. Proceeding without cleaning..."
         ./configure --prefix="$LINUX_INSTALL_PATH" --with-arch=rv64gc --with-abi=lp64d --enable-linux --enable-multilib --with-cmodel=medany || { echo "Failed to configure RISC-V GNU Toolchain for Linux."; exit 1; }
         make linux -j $(nproc) || { echo "Failed to compile RISC-V GNU Toolchain for Linux."; exit 1; }
     fi
@@ -243,3 +243,4 @@ build_llvm() {
 }
 
 build_llvm "$@" 2>&1 | tee -a "$LOG_FILE"
+
