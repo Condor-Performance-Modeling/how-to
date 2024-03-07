@@ -40,6 +40,16 @@ successfully deactivated the environments.
   conda deactivate     # leave base
 ```
 
+## Clone the Repository
+
+Before running the script, you need to clone the repository containing build_llvm.sh. This repository also includes additional scripts and documentation that might be useful for your development process.
+
+Clone the repository using SSH:
+
+```bash
+git clone git@github.com:Condor-Performance-Modeling/how-to.git
+```
+
 # Use script to build LLVM
 
 ## Running the Script
@@ -47,7 +57,7 @@ successfully deactivated the environments.
 To begin the setup process, navigate to the directory containing the build_llvm.sh script and execute it. This script automates the tasks of downloading, compiling, and installing the LLVM toolchain tailored for RISC-V development. 
 
 ```bash
-bash build_llvm.sh
+bash how-to/scripts/build_llvm.sh
 ```
 
 ## What the Script Does
