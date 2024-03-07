@@ -6,6 +6,12 @@ CURRENT_STEP=""
 COPY_BAREMETAL_TOOLCHAIN=false
 COPY_LINUX_TOOLCHAIN=false
 
+echo_step() {
+    echo
+    echo "Starting Step: $1"
+    echo
+}
+
 pretty_error() {
     echo
     echo -e "\t#### -------------------------------------------------"
@@ -29,7 +35,7 @@ exit_gracefully() {
 #--------------------------------------------------------------------------------------------------------------------------
 
 get_user_input() {
-    echo "Starting Step: Environment Setup"
+    echo_step "Environment Setup"
 
     # Check if Conda environment is active
     if [[ -n "$CONDA_DEFAULT_ENV" ]]; then
@@ -38,9 +44,10 @@ get_user_input() {
     fi
 
     # Ask for install path
-    echo "Starting Step: Install Path Setup"
+    echo_step  "Install Path Setup"
 
     # Ask for the baremetal install path
+    echo
     read -p "Enter the baremetal install path [default is $(pwd)/llvm-baremetal]: " BAREMETAL_INSTALL_PATH
     BAREMETAL_INSTALL_PATH=${BAREMETAL_INSTALL_PATH:-$(pwd)/llvm-baremetal}
 
@@ -51,6 +58,7 @@ get_user_input() {
     fi
 
     # Ask for the Linux install path
+    echo
     read -p "Enter the Linux install path [default is $(pwd)/llvm-linux]: " LINUX_INSTALL_PATH
     LINUX_INSTALL_PATH=${LINUX_INSTALL_PATH:-$(pwd)/llvm-linux}
 
@@ -63,6 +71,7 @@ get_user_input() {
     # Confirm installation paths with the user
     echo "LLVM Baremetal will be installed at: $BAREMETAL_INSTALL_PATH"
     echo "LLVM Linux will be installed at: $LINUX_INSTALL_PATH"
+    echo
     read -p "Do you wish to continue with these paths? [Y/n]: " confirm_paths
     if [[ ! "$confirm_paths" =~ ^([yY][eE][sS]|[yY])$ ]] && [ -n "$confirm_paths" ]; then
         pretty_error "User aborted the LLVM setup process."
@@ -75,7 +84,8 @@ get_user_input() {
     mkdir -p "$LINUX_INSTALL_PATH" || { pretty_error "Failed to create the Linux directory at $LINUX_INSTALL_PATH."; exit 1; }
 
     # Ask for source path
-    echo "Starting Step: Source Path Setup"
+    echo_step  "Source Path Setup"
+    echo
     read -p "Enter the source directory path [default is $(pwd)]: " SOURCE_DIR
     SOURCE_DIR=${SOURCE_DIR:-$(pwd)}
 
@@ -83,6 +93,7 @@ get_user_input() {
 
     # Check for pre-built RISC-V GNU Toolchain for Baremetal
     if [ -d "/data/tools/riscv64-unknown-elf" ]; then
+        echo
         echo "Found pre-built RISC-V GNU Toolchain for Baremetal."
         echo "Please ensure that the existing toolchain was built using --with-cmodel=medany."
         read -p "Do you want to use the pre-built toolchain? [Y/n]: " use_prebuilt_baremetal
@@ -93,6 +104,7 @@ get_user_input() {
 
     # Check for pre-built RISC-V GNU Toolchain for Linux
     if [ -d "/data/tools/riscv64-unknown-linux-gnu" ]; then
+        echo
         echo "Found pre-built RISC-V GNU Toolchain for Linux."
         echo "Please ensure that the existing toolchain was built using --with-cmodel=medany."
         read -p "Do you want to use the pre-built toolchain? [Y/n]: " use_prebuilt_linux
@@ -102,7 +114,8 @@ get_user_input() {
     fi
 
     # Confirm start of LLVM setup process
-    echo "Starting Step: LLVM Setup Process"
+    echo_step "LLVM Setup Process"
+    echo
     read -p "The LLVM setup process might take some time. Do you wish to start the process? [Y/n]: " start_setup
     if [[ ! "$start_setup" =~ ^([yY][eE][sS]|[yY])$ ]] && [ -n "$start_setup" ]; then
         pretty_error "User aborted the LLVM setup process."
@@ -114,8 +127,7 @@ get_user_input() {
 
 # Function to clone the required repositories
 clone_repositories() {
-    CURRENT_STEP="Cloning repositories"
-    echo "Starting Step: $CURRENT_STEP"
+    echo_step "Cloning repositories"
 
     cd "$SOURCE_DIR" || { echo "Failed to change directory to SOURCE_DIR."; exit 1; }
 
@@ -140,8 +152,7 @@ clone_repositories() {
 
 # Function to copy or compile the RISC-V GNU Toolchain for Baremetal
 compile_or_copy_riscv_gnu_toolchain_baremetal() {
-    CURRENT_STEP="Setting up RISC-V GNU Toolchain for Baremetal"
-    echo "Starting Step: $CURRENT_STEP"
+    echo_step "Setting up RISC-V GNU Toolchain for Baremetal"
 
     if [ "$COPY_BAREMETAL_TOOLCHAIN" = true ]; then
         echo "Copying the RISC-V GNU Toolchain for Baremetal..."
@@ -157,8 +168,7 @@ compile_or_copy_riscv_gnu_toolchain_baremetal() {
 
 # Function to copy or compile RISC-V GNU Toolchain for Linux
 compile_or_copy_riscv_gnu_toolchain_linux() {
-    CURRENT_STEP="Setting up RISC-V GNU Toolchain for Linux"
-    echo "Starting Step: $CURRENT_STEP"
+    echo_step "Setting up RISC-V GNU Toolchain for Linux"
 
     if [ "$COPY_LINUX_TOOLCHAIN" = true ]; then
         echo "Copying the RISC-V GNU Toolchain for Linux..."
@@ -174,8 +184,7 @@ compile_or_copy_riscv_gnu_toolchain_linux() {
 
 # Function to compile LLVM for Baremetal
 compile_llvm_baremetal() {
-    CURRENT_STEP="Compiling LLVM for Baremetal"
-    echo "Starting Step: $CURRENT_STEP"
+    echo_step "Compiling LLVM for Baremetal"
 
     cd "$SOURCE_DIR/riscv-llvm" || { echo "Failed to change directory to riscv-llvm."; exit 1; }
     rm -rf _build || { echo "Failed to remove previous build directory."; exit 1; }
@@ -195,8 +204,7 @@ compile_llvm_baremetal() {
 
 # Function to compile LLVM for Linux
 compile_llvm_linux() {
-    CURRENT_STEP="Compiling LLVM for Linux"
-    echo "Starting Step: $CURRENT_STEP"
+    echo_step "Compiling LLVM for Linux"
 
     cd "$SOURCE_DIR/riscv-llvm" || { echo "Failed to change directory to riscv-llvm."; exit 1; }
     rm -rf _build || { echo "Failed to remove previous build directory."; exit 1; }
