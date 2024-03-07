@@ -16,8 +16,8 @@ fi
 
 if ! [ -d "$OLYMPIA" ]; then
 {
-  echo "-W: riscv-perf-model does exist cloning repo."
-  git clone --recursive https://@github.com/riscv-software-src/riscv-perf-model.git
+  echo "-W: riscv-perf-model does not exist, cloning repo."
+  git clone --recursive https://github.com/riscv-software-src/riscv-perf-model.git
 }
 fi
 
