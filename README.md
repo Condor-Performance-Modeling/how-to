@@ -315,14 +315,12 @@ cd /data/users/$USER/condor   # or your work area
 source how-to/env/setuprc.sh
 ```
 
-Make sure that your SSH key was added to the ssh-agent to clone repositories without interruptions. To do it run:
+Make sure that your SSH key was added to the ssh-agent to clone repositories without interruptions. 
 
 ```bash
   eval `ssh-agent`
   ssh-add $HOME/.ssh/id_rsa
 ```
-
-Detailed instructions can be found in [Create and register your ssh keys](#create-and-register-your-ssh-keys) section.
 
 ## Setup Instructions
 
