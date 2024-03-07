@@ -31,7 +31,21 @@ run_sim -ro --arch cuzco --dbg 1k --inf 1k -i 2k dhry  # Dump debug and info log
 ```
 
 ## Setup
-(This section TBD; talks about setting up config files)
+Make sure the environment variable `TRACELIB` points to the trace library, e.g.:
+```
+export TRACELIB=/data/tracelib
+```
+
+Configuration defaults can optionally be set in a user-configuration file located in your home directory:
+```
+~/.run_sim.yaml
+```
+This is typically only used to change the default `cam` build directory name.  In the script, this defaults to `release`.  To change it to, say, `debug`, create the above file and place the following line in the file:
+```
+build_dir: debug
+```
+
+Note that these settings will be overridden by command-line options.  For example, the `--build` command line option will override the above setting in the user-configuration file.
 
 ## General info
 
@@ -125,6 +139,14 @@ run_sim --arch cuzco dhry
 ```
 
 Note:  it is assumed the param takes exactly one value.  To pass other types of args directly to the simulator, use `--`.
+
+### `--build BUILD_DIR`
+Set the name of the build directory (default is `release`).
+
+Example:
+```
+$ run_sim -ro --arch cuzco --build debug dhry
+```
 
 ### `--dbg INSTS`
 Dump debug log at `top` node, starting at this inst count.  Usually used with `-i`.
