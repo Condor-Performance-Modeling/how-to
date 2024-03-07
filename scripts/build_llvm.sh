@@ -133,7 +133,9 @@ clone_repositories() {
 
     # Skip cloning riscv-gnu-toolchain if both toolchains are to be copied
     if ! { [ "$COPY_BAREMETAL_TOOLCHAIN" = true ] && [ "$COPY_LINUX_TOOLCHAIN" = true ]; }; then
-        if [ ! -d "riscv-gnu-toolchain" ]; then
+        if [ -d "riscv-gnu-toolchain" ]; then
+            echo "RISC-V GNU Toolchain directory already exists. Skipping cloning."
+        else
             echo "Cloning RISC-V GNU Toolchain..."
             git clone --recursive https://github.com/riscv/riscv-gnu-toolchain || { echo "Failed to clone RISC-V GNU Toolchain."; exit 1; }
         fi
@@ -141,14 +143,21 @@ clone_repositories() {
         echo "Skipping cloning RISC-V GNU Toolchain because pre-built toolchains for both Baremetal and Linux will be used."
     fi
 
-    if [ ! -d "riscv-llvm" ]; then
+    if [ -d "riscv-llvm" ]; then
+        echo "LLVM project directory already exists. Skipping cloning."
+    else
         echo "Cloning LLVM project..."
         git clone https://github.com/llvm/llvm-project.git riscv-llvm || { echo "Failed to clone LLVM project."; exit 1; }
+    fi
+
+    # Create the symbolic link and fail if the operation does not succeed
+    if [ ! -d "riscv-llvm/llvm/tools/clang" ]; then
         cd riscv-llvm || { echo "Failed to enter riscv-llvm directory."; exit 1; }
-        ln -s ../../clang llvm/tools || true
+        ln -s ../../clang llvm/tools || { echo "Failed to create symbolic link for clang."; exit 1; }
+    else
+        echo "Symbolic link for clang already exists."
     fi
 }
-
 
 # Function to copy or compile the RISC-V GNU Toolchain for Baremetal
 compile_or_copy_riscv_gnu_toolchain_baremetal() {
@@ -243,4 +252,3 @@ build_llvm() {
 }
 
 build_llvm "$@" 2>&1 | tee -a "$LOG_FILE"
-
