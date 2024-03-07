@@ -1,38 +1,33 @@
-# Readme 
+# Readme
 
 # Condor-Performance-Modeling
 
-Condor-Performance-Modeling (CPM) is a github organization. 
+Condor-Performance-Modeling (CPM) is a github organization.
 
-CPM contains a number of repo's used by Condor. 
-Condor-Performance-Modeling/how-to contains documentation, patches and 
-support scripts. The steps that follow document building the Condor 
+CPM contains a number of repo's used by Condor.
+Condor-Performance-Modeling/how-to contains documentation, patches and
+support scripts. The steps that follow document building the Condor
 perf modeling environment and provide instructions on how to use it.
 
---------------------------------------
+----------------------------------------------------------
+
 # ToC
 
 1. [Choosing a host](#choosing-a-host)
-   
+
 1. [Creating a workspace](#creating-a-workspace)
 
 1. [Boot strapping the environment](#boot-strapping-the-environment)
 
 1. [Install Miniconda](#install-miniconda)
 
-1. [Install the Sparcians repos](#install-the-sparcians-repos)
-
-1. [Install the Linux collateral](#install-the-linux-collateral)
-
-1. [Install the CPM Repos](#install-the-cpm-repos)
+1. [CPM Environment Setup](#cpm-environment-setup)
 
 1. [Boot Linux on CPM Dromajo](#boot-linux-on-cpm-dromajo)
 
 1. [Proceed to benchmarks](#proceed-to-benchmarks)
 
 1. [Optional builds](#optional-builds)
-
-    1. [Build and Install Olympia](#build-and-install-olympia)
 
     1. [Build and Install stf_tools](#build-and-install-stf_tools)
 
@@ -46,7 +41,8 @@ perf modeling environment and provide instructions on how to use it.
 1. [Using pipeline data views](#using-pipeline-data-views)
 -->
 
---------------------------------------
+----------------------------------------------------------
+
 # Choosing a host
 You should do most of your work on interactiveN or computeN.  (where N=1 as of 2023.11.03)
 
@@ -116,10 +112,10 @@ Send me a slack or email telling me you need a C-AWS account. I will send
 you back the instructions on how to get an account and then how to access
 it.  I'm doing it this way to avoid exposing the process, sorry.
 
-## Create and register your ssh keys.
+## Create and register your ssh keys
 
 Once you have access to a linux machine generate your public SSH keys. You will
-add this key to your github account. 
+add this key to your github account.
 
 ### Create your keys
 Your home directory is /nfshome/\<login id\>
@@ -228,7 +224,8 @@ sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjs
 
 </details> <!-- end of Linux, C-AWS and VCAD environments -->
 
---------------------------------------
+----------------------------------------------------------
+
 # Install Miniconda
 
 Miniconda package manager is used by Sparcians. 
@@ -304,7 +301,58 @@ Your prompt should start with <b>(base)</b>
 
 </details> <!-- end of Linux, C-AWS and VCAD environments -->
 
---------------------------------------
+----------------------------------------------------------
+
+# CPM Environment Setup
+
+## Prequisites
+
+Verify your conda environment is active. (base) should be in your prompt.
+
+```bash
+conda activate
+cd /data/users/$USER/condor   # or your work area
+source how-to/env/setuprc.sh
+```
+
+Make sure that your SSH key was added to the ssh-agent to clone repositories without interruptions. To do it run:
+
+```bash
+  eval `ssh-agent`
+  ssh-add $HOME/.ssh/id_rsa
+```
+
+Detailed instructions can be found in [Create and register your ssh keys](#create-and-register-your-ssh-keys) section.
+
+## Setup Instructions
+
+Run script to set up Conda environment:
+
+```bash
+bash how-to/scripts/conda_env_setup.sh
+conda activate sparta
+```
+
+Your prompt should start with (sparta) after activation. Then run:
+
+```bash
+bash how-to/scripts/cpm_env_setup.sh
+```
+
+This script completes the following stages:
+
+1. Building Sparcians components
+1. Building the Linux collateral
+1. Building and Installing the CPM Repos
+1. Building and Installing Olympia
+
+## Troubleshooting
+
+If the `cpm_env_setup.sh` setup script fails, it's designed to be re-run. It will pick up the process from the last completed stage. Alternatively, steps can be completed manually if needed (see the details section below).
+
+<details>
+  <summary>Details: Install the Sparcians repos</summary>
+
 # Install the Sparcians repos
 
 ## Install the MAP Miniconda components
@@ -324,7 +372,7 @@ Proceed ([y]/n)? y
 
 This section builds and installs the conda environment used by Map.
 
-If you have previously installed MAP you will have a MAP Conda 
+If you have previously installed MAP you will have a MAP Conda
 environment available and you may receive the "prefix already exists"
 message when creating the conda environment. This is benign.
 
@@ -392,8 +440,13 @@ make -j32
   830  git log
   831  git checkout 4bb21e8a20bfb83354bb3d54fb067100d4f01a47
 -->
+</details>
 
 ----------------------------------------------------------
+
+<details>
+  <summary>Details: Install the Linux collateral</summary>
+
 # Install the Linux collateral
 
 ## Link the cross compilers
@@ -490,9 +543,15 @@ make PLATFORM=generic -j32
 cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin $TOOLS/riscv-linux
 
 ```
+
+</details>
 </details>
 
 ----------------------------------------------------------
+
+<details>
+  <summary>Details: Install the CPM Repos</summary>
+
 # Install the CPM Repos
 
 CPM -> Condor Performance Modeling
@@ -620,8 +679,45 @@ fi
 ```
 
 </details>
+</details>
 
 ----------------------------------------------------------
+
+<details>
+  <summary>Details: Build and Install Olympia</summary>
+
+# Build and Install Olympia
+
+This step is optional. Olympia is the reference model. CAM is a fork of the
+reference model. Changes to Olympia are selectively added to CAM. The
+Olympia install directory is riscv-perf-sim.
+
+You must have the sparta conda environment activated.
+
+```
+cd $TOP
+bash how-to/scripts/build_olympia.sh
+```
+
+<details>
+  <summary>Details: Building Olympia step by step</summary>
+
+```
+cd $TOP
+mkdir -p tools/bin
+git clone --recursive https://@github.com/riscv-software-src/riscv-perf-model.git
+
+cd $OLYMPIA; mkdir -p release; cd release
+cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
+make -j8; cmake --install . --prefix $CONDA_PREFIX
+cp olympia $TOOLS/bin/olympia
+```
+
+</details>
+</details>
+
+----------------------------------------------------------
+
 # Boot Linux on CPM Dromajo
 
 The above steps create the necessary collateral to boot linux on CPM 
@@ -750,35 +846,6 @@ The remaining instructions are in $BENCHMARKS/README.md.
 <b> The following steps are for information only.  </b>
 
 <b> You do not normally need to proceed beyond this point. </b>
-
-## Build and Install Olympia
-
-This step is optional. Olympia is the reference model. CAM is a fork of the
-reference model. Changes to Olympia are selectively added to CAM. The
-Olympia install directory is riscv-perf-sim.
-
-You must have the sparta conda environment activated.
-
-```
-cd $TOP
-bash how-to/scripts/build_olympia.sh
-```
-
-<details>
-  <summary>Details: Building Olympia step by step</summary>
-
-```
-cd $TOP
-mkdir -p tools/bin
-git clone --recursive https://@github.com/riscv-software-src/riscv-perf-model.git
-
-cd $OLYMPIA; mkdir -p release; cd release
-cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
-make -j8; cmake --install . --prefix $CONDA_PREFIX
-cp olympia $TOOLS/bin/olympia
-```
-
-</details>
 
 ## Build and Install stf_tools
 
