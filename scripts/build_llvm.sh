@@ -246,6 +246,8 @@ build_llvm() {
     compile_or_copy_riscv_gnu_toolchain_linux
     compile_llvm_linux
 
+    trap - EXIT
+    
     echo "LLVM setup for Baremetal and Linux has been completed."
     echo "LLVM for Baremetal installed at: $BAREMETAL_INSTALL_PATH"
     echo "LLVM for Linux installed at: $LINUX_INSTALL_PATH"
