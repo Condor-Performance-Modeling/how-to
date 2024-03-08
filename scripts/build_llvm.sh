@@ -89,6 +89,11 @@ get_user_input() {
     read -p "Enter the source directory path [default is $(pwd)]: " SOURCE_DIR
     SOURCE_DIR=${SOURCE_DIR:-$(pwd)}
 
+    if [[ ! -d "$SOURCE_DIR" ]]; then
+        echo "Source directory does not exist, creating it..."
+        mkdir -p "$SOURCE_DIR" || { pretty_error "Failed to create the source directory at $SOURCE_DIR."; exit 1; }
+    fi
+    
     echo "Sources will be cloned into: $SOURCE_DIR"
 
     # Check for pre-built RISC-V GNU Toolchain for Baremetal
