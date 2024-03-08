@@ -1,9 +1,8 @@
-
 # Building LLVM on Linux for RISC-V 64-bit Cross-Compilation
 
 This document outlines the steps to build LLVM on a Linux machine for cross-compiling C/C++ code for RISC-V 64-bit.
 
-# Before You Start
+## Before You Start
 
 *This step is optional. All required packages should already be installed for you. If you want to verify this, follow steps below:*
 
@@ -25,7 +24,7 @@ sudo apt -y install \
   libglib2.0-dev libfdt-dev libpixman-1-dev
 ```
 
-## Exit Conda
+### Exit Conda
 
 **You must deactivate the conda environment before building LLVM.**
 
@@ -40,7 +39,7 @@ successfully deactivated the environments.
   conda deactivate     # leave base
 ```
 
-## Clone the Repository
+### Clone the Repository
 
 Before running the script, you need to clone the repository containing build_llvm.sh. This repository also includes additional scripts and documentation that might be useful for your development process.
 
@@ -50,9 +49,9 @@ Clone the repository using SSH:
 git clone git@github.com:Condor-Performance-Modeling/how-to.git
 ```
 
-# Use script to build LLVM
+## Use script to build LLVM
 
-## Running the Script
+### Running the Script
 
 To begin the setup process, navigate to the directory containing the build_llvm.sh script and execute it. This script automates the tasks of downloading, compiling, and installing the LLVM toolchain tailored for RISC-V development. 
 
@@ -60,17 +59,17 @@ To begin the setup process, navigate to the directory containing the build_llvm.
 bash how-to/scripts/build_llvm.sh
 ```
 
-## What the Script Does
+### What the Script Does
 
 - *Cloning Required Repositories:* The script starts by cloning the necessary repositories, including the RISC-V GNU Toolchain and the LLVM project. These repositories provide the source code needed to compile the toolchain and LLVM specifically for the RISC-V architecture.
 - *Copying/Compiling RISC-V GNU Toolchain for Baremetal:* Depending on whether a pre-built toolchain is available, the script may copy an existing toolchain or compile a new one for Baremetal development.
-- *Copying/Compiling RISC-V GNU Toolchain for Linux:* Depending on whether a pre-built toolchain is available, the script may copy an existing toolchain or compile a new one for Linux development.
 - *Compiling LLVM for Baremetal:* Next, the script compiles LLVM components for baremetal development. LLVM provides a collection of modular and reusable compiler and toolchain technologies.
+- *Copying/Compiling RISC-V GNU Toolchain for Linux:* Depending on whether a pre-built toolchain is available, the script may copy an existing toolchain or compile a new one for Linux development.
 - *Compiling LLVM for Linux:* Finally, the script compiles LLVM for Linux, enabling the development of applications for RISC-V based Linux systems.
 
 Once the script completes successfully, the LLVM toolchain for both baremetal and Linux RISC-V development will be installed in the specified directories.
 
-# Compiling a Simple C/C++ Program for RISC-V 64-bit
+## Compiling a Simple C/C++ Program for RISC-V 64-bit
 
 Create a source file `hello.c`:
 
@@ -87,4 +86,3 @@ Compile the code:
 ```bash
 [PATH_TO_YOUR_LLVM__INSTALL]/bin/clang -march=rv64gc -mabi=lp64d hello.c -o hello
 ```
-
