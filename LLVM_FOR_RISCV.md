@@ -53,7 +53,7 @@ git clone git@github.com:Condor-Performance-Modeling/how-to.git
 
 ### Running the Script
 
-To begin the setup process, navigate to the directory containing the build_llvm.sh script and execute it. This script automates the tasks of downloading, compiling, and installing the LLVM toolchain tailored for RISC-V development. 
+To begin the setup process, navigate to the directory containing the build_llvm.sh script and execute it. This script automates the tasks of downloading, compiling, and installing the LLVM toolchain tailored for RISC-V development.
 
 ```bash
 bash how-to/scripts/build_llvm.sh
