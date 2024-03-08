@@ -206,7 +206,7 @@ compile_llvm_baremetal() {
       -DDEFAULT_SYSROOT="$BAREMETAL_INSTALL_PATH/riscv64-unknown-elf" \
       -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-elf" \
       -DLLVM_TARGETS_TO_BUILD="RISCV" \
-      -DLLVM_ENABLE_PROJECTS="bolt;clang;clang-tools-extra;compiler-rt;libc;libclc;lld;lldb;mlir;openmp;polly;pstl" \
+      -DLLVM_ENABLE_PROJECTS="bolt;clang;clang-tools-extra;libclc;lld;lldb;mlir;openmp;polly;pstl" \
       ../llvm || { echo "Failed to configure LLVM for Baremetal."; exit 1; }
     cmake --build . --target install || { echo "Failed to build LLVM for Baremetal."; exit 1; }
 }
@@ -227,7 +227,7 @@ compile_llvm_linux() {
           -DDEFAULT_SYSROOT="$LINUX_INSTALL_PATH/sysroot" \
           -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-linux-gnu" \
           -DLLVM_TARGETS_TO_BUILD="RISCV" \
-          -DLLVM_ENABLE_PROJECTS="bolt;clang;clang-tools-extra;compiler-rt;libc;libclc;lld;lldb;mlir;openmp;polly;pstl" \
+          -DLLVM_ENABLE_PROJECTS="bolt;clang;clang-tools-extra;libclc;lld;lldb;mlir;openmp;polly;pstl" \
           ../llvm || { echo "Failed to configure LLVM for Linux."; exit 1; }
           
     cmake --build . --target install || { echo "Failed to build LLVM for Linux."; exit 1; }
@@ -242,8 +242,8 @@ build_llvm() {
 
     clone_repositories
     compile_or_copy_riscv_gnu_toolchain_baremetal
-    compile_or_copy_riscv_gnu_toolchain_linux
     compile_llvm_baremetal
+    compile_or_copy_riscv_gnu_toolchain_linux
     compile_llvm_linux
 
     echo "LLVM setup for Baremetal and Linux has been completed."
