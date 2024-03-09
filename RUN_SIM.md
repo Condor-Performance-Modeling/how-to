@@ -10,6 +10,7 @@ run_sim -ro dhry                             # Run Dhrystone and send both repor
 run_sim --wfc --no-run                       # Write the default final config YAML to this directory without running a workload
 run_sim -ro --arch cuzco dhry                # Run the simulator using the cuzco arch, writing results to this directory
 run_sim -o --arch cuzco --wfc --no-run       # Write the cuzco final config YAML to this directory without running a workload
+run_sim -roW --arch cuzco 4000               # Run workload 4000 to completion using default warmup, with reporting
 
 # Examples of specifying a parameter
 run_sim -ro --arch cuzco -p top.cpu.core0.fetch.params.num_to_fetch 12 dhry
@@ -261,6 +262,9 @@ Output report file to the current directory.
 
 ### `-w INSTS`, `--warmup INSTS`
 The warmup period ends after this number of instructions retire.  The default report effectively ignores stat accumulations during warmup.
+
+### `-W`, `--default-warmup`
+Use the default warmup for the workload.  This is specified in the filename of a `warmup_XXX` file in the workload directory.
 
 ### `--wfc`
 Write final config YAML to the current directory.
