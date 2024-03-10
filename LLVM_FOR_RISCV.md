@@ -1,9 +1,8 @@
-
 # Building LLVM on Linux for RISC-V 64-bit Cross-Compilation
 
 This document outlines the steps to build LLVM on a Linux machine for cross-compiling C/C++ code for RISC-V 64-bit.
 
-# Before You Start
+## Before You Start
 
 *This step is optional. All required packages should already be installed for you. If you want to verify this, follow steps below:*
 
@@ -25,7 +24,7 @@ sudo apt -y install \
   libglib2.0-dev libfdt-dev libpixman-1-dev
 ```
 
-## Exit Conda
+### Exit Conda
 
 **You must deactivate the conda environment before building LLVM.**
 
@@ -40,100 +39,37 @@ successfully deactivated the environments.
   conda deactivate     # leave base
 ```
 
-# LLVM for Baremetal
+### Clone the Repository
 
-## Directory Setup for Build Files and Installation (Baremetal)
+Before running the script, you need to clone the repository containing build_llvm.sh. This repository also includes additional scripts and documentation that might be useful for your development process.
 
-Create a directory for RISC-V files and `_install` directory:
-
-```bash
-cd /data/users/$USER/condor # or your preferred workspace
-mkdir llvm-baremetal
-cd llvm-baremetal
-mkdir _install
-```
-
-## The RISC-V GNU Toolchain for Baremetal
-
-The `RISC-V GNU toolchain` is necessary to use the LLVM, you should be able to find it under `/data/tools/riscv64-unknown-elf`. Copy it to the `_install` directory in your workspace
+Clone the repository using SSH:
 
 ```bash
-cp -fa /data/tools/riscv64-unknown-elf/* _install/
+git clone git@github.com:Condor-Performance-Modeling/how-to.git
 ```
 
-If you don't have the `RISC-V GNU toolchain` ready under `/data/tools/riscv64-unknown-elf`, you can clone and compile it yourself folowing [this section](#cloning-and-building-the-risc-v-gnu-toolchain) instead of copying it.
+## Use script to build LLVM
 
-## Cloning and Building LLVM for RISC-V (Baremetal)
+### Running the Script
 
-Clone the LLVM project and initiate the build:
+To begin the setup process, navigate to the directory containing the build_llvm.sh script and execute it. This script automates the tasks of downloading, compiling, and installing the LLVM toolchain tailored for RISC-V development.
 
 ```bash
-git clone https://github.com/llvm/llvm-project.git riscv-llvm
-pushd riscv-llvm
-ln -s ../../clang llvm/tools || true
-mkdir _build
-cd _build
-cmake -G Ninja -DCMAKE_BUILD_TYPE="Release" \
-  -DBUILD_SHARED_LIBS=True -DLLVM_USE_SPLIT_DWARF=True \
-  -DCMAKE_INSTALL_PREFIX="../../_install" \
-  -DLLVM_OPTIMIZED_TABLEGEN=True -DLLVM_BUILD_TESTS=False \
-  -DDEFAULT_SYSROOT="../../_install/riscv64-unknown-elf" \
-  -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-elf" \
-  -DLLVM_TARGETS_TO_BUILD="RISCV" \
-  -DLLVM_ENABLE_PROJECTS="clang;lld;lldb" \
-  ../llvm
-cmake --build . --target install
-popd
+bash how-to/scripts/build_llvm.sh
 ```
 
-# LLVM for Linux
+### What the Script Does
 
-## Directory Setup for Build Files and Installation (Linux)
+- *Cloning Required Repositories:* The script starts by cloning the necessary repositories, including the RISC-V GNU Toolchain and the LLVM project. These repositories provide the source code needed to compile the toolchain and LLVM specifically for the RISC-V architecture.
+- *Copying/Compiling RISC-V GNU Toolchain for Baremetal:* Depending on whether a pre-built toolchain is available, the script may copy an existing toolchain or compile a new one for Baremetal development.
+- *Compiling LLVM for Baremetal:* Next, the script compiles LLVM components for baremetal development. LLVM provides a collection of modular and reusable compiler and toolchain technologies.
+- *Copying/Compiling RISC-V GNU Toolchain for Linux:* Depending on whether a pre-built toolchain is available, the script may copy an existing toolchain or compile a new one for Linux development.
+- *Compiling LLVM for Linux:* Finally, the script compiles LLVM for Linux, enabling the development of applications for RISC-V based Linux systems.
 
-Create a directory for RISC-V files and `_install` directory:
+Once the script completes successfully, the LLVM toolchain for both baremetal and Linux RISC-V development will be installed in the specified directories.
 
-```bash
-cd /data/users/$USER/condor # or your preferred workspace
-mkdir llvm-linux
-cd llvm-linux
-mkdir _install
-```
-
-## The RISC-V GNU Toolchain for Linux
-
-The `RISC-V GNU toolchain` is necessary to use the LLVM, you should be able to find it under `/data/tools/riscv64-unknown-linux-gnu`. Copy it to the `_install` directory in your workspace
-
-```bash
-cp -fa /data/tools/riscv64-unknown-linux-gnu/* _install/
-```
-
-## Cloning and Building LLVM for RISC-V (Linux)
-
-Clone the LLVM project and initiate the build:
-
-```bash
-git clone https://github.com/llvm/llvm-project.git riscv-llvm
-pushd riscv-llvm
-ln -s ../../clang llvm/tools || true
-mkdir _build
-cd _build
-cmake -G Ninja \
-      -DCMAKE_BUILD_TYPE="Release" \
-      -DBUILD_SHARED_LIBS=True \
-      -DLLVM_USE_SPLIT_DWARF=True \
-      -DCMAKE_INSTALL_PREFIX="../../_install" \
-      -DLLVM_OPTIMIZED_TABLEGEN=True \
-      -DLLVM_BUILD_TESTS=False \
-      -DDEFAULT_SYSROOT="../../_install/sysroot" \
-      -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-linux-gnu" \
-      -DLLVM_TARGETS_TO_BUILD="RISCV" \
-      -DLLVM_ENABLE_PROJECTS="clang;lld;lldb" \
-      ../llvm
-cmake --build . --target install
-popd
-```
-
-# Compiling a Simple C/C++ Program for RISC-V 64-bit
+## Compiling a Simple C/C++ Program for RISC-V 64-bit
 
 Create a source file `hello.c`:
 
@@ -145,28 +81,8 @@ int main(){
 }
 ```
 
-**Compile the code:**
-
-Baremetal:
+Compile the code:
 
 ```bash
-[PATH_TO_YOUR_LLVM_BAREMETAL_INSTALL]/bin/clang -march=rv64gc -mabi=lp64d hello.c -o hello
-```
-
-Linux:
-
-```bash
-[PATH_TO_YOUR_LLVM_LINUX_INSTALL]/bin/clang --target=riscv64-unknown-linux-gnu -o hello hello.c
-```
-
-# Cloning and Building the RISC-V GNU Toolchain
-
-This step compiles the `RISC-V toolchain` for baremetal, which is necessary for the `-DDEFAULT_SYSROOT` setting. If you already have the toolchain files in a different directory, you can skip this step and use that path instead.
-
-```bash
-git clone --recursive https://github.com/riscv/riscv-gnu-toolchain
-pushd riscv-gnu-toolchain
-./configure --prefix=`pwd`/../_install --enable-multilib # adjust to your chosen install path
-make -j 32
-popd
+[PATH_TO_YOUR_LLVM__INSTALL]/bin/clang -march=rv64gc -mabi=lp64d hello.c -o hello
 ```
