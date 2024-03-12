@@ -1,5 +1,11 @@
 # Building LLVM on Linux for RISC-V 64-bit Cross-Compilation
 
+```text
+Contact: Stan Iwan
+         Sofomo
+         2024.03.07
+```
+
 This document outlines the steps to build LLVM on a Linux machine for cross-compiling C/C++ code for RISC-V 64-bit.
 
 ## Before You Start
