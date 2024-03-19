@@ -4,14 +4,13 @@
 #         Sofomo
 #         2024.03.19
 
+source ./sha.config
+
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 LOG_FILE="${TIMESTAMP}_build_llvm.log"
 CURRENT_STEP=""
 COPY_BAREMETAL_TOOLCHAIN=false
 COPY_LINUX_TOOLCHAIN=false
-
-RISCV_GNU_TOOLCHAIN_COMMIT_SHA="9a28c809a5d355874def06a414aa5f272fae564d"
-LLVM_PROJECT_COMMIT_SHA="7718ac38a0c23597d7d02f0022eb89afe6d1b35f"
 
 echo_step() {
     echo
