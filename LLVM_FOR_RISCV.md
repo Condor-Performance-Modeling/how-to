@@ -65,7 +65,7 @@ To begin the setup process, navigate to the directory containing the build_llvm.
 bash how-to/scripts/build_llvm.sh
 ```
 
-### What the Script Does
+### What `build_llvm.sh` Script Does
 
 - *Cloning Required Repositories:* The script starts by cloning the necessary repositories, including the RISC-V GNU Toolchain and the LLVM project. These repositories provide the source code needed to compile the toolchain and LLVM specifically for the RISC-V architecture.
 - *Copying/Compiling RISC-V GNU Toolchain for Baremetal:* Depending on whether a pre-built toolchain is available, the script may copy an existing toolchain or compile a new one for Baremetal development.
@@ -92,3 +92,29 @@ Compile the code:
 ```bash
 [PATH_TO_YOUR_LLVM__INSTALL]/bin/clang -march=rv64gc -mabi=lp64d hello.c -o hello
 ```
+
+## Building LLVM compiler-rt for RISC-V
+
+The LLVM compiler-rt library includes runtime components like compiler support libraries and sanitizers that are essential for developing and testing your RISC-V applications. Follow the steps below to build and install compiler-rt.
+
+### Prerequisites
+
+Before building compiler-rt, ensure you have completed the previous steps for setting up LLVM on your Linux machine for RISC-V cross-compilation. The LLVM toolchain should be successfully installed, and the necessary development packages should be present on your system.
+
+**This script will install LLVM Compiler RT on top of your existing LLVM installations!**
+
+### Running the compiler-rt Build Script
+
+The `how-to` repository includes the `build_llvm_compiler_rt.sh` script, which simplifies the process of building and installing `compiler-rt` on top of existing LLVM installation.
+
+```bash
+bash how-to/scripts/build_llvm_compiler_rt.sh
+```
+
+### What `build_llvm_compiler_rt.sh` Script Does
+
+- *Validation of LLVM Installation Paths:* Ensures that the LLVM installations for both baremetal and Linux contain the required binaries (clang, clang++, etc.).
+- *Cloning Required Repositories:* If the LLVM source is not already present in the specified directory, the script will clone the LLVM project repository.
+- *Building compiler-rt for Baremetal and Linux:* Configures and compiles compiler-rt for both baremetal and Linux targets using the previously installed LLVM toolchain.
+- *Installation:* The compiled compiler-rt libraries are installed into the specified LLVM installation directories, making them available for development and compilation tasks.
+

@@ -1,7 +1,13 @@
 #!/bin/bash
 
+#Contact: Stan Iwan
+#         Sofomo
+#         2024.03.19
+
+source ./sha.config
+
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-LOG_FILE="${TIMESTAMP}_cmp_env_setup.log"
+LOG_FILE="${TIMESTAMP}_build_llvm.log"
 CURRENT_STEP=""
 COPY_BAREMETAL_TOOLCHAIN=false
 COPY_LINUX_TOOLCHAIN=false
@@ -143,6 +149,9 @@ clone_repositories() {
         else
             echo "Cloning RISC-V GNU Toolchain..."
             git clone --recursive https://github.com/riscv/riscv-gnu-toolchain || { echo "Failed to clone RISC-V GNU Toolchain."; exit 1; }
+            cd riscv-gnu-toolchain || { echo "Failed to change directory to riscv-gnu-toolchain."; exit 1; }
+            git checkout $RISCV_GNU_TOOLCHAIN_COMMIT_SHA || { echo "Failed to checkout specified commit for RISC-V GNU Toolchain."; exit 1; }
+            cd "$SOURCE_DIR" || { echo "Failed to return to SOURCE_DIR."; exit 1; }
         fi
     else
         echo "Skipping cloning RISC-V GNU Toolchain because pre-built toolchains for both Baremetal and Linux will be used."
@@ -153,6 +162,9 @@ clone_repositories() {
     else
         echo "Cloning LLVM project..."
         git clone https://github.com/llvm/llvm-project.git riscv-llvm || { echo "Failed to clone LLVM project."; exit 1; }
+        cd riscv-llvm || { echo "Failed to change directory to riscv-llvm."; exit 1; }
+        git checkout $LLVM_PROJECT_COMMIT_SHA || { echo "Failed to checkout specified commit for LLVM project."; exit 1; }
+        cd "$SOURCE_DIR" || { echo "Failed to return to SOURCE_DIR."; exit 1; }
     fi
 
     # Create the symbolic link and fail if the operation does not succeed
@@ -204,7 +216,7 @@ compile_llvm_baremetal() {
     rm -rf _build || { echo "Failed to remove previous build directory."; exit 1; }
     mkdir _build || { echo "Failed to create build directory."; exit 1; }
     cd _build || { echo "Failed to change directory to build directory."; exit 1; }
-    cmake -G Ninja -DCMAKE_BUILD_TYPE="Release" \
+    cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Release" \
       -DBUILD_SHARED_LIBS=True -DLLVM_USE_SPLIT_DWARF=True \
       -DCMAKE_INSTALL_PREFIX="$BAREMETAL_INSTALL_PATH" \
       -DLLVM_OPTIMIZED_TABLEGEN=True -DLLVM_BUILD_TESTS=False \
@@ -213,7 +225,9 @@ compile_llvm_baremetal() {
       -DLLVM_TARGETS_TO_BUILD="RISCV" \
       -DLLVM_ENABLE_PROJECTS="bolt;clang;clang-tools-extra;libclc;lld;lldb;mlir;openmp;polly;pstl" \
       ../llvm || { echo "Failed to configure LLVM for Baremetal."; exit 1; }
-    cmake --build . --target install || { echo "Failed to build LLVM for Baremetal."; exit 1; }
+
+    make -j $(nproc) || { echo "Failed to build LLVM for Baremetal."; exit 1; }
+    make install || { echo "Failed to install LLVM for Baremetal."; exit 1; }
 }
 
 # Function to compile LLVM for Linux
@@ -225,7 +239,7 @@ compile_llvm_linux() {
     mkdir _build || { echo "Failed to create build directory."; exit 1; }
     cd _build || { echo "Failed to change directory to build directory."; exit 1; }
     
-    cmake -G Ninja -DCMAKE_BUILD_TYPE="Release" \
+    cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Release" \
           -DBUILD_SHARED_LIBS=True -DLLVM_USE_SPLIT_DWARF=True \
           -DCMAKE_INSTALL_PREFIX="$LINUX_INSTALL_PATH" \
           -DLLVM_OPTIMIZED_TABLEGEN=True -DLLVM_BUILD_TESTS=False \
@@ -234,8 +248,9 @@ compile_llvm_linux() {
           -DLLVM_TARGETS_TO_BUILD="RISCV" \
           -DLLVM_ENABLE_PROJECTS="bolt;clang;clang-tools-extra;libclc;lld;lldb;mlir;openmp;polly;pstl" \
           ../llvm || { echo "Failed to configure LLVM for Linux."; exit 1; }
-          
-    cmake --build . --target install || { echo "Failed to build LLVM for Linux."; exit 1; }
+      
+    make -j $(nproc) || { echo "Failed to build LLVM for Linux."; exit 1; }
+    make install || { echo "Failed to install LLVM for Linux."; exit 1; }
 }
 
 #--------------------------------------------------------------------------------------------------------------------------
@@ -259,3 +274,4 @@ build_llvm() {
 }
 
 build_llvm "$@" 2>&1 | tee -a "$LOG_FILE"
+
