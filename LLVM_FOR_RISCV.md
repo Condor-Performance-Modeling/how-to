@@ -101,6 +101,8 @@ The LLVM compiler-rt library includes runtime components like compiler support l
 
 Before building compiler-rt, ensure you have completed the previous steps for setting up LLVM on your Linux machine for RISC-V cross-compilation. The LLVM toolchain should be successfully installed, and the necessary development packages should be present on your system.
 
+**This script will install LLVM Compiler RT on top of your existing LLVM installations!**
+
 ### Running the compiler-rt Build Script
 
 The `how-to` repository includes the `build_llvm_compiler_rt.sh` script, which simplifies the process of building and installing `compiler-rt` on top of existing LLVM installation.

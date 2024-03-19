@@ -49,6 +49,18 @@ validate_llvm_install_path() {
     fi
 }
 
+check_for_compiler_rt() {
+    local INSTALL_PATH="$1/lib/linux/libclang_rt.builtins-riscv64.a"
+    if [ -f "$INSTALL_PATH" ]; then
+        echo "Existing LLVM Compiler RT library found at: $INSTALL_PATH"
+        read -p "Do you wish to overwrite it? [Y/n]: " OVERWRITE
+        if [[ ! "$OVERWRITE" =~ ^([yY][eE][sS]|[yY]|)$ ]]; then
+            pretty_error "User aborted the LLVM Compiler RT build process."
+            exit 1
+        fi
+    fi
+}
+
 #--------------------------------------------------------------------------------------------------------------------------
 get_user_input() {
     echo_step "Environment Setup"
@@ -67,12 +79,14 @@ get_user_input() {
     read -p "Enter the baremetal LLVM installation path [default is $(pwd)/llvm-baremetal]: " BAREMETAL_INSTALL_PATH
     BAREMETAL_INSTALL_PATH=${BAREMETAL_INSTALL_PATH:-$(pwd)/llvm-baremetal}
     validate_llvm_install_path "$BAREMETAL_INSTALL_PATH" "Baremetal"
+    check_for_compiler_rt "$BAREMETAL_INSTALL_PATH"
 
     # Ask and validate the Linux LLVM installation path
     echo
     read -p "Enter the Linux LLVM installation path [default is $(pwd)/llvm-linux]: " LINUX_INSTALL_PATH
     LINUX_INSTALL_PATH=${LINUX_INSTALL_PATH:-$(pwd)/llvm-linux}
     validate_llvm_install_path "$LINUX_INSTALL_PATH" "Linux"
+    check_for_compiler_rt "$LINUX_INSTALL_PATH"
 
     # Ask for source path
     echo_step  "Source Path Setup"
@@ -99,6 +113,7 @@ get_user_input() {
     # Confirm start of LLVM build process
     echo_step "LLVM Compiler RT Build Process"
     echo
+    echo "This script will install LLVM Compiler RT on top of your existing LLVM installations!"
     read -p "The LLVM Compiler RT build process is ready to be started. Do you wish to start the process? [Y/n]: " start_setup
     if [[ ! "$start_setup" =~ ^([yY][eE][sS]|[yY])$ ]] && [ -n "$start_setup" ]; then
         pretty_error "User aborted the LLVM Compiler RT build process."
