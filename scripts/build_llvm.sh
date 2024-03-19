@@ -5,7 +5,7 @@
 #         2024.03.19
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-LOG_FILE="${TIMESTAMP}_cmp_env_setup.log"
+LOG_FILE="${TIMESTAMP}_build_llvm.log"
 CURRENT_STEP=""
 COPY_BAREMETAL_TOOLCHAIN=false
 COPY_LINUX_TOOLCHAIN=false
