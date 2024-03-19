@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#Contact: Stan Iwan
+#         Sofomo
+#         2024.02.28
+
 if [[ -z "$TOP" ]] || [[ -z "$MAP" ]]; then
     echo "One or more required environment variables (TOP, MAP) are not set."
     echo "To set the required environment variables, cd into your work area and run: source how-to/env/setuprc.sh"

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#Contact: Stan Iwan
+#         Sofomo
+#         2024.03.01
+
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 LOG_FILE="${TIMESTAMP}_cmp_env_setup.log"
 KEEP_PROGRESS_FILE=false
