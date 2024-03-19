@@ -6,6 +6,9 @@ CURRENT_STEP=""
 COPY_BAREMETAL_TOOLCHAIN=false
 COPY_LINUX_TOOLCHAIN=false
 
+RISCV_GNU_TOOLCHAIN_COMMIT_SHA="9a28c809a5d355874def06a414aa5f272fae564d"
+LLVM_PROJECT_COMMIT_SHA="7718ac38a0c23597d7d02f0022eb89afe6d1b35f"
+
 echo_step() {
     echo
     echo "Starting Step: $1"
@@ -143,6 +146,9 @@ clone_repositories() {
         else
             echo "Cloning RISC-V GNU Toolchain..."
             git clone --recursive https://github.com/riscv/riscv-gnu-toolchain || { echo "Failed to clone RISC-V GNU Toolchain."; exit 1; }
+            cd riscv-gnu-toolchain || { echo "Failed to change directory to riscv-gnu-toolchain."; exit 1; }
+            git checkout $RISCV_GNU_TOOLCHAIN_COMMIT_SHA || { echo "Failed to checkout specified commit for RISC-V GNU Toolchain."; exit 1; }
+            cd "$SOURCE_DIR" || { echo "Failed to return to SOURCE_DIR."; exit 1; }
         fi
     else
         echo "Skipping cloning RISC-V GNU Toolchain because pre-built toolchains for both Baremetal and Linux will be used."
@@ -153,6 +159,9 @@ clone_repositories() {
     else
         echo "Cloning LLVM project..."
         git clone https://github.com/llvm/llvm-project.git riscv-llvm || { echo "Failed to clone LLVM project."; exit 1; }
+        cd riscv-llvm || { echo "Failed to change directory to riscv-llvm."; exit 1; }
+        git checkout $LLVM_PROJECT_COMMIT_SHA || { echo "Failed to checkout specified commit for LLVM project."; exit 1; }
+        cd "$SOURCE_DIR" || { echo "Failed to return to SOURCE_DIR."; exit 1; }
     fi
 
     # Create the symbolic link and fail if the operation does not succeed
@@ -259,3 +268,4 @@ build_llvm() {
 }
 
 build_llvm "$@" 2>&1 | tee -a "$LOG_FILE"
+
