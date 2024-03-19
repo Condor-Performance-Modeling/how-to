@@ -49,11 +49,23 @@ unset PATCHES; export PATCHES=$TOP/how-to/patches
 # Used by the baremetal build process
 unset RISCV_PREFIX; export RISCV_PREFIX=riscv64-unknown-elf-
 
-# This var points to the gnu bare metal tool chain install directory.
+# DEPRECATED: This var points to the gnu bare metal tool chain install directory.
 unset RV_BAREMETAL_TOOLS; export RV_BAREMETAL_TOOLS=$TOP/riscv64-unknown-elf
 
-# This var points to the gnu linux tool chain install directory.
+# DEPRECATED: This var points to the gnu linux tool chain install directory.
 unset RV_LINUX_TOOLS; export RV_LINUX_TOOLS=$TOP/riscv64-unknown-linux-gnu
+
+# This var points to the gnu bare metal tool chain install directory.
+unset RV_GNU_BAREMETAL_TOOLS; export RV_GNU_BAREMETAL_TOOLS=/data/tools/riscv64-unknown-elf
+
+# This var points to the gnu linux tool chain install directory.
+unset RV_GNU_LINUX_TOOLS; export RV_GNU_LINUX_TOOLS=/data/tools/riscv64-unknown-linux-gnu
+
+# This var points to the llvm bare metal install directory.
+unset RV_LLVM_BAREMETAL_TOOLS; export RV_LLVM_BAREMETAL_TOOLS=/data/tools/riscv64-llvm-baremetal
+
+# This var points to the llvm linux install directory.
+unset RV_LLVM_LINUX_TOOLS; export RV_LLVM_LINUX_TOOLS=/data/tools/riscv64-llvm-linux
 
 # Short cut to Sparcians/Map/Sparta, simplifies build instructions
 unset SPARTA; export SPARTA=$TOP/map/sparta
@@ -94,3 +106,4 @@ unset WGETTMP; #export WGETTMP=/tmp
 # ------------------------------------------------------------------------
 # This is not done by default, it is here for reference
 #export PATH=$RV_BAREMETAL_TOOLS/bin:$RV_LINUX_TOOLS/bin:$PATH
+
