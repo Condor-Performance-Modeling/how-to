@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Number of jobs
-N=10000
+N=100
 
 # LSF submission parameters
 MACHINES="compute1 compute2"
