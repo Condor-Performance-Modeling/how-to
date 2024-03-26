@@ -37,11 +37,11 @@ git apply $TOP/how-to/patches/scoreboard_patch_map_v2.patch || true
 
 mkdir -p release; cd release
 cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j32;
+make -j$(nproc);
 cmake --install . --prefix $CONDA_PREFIX
 
 # Adding regress step for sanity
-make -j32 regress
+make -j$(nproc) regress
 
 # Dromajo fork
 cd $TOP
@@ -60,14 +60,14 @@ ln -sfv ../stf_lib
 # The stf version
 mkdir -p build; cd build
 cmake ..
-make -j32
+make -j$(nproc)
 cp dromajo $TOOLS/bin/cpm_dromajo
 
 # The stf + simpoint version
 cd ..
 mkdir -p build-simpoint; cd build-simpoint
 cmake .. -DSIMPOINT=On
-make -j32
+make -j$(nproc)
 cp dromajo $TOOLS/bin/cpm_simpoint_dromajo
 
 # -------------------------------------------------------

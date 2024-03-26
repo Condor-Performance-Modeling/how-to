@@ -28,9 +28,9 @@ git apply $TOP/how-to/patches/scoreboard_patch_map_v2.patch || true
 
 mkdir -p release; cd release
 cmake .. -DCMAKE_BUILD_TYPE=Release 
-make -j32;
+make -j$(nproc);
 cmake --install . --prefix $CONDA_PREFIX
 
-make -j32 regress
+make -j$(nproc) regress
 
 cp olympia $TOOLS/bin/olympia
