@@ -157,6 +157,14 @@ Example:
 run_sim -ro --arch cuzco --dbg 1k -i 2k dhry   # Dump debug log between 1000 and 2000 instructions
 ```
 
+### `--dbgc CYCLE`
+Dump debug log at `top` node, starting at this cycle.  Usually used with `-i`.
+
+Example:
+```
+run_sim -ro --arch cuzco --dbgc 1 -i 2k dhry   # Dump debug log starting at cycle 1
+```
+
 ### `--dbgn NODE INSTS`
 Dump debug log at `NODE` node, starting at this inst count.  Usually used with `-i`.
 
@@ -179,6 +187,14 @@ Dump info log at `top` node, starting at this inst count.  Usually used with `-i
 Example:
 ```
 run_sim -ro --arch cuzco --inf 1k -i 2k dhry   # Dump info log between 1000 and 2000 instructions
+```
+
+### `--infc CYCLE`
+Dump info log at `top` node, starting at this cycle.  Usually used with `-i`.
+
+Example:
+```
+run_sim -ro --arch cuzco --infc 1 -i 2k dhry   # Dump info log starting at cycle 1
 ```
 
 ### `--infn NODE INSTS`
