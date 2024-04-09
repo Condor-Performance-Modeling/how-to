@@ -4,6 +4,8 @@ if [[ -z "${CONDOR_TOP}" ]]; then
   { echo "CONDOR_TOP is undefined, execute 'source how-to/env/setuprc.sh'"; exit 1; }
 fi
 
+source "$TOP/how-to/scripts/git_clone_retry.sh"
+
 cd $CONDOR_TOP
 mkdir -p $TOOLS/riscv-linux
 
@@ -61,11 +63,12 @@ cp $BUILDROOT/output/images/rootfs.cpio $CONDOR_TOP/tools/riscv-linux
 
 cd $CONDOR_TOP
 if [ ! -d "$CONDOR_TOP/opensbi" ]; then
-  git clone https://github.com/riscv/opensbi.git
+  clone_repository_with_retries "https://github.com/riscv/opensbi.git"
 else
   cd opensbi && git pull
 fi
 cd $OPENSBI
 make PLATFORM=generic -j$(nproc)
 cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin $TOOLS/riscv-linux
+
 
