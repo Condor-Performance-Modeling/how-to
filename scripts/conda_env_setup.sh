@@ -2,13 +2,15 @@
 
 #Contact: Stan Iwan
 #         Sofomo
-#         2024.02.28
+#         2024.04.09
 
 if [[ -z "$TOP" ]] || [[ -z "$MAP" ]]; then
     echo "One or more required environment variables (TOP, MAP) are not set."
     echo "To set the required environment variables, cd into your work area and run: source how-to/env/setuprc.sh"
     exit 1
 fi
+
+source "$TOP/how-to/scripts/git_clone_retry.sh"
 
 if [[ -z "$CONDA_DEFAULT_ENV" ]]; then
     echo "No Conda environment is currently active. Please activate the 'base' environment before continuing."
@@ -28,7 +30,7 @@ conda install -c conda-forge jq yq -y
 
 echo "Cloning the MAP repository..."
 cd $TOP
-git clone https://github.com/sparcians/map.git
+clone_repository_with_retries "https://github.com/sparcians/map.git"
 
 echo "Checking out the map_v2 branch..."
 cd $MAP
@@ -39,3 +41,4 @@ echo "Creating the Sparta Conda environment..."
 
 echo "Setup process completed."
 echo "Please activate the 'sparta' environment by running: conda activate sparta"
+

@@ -14,10 +14,12 @@ if [[ -z "${OLYMPIA}" ]]; then
 }
 fi
 
+source "$TOP/how-to/scripts/git_clone_retry.sh"
+
 if ! [ -d "$OLYMPIA" ]; then
 {
   echo "-W: riscv-perf-model does not exist, cloning repo."
-  git clone --recursive https://github.com/riscv-software-src/riscv-perf-model.git
+  clone_repository_with_retries "https://github.com/riscv-software-src/riscv-perf-model.git" "riscv-perf-model" "--recursive"
 }
 fi
 
@@ -34,3 +36,4 @@ cmake --install . --prefix $CONDA_PREFIX
 make -j$(nproc) regress
 
 cp olympia $TOOLS/bin/olympia
+

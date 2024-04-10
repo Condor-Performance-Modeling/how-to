@@ -14,6 +14,8 @@ if [[ -z "${CAM}" ]]; then
 }
 fi
 
+source "$TOP/how-to/scripts/git_clone_retry.sh"
+
 cd $TOP
 # create the tools directories explicitly here, to avoid creating
 # files w/ the directory names
@@ -26,7 +28,7 @@ mkdir -p $TOOLS/riscv-linux
 if ! [ -d "$CAM" ]; then
 {
   echo "-W: cam does not exist, cloning repo."
-  git clone git@github.com:Condor-Performance-Modeling/cam.git
+  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/cam.git"
 }
 fi
 
@@ -49,7 +51,7 @@ cd $TOP
 if ! [ -d "cpm.dromajo" ]; then
 {
   echo "-W: cpm.dromajo does not exist, cloning repo."
-  git clone git@github.com:Condor-Performance-Modeling/dromajo.git cpm.dromajo
+  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/dromajo.git" "cpm.dromajo"
 }
 fi
 
@@ -88,19 +90,18 @@ fi
 cd $TOP
 
 # benchmarks
-if [ ! -d benchmarks ]; then
-  git clone --recurse-submodules \
-            git@github.com:Condor-Performance-Modeling/benchmarks.git
+if [ ! -d "benchmarks" ]; then
+  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/benchmarks.git" \
+  "benchmarks" "--recurse-submodules"
 fi
 
 # Tools
 if [ ! -d tools ]; then
-  git clone git@github.com:Condor-Performance-Modeling/tools.git
+  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/tools.git"
 fi
 
 # Utils
 if [ ! -d utils ]; then
-  git clone git@github.com:Condor-Performance-Modeling/utils.git
+  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/utils.git"
 fi
-
 
