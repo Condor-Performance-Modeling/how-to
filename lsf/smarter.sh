@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Number of jobs
-N=100
+N=10000
 
 # LSF submission parameters
 MACHINES="compute1 compute2"
 QUEUE="normal"
-COMMAND="sleep 15; echo done"
+COMMAND="sleep 30; echo done"
 SUBDIR="logs"
 MSTR="master"
 MSTRLOG="$MSTR/jobs_N$N.log"

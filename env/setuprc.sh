@@ -81,6 +81,9 @@ unset VEER; export VEER=$TOP/whisper
 
 # For now this is a duplicate of veer
 unset WHISPER; export WHISPER=$TOP/whisper
+
+# UTILS is becoming more important
+unset UTILS; export UTILS=$TOP/utils
 # ------------------------------------------------------------------------
 # ------------------------------------------------------------------------
 # This path is only valid in C-AWS
