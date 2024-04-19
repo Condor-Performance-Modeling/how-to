@@ -34,7 +34,7 @@ fi
 cd $SPIKE
 mkdir -p build; cd build
 ../configure --prefix=$TOP/tools
-make -j32 
+make -j$(nproc) 
 make install
 
 # Whisper
@@ -48,6 +48,6 @@ if ! [ -d "$WHISPER" ]; then
 fi
 
 cd $WHISPER
-make -j32
+make -j$(nproc)
 cp build-Linux/whisper $TOOLS/bin
 

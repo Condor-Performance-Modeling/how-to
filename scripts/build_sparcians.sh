@@ -18,22 +18,24 @@ else
   echo "-I: sparta environment detected, proceeding";
 }
 fi
+
+source "$TOP/how-to/scripts/git_clone_retry.sh"
   
 cd $TOP
 
 # MAP/Sparta
 cd $MAP/sparta; mkdir -p release; cd release
 cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j32;
+make -j$(nproc);
 cmake --install . --prefix $CONDA_PREFIX
 
 # Adding regress step for sanity
-make -j32 regress
+make -j$(nproc) regress
 
 # Helios
 cd $MAP/helios; mkdir -p release; cd release
 cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j32
+make -j$(nproc)
 cmake --install . --prefix $CONDA_PREFIX
 
 # STF_LIB
@@ -45,9 +47,10 @@ if [ -d "stf_lib" ]; then
   cd ..
 else
   echo "-W: stf_lib does not exist, cloning repo."
-  git clone https://github.com/sparcians/stf_lib.git
+  clone_repository_with_retries "https://github.com/sparcians/stf_lib.git"
 fi
 
 cd stf_lib; mkdir -p release; cd release
 cmake -DCMAKE_BUILD_TYPE=Release ..
-make -j32
+make -j$(nproc)
+
