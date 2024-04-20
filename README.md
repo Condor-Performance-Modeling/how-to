@@ -258,7 +258,7 @@ only need to install miniconda once.
 
 ```
 cd <your work area>  # typically /data/users/<username>/condor
-sh /data/tools/env/Miniconda3-py311_23.9.0-0-Linux-x86_64.sh
+bash /data/tools/env/Miniconda3-py311_23.9.0-0-Linux-x86_64.sh
 
 ..please review the license agreement....
 Do you accept the license terms? [yes|no]
