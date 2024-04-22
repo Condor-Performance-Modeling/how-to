@@ -412,7 +412,9 @@ cmake --install . --prefix $CONDA_PREFIX
 make -j32 regress
 
 # Helios
+pip install Cython==0.29.23
 cd $MAP/helios; mkdir -p release; cd release
+rm -rf *
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j32
 cmake --install . --prefix $CONDA_PREFIX
