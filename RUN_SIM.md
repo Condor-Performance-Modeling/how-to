@@ -300,3 +300,19 @@ These two commands are equivalent:
 run_sim dhry
 run_sim --wkld dhry
 ```
+
+### `-z INSTS`, `--z INSTS`
+Output pipeline collection starting at this inst count.  Usually used with `-i`.
+
+Example:
+```
+run_sim -ro --arch cuzco -z 1k -i 2k dhry  # Output pipeline collection between 1000 and 2000 instructions
+```
+
+### `--zc CYCLE`
+Output pipeline collection starting at this cycle.  Usually used with `-i`.
+
+Example:
+```
+run_sim -ro --arch cuzco --zc 1 -i 2k dhry  # Output pipeline collection starting at cycle 1
+```
