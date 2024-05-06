@@ -29,6 +29,9 @@ run_sim -ro --arch cuzco --wfc --dbg 1k -i 2k dhry
 run_sim -ro --arch cuzco --dbg 1k -i 2k dhry           # Dump debug log between 1000 and 2000 instructions
 run_sim -ro --arch cuzco --inf 1k -i 2k dhry           # Dump info log between 1000 and 2000 instructions
 run_sim -ro --arch cuzco --dbg 1k --inf 1k -i 2k dhry  # Dump debug and info log between 1000 and 2000 instructions
+
+# Pipeline collection example
+run_sim -ro --arch cuzco -z 1k -i 2k dhry              # Output pipeline collection between 1000 and 2000 instructions
 ```
 
 ## Setup
