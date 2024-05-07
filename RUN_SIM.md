@@ -35,6 +35,11 @@ run_sim -ro --arch cuzco -z 1k -i 2k dhry              # Output pipeline collect
 ```
 
 ## Setup
+`run_sim` lives in `$CAM/scripts`.  It is helpful to have this in your path, e.g.:
+```
+export PATH="$CAM/scripts:$PATH"
+```
+
 Make sure the environment variable `TRACELIB` points to the trace library, e.g.:
 ```
 export TRACELIB=/data/tracelib
@@ -58,9 +63,6 @@ This script has several key features:
 - Because this script lives with the simulator, it runs the simulator in the same repo.  This is convenient if you have several repos, each with its own release binary.
 - You can run this script in any directory and it will dump the results in the current directory.
 - This script facilitates common simulator settings through the use of keywords.
-
-#### Future features
-- Specify useful defaults in a user config file ~/.run_sim
 
 ## Workload ID
 When specifying a workload, you may supply a numeric workload ID in the form `BBBBNNN`, where `BBBB` is the 4-digit bundle ID and `NNN` is the 3-digit index of the workload within the bundle.  `run_sim` will then look for this workload in the `$TRACELIB` directory, in `$TRACELIB/BBBB/NNN/`.  For further details, see [Workload Tracing and Methodology](https://condorcomp.atlassian.net/wiki/spaces/PerfModel1/pages/250150935/Workload+Tracing+and+Methodology).
