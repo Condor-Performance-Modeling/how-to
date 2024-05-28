@@ -104,4 +104,9 @@ fi
 if [ ! -d utils ]; then
   clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/utils.git"
 fi
+if [ -d utils ]; then
+  cd utils
+  git submodule update --init --recursive
+  cd ..
+fi
 
