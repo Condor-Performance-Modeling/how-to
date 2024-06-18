@@ -56,8 +56,7 @@ if ! [ -d "cpm.dromajo" ]; then
 fi
 
 cd $CPM_DROMAJO
-
-ln -sfv ../stf_lib
+git submodule update --init --recursive
 
 # The stf version
 mkdir -p build; cd build
