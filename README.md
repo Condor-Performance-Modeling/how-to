@@ -604,9 +604,6 @@ fi
 
 cd $CAM;
 
-#ignore the error if already patched
-git patch $TOP/how-to/patches/scoreboard_patch_map_v2.patch || true
-
 mkdir -p release; cd release
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j32;
