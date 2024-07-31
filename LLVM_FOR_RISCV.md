@@ -140,6 +140,8 @@ Fusions are defined in the `llvm/lib/Target/RISCV/RISCVMacroFusion.td` file. Eac
 2. **CheckAll:**
    - A combination of checks that all need to pass for the fusion to be applied. This can include checks for opcodes, immediate operands, operand ranges, etc.
    - Available checks are defined in `llvm/include/llvm/Target/TargetInstrPredicate.td` file.
+   - A list of `RISCV` instructions is defined in `llvm/lib/Target/RISCV/RISCVInstrInfo.td` file.
+   - A list of `RISCV` registers is defined in `llvm/lib/Target/RISCV/RISCVRegisterInfo.td` file.
    - **When not using CheckAll, an Opcode check is required to match specific opcodes of the instructions to be fused (e.g., CheckOpcode<[LUI]>).**
 
 The structure is wrapped in the SimpleFusion template with the following format:
@@ -167,6 +169,12 @@ def TuneLDADDFusion
                  ]>>;
 ```
 
+> [!IMPORTANT]
+> Based on my observations I suspect that the defined fusion will not always be applied, as LLVM does not blindly follow these definitions. Instead, it evaluates whether the fusion makes sense based on the context, ensuring it does not alter the function and that it provides a benefit.
+
+> [!IMPORTANT]
+> Fusion predicates with multiple instructions seem to be possible, but I have not yet found a way to make them compile. When using multiple CheckOpcode/CheckAll LLVM complains with error: Value specified for template argument 'SimpleFusion:prolog' is of type CheckAll; expected type list<FusionPredicate>.
+
 ### Add new fusion predicator feature to processor definition
 
 To enable the macro fusion feature for a specific processor, you need to update the processor model in the `llvm/lib/Target/RISCV/RISCVProcessors.td` file to include the new fusion feature.
@@ -182,6 +190,9 @@ To enable the macro fusion feature for a specific processor, you need to update 
   ```
 
 Change to `RISCVProcessors.td` is reflected in `RISCVTargetParserDef.inc` and `RISCVGenSubtargetInfo.inc`.
+
+> [!IMPORTANT]
+> Ensure that you add the necessary features to your processor model, as a generic configuration may not compile even basic programs such as "Hello, World!".
 
 ### Compile, Install and Verify
 
