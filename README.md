@@ -56,7 +56,7 @@ ssh compute1
 ```
 
 Do not run intensive jobs on the GUI machines. They are intended
-for serving desktops and limited browswer use.
+for serving desktops and limited browser use.
 
 <i>If you exceed the GUI machine limits your job may be unexpectedly terminated without much explanation. </i>
 

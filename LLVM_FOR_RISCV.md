@@ -173,7 +173,7 @@ def TuneLDADDFusion
 > Based on my observations I suspect that the defined fusion will not always be applied, as LLVM does not blindly follow these definitions. Instead, it evaluates whether the fusion makes sense based on the context, ensuring it does not alter the function and that it provides a benefit.
 
 > [!IMPORTANT]
-> Fusion predicates with multiple instructions seem to be possible, but I have not yet found a way to make them compile. When using multiple CheckOpcode/CheckAll LLVM complains with error: Value specified for template argument 'SimpleFusion:prolog' is of type CheckAll; expected type list<FusionPredicate>.
+> Fusion predicates with multiple instructions seem to be possible, but I have not yet found a way to make them compile. `SimpleFusion` class is defined in`llvm/include/llvm/Target/TargetMacroFusion.td` file and seems to support only 2 opcodes by default. With better understanding of `TargetMacroFusion.td` and its syntax it could be possible to implement new fusion classes that would work for more than 2 opcodes.
 
 ### Add new fusion predicator feature to processor definition
 
