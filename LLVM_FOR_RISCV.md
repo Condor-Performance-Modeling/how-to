@@ -3,7 +3,7 @@
 ```text
 Contact: Stan Iwan
          Sofomo
-         2024.03.07
+         2024.07.22
 ```
 
 This document outlines the steps to build LLVM on a Linux machine for cross-compiling C/C++ code for RISC-V 64-bit.
@@ -90,14 +90,14 @@ int main(){
 Compile the code:
 
 ```bash
-[PATH_TO_YOUR_LLVM__INSTALL]/bin/clang -march=rv64gc -mabi=lp64d hello.c -o hello
+[PATH_TO_YOUR_LLVM_INSTALL]/bin/clang -march=rv64gc -mabi=lp64d hello.c -o hello
 ```
 
 ## Building LLVM compiler-rt for RISC-V
 
 The LLVM compiler-rt library includes runtime components like compiler support libraries and sanitizers that are essential for developing and testing your RISC-V applications. Follow the steps below to build and install compiler-rt.
 
-### Prerequisites
+### LLVM compiler-rt Prerequisites
 
 Before building compiler-rt, ensure you have completed the previous steps for setting up LLVM on your Linux machine for RISC-V cross-compilation. The LLVM toolchain should be successfully installed, and the necessary development packages should be present on your system.
 
@@ -118,3 +118,116 @@ bash how-to/scripts/build_llvm_compiler_rt.sh
 - *Building compiler-rt for Baremetal and Linux:* Configures and compiles compiler-rt for both baremetal and Linux targets using the previously installed LLVM toolchain.
 - *Installation:* The compiled compiler-rt libraries are installed into the specified LLVM installation directories, making them available for development and compilation tasks.
 
+## Fusion Exploration with LLVM Compiler
+
+Macro fusion is a hardware optimization technique where certain pairs of instructions are fused together to execute more efficiently. This can lead to performance improvements without changing the existing Instruction Set Architecture (ISA). By defining preferred instruction pairs and hinting the compiler, we can increase the effectiveness of internal fusion hardware.
+
+### Fusion Exploration Prerequisites
+
+Steps presented below expect that you have already build the LLVM on Linux for RISC-V 64-bit Cross-Compilation using `how-to/scripts/build_llvm.sh` and want to tweak it by adding new fusion predicator. You can find instructions on how to build the LLVM [here](#building-llvm-on-linux-for-risc-v-64-bit-cross-compilation).
+
+*Optionally, you can modify all `.td` files mentioned below in your LLVM source directory and build it by running `cmake` with desired configuration in your LLVM build directory, then `make` and `make install`.*
+
+### Add new fusion predicator to `RISCVMacroFusion.td`
+
+Fusions are defined in the `llvm/lib/Target/RISCV/RISCVMacroFusion.td` file. Each fusion predicator is defined using the `SimpleFusion` template. The definition includes:
+
+1. **Name and Feature Strings:**
+   - A unique name for the fusion (e.g., `"lui-addi-fusion"`).
+   - A feature string used in the code to check if this fusion is enabled (e.g., `"HasLUIADDIFusion"`).
+   - A description string that explains what the fusion does (e.g., `"Enable LUI+ADDI macro fusion"`).
+
+2. **CheckAll:**
+   - A combination of checks that all need to pass for the fusion to be applied. This can include checks for opcodes, immediate operands, operand ranges, etc.
+   - Available checks are defined in `llvm/include/llvm/Target/TargetInstrPredicate.td` file.
+   - A list of `RISCV` instructions is defined in `llvm/lib/Target/RISCV/RISCVInstrInfo.td` file.
+   - A list of `RISCV` registers is defined in `llvm/lib/Target/RISCV/RISCVRegisterInfo.td` file.
+   - **When not using CheckAll, an Opcode check is required to match specific opcodes of the instructions to be fused (e.g., CheckOpcode<[LUI]>).**
+
+The structure is wrapped in the SimpleFusion template with the following format:
+
+```cpp
+def Name
+  : SimpleFusion<"fusion-name", "FeatureString", "Description",
+                 Check<ConditionsForFirstInstruction>,
+                 Check<ConditionsForSecondInstruction>>;
+```
+
+Example fusion that is defined in the LLVM source by default:
+
+```cpp
+// Fuse load with add:
+//   add rd, rs1, rs2
+//   ld rd, 0(rd)
+def TuneLDADDFusion
+  : SimpleFusion<"ld-add-fusion", "HasLDADDFusion", "Enable LD+ADD macrofusion",
+                 CheckOpcode<[ADD]>,
+                 CheckAll<[
+                   CheckOpcode<[LD]>,
+                   CheckIsImmOperand<2>,
+                   CheckImmOperand<2, 0>
+                 ]>>;
+```
+
+> [!IMPORTANT]
+> Based on my observations I suspect that the defined fusion will not always be applied, as LLVM does not blindly follow these definitions. Instead, it evaluates whether the fusion makes sense based on the context, ensuring it does not alter the function and that it provides a benefit.
+
+> [!IMPORTANT]
+> Fusion predicates with multiple instructions seem to be possible, but I have not yet found a way to make them compile. `SimpleFusion` class is defined in`llvm/include/llvm/Target/TargetMacroFusion.td` file and seems to support only 2 opcodes by default. With better understanding of `TargetMacroFusion.td` and its syntax it could be possible to implement new fusion classes that would work for more than 2 opcodes.
+
+### Add new fusion predicator feature to processor definition
+
+To enable the macro fusion feature for a specific processor, you need to update the processor model in the `llvm/lib/Target/RISCV/RISCVProcessors.td` file to include the new fusion feature.
+
+**Update the Processor Model:** Edit the processor model definition to include the new macro fusion feature.
+
+  ```cpp
+  def MY_CUSTOM_PROCESSOR : RISCVProcessorModel<"my-custom-processor",
+                                                 MySchedModel,
+                                                 [Feature64Bit,
+                                                  FeatureStdExtI,
+                                                  MyNewMacroFusionFeature]>;
+  ```
+
+Change to `RISCVProcessors.td` is reflected in `RISCVTargetParserDef.inc` and `RISCVGenSubtargetInfo.inc`.
+
+> [!IMPORTANT]
+> Ensure that you add the necessary features to your processor model, as a generic configuration may not compile even basic programs such as "Hello, World!".
+
+### Compile, Install and Verify
+
+You need to compile `.td` files to reflect the changes you've made, then, you need to install the updated LLVM build to apply the changes.
+
+1. **Clean `.inc` files that you want to regenerate**:
+  Old `.inc` file will exist from the initial LLVM build. They will not be regenerated unless you run `clean` target in their directory:
+
+  ```bash
+  cd [PATH_TO_YOUR_LLVM_BUILD_DIR]/lib/Target/RISCV
+  make clean
+  cd [PATH_TO_YOUR_LLVM_BUILD_DIR]/include/llvm/TargetParser
+  make clean
+  ```
+
+2. **Install the Updated LLVM Build**:
+  Make required targets, then run `make install` command to install the changes:
+
+  ```bash
+  cd [PATH_TO_YOUR_LLVM_BUILD_DIR]
+  make RISCVCommonTableGen
+  make RISCVTargetParserTableGen
+  make install
+  ```
+
+3. **Verify the Processor Configuration**:
+  To ensure that your new processor definition is recognized by the clang compiler, check the available CPUs using the `-mcpu=help` option:
+
+  ```bash
+  [PATH_TO_YOUR_LLVM_INSTALL]/bin/clang -mcpu=help
+  ```
+
+4. **Compile with the New Processor**:
+  To compile code using your custom processor definition, use the `-mcpu` or `-mtune` option with LLVM tools (example):
+
+  ```bash
+  [PATH_TO_YOUR_LLVM_INSTALL]/bin/clang -mcpu=my-custom-processor -o output.o input.c
+  ```
