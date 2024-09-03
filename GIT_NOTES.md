@@ -37,6 +37,8 @@ perf modeling environment and provide instructions on how to use it.
     1. [How to compare two branches](#how-to-compare-two-branches)
 
     1. [How to push a branch](#how-to-push-a-branch)
+  
+    1. [How to init a repo with submodules](#how-to-init-a-repo-with-submodules)
 
 
 1. [Pull reguests](#pull-requests)
@@ -155,6 +157,13 @@ git diff HEAD..<tag>
 ### How to push a branch
 ```
 git push -u origin <branch name>
+```
+
+### How to init a repo with submodules
+```
+<clone the repo>
+<cd into the repo>
+git submodule update --init --recursive
 ```
 
 ## Pull requests
