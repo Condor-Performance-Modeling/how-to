@@ -73,6 +73,8 @@ bash how-to/scripts/build_llvm.sh
 - *Copying/Compiling RISC-V GNU Toolchain for Linux:* Depending on whether a pre-built toolchain is available, the script may copy an existing toolchain or compile a new one for Linux development.
 - *Compiling LLVM for Linux:* Finally, the script compiles LLVM for Linux, enabling the development of applications for RISC-V based Linux systems.
 
+By default, the script builds LLVM with the `-DLLVM_FORCE_ENABLE_STATS` option enabled. This feature allows LLVM to collect and print statistics related to its internal operations. These statistics can be useful for developers who want to analyze the performance and behavior of the LLVM components, such as how often certain optimizations are applied or how many times specific instructions are executed during compilation.
+
 Once the script completes successfully, the LLVM toolchain for both baremetal and Linux RISC-V development will be installed in the specified directories.
 
 ## Compiling a Simple C/C++ Program for RISC-V 64-bit
@@ -93,31 +95,6 @@ Compile the code:
 [PATH_TO_YOUR_LLVM_INSTALL]/bin/clang -march=rv64gc -mabi=lp64d hello.c -o hello
 ```
 
-## Building LLVM compiler-rt for RISC-V
-
-The LLVM compiler-rt library includes runtime components like compiler support libraries and sanitizers that are essential for developing and testing your RISC-V applications. Follow the steps below to build and install compiler-rt.
-
-### LLVM compiler-rt Prerequisites
-
-Before building compiler-rt, ensure you have completed the previous steps for setting up LLVM on your Linux machine for RISC-V cross-compilation. The LLVM toolchain should be successfully installed, and the necessary development packages should be present on your system.
-
-**This script will install LLVM Compiler RT on top of your existing LLVM installations!**
-
-### Running the compiler-rt Build Script
-
-The `how-to` repository includes the `build_llvm_compiler_rt.sh` script, which simplifies the process of building and installing `compiler-rt` on top of existing LLVM installation.
-
-```bash
-bash how-to/scripts/build_llvm_compiler_rt.sh
-```
-
-### What `build_llvm_compiler_rt.sh` Script Does
-
-- *Validation of LLVM Installation Paths:* Ensures that the LLVM installations for both baremetal and Linux contain the required binaries (clang, clang++, etc.).
-- *Cloning Required Repositories:* If the LLVM source is not already present in the specified directory, the script will clone the LLVM project repository.
-- *Building compiler-rt for Baremetal and Linux:* Configures and compiles compiler-rt for both baremetal and Linux targets using the previously installed LLVM toolchain.
-- *Installation:* The compiled compiler-rt libraries are installed into the specified LLVM installation directories, making them available for development and compilation tasks.
-
 ## Fusion Exploration with LLVM Compiler
 
 Macro fusion is a hardware optimization technique where certain pairs of instructions are fused together to execute more efficiently. This can lead to performance improvements without changing the existing Instruction Set Architecture (ISA). By defining preferred instruction pairs and hinting the compiler, we can increase the effectiveness of internal fusion hardware.
@@ -127,6 +104,22 @@ Macro fusion is a hardware optimization technique where certain pairs of instruc
 Steps presented below expect that you have already build the LLVM on Linux for RISC-V 64-bit Cross-Compilation using `how-to/scripts/build_llvm.sh` and want to tweak it by adding new fusion predicator. You can find instructions on how to build the LLVM [here](#building-llvm-on-linux-for-risc-v-64-bit-cross-compilation).
 
 *Optionally, you can modify all `.td` files mentioned below in your LLVM source directory and build it by running `cmake` with desired configuration in your LLVM build directory, then `make` and `make install`.*
+
+### Automating Fusion Integration with Script
+
+For convenience, you can automatically update your LLVM build to include a predefined set of macro fusion predicators by running a provided script. This script is located in a private repository under `utils/fusion/llvm_macro_fusion`.
+
+To update LLVM with these predefined fusions, simply execute the following command:
+
+```bash
+bash utils/fusion/llvm_macro_fusion/update_llvm_macro_fusions.sh -s [source_dir] -b [build_dir] -f [fusion_definitions]
+```
+
+- `source_dir`: Path to your LLVM source directory.
+- `build_dir`: Path to your LLVM build directory.
+- `fusion_definitions`: Path to the file containing predefined fusion predicates (already included in the `utils/fusion/llvm_macro_fusion` directory).
+
+Running this script will update the necessary LLVM source files with the predefined fusion definitions and automatically rebuild and install the updated LLVM components. After it succeeds you can run LLVM tools with `-mcpu='help'` argument to verify if new processor target with predefined fusions enabled is visible on the list.
 
 ### Add new fusion predicator to `RISCVMacroFusion.td`
 
@@ -231,3 +224,28 @@ You need to compile `.td` files to reflect the changes you've made, then, you ne
   ```bash
   [PATH_TO_YOUR_LLVM_INSTALL]/bin/clang -mcpu=my-custom-processor -o output.o input.c
   ```
+
+## Building LLVM compiler-rt for RISC-V
+
+The LLVM compiler-rt library includes runtime components like compiler support libraries and sanitizers that are essential for developing and testing your RISC-V applications. Follow the steps below to build and install compiler-rt.
+
+### LLVM compiler-rt Prerequisites
+
+Before building compiler-rt, ensure you have completed the previous steps for setting up LLVM on your Linux machine for RISC-V cross-compilation. The LLVM toolchain should be successfully installed, and the necessary development packages should be present on your system.
+
+**This script will install LLVM Compiler RT on top of your existing LLVM installations!**
+
+### Running the compiler-rt Build Script
+
+The `how-to` repository includes the `build_llvm_compiler_rt.sh` script, which simplifies the process of building and installing `compiler-rt` on top of existing LLVM installation.
+
+```bash
+bash how-to/scripts/build_llvm_compiler_rt.sh
+```
+
+### What `build_llvm_compiler_rt.sh` Script Does
+
+- *Validation of LLVM Installation Paths:* Ensures that the LLVM installations for both baremetal and Linux contain the required binaries (clang, clang++, etc.).
+- *Cloning Required Repositories:* If the LLVM source is not already present in the specified directory, the script will clone the LLVM project repository.
+- *Building compiler-rt for Baremetal and Linux:* Configures and compiles compiler-rt for both baremetal and Linux targets using the previously installed LLVM toolchain.
+- *Installation:* The compiled compiler-rt libraries are installed into the specified LLVM installation directories, making them available for development and compilation tasks.
