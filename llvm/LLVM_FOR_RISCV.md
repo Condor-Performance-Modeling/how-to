@@ -62,7 +62,7 @@ git clone git@github.com:Condor-Performance-Modeling/how-to.git
 To begin the setup process, navigate to the directory containing the build_llvm.sh script and execute it. This script automates the tasks of downloading, compiling, and installing the LLVM toolchain tailored for RISC-V development.
 
 ```bash
-bash how-to/scripts/build_llvm.sh
+bash how-to/llvm/build_llvm.sh
 ```
 
 ### What `build_llvm.sh` Script Does
@@ -101,23 +101,23 @@ Macro fusion is a hardware optimization technique where certain pairs of instruc
 
 ### Fusion Exploration Prerequisites
 
-Steps presented below expect that you have already build the LLVM on Linux for RISC-V 64-bit Cross-Compilation using `how-to/scripts/build_llvm.sh` and want to tweak it by adding new fusion predicator. You can find instructions on how to build the LLVM [here](#building-llvm-on-linux-for-risc-v-64-bit-cross-compilation).
+Steps presented below expect that you have already build the LLVM on Linux for RISC-V 64-bit Cross-Compilation using `how-to/llvm/build_llvm.sh` and want to tweak it by adding new fusion predicator. You can find instructions on how to build the LLVM [here](#building-llvm-on-linux-for-risc-v-64-bit-cross-compilation).
 
 *Optionally, you can modify all `.td` files mentioned below in your LLVM source directory and build it by running `cmake` with desired configuration in your LLVM build directory, then `make` and `make install`.*
 
 ### Automating Fusion Integration with Script
 
-For convenience, you can automatically update your LLVM build to include a predefined set of macro fusion predicators by running a provided script. This script is located in a private repository under `utils/fusion/llvm_macro_fusion`.
+For convenience, you can automatically update your LLVM build to include a predefined set of macro fusion predicators by running a provided script. This script is located in under `how-to/llvm/macro_fusion`.
 
 To update LLVM with these predefined fusions, simply execute the following command:
 
 ```bash
-bash utils/fusion/llvm_macro_fusion/update_llvm_macro_fusions.sh -s [source_dir] -b [build_dir] -f [fusion_definitions]
+bash how-to/llvm/macro_fusion/update_llvm_macro_fusions.sh -s [source_dir] -b [build_dir] -f [fusion_definitions]
 ```
 
 - `source_dir`: Path to your LLVM source directory.
 - `build_dir`: Path to your LLVM build directory.
-- `fusion_definitions`: Path to the file containing predefined fusion predicates (already included in the `utils/fusion/llvm_macro_fusion` directory).
+- `fusion_definitions`: Path to the file containing predefined fusion predicates (already included in the `how-to/llvm/macro_fusion` directory).
 
 Running this script will update the necessary LLVM source files with the predefined fusion definitions and automatically rebuild and install the updated LLVM components. After it succeeds you can run LLVM tools with `-mcpu='help'` argument to verify if new processor target with predefined fusions enabled is visible on the list.
 
@@ -240,7 +240,7 @@ Before building compiler-rt, ensure you have completed the previous steps for se
 The `how-to` repository includes the `build_llvm_compiler_rt.sh` script, which simplifies the process of building and installing `compiler-rt` on top of existing LLVM installation.
 
 ```bash
-bash how-to/scripts/build_llvm_compiler_rt.sh
+bash how-to/llvm/build_llvm_compiler_rt.sh
 ```
 
 ### What `build_llvm_compiler_rt.sh` Script Does
