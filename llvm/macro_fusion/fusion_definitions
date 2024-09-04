@@ -1,0 +1,203 @@
+def TuneADDI16SPCSDSPFusion
+  : SimpleFusion<"addi16sp-csdsp-fusion", "HasADDI16SPCSDSPFusion",
+                 "Enable ADDI16SP+CSDSP macro fusion",
+                 CheckOpcode<[C_ADDI16SP]>,
+                 CheckOpcode<[C_SDSP]>>;
+
+def TuneCMVCLDFusion
+  : SimpleFusion<"cmv-cld-fusion", "HasCMVCLDFusion",
+                 "Enable CMV+CLD macro fusion",
+                 CheckOpcode<[C_MV]>,
+                 CheckOpcode<[C_LD]>>;
+
+def TuneCBNEZCMVFusion
+  : SimpleFusion<"cbnez-cmv-fusion", "HasCBNEZCMVFusion",
+                 "Enable CBNEZ+CMV macro fusion",
+                 CheckOpcode<[C_BNEZ]>,
+                 CheckOpcode<[C_MV]>>;
+
+def TuneCSDCMVFusion
+  : SimpleFusion<"csd-cmv-fusion", "HasCSDCMVFusion",
+                 "Enable CSD+CMV macro fusion",
+                 CheckOpcode<[C_SD]>,
+                 CheckOpcode<[C_MV]>>;
+
+def TuneCBEQZCLIFusion
+  : SimpleFusion<"cbeqz-cli-fusion", "HasCBEQZCLIFusion",
+                 "Enable CBEQZ+CLI macro fusion",
+                 CheckOpcode<[C_BEQZ]>,
+                 CheckOpcode<[C_LI]>>;
+
+def TuneCMVCBNEZFusion
+  : SimpleFusion<"cmv-cbnez-fusion", "HasCMVCBNEZFusion",
+                 "Enable CMV+CBNEZ macro fusion",
+                 CheckOpcode<[C_MV]>,
+                 CheckOpcode<[C_BNEZ]>>;
+
+def TuneCLDCSDFusion
+  : SimpleFusion<"cld-csd-fusion", "HasCLDCSDFusion",
+                 "Enable CLD+CSD macro fusion",
+                 CheckOpcode<[C_LD]>,
+                 CheckOpcode<[C_SD]>>;
+
+def TuneCSDSPCLDFusion
+  : SimpleFusion<"csdsp-cld-fusion", "HasCSDSPCLDFusion",
+                 "Enable CSDSP+CLD macro fusion",
+                 CheckOpcode<[C_SDSP]>,
+                 CheckOpcode<[C_LD]>>;
+
+def TuneBNECLDFusion
+  : SimpleFusion<"bne-cld-fusion", "HasBNECLDFusion",
+                 "Enable BNE+CLD macro fusion",
+                 CheckOpcode<[BNE]>,
+                 CheckOpcode<[C_LD]>>;
+
+def TuneCLDCBEQZFusion
+  : SimpleFusion<"cld-cbeqz-fusion", "HasCLDCBEQZFusion",
+                 "Enable CLD+CBEQZ macro fusion",
+                 CheckOpcode<[C_LD]>,
+                 CheckOpcode<[C_BEQZ]>>;
+
+def TuneANDICLIFusion
+  : SimpleFusion<"andi-cli-fusion", "HasANDICLIFusion",
+                 "Enable ANDI+CLI macro fusion",
+                 CheckOpcode<[ANDI]>,
+                 CheckOpcode<[C_LI]>>;
+
+def TuneCANDISRIFusion
+  : SimpleFusion<"candi-sri-fusion", "HasCANDISRIFusion",
+                 "Enable CANDI+SRI macro fusion",
+                 CheckOpcode<[C_ANDI]>,
+                 CheckOpcode<[SRLI]>>;
+
+def TuneADDIWANDIFusion
+  : SimpleFusion<"addiw-andi-fusion", "HasADDIWANDIFusion",
+                 "Enable ADDIW+ANDI macro fusion",
+                 CheckOpcode<[ADDIW]>,
+                 CheckOpcode<[ANDI]>>;
+
+def TuneCSRLIBEQFusion
+  : SimpleFusion<"csrli-beq-fusion", "HasCSRLIBEQFusion",
+                 "Enable CSRLI+BEQ macro fusion",
+                 CheckOpcode<[C_SRLI]>,
+                 CheckOpcode<[BEQ]>>;
+
+def TuneSRLISRLIFusion
+  : SimpleFusion<"srli-srli-fusion", "HasSRLISRLIFusion",
+                 "Enable SRLI+SRLI macro fusion",
+                 CheckOpcode<[SRLI]>,
+                 CheckOpcode<[SRLI]>>;
+
+def TuneCLICJFusion
+  : SimpleFusion<"cli-cj-fusion", "HasCLICJFusion",
+                 "Enable CLI+CJ macro fusion",
+                 CheckOpcode<[C_LI]>,
+                 CheckOpcode<[C_J]>>;
+
+def TuneXORCANDIFusion
+  : SimpleFusion<"xor-candi-fusion", "HasXORCANDIFusion",
+                 "Enable XOR+CANDI macro fusion",
+                 CheckOpcode<[XOR]>,
+                 CheckOpcode<[C_ANDI]>>;
+
+def TuneSLLICSRLIFusion
+  : SimpleFusion<"slli-csrli-fusion", "HasSLLICSRLIFusion",
+                 "Enable SLLI+CSRLI macro fusion",
+                 CheckOpcode<[SLLI]>,
+                 CheckOpcode<[C_SRLI]>>;
+
+def TuneBEQADDIWFusion
+  : SimpleFusion<"beq-addiw-fusion", "HasBEQADDIWFusion",
+                 "Enable BEQ+ADDIW macro fusion",
+                 CheckOpcode<[BEQ]>,
+                 CheckOpcode<[ADDIW]>>;
+
+def TuneCLDLHFusion
+  : SimpleFusion<"cld-lh-fusion", "HasCLDLHFusion",
+                 "Enable CLD+LH macro fusion",
+                 CheckOpcode<[C_LD]>,
+                 CheckOpcode<[LH]>>;
+
+def TuneLBCLADDIFusion
+  : SimpleFusion<"lbu-caddi-fusion", "HasLBCLADDIFusion",
+                 "Enable LBU+CADD macro fusion",
+                 CheckOpcode<[LBU]>,
+                 CheckOpcode<[C_ADDI]>>;
+
+def TuneCJBEBFusion
+  : SimpleFusion<"cj-beq-fusion", "HasCJBEBFusion",
+                 "Enable CJ+BEQ macro fusion",
+                 CheckOpcode<[C_J]>,
+                 CheckOpcode<[BEQ]>>;
+
+def TuneLHBNEFusion
+  : SimpleFusion<"lh-bne-fusion", "HasLHBNEFusion",
+                 "Enable LH+BNE macro fusion",
+                 CheckOpcode<[LH]>,
+                 CheckOpcode<[BNE]>>;
+
+def TuneCLDLBUFusion
+  : SimpleFusion<"cld-lbu-fusion", "HasCLDLBUFusion",
+                 "Enable CLD+LBU macro fusion",
+                 CheckOpcode<[C_LD]>,
+                 CheckOpcode<[LBU]>>;
+
+def TuneLBUNEFusion
+  : SimpleFusion<"lbu-bne-fusion", "HasLBUNEFusion",
+                 "Enable LBU+BNE macro fusion",
+                 CheckOpcode<[LBU]>,
+                 CheckOpcode<[BNE]>>;
+
+def TuneCADDIWCSWFusion
+  : SimpleFusion<"caddiw-csw-fusion", "HasCADDIWCSWFusion",
+                 "Enable CADDIW+CSW macro fusion",
+                 CheckOpcode<[C_ADDIW]>,
+                 CheckOpcode<[C_SW]>>;
+
+def TuneCXORSLLIFusion
+  : SimpleFusion<"cxor-cslli-fusion", "HasCXORSLLIFusion",
+                 "Enable CXOR+CSLLI macro fusion",
+                 CheckOpcode<[C_XOR]>,
+                 CheckOpcode<[C_SLLI]>>;
+
+def TuneBLTULBUFusion
+  : SimpleFusion<"bltu-lbu-fusion", "HasBLTULBUFusion",
+                 "Enable BLTU+LBU macro fusion",
+                 CheckOpcode<[BLTU]>,
+                 CheckOpcode<[LBU]>>;
+
+def TuneCLIBLTUFusion
+  : SimpleFusion<"cli-bltu-fusion", "HasCLIBLTUFusion",
+                 "Enable CLI+BLTU macro fusion",
+                 CheckOpcode<[C_LI]>,
+                 CheckOpcode<[BLTU]>>;
+
+def TuneCADDICXORFusion
+  : SimpleFusion<"caddi-cxor-fusion", "HasCADDICXORFusion",
+                 "Enable CADDI+CXOR macro fusion",
+                 CheckOpcode<[C_ADDI]>,
+                 CheckOpcode<[C_XOR]>>;
+
+def TuneCLUICADDIFusion
+  : SimpleFusion<"clui-caddi-fusion", "HasCLUICADDIFusion",
+                 "Enable CLUI+CADDI macro fusion",
+                 CheckOpcode<[C_LUI]>,
+                 CheckOpcode<[C_ADDI]>>;
+
+def TuneCSRLIXORFusion
+  : SimpleFusion<"csrli-cxor-fusion", "HasCSRLIXORFusion",
+                 "Enable CSRLI+CXOR macro fusion",
+                 CheckOpcode<[C_SRLI]>,
+                 CheckOpcode<[C_XOR]>>;
+
+def TuneLBUSDSPFusion
+  : SimpleFusion<"lbu-csdsp-fusion", "HasLBUSDSPFusion",
+                 "Enable LBU+CSDSP macro fusion",
+                 CheckOpcode<[LBU]>,
+                 CheckOpcode<[C_SDSP]>>;
+
+def TuneCBEQZCLUIFusion
+  : SimpleFusion<"cbeqz-clui-fusion", "HasCBEQZCLUIFusion",
+                 "Enable CBEQZ+CLUI macro fusion",
+                 CheckOpcode<[C_BEQZ]>,
+                 CheckOpcode<[C_LUI]>>;

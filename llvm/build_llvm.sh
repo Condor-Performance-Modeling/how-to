@@ -223,6 +223,7 @@ compile_llvm_baremetal() {
       -DDEFAULT_SYSROOT="$BAREMETAL_INSTALL_PATH/riscv64-unknown-elf" \
       -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-elf" \
       -DLLVM_TARGETS_TO_BUILD="RISCV" \
+      -DLLVM_FORCE_ENABLE_STATS=ON \
       -DLLVM_ENABLE_PROJECTS="bolt;clang;clang-tools-extra;libclc;lld;lldb;mlir;openmp;polly;pstl" \
       ../llvm || { echo "Failed to configure LLVM for Baremetal."; exit 1; }
 
@@ -246,6 +247,7 @@ compile_llvm_linux() {
           -DDEFAULT_SYSROOT="$LINUX_INSTALL_PATH/sysroot" \
           -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-linux-gnu" \
           -DLLVM_TARGETS_TO_BUILD="RISCV" \
+          -DLLVM_FORCE_ENABLE_STATS=ON \
           -DLLVM_ENABLE_PROJECTS="bolt;clang;clang-tools-extra;libclc;lld;lldb;mlir;openmp;polly;pstl" \
           ../llvm || { echo "Failed to configure LLVM for Linux."; exit 1; }
       
