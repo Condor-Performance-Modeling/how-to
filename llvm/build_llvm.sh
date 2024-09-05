@@ -100,15 +100,15 @@ get_user_input() {
 
     # Ask for LLVM source path
     echo_step "LLVM Source Path Setup"
-    read -p "Enter the LLVM source directory path [default is $(pwd)/llvm_source]: " LLVM_SOURCE_DIR
-    LLVM_SOURCE_DIR=${LLVM_SOURCE_DIR:-$(pwd)/llvm_source}
+    read -p "Enter the LLVM source directory path [default is $(pwd)/riscv-llvm]: " LLVM_SOURCE_DIR
+    LLVM_SOURCE_DIR=${LLVM_SOURCE_DIR:-$(pwd)}
 
     # Check if the LLVM source directory exists
     if [[ ! -d "$LLVM_SOURCE_DIR" ]]; then
         echo "LLVM source directory does not exist, creating it..."
         mkdir -p "$LLVM_SOURCE_DIR" || { pretty_error "Failed to create the LLVM source directory at $LLVM_SOURCE_DIR."; exit 1; }
     fi
-    echo "LLVM will be cloned into: $LLVM_SOURCE_DIR"
+    echo "LLVM will be cloned into: $LLVM_SOURCE_DIR/riscv-llvm"
 
     # Check for pre-built RISC-V GNU Toolchain for Baremetal
     if [ -d "/data/tools/riscv64-unknown-elf" ]; then
