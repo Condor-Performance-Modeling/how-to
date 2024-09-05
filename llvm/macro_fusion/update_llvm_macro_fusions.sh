@@ -42,6 +42,18 @@ if [ ! -f "$fusion_definitions" ]; then
     exit 1
 fi
 
+install_dir=$(grep -m 1 "^CMAKE_INSTALL_PREFIX" "$build_dir/CMakeCache.txt" | cut -d '=' -f 2)
+
+# If CMAKE_INSTALL_PREFIX is not available, fallback to the Makefile
+if [ -z "$install_dir" ]; then
+    install_dir=$(grep -m 1 "^prefix" "$build_dir/Makefile" | cut -d '=' -f 2)
+fi
+
+# Print the install directory
+echo "LLVM was installed to: $install_dir"
+
+exit 1;
+
 # Paths for backup files
 macro_fusion_backup="$source_dir/llvm/lib/Target/RISCV/RISCVMacroFusion.bak"
 processors_backup="$source_dir/llvm/lib/Target/RISCV/RISCVProcessors.bak"
