@@ -171,8 +171,7 @@ apply_fusion_definitions() {
     if [[ "$APPLY_FUSION" = true ]]; then
         echo "Applying default fusion definitions..."
         local macro_fusion_dir="$(dirname "$0")/macro_fusion"
-        chmod +x "$macro_fusion_dir/update_llvm_macro_fusions.sh"
-        $macro_fusion_dir/update_llvm_macro_fusions.sh -f "$macro_fusion_dir/fusion_definitions" -s "$LLVM_SOURCE_DIR/riscv-llvm" -b "$LLVM_SOURCE_DIR/riscv-llvm/_build" || {
+        $macro_fusion_dir/update_llvm_macro_fusion.sh -f "$macro_fusion_dir/fusion_definitions" -s "$LLVM_SOURCE_DIR/riscv-llvm" -b "$LLVM_SOURCE_DIR/riscv-llvm/_build" || {
             pretty_error "Failed to apply default fusion definitions."
         }
     else
@@ -186,25 +185,33 @@ apply_fusion_definitions() {
 clone_repositories() {
     echo_step "Cloning repositories"
 
-    cd "$LLVM_SOURCE_DIR" || { echo "Failed to change directory to LLVM_SOURCE_DIR."; exit 1; }
+    cd "$TOOLCHAIN_SOURCE_DIR" || { echo "Failed to change directory to TOOLCHAIN_SOURCE_DIR."; exit 1; }
 
     # Skip cloning riscv-gnu-toolchain if both toolchains are to be copied
     if ! { [ "$COPY_BAREMETAL_TOOLCHAIN" = true ] && [ "$COPY_LINUX_TOOLCHAIN" = true ]; }; then
-        if [ -d "$TOOLCHAIN_SOURCE_DIR/riscv-gnu-toolchain" ]; then
+        if [ -d "riscv-gnu-toolchain" ]; then
             echo "RISC-V GNU Toolchain directory already exists. Skipping cloning."
         else
             echo "Cloning RISC-V GNU Toolchain..."
-            git clone --recursive https://github.com/riscv/riscv-gnu-toolchain "$TOOLCHAIN_SOURCE_DIR/riscv-gnu-toolchain" || { echo "Failed to clone RISC-V GNU Toolchain."; exit 1; }
+            git clone --recursive https://github.com/riscv/riscv-gnu-toolchain || { echo "Failed to clone RISC-V GNU Toolchain."; exit 1; }
+            cd riscv-gnu-toolchain || { echo "Failed to change directory to riscv-gnu-toolchain."; exit 1; }
+            git checkout $RISCV_GNU_TOOLCHAIN_COMMIT_SHA || { echo "Failed to checkout specified commit for RISC-V GNU Toolchain."; exit 1; }
+            cd "$TOOLCHAIN_SOURCE_DIR" || { echo "Failed to return to TOOLCHAIN_SOURCE_DIR."; exit 1; }
         fi
     else
         echo "Skipping cloning RISC-V GNU Toolchain because pre-built toolchains for both Baremetal and Linux will be used."
     fi
 
-    if [ -d "$LLVM_SOURCE_DIR/riscv-llvm" ]; then
+    cd "$LLVM_SOURCE_DIR" || { echo "Failed to change directory to LLVM_SOURCE_DIR."; exit 1; }
+
+    if [ -d "riscv-llvm" ]; then
         echo "LLVM project directory already exists. Skipping cloning."
     else
         echo "Cloning LLVM project..."
-        git clone https://github.com/llvm/llvm-project.git "$LLVM_SOURCE_DIR/riscv-llvm" || { echo "Failed to clone LLVM project."; exit 1; }
+        git clone https://github.com/llvm/llvm-project.git riscv-llvm || { echo "Failed to clone LLVM project."; exit 1; }
+        cd riscv-llvm || { echo "Failed to change directory to riscv-llvm."; exit 1; }
+        git checkout $LLVM_PROJECT_COMMIT_SHA || { echo "Failed to checkout specified commit for LLVM project."; exit 1; }
+        cd "$LLVM_SOURCE_DIR" || { echo "Failed to return to LLVM_SOURCE_DIR."; exit 1; }
     fi
 
     # Create the symbolic link and fail if the operation does not succeed
