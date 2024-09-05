@@ -217,6 +217,18 @@ Example:
 ```
 run_sim -ro --arch cuzco --inflsu 1k -i 2k dhry   # Dump info log for lsu unit between 1000 and 2000 instructions
 ```
+
+### `--bp`
+Dump BP log.  No other argument is supplied because this log prints only at the end of simulation.  Essentially, it adds these arguments to the simulator:
+```
+--log top.cpu.core0.fetch bp_stats <path>/<wkld>.bp_stats
+```
+
+Example:
+```
+run_sim -ro --arch cuzco --wfc dhry --bp -i 1k
+```
+
 ### `-i INSTS`, `--insts INSTS`
 Limit the number of instructions to INSTS.  Understand common abbreviations like `k` = 1000 and `m` = 1,000,000
 
