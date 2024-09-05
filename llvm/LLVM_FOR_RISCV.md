@@ -75,9 +75,11 @@ bash how-to/llvm/build_llvm.sh
 
 By default, the script builds LLVM with the `-DLLVM_FORCE_ENABLE_STATS` option enabled. This feature allows LLVM to collect and print statistics related to its internal operations. These statistics can be useful for developers who want to analyze the performance and behavior of the LLVM components, such as how often certain optimizations are applied or how many times specific instructions are executed during compilation.
 
+//TODO - add info on how to use stats
+
 Once the script completes successfully, the LLVM toolchain for both baremetal and Linux RISC-V development will be installed in the specified directories.
 
-## Compiling a Simple C/C++ Program for RISC-V 64-bit
+### Compiling a Simple C/C++ Program for RISC-V 64-bit
 
 Create a source file `hello.c`:
 
@@ -119,9 +121,21 @@ bash how-to/llvm/macro_fusion/update_llvm_macro_fusions.sh -s [source_dir] -b [b
 - `build_dir`: Path to your LLVM build directory.
 - `fusion_definitions`: Path to the file containing predefined fusion predicates (already included in the `how-to/llvm/macro_fusion` directory).
 
-Running this script will update the necessary LLVM source files with the predefined fusion definitions and automatically rebuild and install the updated LLVM components. After it succeeds you can run LLVM tools with `-mcpu='help'` argument to verify if new processor target with predefined fusions enabled is visible on the list.
+Running this script will update the necessary LLVM source files with the predefined fusion definitions and automatically rebuild and install the updated LLVM components. After it succeeds you can run LLVM tools with `-mcpu='help'` argument to verify if new processor target (`condor-cuzco-v1`) is visible on the list.
 
-### Add new fusion predicator to `RISCVMacroFusion.td`
+```bash
+[PATH_TO_YOUR_LLVM_INSTALL]/bin/clang -mcpu='help'
+```
+
+### Compile code with fusions enabled
+
+ To compile code using processor definition with enabled fusion that was added using `update_llvm_macro_fusions.sh`, use the `-mcpu` or `-mtune` option with LLVM tools and provide processor name `condor-cuzco-v1` (example):
+
+  ```bash
+  [PATH_TO_YOUR_LLVM_INSTALL]/bin/clang -mcpu=condor-cuzco-v1 -o output.o input.c
+  ```
+
+## Add new fusion predicator to `RISCVMacroFusion.td`
 
 Fusions are defined in the `llvm/lib/Target/RISCV/RISCVMacroFusion.td` file. Each fusion predicator is defined using the `SimpleFusion` template. The definition includes:
 

@@ -49,11 +49,6 @@ if [ -z "$install_dir" ]; then
     install_dir=$(grep -m 1 "^prefix" "$build_dir/Makefile" | cut -d '=' -f 2)
 fi
 
-# Print the install directory
-echo "LLVM was installed to: $install_dir"
-
-exit 1;
-
 # Paths for backup files
 macro_fusion_backup="$source_dir/llvm/lib/Target/RISCV/RISCVMacroFusion.bak"
 processors_backup="$source_dir/llvm/lib/Target/RISCV/RISCVProcessors.bak"
@@ -158,5 +153,6 @@ make -j32 RISCVTargetParserTableGen
 make -j32 install
 
 echo "LLVM update with macro fusions completed successfully."
+echo "LLVM was installed to: $install_dir"
 
 # End of the script

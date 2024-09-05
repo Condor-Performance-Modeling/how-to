@@ -134,7 +134,6 @@ get_user_input() {
 
     # If not using pre-built toolchains, ask for the toolchain source path
     if [[ "$COPY_BAREMETAL_TOOLCHAIN" = false && "$COPY_LINUX_TOOLCHAIN" = false ]]; then
-        echo_step "Toolchain Source Path Setup"
         read -p "Enter the toolchain source directory path [default is $(pwd)/toolchain_source]: " TOOLCHAIN_SOURCE_DIR
         TOOLCHAIN_SOURCE_DIR=${TOOLCHAIN_SOURCE_DIR:-$(pwd)/toolchain_source}
 
@@ -259,7 +258,7 @@ compile_or_copy_riscv_gnu_toolchain_linux() {
 compile_llvm_baremetal() {
     echo_step "Compiling LLVM for Baremetal"
 
-    cd "$SOURCE_DIR/riscv-llvm" || { echo "Failed to change directory to riscv-llvm."; exit 1; }
+    cd "$LLVM_SOURCE_DIR/riscv-llvm" || { echo "Failed to change directory to riscv-llvm."; exit 1; }
     rm -rf _build || { echo "Failed to remove previous build directory."; exit 1; }
     mkdir _build || { echo "Failed to create build directory."; exit 1; }
     cd _build || { echo "Failed to change directory to build directory."; exit 1; }
@@ -275,14 +274,14 @@ compile_llvm_baremetal() {
       ../llvm || { echo "Failed to configure LLVM for Baremetal."; exit 1; }
 
     make -j $(nproc) || { echo "Failed to build LLVM for Baremetal."; exit 1; }
-    make install || { echo "Failed to install LLVM for Baremetal."; exit 1; }
+    make -j $(nproc) install || { echo "Failed to install LLVM for Baremetal."; exit 1; }
 }
 
 # Function to compile LLVM for Linux
 compile_llvm_linux() {
     echo_step "Compiling LLVM for Linux"
 
-    cd "$SOURCE_DIR/riscv-llvm" || { echo "Failed to change directory to riscv-llvm."; exit 1; }
+    cd "$LLVM_SOURCE_DIR/riscv-llvm" || { echo "Failed to change directory to riscv-llvm."; exit 1; }
     rm -rf _build || { echo "Failed to remove previous build directory."; exit 1; }
     mkdir _build || { echo "Failed to create build directory."; exit 1; }
     cd _build || { echo "Failed to change directory to build directory."; exit 1; }
@@ -299,7 +298,7 @@ compile_llvm_linux() {
           ../llvm || { echo "Failed to configure LLVM for Linux."; exit 1; }
       
     make -j $(nproc) || { echo "Failed to build LLVM for Linux."; exit 1; }
-    make install || { echo "Failed to install LLVM for Linux."; exit 1; }
+    make -j $(nproc) install || { echo "Failed to install LLVM for Linux."; exit 1; }
 }
 
 #--------------------------------------------------------------------------------------------------------------------------
