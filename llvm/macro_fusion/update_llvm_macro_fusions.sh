@@ -1,50 +1,80 @@
 #!/bin/bash
 
-# Check if the correct number of arguments is provided
-if [ "$#" -ne 6 ]; then
-    echo "Usage: $0 -s source_dir -b build_dir -f fusion_definitions"
+#Contact: Stan Iwan
+#         Sofomo
+#         2024.09.05
+
+source_dir=""
+build_dir=""
+fusion_definitions=""
+
+# Function to display usage and exit
+exit_with_usage() {
+    echo "Usage: $0 [-s source_dir] [-b build_dir] [-f fusion_definitions]"
     exit 1
-fi
+}
 
 # Parse arguments
 while getopts "s:b:f:" opt; do
-  case $opt in
-    s) source_dir="$OPTARG"
-    ;;
-    b) build_dir="$OPTARG"
-    ;;
-    f) fusion_definitions="$OPTARG"
-    ;;
-    \?) echo "Invalid option -$OPTARG" >&2
-        exit 1
-    ;;
-  esac
+    case $opt in
+        s) source_dir="$OPTARG"
+        ;;
+        b) build_dir="$OPTARG"
+        ;;
+        f) fusion_definitions="$OPTARG"
+        ;;
+        \?) echo "Invalid option -$OPTARG" >&2
+            exit_with_usage
+        ;;
+    esac
 done
 
-# Check if the provided source directory exists and contains the required files
+# If no -s and -b arguments are provided, print defaults and ask for confirmation
+if [[ -z "$source_dir" && -z "$build_dir" ]]; then
+    source_dir="$(pwd)/riscv-llvm"
+    build_dir="$(pwd)/riscv-llvm/_build"
+    echo "Source and build paths not provided, suggested default paths:"
+    echo "- Source directory: $source_dir"
+    echo "- Build directory: $build_dir"
+    read -p "Do you wish to continue with these paths? [Y/n]: " confirm_paths
+    if [[ ! "$confirm_paths" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+        exit_with_usage "No source and build paths provided, and suggested declined."
+        exit 1
+    fi
+fi
+
+# Verify that the source directory exists and contains the required files
 if [ ! -d "$source_dir" ] || 
    [ ! -f "$source_dir/llvm/lib/Target/RISCV/RISCVMacroFusion.td" ] || 
    [ ! -f "$source_dir/llvm/lib/Target/RISCV/RISCVProcessors.td" ]; then
-    echo "Source directory $source_dir is invalid."
-    exit 1
+    echo "Source directory $source_dir is invalid or missing required files."
+    exit_with_usage
 fi
 
-# Check if the provided build directory exists and contains the Makefile
-if [ ! -d "$build_dir" ] || 
-   [ ! -f "$build_dir/Makefile" ]; then
-    echo "Build directory $build_dir is invalid."
-    exit 1
+# Verify that the build directory exists and contains the Makefile
+if [ ! -d "$build_dir" ] || [ ! -f "$build_dir/Makefile" ]; then
+    echo "Build directory $build_dir is invalid or missing a Makefile."
+    exit_with_usage
 fi
 
-# Check if the fusion definitions file exists
+# If the fusion definitions file was not provided, prompt the user to use the default
+if [ -z "$fusion_definitions" ]; then
+    fusion_definitions="$(dirname "$0")/fusion_definitions"
+    read -p "Fusion definitions not provided. Use default at $fusion_definitions? [Y/n]: " use_default
+    if [[ ! "$use_default" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+        echo "No fusion definitions provided, and default declined."
+        exit_with_usage
+    fi
+fi
+
+# Verify that the fusion definitions file exists
 if [ ! -f "$fusion_definitions" ]; then
     echo "Fusion definitions file $fusion_definitions does not exist."
     exit 1
 fi
 
+# Find the installation directory
 install_dir=$(grep -m 1 "^CMAKE_INSTALL_PREFIX" "$build_dir/CMakeCache.txt" | cut -d '=' -f 2)
-
-# If CMAKE_INSTALL_PREFIX is not available, fallback to the Makefile
 if [ -z "$install_dir" ]; then
     install_dir=$(grep -m 1 "^prefix" "$build_dir/Makefile" | cut -d '=' -f 2)
 fi

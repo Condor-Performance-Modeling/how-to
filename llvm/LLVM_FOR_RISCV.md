@@ -75,8 +75,6 @@ bash how-to/llvm/build_llvm.sh
 
 By default, the script builds LLVM with the `-DLLVM_FORCE_ENABLE_STATS` option enabled. This feature allows LLVM to collect and print statistics related to its internal operations. These statistics can be useful for developers who want to analyze the performance and behavior of the LLVM components, such as how often certain optimizations are applied or how many times specific instructions are executed during compilation.
 
-//TODO - add info on how to use stats
-
 Once the script completes successfully, the LLVM toolchain for both baremetal and Linux RISC-V development will be installed in the specified directories.
 
 ### Compiling a Simple C/C++ Program for RISC-V 64-bit

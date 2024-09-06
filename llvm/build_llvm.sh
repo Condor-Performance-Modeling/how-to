@@ -16,7 +16,6 @@ LOG_FILE="${TIMESTAMP}_build_llvm.log"
 CURRENT_STEP=""
 COPY_BAREMETAL_TOOLCHAIN=false
 COPY_LINUX_TOOLCHAIN=false
-APPLY_FUSION=false
 
 LLVM_SOURCE_DIR=""
 TOOLCHAIN_SOURCE_DIR=""
@@ -134,8 +133,8 @@ get_user_input() {
 
     # If not using pre-built toolchains, ask for the toolchain source path
     if [[ "$COPY_BAREMETAL_TOOLCHAIN" = false && "$COPY_LINUX_TOOLCHAIN" = false ]]; then
-        read -p "Enter the toolchain source directory path [default is $(pwd)/toolchain_source]: " TOOLCHAIN_SOURCE_DIR
-        TOOLCHAIN_SOURCE_DIR=${TOOLCHAIN_SOURCE_DIR:-$(pwd)/toolchain_source}
+        read -p "Enter the toolchain source directory path [default is $(pwd)/toolchain-source]: " TOOLCHAIN_SOURCE_DIR
+        TOOLCHAIN_SOURCE_DIR=${TOOLCHAIN_SOURCE_DIR:-$(pwd)/toolchain-source}
 
         # Check if the toolchain source directory exists
         if [[ ! -d "$TOOLCHAIN_SOURCE_DIR" ]]; then
@@ -145,36 +144,12 @@ get_user_input() {
         echo "Toolchain will be cloned into: $TOOLCHAIN_SOURCE_DIR"
     fi
 
-    # Ask if the user wants to apply default fusion definitions
-    echo
-    read -p "Do you want to apply the default fusion definitions? [Y/n]: " apply_fusion
-    if [[ "$apply_fusion" =~ ^([yY][eE][sS]|[yY])$ ]] || [ -z "$apply_fusion" ]; then
-        APPLY_FUSION=true
-    else
-        APPLY_FUSION=false
-    fi
-
     # Confirm start of LLVM setup process
     echo_step "LLVM Setup Process"
     read -p "The LLVM setup process might take some time. Do you wish to start the process? [Y/n]: " start_setup
     if [[ ! "$start_setup" =~ ^([yY][eE][sS]|[yY])$ ]] && [ -n "$start_setup" ]; then
         pretty_error "User aborted the LLVM setup process."
         exit 1
-    fi
-}
-
-#--------------------------------------------------------------------------------------------------------------------------
-
-# Function to apply the macro fusion update
-apply_fusion_definitions() {
-    if [[ "$APPLY_FUSION" = true ]]; then
-        echo "Applying default fusion definitions..."
-        local macro_fusion_dir="$(dirname "$0")/macro_fusion"
-        $macro_fusion_dir/update_llvm_macro_fusion.sh -f "$macro_fusion_dir/fusion_definitions" -s "$LLVM_SOURCE_DIR/riscv-llvm" -b "$LLVM_SOURCE_DIR/riscv-llvm/_build" || {
-            pretty_error "Failed to apply default fusion definitions."
-        }
-    else
-        echo "Skipping fusion definition application."
     fi
 }
 
@@ -311,14 +286,13 @@ build_llvm() {
     clone_repositories
     compile_or_copy_riscv_gnu_toolchain_baremetal
     compile_llvm_baremetal
-    apply_fusion_definitions
     compile_or_copy_riscv_gnu_toolchain_linux
     compile_llvm_linux
-    apply_fusion_definitions
 
     trap - EXIT
     
     echo "LLVM setup for Baremetal and Linux has been completed."
+    echo "LLVM build is located at: $LLVM_SOURCE_DIR/riscv-llvm/_build"
     echo "LLVM source is located at: $LLVM_SOURCE_DIR/riscv-llvm"
     echo "LLVM for Baremetal installed at: $BAREMETAL_INSTALL_PATH"
     echo "LLVM for Linux installed at: $LINUX_INSTALL_PATH"
