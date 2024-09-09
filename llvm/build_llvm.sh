@@ -234,9 +234,9 @@ compile_llvm_baremetal() {
     echo_step "Compiling LLVM for Baremetal"
 
     cd "$LLVM_SOURCE_DIR/riscv-llvm" || { echo "Failed to change directory to riscv-llvm."; exit 1; }
-    rm -rf _build || { echo "Failed to remove previous build directory."; exit 1; }
-    mkdir _build || { echo "Failed to create build directory."; exit 1; }
-    cd _build || { echo "Failed to change directory to build directory."; exit 1; }
+    rm -rf _build_baremetal || { echo "Failed to remove previous build directory."; exit 1; }
+    mkdir _build_baremetal || { echo "Failed to create build directory."; exit 1; }
+    cd _build_baremetal || { echo "Failed to change directory to build directory."; exit 1; }
     cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Release" \
       -DBUILD_SHARED_LIBS=True -DLLVM_USE_SPLIT_DWARF=True \
       -DCMAKE_INSTALL_PREFIX="$BAREMETAL_INSTALL_PATH" \
@@ -257,9 +257,9 @@ compile_llvm_linux() {
     echo_step "Compiling LLVM for Linux"
 
     cd "$LLVM_SOURCE_DIR/riscv-llvm" || { echo "Failed to change directory to riscv-llvm."; exit 1; }
-    rm -rf _build || { echo "Failed to remove previous build directory."; exit 1; }
-    mkdir _build || { echo "Failed to create build directory."; exit 1; }
-    cd _build || { echo "Failed to change directory to build directory."; exit 1; }
+    rm -rf _build_linux || { echo "Failed to remove previous build directory."; exit 1; }
+    mkdir _build_linux || { echo "Failed to create build directory."; exit 1; }
+    cd _build_linux || { echo "Failed to change directory to build directory."; exit 1; }
     
     cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Release" \
           -DBUILD_SHARED_LIBS=True -DLLVM_USE_SPLIT_DWARF=True \
@@ -292,9 +292,10 @@ build_llvm() {
     trap - EXIT
     
     echo "LLVM setup for Baremetal and Linux has been completed."
-    echo "LLVM build is located at: $LLVM_SOURCE_DIR/riscv-llvm/_build"
     echo "LLVM source is located at: $LLVM_SOURCE_DIR/riscv-llvm"
+    echo "LLVM for Baremetal build is located at: $LLVM_SOURCE_DIR/riscv-llvm/_build_baremetal"
     echo "LLVM for Baremetal installed at: $BAREMETAL_INSTALL_PATH"
+    echo "LLVM for Linux build is located at: $LLVM_SOURCE_DIR/riscv-llvm/_build_linux"
     echo "LLVM for Linux installed at: $LINUX_INSTALL_PATH"
 }
 

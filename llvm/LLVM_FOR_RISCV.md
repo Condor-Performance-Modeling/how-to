@@ -109,21 +109,31 @@ Steps presented below expect that you have already build the LLVM on Linux for R
 
 For convenience, you can automatically update your LLVM build to include a predefined set of macro fusion predicators by running a provided script. This script is located in under `how-to/llvm/macro_fusion`.
 
-To update LLVM with these predefined fusions, simply execute the following command:
+If you have selected the default paths when running `build_llvm.sh` script, to update LLVM with these predefined fusions, simply execute the following command in the directory you've run `build_llvm.sh` in:
 
 ```bash
-bash how-to/llvm/macro_fusion/update_llvm_macro_fusions.sh -s [source_dir] -b [build_dir] -f [fusion_definitions]
+bash how-to/llvm/macro_fusion/update_llvm_macro_fusions.sh
+```
+
+Running this script will update the necessary LLVM source files with the predefined fusion definitions and automatically rebuild and install the updated LLVM components for both Baremetal and Linux installations. After it succeeds you can run LLVM tools with `-mcpu='help'` argument to verify if new processor target (`condor-cuzco-v1` and `condor-cuzco-v1-fusion`) is visible on the list.
+
+```bash
+[PATH_TO_YOUR_LLVM_BAREMETAL_INSTALL]/bin/clang -mcpu='help'
+[PATH_TO_YOUR_LLVM_LINUX_INSTALL]/bin/clang -mcpu='help'
+```
+
+If you have used custom paths when running `build_llvm.sh` you need to manually update both Baremetal and Linux installations by running the update script twice (once for Baremetal and once for Linux) with arguments:
+
+```bash
+bash how-to/llvm/macro_fusion/update_llvm_macro_fusions.sh -s [source_dir] -b [build_dir]
 ```
 
 - `source_dir`: Path to your LLVM source directory.
 - `build_dir`: Path to your LLVM build directory.
+
+You can also use the script with your own fusion definitions by using `-f [fusion_definitions]` argument:
+
 - `fusion_definitions`: Path to the file containing predefined fusion predicates (already included in the `how-to/llvm/macro_fusion` directory).
-
-Running this script will update the necessary LLVM source files with the predefined fusion definitions and automatically rebuild and install the updated LLVM components. After it succeeds you can run LLVM tools with `-mcpu='help'` argument to verify if new processor target (`condor-cuzco-v1`) is visible on the list.
-
-```bash
-[PATH_TO_YOUR_LLVM_INSTALL]/bin/clang -mcpu='help'
-```
 
 ### Compile code with fusions enabled
 
