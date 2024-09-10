@@ -73,7 +73,7 @@ bash how-to/llvm/build_llvm.sh
 - *Copying/Compiling RISC-V GNU Toolchain for Linux:* Depending on whether a pre-built toolchain is available, the script may copy an existing toolchain or compile a new one for Linux development.
 - *Compiling LLVM for Linux:* Finally, the script compiles LLVM for Linux, enabling the development of applications for RISC-V based Linux systems.
 
-By default, the script builds LLVM with the `-DLLVM_FORCE_ENABLE_STATS` option enabled. This feature allows LLVM to collect and print statistics related to its internal operations. These statistics can be useful for developers who want to analyze the performance and behavior of the LLVM components, such as how often certain optimizations are applied or how many times specific instructions are executed during compilation.
+By default, the script builds LLVM with the `-DLLVM_FORCE_ENABLE_STATS` option enabled. This feature allows LLVM to collect statistics related to its internal operations. These statistics can be useful for developers who want to analyze the performance and behavior of the LLVM components, such as how often certain optimizations are applied or how many times specific instructions are executed during compilation.
 
 Once the script completes successfully, the LLVM toolchain for both baremetal and Linux RISC-V development will be installed in the specified directories.
 
@@ -94,6 +94,16 @@ Compile the code:
 ```bash
 [PATH_TO_YOUR_LLVM_INSTALL]/bin/clang -march=rv64gc -mabi=lp64d hello.c -o hello
 ```
+
+### Saving statistics when using `clang`
+
+To save llvm statistics you need to use `-save-stats` option:
+
+```bash
+[PATH_TO_YOUR_LLVM_INSTALL]/bin/clang -march=rv64gc -mabi=lp64d -save-stats hello.c -o hello
+```
+
+This will produce `hello.stats` file with llvm statistics for your compilation.
 
 ## Fusion Exploration with LLVM Compiler
 
