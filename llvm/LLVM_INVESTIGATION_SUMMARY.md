@@ -6,13 +6,13 @@ For detailed instructions on configuring and enabling macro fusion in LLVM, plea
 
 ## How Fusions Defined in `.td` Files Get Applied
 
-TODO - other.td files (RISCVMacroFusion, RISCVProcessors???)
+Fusions defined in `.td` files, like `RISCVMacroFusion.td`, are used to optimize instruction scheduling in the LLVM compilation process. These fusions are integrated through the auto-generated `RISCVGenMacroFusion.inc` and `RISCVGenSubtargetInfo.inc` files, which are built using the `TableGen` tool via the `RISCVCommonTableGen` target. This file contains important functionality for handling various processor-specific features, including macro fusion.
 
-Fusions defined in `.td` files, such as `RISCVMacroFusion.td`, are integrated into the LLVM compilation process through the `RISCVGenSubtargetInfo.inc` file. This file is auto-generated as part of the build process by the `RISCVCommonTableGen` target, using the TableGen tool. The `RISCVGenSubtargetInfo.inc` file contains important functionality for handling various processor-specific features, including macro fusion.
-
-The core of the fusion application process lies in the `getMacroFusions()` function within the `RISCVGenSubtargetInfo` class, which is declared in the generated `RISCVGenSubtargetInfo.inc` file. This function collects all the macro fusion predicates that are enabled for the target processor based on its features. These predicates are added to a list of fusions that will be applied during the scheduling phase.
+The core of the fusion application process lies in the `getMacroFusions()` function within the `RISCVGenSubtargetInfo` class, which is declared in the generated `RISCVGenSubtargetInfo.inc` file. This function collects all the macro fusion predicates that are enabled for the target processor based on its features. These predicates are added to a list of fusions that will be applied during the scheduling phase. All predicates used by `getMacroFusions()` function are defined in the `RISCVGenMacroFusion.inc` file.
 
 The `getMacroFusions()` function is called within `RISCVSubtarget.cpp` via the `getPostRAMutations()` method, which appends a fusion mutation to the instruction scheduler by calling `createMacroFusionDAGMutation()`. This setup allows LLVM to apply the appropriate fusion rules during instruction scheduling, optimizing the placement and pairing of instructions based on the target architecture's capabilities, as defined in the `.td` files and processed through `RISCVGenSubtargetInfo.inc`.
+
+Additionally, `RISCVGenSubtargetInfo.inc` contains processor-specific definitions, which allow LLVM to handle various aspects of the scheduling process. These processor definitions include configurations for resources, buffer sizes, issue width, and scheduling models.
 
 ## Multiple Instructions Fusions
 
@@ -54,10 +54,22 @@ Through these steps, `fuseInstructionPair` ensures that the target instructions 
 
 This fusion mechanism is particularly beneficial in architectures like RISC-V, where certain pairs of instructions, such as load and arithmetic operations, can be fused to reduce execution time and improve overall performance.
 
-## Default Macro Fusions in LLVM
-
-WIP
-
 ## MatInt and Other Processor Features
 
-WIP
+The `MatInt` feature in RISC-V is essential for optimizing how immediate values are handled during instruction generation. Implemented in `RISCVMatInt.cpp`, it generates efficient instruction sequences based on the size and characteristics of the constant. For smaller constants (within 32 bits), combinations like `LUI` (Load Upper Immediate) and `ADDI` are used. For larger, 64-bit constants, more complex sequences with shifts and multiple additions are needed to account for sign-extension and other RISC-V nuances.
+
+These optimizations are tied to processor-specific features and integrated with the instruction scheduler, ensuring that `MatInt` adapts to the architecture’s requirements. The scheduler keeps fused instructions together, as defined in `RISCVMacroFusion.td`, to enhance performance.
+
+To enable these optimizations, features like `MatInt` and `MacroFusion` must be included in the processor definitions in `RISCVProcessors.td`. Without them, even basic programs may fail to compile.
+
+## Statistics Macro in MicroFusion.cpp
+
+The `STATISTIC` macro in `MicroFusion.cpp` is used to track how many instruction pairs are fused during instruction scheduling. This optimization is key for improving instruction throughput by ensuring that certain instructions can be executed back-to-back without delays. In `MicroFusion.cpp`, the macro `NumFused` is defined to count the number of instruction pairs fused:
+
+```cpp
+STATISTIC(NumFused, "Number of instr pairs fused");
+```
+
+This macro tracks how many times macro fusion occurs during the compilation process. The statistic provides feedback on how effectively the instruction scheduler can pair instructions, helping developers understand the performance of this optimization.
+
+For larger projects with multiple build targets, you might neet to grep for the `NumFused`  across all .stats files generated during the build to verify if fusion optimizations were applied.
