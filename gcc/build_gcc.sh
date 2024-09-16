@@ -1,6 +1,8 @@
 #!/bin/bash
 
-source ./sha.config
+#Contact: Stan Iwan
+#         Sofomo
+#         2024.09.16
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 LOG_FILE="${TIMESTAMP}_build_gcc.log"
@@ -9,14 +11,14 @@ TOTAL_START_TIME=$(date +%s)
 
 log_step() {
     local message="$1"
-    echo -e "[`date`] - Step: $message" | tee -a "$LOG_FILE"
+    echo -e "[$(date)] - Step: $message" | tee -a "$LOG_FILE"
 }
 
 complete_step() {
     local message="$1"
     local end_time=$(date +%s)
     local duration=$((end_time - START_TIME))
-    echo -e "[`date`] - Completed: $message - Duration: ${duration}s" | tee -a "$LOG_FILE"
+    echo -e "[$(date)] - Completed: $message - Duration: ${duration}s" | tee -a "$LOG_FILE"
     START_TIME=$(date +%s)
 }
 
@@ -27,6 +29,17 @@ pretty_error() {
     echo -e "\t#### -------------------------------------------------" | tee -a "$LOG_FILE"
     echo
     exit 1
+}
+
+# Check prerequisites (git, make, gcc, etc.)
+check_prerequisites() {
+    log_step "Checking prerequisites"
+    
+    command -v git >/dev/null 2>&1 || pretty_error "git is required but not installed."
+    command -v make >/dev/null 2>&1 || pretty_error "make is required but not installed."
+    command -v gcc >/dev/null 2>&1 || pretty_error "gcc is required but not installed."
+    
+    complete_step "Checked prerequisites"
 }
 
 get_user_input() {
@@ -63,7 +76,7 @@ confirm_proceed() {
 clone_riscv_gcc_toolchain() {
     log_step "Cloning RISC-V GCC Toolchain"
     
-    git clone --recursive https://github.com/riscv/riscv-gnu-toolchain || { echo "Failed to clone RISC-V GNU Toolchain."; exit 1; }
+    git clone --recursive https://github.com/riscv/riscv-gnu-toolchain || pretty_error "Failed to clone RISC-V GNU Toolchain."
 
     complete_step "Cloning RISC-V GCC Toolchain"
 }
@@ -105,22 +118,24 @@ build_gcc_linux() {
 build_gcc() {
     trap 'pretty_error "An unexpected error occurred."' ERR
 
+    check_prerequisites
     get_user_input
     confirm_proceed
 
     cd "$SOURCE_DIR" || pretty_error "Failed to change to source directory $SOURCE_DIR."
-    clone_riscv_gcc_toolchain
+    if [ -d "$SOURCE_DIR/riscv-gnu-toolchain" ]; then
+        echo "Repository already exists. Skipping cloning."
+    else
+        clone_riscv_gcc_toolchain
+    fi
     checkout_gcc_branch
     
     build_gcc_baremetal
     build_gcc_linux
     
-    log_step "GCC build process completed"
-    complete_step "GCC build process"
-
     local total_end_time=$(date +%s)
     local total_duration=$((total_end_time - TOTAL_START_TIME))
-    echo -e "[`date`] - Total Duration: ${total_duration}s" | tee -a "$LOG_FILE"
+    echo -e "[$(date)] - GCC build process completed - Total Duration: ${total_duration}s" | tee -a "$LOG_FILE"
 }
 
 build_gcc "$@" | tee -a "$LOG_FILE"
