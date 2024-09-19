@@ -4,7 +4,9 @@
 #         Sofomo
 #         2024.03.19
 
-source ./sha.config
+if [ -f "./sha.config" ]; then
+    source ./sha.config
+fi
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 LOG_FILE="${TIMESTAMP}_build_llvm.log"

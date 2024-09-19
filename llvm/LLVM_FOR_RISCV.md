@@ -53,6 +53,7 @@ Clone the repository using SSH:
 
 ```bash
 git clone git@github.com:Condor-Performance-Modeling/how-to.git
+source how-to/env/setuprc.sh
 ```
 
 ## Use script to build LLVM
@@ -62,6 +63,7 @@ git clone git@github.com:Condor-Performance-Modeling/how-to.git
 To begin the setup process, navigate to the directory containing the build_llvm.sh script and execute it. This script automates the tasks of downloading, compiling, and installing the LLVM toolchain tailored for RISC-V development.
 
 ```bash
+cd $TOP
 bash how-to/llvm/build_llvm.sh
 ```
 
