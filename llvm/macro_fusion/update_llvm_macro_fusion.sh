@@ -1,20 +1,21 @@
 #!/bin/bash
 
-#Contact: Stan Iwan
-#         Sofomo
-#         2024.09.10
+# Contact: Stan Iwan
+#          Sofomo
+#          2024.09.10
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-LOG_FILE="${TIMESTAMP}_update_llvm_with_fusions.log"
+LOG_FILE="${TIMESTAMP}_update_llvm_with_fusion.log"
 
 source_dir=""
 build_dir=""
 fusion_definitions=""
 updated_build_dirs=()
 install_dirs=()
+auto_yes=false  # Default to false, becomes true if -y is used
 
 exit_with_usage() {
-    echo "Usage: $0 [-s source_dir] [-b build_dir] [-f fusion_definitions]"
+    echo "Usage: $0 [-s source_dir] [-b build_dir] [-f fusion_definitions] [-y]"
     exit 1
 }
 
@@ -22,7 +23,11 @@ verify_fusion_definitions() {
     echo
     if [[ -z "$fusion_definitions" ]]; then
         fusion_definitions="$(dirname "$0")/fusion_definitions"
-        read -p "Fusion definitions not provided. Use default at $fusion_definitions? [Y/n]: " use_default
+        if [[ "$auto_yes" = false ]]; then
+            read -p "Fusion definitions not provided. Use default at $fusion_definitions? [Y/n]: " use_default
+        else
+            use_default="Y"
+        fi
         use_default="${use_default:-Y}"
         if [[ ! "$use_default" =~ ^([yY][eE][sS]|[yY])$ ]]; then
             echo "No fusion definitions provided, and default declined."
@@ -40,7 +45,11 @@ verify_source_directory() {
     echo
     if [[ -z "$source_dir" ]]; then
         source_dir="$(pwd)/riscv-llvm"
-        read -p "Source directory not provided. Use default at $source_dir? [Y/n]: " use_default
+        if [[ "$auto_yes" = false ]]; then
+            read -p "Source directory not provided. Use default at $source_dir? [Y/n]: " use_default
+        else
+            use_default="Y"
+        fi
         use_default="${use_default:-Y}"
         if [[ ! "$use_default" =~ ^([yY][eE][sS]|[yY])$ ]]; then
             echo "No source directory provided, and default declined."
@@ -63,7 +72,11 @@ verify_build_directories() {
     if [[ -z "$build_dir" ]]; then
         build_dir_baremetal="$source_dir/_build_baremetal"
         build_dir_linux="$source_dir/_build_linux"
-        read -p "Build directories not provided. Use defaults ($build_dir_baremetal and $build_dir_linux)? [Y/n]: " use_default
+        if [[ "$auto_yes" = false ]]; then
+            read -p "Build directories not provided. Use defaults ($build_dir_baremetal and $build_dir_linux)? [Y/n]: " use_default
+        else
+            use_default="Y"
+        fi
         use_default="${use_default:-Y}"
         if [[ ! "$use_default" =~ ^([yY][eE][sS]|[yY])$ ]]; then
             echo "No build directories provided, and defaults declined."
@@ -88,7 +101,11 @@ confirm_paths() {
     echo "Fusion definitions: $fusion_definitions"
     echo "Source directory: $source_dir"
     echo "Build directories: ${build_dirs[*]}"
-    read -p "Do you want to continue with the above paths? [Y/n]: " confirm_continue
+    if [[ "$auto_yes" = false ]]; then
+        read -p "Do you want to continue with the above paths? [Y/n]: " confirm_continue
+    else
+        confirm_continue="Y"
+    fi
     confirm_continue="${confirm_continue:-Y}"
     if [[ ! "$confirm_continue" =~ ^([yY][eE][sS]|[yY])$ ]]; then
         echo "Execution canceled by user."
@@ -168,7 +185,7 @@ update_source_files() {
     echo "//MACRO_FUSION_AUTOMATIC_UPDATE" >> "$source_dir/llvm/lib/Target/RISCV/RISCVMacroFusion.td"
     cat "$fusion_definitions" >> "$source_dir/llvm/lib/Target/RISCV/RISCVMacroFusion.td"
 
-    # 4. Create the processor model without fusions (condor-cuzco-v1) and with fusions (condor-cuzco-v1-fusion)
+    # 4. Create the processor model without fusion (condor-cuzco-v1) and with fusion (condor-cuzco-v1-fusion)
     echo "" >> "$source_dir/llvm/lib/Target/RISCV/RISCVProcessors.td"
     echo "//MACRO_FUSION_AUTOMATIC_UPDATE" >> "$source_dir/llvm/lib/Target/RISCV/RISCVProcessors.td"
 
@@ -246,15 +263,17 @@ EOL
     echo "]>;" >> "$source_dir/llvm/lib/Target/RISCV/RISCVProcessors.td"
 }
 
-update_llvm_with_fusions() {
+update_llvm_with_fusion() {
     # Parse arguments
-    while getopts "s:b:f:" opt; do
+    while getopts "s:b:f:y" opt; do
         case $opt in
             s) source_dir="$OPTARG"
             ;;
             b) build_dir="$OPTARG"
             ;;
             f) fusion_definitions="$OPTARG"
+            ;;
+            y) auto_yes=true
             ;;
             \?) echo "Invalid option -$OPTARG" >&2
                 exit_with_usage
@@ -273,7 +292,7 @@ update_llvm_with_fusions() {
     # If everything is verified, update source and perform builds
     update_source_files "$source_dir" "$fusion_definitions"
     for dir in "${build_dirs[@]}"; do
-        echo "Updating LLVM with fusions for build directory: $dir"
+        echo "Updating LLVM with fusion groups for build directory: $dir"
         perform_build "$dir"
     done
 
@@ -286,7 +305,7 @@ update_llvm_with_fusions() {
         echo "Install Directory: ${install_dirs[$i]}"
     done
     echo
-    echo "LLVM update with macro fusions completed successfully."
+    echo "LLVM update with macro fusion groups completed successfully."
 }
 
-update_llvm_with_fusions "$@" 2>&1 | tee -a "$LOG_FILE"
+update_llvm_with_fusion "$@" 2>&1 | tee -a "$LOG_FILE"

@@ -1,26 +1,26 @@
 # Macro Fusion in LLVM for RISC-V
 
-Macro fusion is a performance optimization where specific instruction pairs are combined for more efficient execution, particularly useful in the RISC-V architecture. The LLVM compiler can be customized to support macro fusion through the modification of relevant target description files and by defining fusion rules in the `RISCVMacroFusion.td` file.
+Macro fusion is a performance optimization where specific instruction pairs are combined for more efficient execution. The LLVM compiler can be customized to support macro fusion through the modification of relevant target description files and by defining fusion rules in the `RISCVMacroFusion.td` file.
 
 For detailed instructions on configuring and enabling macro fusion in LLVM, please refer to the `LLVM_FOR_RISCV.md` file located in the **how-to** repository.
 
-## How Fusions Defined in `.td` Files Get Applied
+## How Fusion Tuples Defined in `.td` Files Get Applied
 
-Fusions defined in `.td` files, like `RISCVMacroFusion.td`, are used to optimize instruction scheduling in the LLVM compilation process. These fusions are integrated through the auto-generated `RISCVGenMacroFusion.inc` and `RISCVGenSubtargetInfo.inc` files, which are built using the `TableGen` tool via the `RISCVCommonTableGen` target. This file contains important functionality for handling various processor-specific features, including macro fusion.
+Fusion tuples defined in `.td` files, like `RISCVMacroFusion.td`, are used to optimize instruction scheduling in the LLVM compilation process. These fusion groups are integrated through the auto-generated `RISCVGenMacroFusion.inc` and `RISCVGenSubtargetInfo.inc` files, which are built using the `TableGen` tool via the `RISCVCommonTableGen` target. This file contains important functionality for handling various processor-specific features, including macro fusion.
 
-The core of the fusion application process lies in the `getMacroFusions()` function within the `RISCVGenSubtargetInfo` class, which is declared in the generated `RISCVGenSubtargetInfo.inc` file. This function collects all the macro fusion predicates that are enabled for the target processor based on its features. These predicates are added to a list of fusions that will be applied during the scheduling phase. All predicates used by `getMacroFusions()` function are defined in the `RISCVGenMacroFusion.inc` file.
+The core of the fusion application process lies in the `getMacroFusions()` function within the `RISCVGenSubtargetInfo` class, which is declared in the generated `RISCVGenSubtargetInfo.inc` file. This function collects all the macro fusion predicates that are enabled for the target processor based on its features. These predicates are added to a list of fusion tuples that will be applied during the scheduling phase. All predicates used by `getMacroFusions()` function are defined in the `RISCVGenMacroFusion.inc` file.
 
 The `getMacroFusions()` function is called within `RISCVSubtarget.cpp` via the `getPostRAMutations()` method, which appends a fusion mutation to the instruction scheduler by calling `createMacroFusionDAGMutation()`. This setup allows LLVM to apply the appropriate fusion rules during instruction scheduling, optimizing the placement and pairing of instructions based on the target architecture's capabilities, as defined in the `.td` files and processed through `RISCVGenSubtargetInfo.inc`.
 
 Additionally, `RISCVGenSubtargetInfo.inc` contains processor-specific definitions, which allow LLVM to handle various aspects of the scheduling process. These processor definitions include configurations for resources, buffer sizes, issue width, and scheduling models.
 
-## Multiple Instructions Fusions
+## Multiple Instructions Fusion
 
-In LLVM's current implementation, RISC-V relies on the `SimpleFusion` class defined in `TargetMacroFusion.td` to enable macro fusion for two instructions at a time. This design hinges on the concept of "fusion targets"—specifically, first and second instruction targets—evaluated through predicates defined using `FusionPredicate`. These predicates check conditions such as opcode matching, operand values, and register usage, ensuring the fusion process is both valid and beneficial.
+In LLVM's current implementation (`20.0.0git`), RISC-V relies on the `SimpleFusion` class defined in `TargetMacroFusion.td` to enable macro fusion for two instructions at a time. This design hinges on the concept of "fusion targets"—specifically, first and second instruction targets—evaluated through predicates defined using `FusionPredicate`. These predicates check conditions such as opcode matching, operand values, and register usage, ensuring the fusion process is both valid and beneficial.
 
-However, LLVM currently only supports chaining two instructions together due to limitations in its `MacroFusion.cpp` implementation, where an assertion prevents more than two instructions from being fused. If more complex fusion patterns involving multiple instructions were to be implemented, significant changes to the scheduling mechanism and fusion dependency tracking would be required. The assertion in the `MacroFusion.cpp` file—"Currently we only support chaining together two instructions"—highlights this constraint. Although theoretically possible, expanding fusion to handle more than two instructions would necessitate creating artificial edges in the scheduling DAG to prevent improper instruction reordering, ensuring correct execution of chained fusions.
+However, LLVM currently only supports chaining two instructions together due to limitations in its `MacroFusion.cpp` implementation, where an assertion prevents more than two instructions from being fused. If more complex fusion patterns involving multiple instructions were to be implemented, significant changes to the scheduling mechanism and fusion dependency tracking would be required. The assertion in the `MacroFusion.cpp` file—"Currently we only support chaining together two instructions"—highlights this constraint. Although theoretically possible, expanding fusion to handle more than two instructions would necessitate creating artificial edges in the scheduling DAG to prevent improper instruction reordering, ensuring correct execution of chained fusion groups.
 
-`MacroFusion.cpp` has this TODO related to multiple instructions fusions
+`MacroFusion.cpp` has this TODO related to multiple instructions fusion
 
 ```cpp
   // TODO - If we want to chain more than two instructions, we need to create
@@ -32,7 +32,7 @@ However, LLVM currently only supports chaining two instructions together due to 
          "Currently we only support chaining together two instructions");
 ```
 
-## How Fusions Are Applied
+## How Fusion Tuples Are Applied
 
 In LLVM, macro fusion is applied during the instruction scheduling phase using the `fuseInstructionPair` function, which attempts to fuse two instructions into a single operation. This process is managed in the `MacroFusion.cpp` file, where the function `fuseInstructionPair` plays a central role in identifying valid instruction pairs and modifying the scheduling Directed Acyclic Graph (DAG) to reflect the fusion.
 
@@ -51,8 +51,6 @@ The `fuseInstructionPair` function works as follows:
 6. **Scheduling Priority**: Once fused, the instructions are given higher scheduling priority, ensuring that they remain adjacent in the instruction stream and that their fused execution can occur without interference from other instructions.
 
 Through these steps, `fuseInstructionPair` ensures that the target instructions are correctly paired and fused during the scheduling process. The result is a more efficient execution pipeline, with fused instruction pairs executing as a single micro-operation. However, this is limited to two instructions at a time in the current implementation, as reflected in the assertion within the code.
-
-This fusion mechanism is particularly beneficial in architectures like RISC-V, where certain pairs of instructions, such as load and arithmetic operations, can be fused to reduce execution time and improve overall performance.
 
 ## MatInt and Other Processor Features
 

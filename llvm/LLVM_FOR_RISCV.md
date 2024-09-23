@@ -107,22 +107,18 @@ This will produce `hello.stats` file with llvm statistics for your compilation.
 
 ## Fusion Exploration with LLVM Compiler
 
-Macro fusion is a hardware optimization technique where certain pairs of instructions are fused together to execute more efficiently. This can lead to performance improvements without changing the existing Instruction Set Architecture (ISA). By defining preferred instruction pairs and hinting the compiler, we can increase the effectiveness of internal fusion hardware.
-
 ### Fusion Exploration Prerequisites
 
-Steps presented below expect that you have already build the LLVM on Linux for RISC-V 64-bit Cross-Compilation using `how-to/llvm/build_llvm.sh` and want to tweak it by adding new fusion predicator. You can find instructions on how to build the LLVM [here](#building-llvm-on-linux-for-risc-v-64-bit-cross-compilation).
-
-*Optionally, you can modify all `.td` files mentioned below in your LLVM source directory and build it by running `cmake` with desired configuration in your LLVM build directory, then `make` and `make install`.*
+Steps presented below expect that you have already build the LLVM on Linux for RISC-V 64-bit Cross-Compilation using `how-to/llvm/build_llvm.sh` and wish to add fusion tuple definitions. You can find instructions on how to build the LLVM [here](#building-llvm-on-linux-for-risc-v-64-bit-cross-compilation).
 
 ### Automating Fusion Integration with Script
 
 For convenience, you can automatically update your LLVM build to include a predefined set of macro fusion predicators by running a provided script. This script is located in under `how-to/llvm/macro_fusion`.
 
-If you have selected the default paths when running `build_llvm.sh` script, to update LLVM with these predefined fusions, simply execute the following command in the directory you've run `build_llvm.sh` in:
+If you have selected the default paths when running `build_llvm.sh` script, to update LLVM with these predefined fusion groups, simply execute the following command in the directory you've run `build_llvm.sh` in:
 
 ```bash
-bash how-to/llvm/macro_fusion/update_llvm_macro_fusions.sh
+bash how-to/llvm/macro_fusion/update_llvm_macro_fusion.sh
 ```
 
 Running this script will update the necessary LLVM source files with the predefined fusion definitions and automatically rebuild and install the updated LLVM components for both Baremetal and Linux installations. After it succeeds you can run LLVM tools with `-mcpu='help'` argument to verify if new processor target (`condor-cuzco-v1` and `condor-cuzco-v1-fusion`) is visible on the list.
@@ -135,7 +131,7 @@ Running this script will update the necessary LLVM source files with the predefi
 If you have used custom paths when running `build_llvm.sh` you need to manually update both Baremetal and Linux installations by running the update script twice (once for Baremetal and once for Linux) with arguments:
 
 ```bash
-bash how-to/llvm/macro_fusion/update_llvm_macro_fusions.sh -s [source_dir] -b [build_dir]
+bash how-to/llvm/macro_fusion/update_llvm_macro_fusion.sh -s [source_dir] -b [build_dir]
 ```
 
 - `source_dir`: Path to your LLVM source directory.
@@ -145,9 +141,9 @@ You can also use the script with your own fusion definitions by using `-f [fusio
 
 - `fusion_definitions`: Path to the file containing predefined fusion predicates (already included in the `how-to/llvm/macro_fusion` directory).
 
-### Compile code with fusions enabled
+### Compile code with fusion enabled
 
- To compile code using processor definition with enabled fusion that was added using `update_llvm_macro_fusions.sh`, use the `-mcpu` or `-mtune` option with LLVM tools and provide processor name `condor-cuzco-v1` (example):
+ To compile code using processor definition with enabled fusion that was added using `update_llvm_macro_fusion.sh`, use the `-mcpu` or `-mtune` option with LLVM tools and provide processor name `condor-cuzco-v1` (example):
 
   ```bash
   [PATH_TO_YOUR_LLVM_INSTALL]/bin/clang -mcpu=condor-cuzco-v1 -o output.o input.c
@@ -155,7 +151,7 @@ You can also use the script with your own fusion definitions by using `-f [fusio
 
 ## Add new fusion predicator to `RISCVMacroFusion.td`
 
-Fusions are defined in the `llvm/lib/Target/RISCV/RISCVMacroFusion.td` file. Each fusion predicator is defined using the `SimpleFusion` template. The definition includes:
+Fusion tuples are defined in the `llvm/lib/Target/RISCV/RISCVMacroFusion.td` file. Each fusion predicator is defined using the `SimpleFusion` template. The definition includes:
 
 1. **Name and Feature Strings:**
    - A unique name for the fusion (e.g., `"lui-addi-fusion"`).
