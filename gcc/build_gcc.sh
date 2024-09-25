@@ -4,6 +4,13 @@
 #         Sofomo
 #         2024.09.16
 
+# Conditionally source sha.config if it exists in the script's directory
+if [ -f "$(dirname "$0")/sha.config" ]; then
+    source "$(dirname "$0")/sha.config"
+else
+    echo "sha.config not found. Skipping..."
+fi
+
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 LOG_FILE="${TIMESTAMP}_build_gcc.log"
 START_TIME=$(date +%s)
@@ -45,7 +52,7 @@ check_prerequisites() {
 get_user_input() {
     log_step "Install Path Setup"
 
-    echo "Enter the source directory where the repository should be cloned (default is $(pwd)):"
+    echo "Enter the source directory where the repository should be cloned (default is $(pwd)/riscv-gnu-toolchain):"
     read -r SOURCE_DIR
     SOURCE_DIR=${SOURCE_DIR:-$(pwd)}
 
@@ -57,7 +64,7 @@ get_user_input() {
     read -r LINUX_INSTALL_PATH
     LINUX_INSTALL_PATH=${LINUX_INSTALL_PATH:-$(pwd)/gcc-linux}
 
-    echo "Source Directory: $SOURCE_DIR"
+    echo "Source Directory: $SOURCE_DIR/riscv-gnu-toolchain"
     echo "Baremetal Install Path: $BAREMETAL_INSTALL_PATH"
     echo "Linux Install Path: $LINUX_INSTALL_PATH"
     echo
@@ -77,6 +84,8 @@ clone_riscv_gcc_toolchain() {
     log_step "Cloning RISC-V GCC Toolchain"
     
     git clone --recursive https://github.com/riscv/riscv-gnu-toolchain || pretty_error "Failed to clone RISC-V GNU Toolchain."
+    cd riscv-gnu-toolchain || pretty_error "Failed to change directory to riscv-gnu-toolchain."
+    git checkout $RISCV_GNU_TOOLCHAIN_COMMIT_SHA || pretty_error "Failed to checkout specified commit for RISC-V GNU Toolchain."
 
     complete_step "Cloning RISC-V GCC Toolchain"
 }
