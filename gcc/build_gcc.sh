@@ -90,6 +90,22 @@ clone_riscv_gcc_toolchain() {
     complete_step "Cloning RISC-V GCC Toolchain"
 }
 
+verify_repository_clone() {
+    log_step "Verifying RISC-V GNU Toolchain clone and commit"
+
+    if [ ! -d "$SOURCE_DIR/riscv-gnu-toolchain" ]; then
+        pretty_error "Repository does not exist. Cloning was not successful."
+    fi
+    
+    cd "$SOURCE_DIR/riscv-gnu-toolchain" || pretty_error "Failed to enter riscv-gnu-toolchain directory."
+    CURRENT_COMMIT=$(git rev-parse HEAD)
+    if [ "$CURRENT_COMMIT" != "$RISCV_GNU_TOOLCHAIN_COMMIT_SHA" ]; then
+        pretty_error "Cloned repository is not at the correct commit SHA. Expected: $RISCV_GNU_TOOLCHAIN_COMMIT_SHA, but got: $CURRENT_COMMIT."
+    fi
+
+    complete_step "Verified RISC-V GNU Toolchain clone and commit"
+}
+
 checkout_gcc_branch() {
     log_step "Checking out gcc-14 branch in riscv-gnu-toolchain/gcc"
 
@@ -133,9 +149,11 @@ build_gcc() {
 
     cd "$SOURCE_DIR" || pretty_error "Failed to change to source directory $SOURCE_DIR."
     if [ -d "$SOURCE_DIR/riscv-gnu-toolchain" ]; then
-        echo "Repository already exists. Skipping cloning."
+        echo "Repository already exists. Verifying..."
+        verify_repository_clone
     else
         clone_riscv_gcc_toolchain
+        verify_repository_clone
     fi
     checkout_gcc_branch
     
