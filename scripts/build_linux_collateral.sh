@@ -25,7 +25,7 @@ wget --no-check-certificate -nc \
         https://git.kernel.org/torvalds/t/linux-5.8-rc4.tar.gz
 tar -xf linux-5.8-rc4.tar.gz
 make -C linux-5.8-rc4 ARCH=riscv defconfig
-make -C linux-5.8-rc4 ARCH=riscv -j$(nproc)
+make -C linux-5.8-rc4 ARCH=riscv -j$(nproc) CFLAGS="-march=rv64imafdc_zicsr_zifencei"
 mkdir -p $TOOLS/riscv-linux
 cp linux-5.8-rc4/arch/riscv/boot/Image $TOOLS/riscv-linux/Image
 
