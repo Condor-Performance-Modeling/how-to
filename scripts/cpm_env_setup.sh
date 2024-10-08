@@ -153,6 +153,10 @@ set_up_cpm_environment() {
         echo "Keeping progress file as requested."
     fi
 
+    if grep -iq "error" "$LOG_FILE"; then
+        echo "WARNING: There were possible errors during the process. Please check the log file: $LOG_FILE"
+    fi
+
     echo "Please continue with the README section: Boot Linux on CPM Dromajo."
 }
 
