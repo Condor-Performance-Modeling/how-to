@@ -12,11 +12,11 @@ mkdir -p $TOOLS/riscv-linux
 # Double check the links to the cross compilers
 
 if [ ! -L riscv64-unknown-elf ]; then
-  ln -sfv /tools/riscv64-unknown-elf
+  ln -sfv /data/tools/riscv-embecosm-embedded-ubuntu2204-20240407-14.0.1 riscv64-unknown-elf
 fi
 
 if [ ! -L riscv64-unknown-linux-gnu ]; then
-  ln -sfv /tools/riscv64-unknown-linux-gnu
+  ln -sfv /data/tools/riscv64-embecosm-linux-gcc-ubuntu2204-20240407-14.0.1 riscv64-unknown-linux-gnu
 fi
 
 # Build the kernel
@@ -25,7 +25,7 @@ wget --no-check-certificate -nc \
         https://git.kernel.org/torvalds/t/linux-5.8-rc4.tar.gz
 tar -xf linux-5.8-rc4.tar.gz
 make -C linux-5.8-rc4 ARCH=riscv defconfig
-make -C linux-5.8-rc4 ARCH=riscv -j$(nproc)
+make -C linux-5.8-rc4 ARCH=riscv -j$(nproc) CFLAGS="-march=rv64imafdc_zicsr_zifencei"
 mkdir -p $TOOLS/riscv-linux
 cp linux-5.8-rc4/arch/riscv/boot/Image $TOOLS/riscv-linux/Image
 
