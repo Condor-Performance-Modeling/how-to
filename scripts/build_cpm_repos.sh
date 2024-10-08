@@ -28,7 +28,7 @@ mkdir -p $TOOLS/riscv-linux
 if ! [ -d "$CAM" ]; then
 {
   echo "-W: cam does not exist, cloning repo."
-  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/cam.git"
+  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/cam.git" "cam" "--recurse-submodules"
 }
 fi
 
@@ -48,7 +48,7 @@ cd $TOP
 if ! [ -d "cpm.dromajo" ]; then
 {
   echo "-W: cpm.dromajo does not exist, cloning repo."
-  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/dromajo.git" "cpm.dromajo"
+  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/dromajo.git" "cpm.dromajo" "--recurse-submodules"
 }
 fi
 
@@ -98,11 +98,11 @@ fi
 
 # Utils
 if [ ! -d utils ]; then
-  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/utils.git"
+  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/utils.git" "utils" "--recurse-submodules"
 fi
-if [ -d utils ]; then
-  cd utils
-  git submodule update --init --recursive
-  cd ..
-fi
+#if [ -d utils ]; then
+#  cd utils
+#  git submodule update --init --recursive
+#  cd ..
+#fi
 
