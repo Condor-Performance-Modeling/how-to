@@ -68,7 +68,7 @@ idea to use your home directory due to size limits.
 ```
 cd /data/users/$USER              # or your preferred workspace
 mkdir condor; cd condor
-git clone git@github.com:Condor-Performance-Modeling/how-to.git
+git clone https://github.com/Condor-Performance-Modeling/how-to.git
 source how-to/env/setuprc.sh
 echo $TOP                         # this should not be empty
 ```

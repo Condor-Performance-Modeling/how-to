@@ -39,6 +39,11 @@ git checkout map_v2
 echo "Creating the Sparta Conda environment..."
 ./scripts/create_conda_env.sh sparta dev
 
+if [ $? -ne 0 ]; then
+    echo "create_conda_env.sh failed, running fallback command"
+    conda env create -f scripts/rendered_safe_environment.yaml
+fi
+
 echo "Setup process completed."
 echo "Please activate the 'sparta' environment by running: conda activate sparta"
 
