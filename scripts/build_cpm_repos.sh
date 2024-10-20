@@ -33,6 +33,7 @@ if ! [ -d "$CAM" ]; then
 fi
 
 cd $CAM;
+git submodule update --init --recursive
 
 mkdir -p release; cd release
 cmake .. -DCMAKE_BUILD_TYPE=Release
