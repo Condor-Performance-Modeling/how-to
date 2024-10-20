@@ -18,7 +18,8 @@ clone_repository_with_retries() {
     fi
 
     if [ -d "$target_folder" ]; then
-        local backup_folder="${target_folder}_old"
+        local timestamp=$(date +%Y%m%d_%H%M%S)
+        local backup_folder="${target_folder}_old_$timestamp"
         echo "Repository directory '$target_folder' already exists. Renaming to '$backup_folder'."
         mv "$target_folder" "$backup_folder"
     fi
@@ -27,8 +28,10 @@ clone_repository_with_retries() {
         echo "Attempt $attempt to clone $repo_url"
         
         if [[ -n "$custom_folder_name" ]]; then
+            echo "Running: git clone $clone_options \"$repo_url\" \"$custom_folder_name\""
             git clone $clone_options "$repo_url" "$custom_folder_name"
         else
+            echo "Running: git clone $clone_options \"$repo_url\""
             git clone $clone_options "$repo_url"
         fi
 
