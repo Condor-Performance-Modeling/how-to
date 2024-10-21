@@ -6,6 +6,9 @@ set -e
 #         Sofomo
 #         2024.04.09
 
+TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+LOG_FILE="${TIMESTAMP}_conda_env_setup.log"
+
 if [[ -z "$TOP" ]] || [[ -z "$MAP" ]]; then
     echo "One or more required environment variables (TOP, MAP) are not set."
     echo "To set the required environment variables, cd into your work area and run: source how-to/env/setuprc.sh"
@@ -27,25 +30,31 @@ elif [[ "$CONDA_DEFAULT_ENV" != "base" ]]; then
     exit 1
 fi
 
-echo "Installing conda-forge packages..."
-conda install -c conda-forge jq yq -y
+set_up_conda_environment() {
 
-echo "Cloning the MAP repository..."
-cd $TOP
-clone_repository_with_retries "https://github.com/sparcians/map.git"
+    echo "Installing conda-forge packages..."
+    conda install -c conda-forge jq yq -y
 
-echo "Checking out the map_v2 branch..."
-cd $MAP
-git checkout map_v2
+    echo "Cloning the MAP repository..."
+    cd $TOP
+    clone_repository_with_retries "https://github.com/sparcians/map.git"
 
-echo "Creating the Sparta Conda environment..."
-./scripts/create_conda_env.sh sparta dev
+    echo "Checking out the map_v2 branch..."
+    cd $MAP
+    git checkout map_v2
 
-if [ $? -ne 0 ]; then
-    echo "create_conda_env.sh failed, running fallback command"
-    conda env create -f scripts/rendered_safe_environment.yaml
-fi
+    echo "Creating the Sparta Conda environment..."
+    ./scripts/create_conda_env.sh sparta dev
 
-echo "Setup process completed."
-echo "Please activate the 'sparta' environment by running: conda activate sparta"
+    if [ $? -ne 0 ]; then
+        echo "create_conda_env.sh failed, running fallback command"
+        conda env create -f scripts/rendered_safe_environment.yaml
+    fi
+
+    echo "Setup process completed."
+    echo "Please activate the 'sparta' environment by running: conda activate sparta"
+
+}
+
+set_up_conda_environment "$@" 2>&1 | tee -a "$LOG_FILE"
 
