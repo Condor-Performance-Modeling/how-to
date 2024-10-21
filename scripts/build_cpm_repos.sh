@@ -72,11 +72,11 @@ cp dromajo $TOOLS/bin/cpm_simpoint_dromajo
 # Sym link the cross compilers
 # -------------------------------------------------------
 if [ ! -L riscv64-unknown-elf ]; then
-  ln -sfv /tools/riscv64-unknown-elf
+  ln -sfv /data/tools/riscv64-unknown-elf
 fi
 
 if [ ! -L riscv64-unknown-linux-gnu ]; then
-  ln -sfv /tools/riscv64-unknown-linux-gnu
+  ln -sfv /data/tools/riscv64-unknown-linux-gnu
 fi
 
 # -------------------------------------------------------

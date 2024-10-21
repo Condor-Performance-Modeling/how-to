@@ -459,8 +459,8 @@ If necessary create links to the cross compilers
 
 ```
   cd $TOP
-  ln -s /tools/riscv64-unknown-elf
-  ln -s /tools/riscv64-unknown-linux-gnu
+  ln -s /data/tools/riscv64-unknown-elf
+  ln -s /data/tools/riscv64-unknown-linux-gnu
 ```
 
 ## PATH check
@@ -497,11 +497,11 @@ mkdir -p $TOOLS/riscv-linux
 # Double check the links to the cross compilers
 
 if [ ! -L riscv64-unknown-elf ]; then
-  ln -s /tools/riscv64-unknown-elf
+  ln -s /data/tools/riscv64-unknown-elf
 fi
 
 if [ ! -L riscv64-unknown-linux-gnu ]; then
-  ln -s /tools/riscv64-unknown-linux-gnu
+  ln -s /data/tools/riscv64-unknown-linux-gnu
 fi
 
 wget --no-check-certificate -nc \
@@ -646,11 +646,11 @@ cp dromajo $TOOLS/bin/cpm_simpoint_dromajo
 # Sym link the cross compilers
 # -------------------------------------------------------
 if [ ! -L riscv64-unknown-elf ]; then
-  ln -s /tools/riscv64-unknown-elf
+  ln -s /data/tools/riscv64-unknown-elf
 fi
 
 if [ ! -L riscv64-unknown-linux-gnu ]; then
-  ln -s /tools/riscv64-unknown-linux-gnu
+  ln -s /data/tools/riscv64-unknown-linux-gnu
 fi
 
 # -------------------------------------------------------
@@ -736,7 +736,7 @@ cp $TOOLS/riscv-linux/* $CPM_DROMAJO/run
 cp $PATCHES/cpm.boot.cfg  $CPM_DROMAJO/run
 
 cd $CPM_DROMAJO/run
-$TOOLS/bin/cpm_dromajo --ctrlc --stf_essential_mode --stf_priv_modes USHM --stf_trace example.stf boot.cfg
+$TOOLS/bin/cpm_dromajo --ctrlc --stf_priv_modes USHM --stf_trace example.stf boot.cfg
 ```
 
 <!--
