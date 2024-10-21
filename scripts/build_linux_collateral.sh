@@ -1,5 +1,7 @@
 #! /bin/bash
 
+set -e
+
 if [[ -z "${CONDOR_TOP}" ]]; then
   { echo "CONDOR_TOP is undefined, execute 'source how-to/env/setuprc.sh'"; exit 1; }
 fi

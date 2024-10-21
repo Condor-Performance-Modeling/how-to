@@ -72,6 +72,10 @@ git clone https://github.com/Condor-Performance-Modeling/how-to.git
 source how-to/env/setuprc.sh
 echo $TOP                         # this should not be empty
 ```
+NOTE: If you are developing contents of the how-to repo it is easier to start with the ssh version of git clone
+```
+git clone git@github.com:Condor-Performance-Modeling/how-to.git
+```
 
 # Boot strapping the environment
 
