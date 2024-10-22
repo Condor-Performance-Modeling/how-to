@@ -4,11 +4,11 @@ set -e
 # Sym link the cross compilers
 # -------------------------------------------------------
 if [ ! -L riscv64-unknown-elf ]; then
-  ln -s /tools/riscv64-unknown-elf
+  ln -s /data/tools/riscv64-unknown-elf
 fi
 
 if [ ! -L riscv64-unknown-linux-gnu ]; then
-  ln -s /tools/riscv64-unknown-linux-gnu
+  ln -s /data/tools/riscv64-unknown-linux-gnu
 fi
 
 # -------------------------------------------------------

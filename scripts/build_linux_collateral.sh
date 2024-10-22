@@ -14,11 +14,11 @@ mkdir -p $TOOLS/riscv-linux
 # Double check the links to the cross compilers
 
 if [ ! -L riscv64-unknown-elf ]; then
-  ln -sfv /tools/riscv64-unknown-elf
+  ln -sfv /data/tools/riscv64-unknown-elf
 fi
 
 if [ ! -L riscv64-unknown-linux-gnu ]; then
-  ln -sfv /tools/riscv64-unknown-linux-gnu
+  ln -sfv /data/tools/riscv64-unknown-linux-gnu
 fi
 
 # Build the kernel
