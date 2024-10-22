@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 #Contact: Stan Iwan
 #         Sofomo
 #         2024.04.09
