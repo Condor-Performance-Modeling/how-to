@@ -85,7 +85,12 @@ set_up_cpm_environment() {
         cd $TOP
         ln -fs /data/tools/riscv-embecosm-embedded-ubuntu2204-20240407-14.0.1 riscv64-unknown-elf
         ln -fs /data/tools/riscv64-embecosm-linux-gcc-ubuntu2204-20240407-14.0.1 riscv64-unknown-linux-gnu
+        
         export PATH=$RV_LINUX_TOOLS/bin:$PATH
+        if [ $? -ne 0 ]; then
+            echo "Failed to update PATH with $RV_LINUX_TOOLS"
+            exit 1
+        fi
         export CROSS_COMPILE=riscv64-unknown-linux-gnu-
 
         update_progress "cross_compilers_and_tools_checked"
