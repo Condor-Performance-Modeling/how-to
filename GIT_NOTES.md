@@ -41,6 +41,15 @@ perf modeling environment and provide instructions on how to use it.
     1. [How to init a repo with submodules](#how-to-init-a-repo-with-submodules)
 
 
+1. [Submodules](#submodules)
+
+    1. [How to add and initialize a submodule](#how-to-add-and-initialize-a-submodule)
+
+    1. [How to remove a submodule](#how-to-remove-a-submodule)
+
+    1. [How to point a submodule to a specific branch or commit](#how-to-point-a-submodule-to-a-specific-branch-or-commit)
+
+
 1. [Pull reguests](#pull-requests)
 
     1. [How to create a PR](#how-to-create-a-pr)
@@ -165,6 +174,71 @@ git push -u origin <branch name>
 <cd into the repo>
 git submodule update --init --recursive
 ```
+
+## Submodules
+
+### How to add and initialize a submodule
+
+To add a new submodule to your repository, use the following command:
+
+```bash
+git submodule add <repository_url> <submodule_directory>
+```
+
+This will add the submodule to your repository in the specified directory. To initialize the submodule after adding it:
+
+```bash
+git submodule update --init --recursive
+```
+
+### How to remove a submodule
+
+To remove a submodule from your repository, follow these steps:
+
+Remove the submodule entry from the `.gitmodules` file:
+
+```bash
+git rm --cached <submodule_directory>
+```
+
+Remove the submodule configuration from the `.git/config` file:
+
+```bash
+git config -f .git/config --remove-section submodule.<submodule_directory>
+```
+
+Delete the submodule directory from your working tree:
+
+```bash
+rm -rf <submodule_directory>
+```
+
+Commit the changes to your repository.
+
+### How to point a submodule to a specific branch or commit
+
+To update a submodule to track a specific branch or commit, follow these steps:
+
+Navigate to the submodule directory:
+
+```bash
+cd <submodule_directory>
+```
+
+To check out a specific branch/commit, run:
+
+```bash
+git checkout <branch_name>/<commit_hash>
+```
+
+Return to the main repository and stage the changes to update the submodule reference:
+
+```bash
+cd ..
+git add <submodule_directory>
+```
+
+Commit the changes in the main repository and push them to the remote repository.
 
 ## Pull requests
 
