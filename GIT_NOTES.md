@@ -195,10 +195,10 @@ git submodule update --init --recursive
 
 To remove a submodule from your repository, follow these steps:
 
-Remove the submodule entry from the `.gitmodules` file:
+Delete the relevant section from the .gitmodules file. Stage the .gitmodules changes:
 
 ```bash
-git rm --cached <submodule_directory>
+git add .gitmodules
 ```
 
 Remove the submodule configuration from the `.git/config` file:
@@ -207,13 +207,29 @@ Remove the submodule configuration from the `.git/config` file:
 git config -f .git/config --remove-section submodule.<submodule_directory>
 ```
 
+Remove the submodule entry from the `.gitmodules` file:
+
+```bash
+git rm --cached <submodule_directory>
+```
+
+Remove the submodule's `.git` directory:
+
+```bash
+rm -rf .git/modules/path_to_submodule
+```
+
+Commit the changes:
+
+```bash
+git commit -m "Removed submodule <name>"
+```
+
 Delete the submodule directory from your working tree:
 
 ```bash
 rm -rf <submodule_directory>
 ```
-
-Commit the changes to your repository.
 
 ### How to point a submodule to a specific branch or commit
 
