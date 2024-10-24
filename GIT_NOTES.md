@@ -41,6 +41,15 @@ perf modeling environment and provide instructions on how to use it.
     1. [How to init a repo with submodules](#how-to-init-a-repo-with-submodules)
 
 
+1. [Submodules](#submodules)
+
+    1. [How to add and initialize a submodule](#how-to-add-and-initialize-a-submodule)
+
+    1. [How to remove a submodule](#how-to-remove-a-submodule)
+
+    1. [How to point a submodule to a specific branch or commit](#how-to-point-a-submodule-to-a-specific-branch-or-commit)
+
+
 1. [Pull reguests](#pull-requests)
 
     1. [How to create a PR](#how-to-create-a-pr)
@@ -165,6 +174,79 @@ git push -u origin <branch name>
 <cd into the repo>
 git submodule update --init --recursive
 ```
+
+## Submodules
+
+### How to add and initialize a submodule
+
+To add a new submodule to your repository, use the following command:
+
+```bash
+git submodule add <repository_url> <submodule_directory>
+```
+
+This will add the submodule to your repository in the specified directory. To initialize the submodule after adding it:
+
+```bash
+git submodule update --init --recursive
+```
+
+### How to remove a submodule
+
+To remove a submodule from your repository, follow these steps:
+
+Delete the relevant section from the .gitmodules file. Stage the .gitmodules changes:
+
+```bash
+git add .gitmodules
+```
+
+Remove the submodule configuration from the `.git/config` file:
+
+```bash
+git config -f .git/config --remove-section submodule.<submodule_directory>
+```
+
+Remove the submodule entry from the `.gitmodules` file:
+
+```bash
+git rm --cached <submodule_directory>
+```
+
+Remove the submodule's `.git` directory:
+
+```bash
+rm -rf .git/modules/path_to_submodule
+```
+
+Commit the changes:
+
+```bash
+git commit -m "Removed submodule <name>"
+```
+
+Delete the submodule directory from your working tree:
+
+```bash
+rm -rf <submodule_directory>
+```
+
+### How to point a submodule to a specific branch or commit
+
+To check out a specific commit, navigate to the submodule directory and run:
+
+```bash
+cd <submodule_directory>
+git checkout <commit_hash>
+```
+
+To check out a specific branch, add `branch=<branch_name>` to your submodule entry in `.gitmodules`. Then run:
+
+```bash
+git submodule update --init --recursive
+```
+
+Commit the changes in the main repository and push them to the remote repository.
 
 ## Pull requests
 
