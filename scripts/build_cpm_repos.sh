@@ -106,4 +106,5 @@ fi
 #  git submodule update --init --recursive
 #  cd ..
 #fi
-
+cd utils
+make -j$(nproc)
