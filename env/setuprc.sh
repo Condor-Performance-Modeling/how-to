@@ -57,9 +57,11 @@ unset RV_LINUX_TOOLS; export RV_LINUX_TOOLS=$TOP/riscv64-unknown-linux-gnu
 
 # This var points to the gnu bare metal tool chain install directory.
 unset RV_GNU_BAREMETAL_TOOLS; export RV_GNU_BAREMETAL_TOOLS=/data/tools/riscv64-unknown-elf
+unset RISCV; export RISCV=$RV_GNU_BAREMETAL_TOOLS
 
 # This var points to the gnu linux tool chain install directory.
 unset RV_GNU_LINUX_TOOLS; export RV_GNU_LINUX_TOOLS=/data/tools/riscv64-unknown-linux-gnu
+unset RISCV_LINUX; export RISCV_LINUX=$RV_GNU_LINUX_TOOLS
 
 # This var points to the llvm bare metal install directory.
 unset RV_LLVM_BAREMETAL_TOOLS; export RV_LLVM_BAREMETAL_TOOLS=/data/tools/riscv64-llvm-baremetal
@@ -99,9 +101,6 @@ unset TRACELIB; export TRACELIB=/data/tracelib
 unset CPM_ENV; #deprecated export CPM_ENV=$TOP/how-to/env
 # ------------------------------------------------------------------------
 unset RV_TOOLS_SRC; #deprecated export RV_TOOLS_SRC=$TOP/riscv-gnu-toolchain
-# ------------------------------------------------------------------------
-#Unset this, it is handled in the makefiles
-unset RISCV; #export RISCV=$TOP/riscv64-unknown-elf
 # ------------------------------------------------------------------------
 # You could also use $TOP/how-to/downloads if /tmp is not available
 # export WGETTMP=$TOP/how-to/downloads
