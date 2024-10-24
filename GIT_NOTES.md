@@ -233,25 +233,17 @@ rm -rf <submodule_directory>
 
 ### How to point a submodule to a specific branch or commit
 
-To update a submodule to track a specific branch or commit, follow these steps:
-
-Navigate to the submodule directory:
+To check out a specific commit, navigate to the submodule directory and run:
 
 ```bash
 cd <submodule_directory>
+git checkout <commit_hash>
 ```
 
-To check out a specific branch/commit, run:
+To check out a specific branch, add `branch=<branch_name>` to your submodule entry in `.gitmodules`. Then run:
 
 ```bash
-git checkout <branch_name>/<commit_hash>
-```
-
-Return to the main repository and stage the changes to update the submodule reference:
-
-```bash
-cd ..
-git add <submodule_directory>
+git submodule update --init --recursive
 ```
 
 Commit the changes in the main repository and push them to the remote repository.
