@@ -324,8 +324,6 @@ export CROSS_COMPILE=riscv64-unknown-linux-gnu-
   cd $TOP
   wget --no-check-certificate -nc https://git.kernel.org/torvalds/t/linux-5.8-rc4.tar.gz
   tar -xf linux-5.8-rc4.tar.gz
-  grep -qxF 'KBUILD_CFLAGS += -march=rv64imafdc_zicsr_zifencei' linux-5.8-rc4/Makefile \
-  || echo 'KBUILD_CFLAGS += -march=rv64imafdc_zicsr_zifencei' >> linux-5.8-rc4/Makefile
   make -C linux-5.8-rc4 ARCH=riscv defconfig
   make -C linux-5.8-rc4 ARCH=riscv -j8
   mkdir -p $TOP/tools/riscv-linux

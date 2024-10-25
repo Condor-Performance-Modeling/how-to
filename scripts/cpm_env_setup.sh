@@ -70,27 +70,22 @@ set_up_cpm_environment() {
 
     # Link the cross compilers and check /tools directory
     if ! check_progress "cross_compilers_and_tools_checked"; then
-        echo_stage "Checking /data/tools for necessary directories and linking cross compilers"
+        echo_stage "Checking /tools for necessary directories and linking cross compilers"
 
-        if [ ! -d "/data/tools/riscv-embecosm-embedded-ubuntu2204-20240407-14.0.1" ]; then
-            pretty_error "The required directory /data/tools/riscv-embecosm-embedded-ubuntu2204-20240407-14.0.1 is missing. Please ensure it exists before continuing."
+        if [ ! -d "/data/tools/riscv64-unknown-elf" ]; then
+            pretty_error "The required directory /data/tools/riscv64-unknown-elf is missing. Please ensure it exists before continuing."
             exit 1
         fi
 
-        if [ ! -d "/data/tools/riscv64-embecosm-linux-gcc-ubuntu2204-20240407-14.0.1" ]; then
-            pretty_error "The required directory /data/tools/riscv64-embecosm-linux-gcc-ubuntu2204-20240407-14.0.1 is missing. Please ensure it exists before continuing."
+        if [ ! -d "/data/tools/riscv64-unknown-linux-gnu" ]; then
+            pretty_error "The required directory /data/tools/riscv64-unknown-linux-gnu is missing. Please ensure it exists before continuing."
             exit 1
         fi
 
         cd $TOP
-        ln -fs /data/tools/riscv-embecosm-embedded-ubuntu2204-20240407-14.0.1 riscv64-unknown-elf
-        ln -fs /data/tools/riscv64-embecosm-linux-gcc-ubuntu2204-20240407-14.0.1 riscv64-unknown-linux-gnu
-        
+        ln -fs /data/tools/riscv64-unknown-elf riscv64-unknown-elf
+        ln -fs /data/tools/riscv64-unknown-linux-gnu riscv64-unknown-linux-gnu
         export PATH=$RV_LINUX_TOOLS/bin:$PATH
-        if [ $? -ne 0 ]; then
-            echo "Failed to update PATH with $RV_LINUX_TOOLS"
-            exit 1
-        fi
         export CROSS_COMPILE=riscv64-unknown-linux-gnu-
 
         update_progress "cross_compilers_and_tools_checked"
@@ -158,10 +153,6 @@ set_up_cpm_environment() {
         rm -f "$PROGRESS_FILE"
     else
         echo "Keeping progress file as requested."
-    fi
-
-    if grep -iq "error" "$LOG_FILE"; then
-        echo "WARNING: There were possible errors during the process. Please check the log file: $LOG_FILE"
     fi
 
     echo "Please continue with the README section: Boot Linux on CPM Dromajo."
