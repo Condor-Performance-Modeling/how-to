@@ -37,12 +37,14 @@ perf modeling environment and provide instructions on how to use it.
     1. [How to compare two branches](#how-to-compare-two-branches)
 
     1. [How to push a branch](#how-to-push-a-branch)
-  
-    1. [How to init a repo with submodules](#how-to-init-a-repo-with-submodules)
 
 
 1. [Submodules](#submodules)
 
+    1. [How to init a repo with submodules](#how-to-init-a-repo-with-submodules)
+
+    1. [How to add submodules to a repo](#how-to-add-submodules-to-a-repo)
+       
     1. [How to add and initialize a submodule](#how-to-add-and-initialize-a-submodule)
 
     1. [How to remove a submodule](#how-to-remove-a-submodule)
@@ -168,6 +170,8 @@ git diff HEAD..<tag>
 git push -u origin <branch name>
 ```
 
+## Submodules
+
 ### How to init a repo with submodules
 ```
 <clone the repo>
@@ -175,7 +179,14 @@ git push -u origin <branch name>
 git submodule update --init --recursive
 ```
 
-## Submodules
+### How to add submodules to a repo
+```
+git submodule add https://github.com/other-repo-1 <path>
+git submodule add https://github.com/other-repo-2 <path>
+git submodule update --init --recursive
+git commit -m "Added other-repo-1 and other-repo-2 as submodules"
+```
+
 
 ### How to add and initialize a submodule
 
