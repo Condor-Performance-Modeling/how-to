@@ -61,6 +61,9 @@ cmake ..
 make -j$(nproc)
 cp dromajo $TOOLS/bin/cpm_dromajo
 
+# Run regression tests
+make -j$(nproc) regress
+
 # The stf + simpoint version
 cd ..
 mkdir -p build-simpoint; cd build-simpoint
