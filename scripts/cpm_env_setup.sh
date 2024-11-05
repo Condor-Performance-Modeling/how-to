@@ -7,7 +7,7 @@ set -e
 #         2024.03.01
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-LOG_FILE="${TIMESTAMP}_cmp_env_setup.log"
+LOG_FILE="${TIMESTAMP}_cpm_env_setup.log"
 KEEP_PROGRESS_FILE=false
 
 if [[ "$1" == "--keep-progress-file" ]]; then
