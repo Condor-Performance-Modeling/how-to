@@ -33,6 +33,8 @@ perf modeling environment and provide instructions on how to use it.
 
     1. [Patching SimPoint](#patching-simpoint)
 
+1. [Updating compiler links](#updating-compiler-links)
+   
 <!--
 1. [Build the analysis tool suite](#build-the-analysis-tool-suite)
 1. [Build the benchmark suite](#build-the-benchmark-suite)
@@ -931,3 +933,20 @@ cd ..
 make -j8
 ```
 
+# Updating compiler links
+
+The `update_compiler_links.sh` script is designed to set up symbolic links and update environment variables for RISC-V cross-compilation. It ensures that the paths to specific cross-compilers are correctly set, allowing easy switching between different RISC-V compiler versions or configurations. This script should be run **after the cross-compiler paths were updated in the `setuprc.sh` script located in `how-to/env/`**.
+
+To use this script, navigate to your work area and run:
+```bash
+source how-to/env/setuprc.sh
+bash how-to/scripts/update_compiler_links.sh
+```
+
+## What the script does
+- Checks for Environment and Directory Requirements: Ensures that the `$TOP`, `$RISCV`, and `$RISCV_LINUX` are defined and exist.
+- Sets up Symbolic Links: Links the `$TOP/riscv64-unknown-elf` and `$TOP/riscv64-unknown-linux-gnu` directories to the paths defined in `$RISCV` and `$RISCV_LINUX`, respectively.
+- Updates the `PATH`: Prepends `$RV_LINUX_TOOLS/bin` to the `PATH` environment variable, which allows access to the necessary tools for cross-compilation.
+
+> [!IMPORTANT]
+> This script modifies the PATH environment variable. Ensure that you are aware of the PATH changes when running subsequent commands, as it can affect which compilers and tools are accessible in your environment.
