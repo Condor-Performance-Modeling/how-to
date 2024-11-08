@@ -27,8 +27,8 @@ cd $TOP
 
 if ! [ -d "$SPIKE" ]; then
 {
-  echo "-W: riscv-isa-sim does not exist, cloning repo."
-  git clone git@github.com:riscv/riscv-isa-sim.git
+  echo "-W: cpm.riscv-isa-sim does not exist, cloning repo."
+  git clone git@github.com:Condor-Performance-Modeling/cpm.riscv-isa-sim.git
 }
 fi
 
