@@ -72,8 +72,8 @@ unset RV_LLVM_LINUX_TOOLS; export RV_LLVM_LINUX_TOOLS=/data/tools/riscv64-llvm-l
 # Short cut to Sparcians/Map/Sparta, simplifies build instructions
 unset SPARTA; export SPARTA=$TOP/map/sparta
 
-# This var points to riscv-isa-sim aka Spike
-unset SPIKE; export SPIKE=$TOP/riscv-isa-sim
+# This var points to cpm.riscv-isa-sim aka Spike
+unset SPIKE; export SPIKE=$TOP/cpm.riscv-isa-sim
 
 # Workspace local tools install directory
 unset TOOLS; export TOOLS=$TOP/tools

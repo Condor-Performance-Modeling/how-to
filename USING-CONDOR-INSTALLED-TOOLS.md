@@ -471,7 +471,7 @@ successfully deactivated the environments.
 ```
     cd $TOP
     mkdir -p $TOOLS
-    git clone git@github.com:riscv/riscv-isa-sim.git
+    git clone git@github.com:Condor-Performance-Modeling/cpm.riscv-isa-sim.git
     cd $SPIKE
     mkdir -p build; cd build
     ../configure --prefix=$TOP/tools
