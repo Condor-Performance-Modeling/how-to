@@ -1,0 +1,265 @@
+
+# ZFA
+
+FMIN
+FMIN.S
+FMIN.D
+FMAX
+FMAX.S
+FMAX.D
+FEQ
+FLT
+FLE
+FROUND.S
+FROUND.D
+FLI
+FLI.S
+FLI.D
+
+# zihintpause
+
+pause aka fence
+
+andn
+orn
+rev8
+rori
+roriw
+xnor
+
+
+----------------------------------------------------------------
+# Extensions
+## svpbmt- none
+file:///C:/Users/nyeje/Desktop/priv-isa-asciidoc_20240411.pdf
+
+No instructions
+
+
+## svnapot - none
+https://riscv-software-src.github.io/riscv-unified-db/manual/html/isa/20240411/exts/Svnapot.html
+
+No instructions
+
+## svinval - none
+file:///C:/Users/nyeje/Desktop/priv-isa-asciidoc_20240411.pdf
+
+NO   grep -Riw SFENCE.VMA *.objdump
+NO   grep -Riw SFENCE.W.INVAL *.objdump
+NO   grep -Riw SFENCE.INVAL.IR *.objdump
+NO   grep -Riw HFENCE.VVMA *.objdump
+NO   grep -Riw HFENCE.GVMA *.objdump
+NO   grep -Riw HINVAL.VVMA *.objdump
+NO   grep -Riw HINVAL.GVMA *.objdump
+
+## sstc - none
+https://riscv-software-src.github.io/riscv-unified-db/manual/html/isa/20240411/chapters/sstc.html
+
+No instructions
+
+## ssstateen -none 
+https://riscv-software-src.github.io/riscv-unified-db/manual/html/isa/20240411/chapters/smstateen.html
+
+No instructions
+
+## sscofpmf - none
+https://tools.cloudbear.ru/docs/riscv-sscofpmf-0.5.2-20211013.pdf
+
+No instructions
+
+## zcb 
+https://riscv-software-src.github.io/riscv-unified-db/manual/html/isa/20240411/chapters/zc.html
+
+NO  grep -Riw c.lbu *.objdump
+NO  grep -Riw c.lhu *.objdump
+NO  grep -Riw c.lh *.objdump
+NO  grep -Riw c.sb *.objdump
+NO  grep -Riw c.sh *.objdump
+NO  grep -Riw c.zext.b *.objdump
+NO  grep -Riw c.sext.b *.objdump
+NO  grep -Riw c.zext.h *.objdump
+NO  grep -Riw c.sext.h *.objdump
+NO  grep -Riw c.zext.w *.objdump
+NO  grep -Riw c.not *.objdump
+NO  grep -Riw c.mul *.objdump
+
+## zfa
+https://github.com/riscv/riscv-isa-manual/blob/main/src/zfa.adoc
+
+YES  grep -Riw FMIN *.objdump
+YES  grep -Riw FMIN.S *.objdump
+YES  grep -Riw FMIN.D *.objdump
+NO   grep -Riw FMIN.Q *.objdump
+YES   grep -Riw FMAX *.objdump
+YES  grep -Riw FMAX.S *.objdump
+YES  grep -Riw FMAX.D *.objdump
+NO   grep -Riw FMAX.Q *.objdump
+YES  grep -Riw FEQ *.objdump
+YES  grep -Riw FLT *.objdump
+YES  grep -Riw FLE *.objdump
+NO   grep -Riw FROUND.X *.objdump
+YES  grep -Riw FROUND.S *.objdump
+YES  grep -Riw FROUND.D *.objdump
+NO   grep -Riw FROUND.Q *.objdump
+YES  grep -Riw FLI *.objdump
+YES  grep -Riw FLI.S *.objdump
+YES  grep -Riw FLI.D *.objdump
+NO   grep -Riw FLI.Q *.objdump
+NO   grep -Riw FMV.X.F *.objdump
+NO   grep -Riw FMV.F.X *.objdump
+NO   grep -Riw FCVT.W.F *.objdump
+NO   grep -Riw FCVT.F.W *.objdump
+NO   grep -Riw FCVT.L.F *.objdump
+NO   grep -Riw FCVT.F.L *.objdump
+
+## zfhmin
+https://riscv-software-src.github.io/riscv-unified-db/manual/html/isa/20240411/chapters/zfh.html
+
+NO   grep -Riw FLH *.objdump
+NO   grep -Riw FSH *.objdump
+NO   grep -Riw FMV.X.H *.objdump
+NO   grep -Riw FMV.H.X *.objdump
+NO   grep -Riw FCVT.S.H *.objdump
+NO   grep -Riw FCVT.H.S *.objdump
+NO   grep -Riw FCVT.D.H *.objdump
+NO   grep -Riw FCVT.H.D *.objdump
+NO   grep -Riw FCVT.Q.H *.objdump
+NO   grep -Riw FCVT.H.Q *.objdump
+
+
+## zvkt - no vector
+https://riscv-software-src.github.io/riscv-unified-db/manual/html/isa/20240411/exts/Zkt.html
+
+
+## zvbb  - no vector in spec
+https://github.com/riscv/riscv-isa-manual/blob/main/src/vector-crypto.adoc
+
+NO   grep -Riw vandn *.objdump
+NO   grep -Riw vbrev *.objdump
+NO   grep -Riw vbrev8 *.objdump
+NO   grep -Riw vrev8 *.objdump
+NO   grep -Riw vclz *.objdump
+NO   grep -Riw vctz *.objdump
+NO   grep -Riw vcpop *.objdump
+NO   grep -Riw vrol *.objdump
+NO   grep -Riw vror *.objdump
+NO   grep -Riw vwsll *.objdump
+
+## zicntr
+https://five-embeddev.com/riscv-user-isa-manual/Priv-v1.12/counters.html
+pseudo instructions
+
+NO   grep -Riw rdcycle *.objdump
+NO   grep -Riw rdcycleh *.objdump
+NO   grep -Riw rdtime *.objdump
+NO   grep -Riw rdtimeh *.objdump
+NO   grep -Riw rdinstret *.objdump
+NO   grep -Riw rdinstreth *.objdump
+
+
+## zihintntl - none in spec
+https://github.com/riscv/riscv-isa-manual/blob/main/src/zihintntl.adoc
+
+NO   grep -Riw ntl.p1 *.objdump
+NO   grep -Riw ntl.pall *.objdump
+NO   grep -Riw ntl.s1   *.objdump
+NO   grep -Riw ntl.all  *.objdump
+
+## zihintpause  yes
+https://github.com/riscv/riscv-isa-manual/blob/main/src/zihintpause.adoc
+
+NO   grep -Riw pause *.objdump
+YES  grep -Riw fence *.objdump
+
+## zicboz/zicbom/zicbop - none in spec
+
+https://github.com/riscv/riscv-CMOs/blob/master/cmobase/Zicbom.adoc
+
+NO   grep -Riw cbo.clean *.objdump
+NO   grep -Riw cbo.flush *.objdump
+NO   grep -Riw cbo.inval *.objdump
+NO   grep -Riw cbo.zero  *.objdump
+NO   grep -Riw prefetch.i *.objdump
+NO   grep -Riw prefetch.r *.objdump
+NO   grep -Riw prefetch.w *.objdump
+
+## Hypervisor  - none in spec
+https://drive.google.com/file/d/17GeetSnT5wW3xNuAHI95-SI1gPGd5sJ_/view
+
+NO grep -Riw hlv *.objdump
+NO grep -Riw hlvx *.objdump
+NO grep -Riw hsv *.objdump
+
+## V (vector) - none in spec by design
+file:///C:/Users/nyeje/Desktop/unpriv-isa-asciidoc_20240411.pdf
+
+
+## zicond - yes but already supported
+https://github.com/riscvarchive/riscv-zicond/blob/main/zicondops.adoc
+
+YES  grep -Riw czero *.objdump
+
+## zawrs - none in spec
+
+NO   grep -Riw wrs.nto *.objdump
+NO   grep -Riw wrs.sto *.objdump
+
+## zba/zbb/zbs - already implemented need ror. etc
+https://github.com/riscv/riscv-bitmanip/blob/main/bitmanip/bitmanip.adoc
+
+
+## zkt RISC-V Cryptography Extensions Volume I: Scalar & Entropy Source Instructions
+  https://github.com/riscv/riscv-crypto/releases/download/v1.0.1-scalar/riscv-crypto-spec-scalar-v1.0.1.pdf
+  https://github.com/riscv/riscv-crypto
+
+NO   grep -Riw aes32dsi *
+NO   grep -Riw aes32dsmi *
+NO   grep -Riw aes32esi *
+NO   grep -Riw aes32esmi *
+NO   grep -Riw aes64ds *
+NO   grep -Riw aes64dsm *
+NO   grep -Riw aes64es *
+NO   grep -Riw aes64esm *
+NO   grep -Riw aes64im *
+NO   grep -Riw aes64ks1i *
+NO   grep -Riw aes64ks2 *
+YES  grep -Riw andn *
+NO   grep -Riw brev8 *
+NO   grep -Riw clmul *
+NO   grep -Riw clmulh *
+YES  grep -Riw orn *
+NO   grep -Riw pack *
+NO   grep -Riw packh *
+NO   grep -Riw packw *
+YES  grep -Riw rev8 *
+NO   grep -Riw rol *
+NO   grep -Riw rolw *
+NO   grep -Riw ror *
+YES  grep -Riw rori *
+YES  grep -Riw roriw *
+NO   grep -Riw rorw *
+NO   grep -Riw sha256sig0 *
+NO   grep -Riw sha256sig1 *
+NO   grep -Riw sha256sum0 *
+NO   grep -Riw sha256sum1 *
+NO   grep -Riw sha512sig0h *
+NO   grep -Riw sha512sig0l *
+NO   grep -Riw sha512sig1h *
+NO   grep -Riw sha512sig1l *
+NO   grep -Riw sha512sum0r *
+NO   grep -Riw sha512sum1r *
+NO   grep -Riw sha512sig0 *
+NO   grep -Riw sha512sig1 *
+NO   grep -Riw sha512sum0 *
+NO   grep -Riw sha512sum1 *
+NO   grep -Riw sm3p0 *
+NO   grep -Riw sm3p1 *
+NO   grep -Riw sm4ed *
+NO   grep -Riw sm4ks *
+NO   grep -Riw unzip *
+YES  grep -Riw xnor *
+NO   grep -Riw xperm8 *
+NO   grep -Riw xperm4 *
+NO   grep -Riw zip *
+
+
