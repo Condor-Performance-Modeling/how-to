@@ -27,6 +27,8 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Build and Install the Golden Models](#build-and-install-the-golden-models)
 
+1. [Boot Linux on Spike](#boot-linux-on-spike)
+
 1. [Proceed to benchmarks](#proceed-to-benchmarks)
 
 1. [Optional builds](#optional-builds)
