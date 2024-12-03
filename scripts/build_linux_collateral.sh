@@ -74,5 +74,5 @@ fi
 cd $OPENSBI
 make PLATFORM=generic -j$(nproc)
 cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin $TOOLS/riscv-linux
-
+cp $OPENSBI/build/platform/generic/firmware/fw_jump.elf $TOOLS/riscv-linux
 
