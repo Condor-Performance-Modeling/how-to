@@ -258,7 +258,7 @@ directory.
 That means if you are installing multiple $TOP environments you
 only need to install miniconda once.
 
-  <summary>Details: How to install miniconda</summary>
+  <summary><b>Details: How to install miniconda</b></summary>
 
 <br>
 
