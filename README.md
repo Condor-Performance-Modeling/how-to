@@ -52,8 +52,8 @@ perf modeling environment and provide instructions on how to use it.
 # Choosing a host
 You should do most of your work on interactiveN or computeN.  (where N=1 as of 2023.11.03)
 
-When you first access C-AWS you will land you on guiN. Once on guiN you 
-should switch to interactiveN or computeN.
+When you first access C-AWS you will land you on gui1. Once on gui1 you 
+should switch to one of the interactive or compute machines.
 
 ```
 ssh interactive1
@@ -169,24 +169,19 @@ Note your ssh public key is in this file $HOME/.ssh/id_rsa.pub. The contents
 of this file are pasted at step 7.
 
 ## Choose a host
-There are two types of machines, interactiveN and computeN.
-(As of 2024 N=1, this will change)
+As of 12/2024 the sim farm includes
+```
+interactive1       Interactive jobs
+compute1-7         LSF and general usage
+gui1/gui2/gui3     Desktop servers only
+utility1           Runs load watchers/VPN/etc, not for general use
+```
+The instructions for NoMachine will land you on gui1. You can create other sessions on gui1/2/3.  The guiN machines are intended to server desktops only.
 
-The instructions for NoMachine will land you on gui1. Your desktop is served by gui1.
-
-It is intended only for serving desktops. If you run anything substantial you
-risk cratering the whole system for everyone. There are load monitors that will
-kill your job if you make a mistake. If you manage to crater the system please
-let me know so we can adjust the monitors.
-
-From gui1 you should ssh to interactiveN or computeN.
-
+Typical:
+```
 gui1> ssh interactive1
-
-At present the distinction, interactive/compute, is small. In the future logging in to computeN 
-will only be possible through LSF but this is months away.
-
-Note interactive1 has better disk performance than compute1. 
+```
 
 ## Create a work area
 Create a work area in C-AWS at /data/users/<login id>
