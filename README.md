@@ -25,6 +25,10 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Boot Linux on CPM Dromajo](#boot-linux-on-cpm-dromajo)
 
+1. [Build and Install the Golden Models](#build-and-install-the-golden-models)
+
+1. [Boot Linux on Spike](#boot-linux-on-spike)
+
 1. [Proceed to benchmarks](#proceed-to-benchmarks)
 
 1. [Optional builds](#optional-builds)
@@ -840,6 +844,30 @@ cp build-Linux/whisper $TOOLS/bin
 </details>
 
 ----------------------------------------------------------
+
+# Boot Linux on Spike
+
+The above steps create the necessary collateral to boot linux on Spike.
+
+The steps above create collateral files in $TOOLS/riscv-linux
+
+<b>login is root, password is root</b> for both versions.
+
+## Boot linux - SPIKE 
+Copy the images/etc from previous steps to the Spike run directory.
+```
+cd $TOP
+mkdir -p $SPIKE/run
+cp $TOOLS/riscv-linux/* $SPIKE/run
+
+cd $SPIKE/run
+$TOOLS/bin/spike --kernel Image --initrd rootfs.cpio --bootargs "root=/dev/ram rw earlycon=sbi console=hvc0" fw_jump.elf 
+```
+
+Custom `isa` configuration for spike can be provided with the `--isa` switch.
+
+----------------------------------------------------------
+
 # Proceed to benchmarks
 
 The remaining instructions are in $BENCHMARKS/README.md.
