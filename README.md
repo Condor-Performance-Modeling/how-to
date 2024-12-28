@@ -192,42 +192,7 @@ interactive1> cd your_login_id, etc etc.
 
 /data is NFS mounted across all interactive and compute machines.
 
-## Install the Ubuntu collateral
-
-You normally do not need to do this. It has been done for you.
-
-<details>
-  <summary>Details: Install the Ubuntu collateral</summary>
-
-Install the Ubuntu support packages:
-```
-  sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev
-  sudo apt install rapidjson-dev xz-utils autoconf automake autotools-dev
-  sudo apt install curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk
-  sudo apt install build-essential bison flex texinfo gperf libtool patchutils
-  sudo apt install bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler
-  sudo apt install libboost-all-dev  libsqlite3-dev libhdf5-serial-dev
-  sudo apt install libzstd-dev gcc-multilib clang-tidy pkg-config
-  sudo apt install tkdiff traceroute mtr scons okular clang-format pylint
-  sudo apt install liblzma-dev libbz2-dev texlive-full xpdf
-
-NOTE: im working through the qt requirements - this will change
-  sudo add-apt-repository universe
-  sudo apt install qt-base6-dev qt6-qmake
-
-NOTE: im working through the Node.js requirements - this will change
-  sudo apt install npm nodejs pip
-  sudo pip install flask docopt path_and_address grip numpy seaborn
-```
-
-All in one line for easy cut/paste:
-```
-sudo apt install cmake sqlite doxygen hdf5-tools h5utils libyaml-cpp-dev rapidjson-dev xz-utils autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler libboost-all-dev  libsqlite3-dev libhdf5-serial-dev libzstd-dev gcc-multilib clang-tidy pkg-config tkdiff traceroute mtr scons okular clang-format pylint liblzma-dev libbz2-dev texlive-full xpdf
-```
-
 </details>
-
-</details> <!-- end of Linux, C-AWS and VCAD environments -->
 
 ----------------------------------------------------------
 
@@ -248,23 +213,19 @@ If you need to install or re-install Miniconda expand the section
 'Details: How to install miniconda'
 
 <details>
-If you have a Miniconda environment already installed you
-
-If you have done this once
-you can skip this step. The base conda packages are stored in your home
-directory. 
-
-That means if you are installing multiple $TOP environments you
-only need to install miniconda once.
-
   <summary><b>Details: How to install miniconda</b></summary>
 
 <br>
+Execute the miniconda bash script
 
 ```
-cd <your work area>  # typically /data/users/$USER/condor
+cd /data/users/$USER
 bash /data/tools/env/Miniconda3-py312_24.7.1-0-Linux-x86_64.sh -p /data/users/$USER/miniconda3
+```
 
+Answer the license, location and init questions.
+
+```
 ...snip...
 Do you accept the license terms? [yes|no]
 [no] >>> yes
@@ -276,7 +237,7 @@ Miniconda3 will now be installed into this location:
   - Press CTRL-C to abort the installation
   - Or specify a different location below
 
-[/data/users/<$USER> >>> <return>
+[/data/users/<$USER>/miniconda3] >>> <return>
 
 Do you wish to update your shell profile to automatically initialize conda?
 ...snip...
@@ -322,9 +283,11 @@ Your prompt should start with <b>(base)</b>
 
 # CPM Environment Setup
 
-## Prequisites
+## Prerequisites
 
 Verify your conda environment is active. (base) should be in your prompt.
+
+Issue these commands:
 
 ```bash
 conda activate       

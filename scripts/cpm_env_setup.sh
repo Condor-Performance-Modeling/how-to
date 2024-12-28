@@ -172,7 +172,4 @@ set_up_cpm_environment() {
 
 }
 
-# This creates problems like this:
-# how-to/scripts/cpm_env_setup.sh: error reading input file: Stale file handle
-
-#set_up_cpm_environment "$@" 2>&1 | tee -a "$LOG_FILE"
+set_up_cpm_environment "$@" 2>&1 | tee -a "$LOG_FILE"
