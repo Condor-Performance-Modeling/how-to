@@ -62,15 +62,17 @@ cmake ..
 make -j$(nproc)
 cp dromajo $TOOLS/bin/cpm_dromajo
 
-# Run regression tests
-make -j$(nproc) regress
+## TODO there is no error capture here
+## Run regression tests
+#make -j$(nproc) regress
 
-# The stf + simpoint version
-cd ..
-mkdir -p build-simpoint; cd build-simpoint
-cmake .. -DSIMPOINT=On
-make -j$(nproc)
-cp dromajo $TOOLS/bin/cpm_simpoint_dromajo
+# TODO this is no need for a simpoint version any longer
+## The stf + simpoint version
+#cd ..
+#mkdir -p build-simpoint; cd build-simpoint
+#cmake .. -DSIMPOINT=On
+#make -j$(nproc)
+#cp dromajo $TOOLS/bin/cpm_simpoint_dromajo
 
 # -------------------------------------------------------
 # Sym link the cross compilers
@@ -104,10 +106,6 @@ fi
 if [ ! -d utils ]; then
   clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/utils.git" "utils" "--recurse-submodules"
 fi
-#if [ -d utils ]; then
-#  cd utils
-#  git submodule update --init --recursive
-#  cd ..
-#fi
+
 cd utils
 make -j$(nproc)

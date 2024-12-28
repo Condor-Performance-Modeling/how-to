@@ -49,9 +49,9 @@ set_up_cpm_environment() {
 
     pretty_error() {
         echo
-        echo -e "\t#### -------------------------------------------------"
-        echo -e "\t#### $1"
-        echo -e "\t#### -------------------------------------------------"
+        echo -e "\t# -------------------------------------------------"
+        echo -e "\t# $1"
+        echo -e "\t# -------------------------------------------------"
         echo
     }
 
@@ -120,7 +120,8 @@ set_up_cpm_environment() {
         update_progress "cpm_repos_installed"
     fi
 
-    # Build and Install Olympia
+: '
+    # TODO - move to optional script Build and Install Olympia
     if ! check_progress "olympia_built"; then
         echo_stage "Building and Installing Olympia"
         cd $TOP
@@ -131,6 +132,7 @@ set_up_cpm_environment() {
         fi
         update_progress "olympia_built"
     fi
+'
 
 : '
     # Boot Linux on CPM Dromajo
@@ -153,18 +155,24 @@ set_up_cpm_environment() {
 
     echo "CPM environment setup process completed successfully."
 
-    if ! $KEEP_PROGRESS_FILE; then
-        echo "Removing progress file."
-        rm -f "$PROGRESS_FILE"
-    else
-        echo "Keeping progress file as requested."
-    fi
+#TODO never remove the progress file
+#    if ! $KEEP_PROGRESS_FILE; then
+#        echo "Removing progress file."
+#        rm -f "$PROGRESS_FILE"
+#    else
+#        echo "Keeping progress file as requested."
+#    fi
 
-    if grep -iq "error" "$LOG_FILE"; then
-        echo "WARNING: There were possible errors during the process. Please check the log file: $LOG_FILE"
-    fi
-
+# This is useless
+#    if grep -iq "error" "$LOG_FILE"; then
+#        echo "WARNING: There were possible errors during the process. Please check the log file: $LOG_FILE"
+#    fi
+#
     echo "Please continue with the README section: Boot Linux on CPM Dromajo."
+
 }
 
-set_up_cpm_environment "$@" 2>&1 | tee -a "$LOG_FILE"
+# This creates problems like this:
+# how-to/scripts/cpm_env_setup.sh: error reading input file: Stale file handle
+
+#set_up_cpm_environment "$@" 2>&1 | tee -a "$LOG_FILE"

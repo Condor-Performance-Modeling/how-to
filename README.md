@@ -262,27 +262,40 @@ only need to install miniconda once.
 <br>
 
 ```
-cd <your work area>  # typically /data/users/<username>/condor
-bash /data/tools/env/Miniconda3-py311_23.9.0-0-Linux-x86_64.sh
+cd <your work area>  # typically /data/users/$USER/condor
+bash /data/tools/env/Miniconda3-py312_24.7.1-0-Linux-x86_64.sh -p /data/users/$USER/miniconda3
 
-..please review the license agreement....
+
+```
+...snip...
 Do you accept the license terms? [yes|no]
 [no] >>> yes
 
-Do you wish the installer to initialize Miniconda3
+Miniconda3 will now be installed into this location:
+/data/users/<$USER>/miniconda3
+
+  - Press ENTER to confirm the location
+  - Press CTRL-C to abort the installation
+  - Or specify a different location below
+
+[/data/users/<$USER> >>> <return>
+
+Do you wish to update your shell profile to automatically initialize conda?
+...snip...
 by running conda init? [yes|no]
 [no] >>> yes
-
 ```
+
 <br>
 
-In accepting the license:
+The results of the above are:
 
-- I am using the default install location
+- I am NOT using the default install location
+- I am accepting the license
 - I am allowing the installer to run conda init
 - I am allowing the installer to modify my .bashrc
-- I manually move the conda init lines from .bashrc to my .bashrc.private
 
+<!--
 The instructions tell you how to disable miniconda activation at 
 startup
 
@@ -298,6 +311,7 @@ startup
 
 <i> if you are in a managed environment, like VCAD, make sure you move the 
 added .bashrc lines to a private rc file.</i>
+-->
 
 <H2>Close this terminal and open a new terminal</H2>
 
@@ -315,7 +329,8 @@ Your prompt should start with <b>(base)</b>
 Verify your conda environment is active. (base) should be in your prompt.
 
 ```bash
-conda activate
+conda activate       
+conda config --set report_errors false
 cd /data/users/$USER/condor   # or your work area
 source how-to/env/setuprc.sh
 ```
@@ -347,7 +362,9 @@ This script completes the following stages:
 1. Building Sparcians components
 1. Building the Linux collateral
 1. Building and Installing the CPM Repos
+<!-- TODO move this to an optional section
 1. Building and Installing Olympia
+-->
 
 ## Troubleshooting
 
