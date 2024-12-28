@@ -265,8 +265,6 @@ only need to install miniconda once.
 cd <your work area>  # typically /data/users/$USER/condor
 bash /data/tools/env/Miniconda3-py312_24.7.1-0-Linux-x86_64.sh -p /data/users/$USER/miniconda3
 
-
-```
 ...snip...
 Do you accept the license terms? [yes|no]
 [no] >>> yes
@@ -284,8 +282,8 @@ Do you wish to update your shell profile to automatically initialize conda?
 ...snip...
 by running conda init? [yes|no]
 [no] >>> yes
-```
 
+```
 <br>
 
 The results of the above are:
