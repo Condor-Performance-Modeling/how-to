@@ -8,11 +8,6 @@ set -e
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 LOG_FILE="${TIMESTAMP}_cpm_env_setup.log"
-KEEP_PROGRESS_FILE=false
-
-if [[ "$1" == "--keep-progress-file" ]]; then
-    KEEP_PROGRESS_FILE=true
-fi
 
 set_up_cpm_environment() {
 
@@ -55,12 +50,19 @@ set_up_cpm_environment() {
         echo
     }
 
+    if check_progress "env_setup_completed"; then
+        echo "Previous setup process was completed. Clearing progress file to start fresh."
+        rm -f "$PROGRESS_FILE"
+    fi
+
     # Building Sparcians components
     if ! check_progress "build_sparcians"; then
         echo_stage "Building Sparcians components"
         conda install yaml-cpp -y
         cd $TOP
+        set +e
         bash how-to/scripts/build_sparcians.sh
+        set -e
         if [ $? -ne 0 ]; then
             pretty_error "Failed to build Sparcians components. Please check the errors above or refer to the log file: $LOG_FILE"
             exit 1
@@ -86,7 +88,9 @@ set_up_cpm_environment() {
         ln -fs /data/tools/riscv-embecosm-embedded-ubuntu2204-20240407-14.0.1 riscv64-unknown-elf
         ln -fs /data/tools/riscv64-embecosm-linux-gcc-ubuntu2204-20240407-14.0.1 riscv64-unknown-linux-gnu
         
+        set +e
         export PATH=$RV_LINUX_TOOLS/bin:$PATH
+        set -e
         if [ $? -ne 0 ]; then
             echo "Failed to update PATH with $RV_LINUX_TOOLS"
             exit 1
@@ -100,7 +104,9 @@ set_up_cpm_environment() {
     if ! check_progress "linux_collateral_built"; then
         echo_stage "Building the Linux collateral"
         cd $TOP
+        set +e
         bash how-to/scripts/build_linux_collateral.sh
+        set -e
         if [ $? -ne 0 ]; then
             pretty_error "Failed to build the Linux collateral. Please check the errors above or refer to the log file: $LOG_FILE"
             exit 1
@@ -112,7 +118,9 @@ set_up_cpm_environment() {
     if ! check_progress "cpm_repos_installed"; then
         echo_stage "Building and Installing the CPM Repos"
         cd $TOP
+        set +e
         bash how-to/scripts/build_cpm_repos.sh
+        set -e
         if [ $? -ne 0 ]; then
             pretty_error "Failed to install CPM repos. Please check the errors above or refer to the log file: $LOG_FILE"
             exit 1
@@ -120,56 +128,10 @@ set_up_cpm_environment() {
         update_progress "cpm_repos_installed"
     fi
 
-: '
-    # TODO - move to optional script Build and Install Olympia
-    if ! check_progress "olympia_built"; then
-        echo_stage "Building and Installing Olympia"
-        cd $TOP
-        bash how-to/scripts/build_olympia.sh    
-        if [ $? -ne 0 ]; then
-            pretty_error "Failed to build Olympia. Please check the errors above or refer to the log file: $LOG_FILE"
-            exit 1
-        fi
-        update_progress "olympia_built"
-    fi
-'
-
-: '
-    # Boot Linux on CPM Dromajo
-    if ! check_progress "linux_booted_on_cpm_dromajo"; then
-        echo_stage "Booting Linux on CPM Dromajo"
-        cd $TOP
-        mkdir -p $CPM_DROMAJO/run
-        cp $TOOLS/riscv-linux/* $CPM_DROMAJO/run
-        cp $PATCHES/cpm.boot.cfg $CPM_DROMAJO/run
-
-        cd $CPM_DROMAJO/run
-        $TOOLS/bin/cpm_dromajo --ctrlc --stf_essential_mode --stf_priv_modes USHM --stf_trace example.stf cpm.boot.cfg
-	if [ $? -ne 0 ]; then
-            pretty_error "Failed to boot Linux on CPM Dromajo. Please check the errors above or refer to the log file: $LOG_FILE"
-            exit 1
-        fi
-        update_progress "linux_booted_on_cpm_dromajo"
-    fi
-'
+    update_progress "env_setup_completed"
 
     echo "CPM environment setup process completed successfully."
-
-#TODO never remove the progress file
-#    if ! $KEEP_PROGRESS_FILE; then
-#        echo "Removing progress file."
-#        rm -f "$PROGRESS_FILE"
-#    else
-#        echo "Keeping progress file as requested."
-#    fi
-
-# This is useless
-#    if grep -iq "error" "$LOG_FILE"; then
-#        echo "WARNING: There were possible errors during the process. Please check the log file: $LOG_FILE"
-#    fi
-#
     echo "Please continue with the README section: Boot Linux on CPM Dromajo."
-
 }
 
 set_up_cpm_environment "$@" 2>&1 | tee -a "$LOG_FILE"
