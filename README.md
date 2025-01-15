@@ -283,6 +283,13 @@ Your prompt should start with <b>(base)</b>
 
 # CPM Environment Setup
 
+The CPM Environment Setup is automated through scripts that:
+
+- Set up the Conda environment.
+- Build Sparcians components, Linux collateral, and CPM repositories.
+
+For a manual, step-by-step setup process, refer to the [CPM Environment Setup Step By Step](#cpm-environment-setup-step-by-step) section. This section provides links to the individual scripts and detailed instructions for manually setting up the environment.
+
 ## Prerequisites
 
 Verify your conda environment is active. (base) should be in your prompt.
@@ -330,6 +337,8 @@ This script completes the following stages:
 ## Troubleshooting
 
 If the `cpm_env_setup.sh` setup script fails, it's designed to be re-run. It will pick up the process from the last completed stage. Alternatively, steps can be completed manually if needed (see the details section below).
+
+## CPM Environment Setup Step By Step
 
 <details>
   <summary>Details: Install the Sparcians repos</summary>
@@ -664,40 +673,6 @@ fi
 
 ----------------------------------------------------------
 
-<details>
-  <summary>Details: Build and Install Olympia</summary>
-
-# Build and Install Olympia
-
-This step is optional. Olympia is the reference model. CAM is a fork of the
-reference model. Changes to Olympia are selectively added to CAM. The
-Olympia install directory is riscv-perf-sim.
-
-You must have the sparta conda environment activated.
-
-```
-cd $TOP
-bash how-to/scripts/build_olympia.sh
-```
-
-<details>
-  <summary>Details: Building Olympia step by step</summary>
-
-```
-cd $TOP
-mkdir -p tools/bin
-git clone --recursive https://@github.com/riscv-software-src/riscv-perf-model.git
-
-cd $OLYMPIA; mkdir -p release; cd release
-cmake .. -DCMAKE_BUILD_TYPE=Release -DSPARTA_BASE=$MAP/sparta
-make -j8; cmake --install . --prefix $CONDA_PREFIX
-cp olympia $TOOLS/bin/olympia
-```
-
-</details>
-</details>
-
-----------------------------------------------------------
 
 # Boot Linux on CPM Dromajo
 
