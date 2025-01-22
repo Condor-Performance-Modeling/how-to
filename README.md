@@ -922,7 +922,3 @@ bash how-to/scripts/update_compiler_links.sh
 ## What the script does
 - Checks for Environment and Directory Requirements: Ensures that the `$TOP`, `$RISCV`, and `$RISCV_LINUX` are defined and exist.
 - Sets up Symbolic Links: Links the `$TOP/riscv64-unknown-elf` and `$TOP/riscv64-unknown-linux-gnu` directories to the paths defined in `$RISCV` and `$RISCV_LINUX`, respectively.
-- Updates the `PATH`: Prepends `$RV_LINUX_TOOLS/bin` to the `PATH` environment variable, which allows access to the necessary tools for cross-compilation.
-
-> [!IMPORTANT]
-> This script modifies the PATH environment variable. Ensure that you are aware of the PATH changes when running subsequent commands, as it can affect which compilers and tools are accessible in your environment.
