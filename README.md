@@ -694,7 +694,7 @@ cp $PATCHES/cpm.boot.cfg  $CPM_DROMAJO/run
 cd $CPM_DROMAJO/run
 $TOOLS/bin/cpm_dromajo --ctrlc --stf_priv_modes USHM --stf_trace example.stf boot.cfg
 ```
-
+Exit with Ctrl-C.
 <!--
 TMI
 
@@ -706,11 +706,11 @@ $TOOLS/bin/cpm_dromajo --trace 0 cpm.boot.cfg # enable console tracing
 -->
 
 ----------------------------------------------------------
-# Build and Install the Golden Models
+# Build and Install CPM Spike and the Golden Models
 
 ## Exit Conda
 
-<b>You must deactivate the conda environment before compiling the golden models.</b>
+<b>You must deactivate the conda environment before proceeding.</b>
 
 Deactivate once to exit the sparta environment, once again to exit the base conda
 environment.
@@ -723,73 +723,24 @@ successfully deactivated the environments.
   conda deactivate     # leave base
 ```
 
+## Build CPM Spike
+
+```
+cd $TOP
+bash how-to/scripts/build_cpm_spike.sh
+```
+  Build CPM Spike step by step: [see script on GitHub](https://github.com/Condor-Performance-Modeling/how-to/blob/main/scripts/build_cpm_spike.sh)
+
+
+
 ## Build the Golden Models
 
 ```
 cd $TOP
 bash how-to/scripts/build_golden_models.sh
 ```
+Build the golden models step by step: [see script on GitHub](https://github.com/Condor-Performance-Modeling/how-to/blob/main/scripts/build_golden_models.sh)
 
-<details>
-  <summary>Build the golden models step by step</summary>
-
-```
-#! /bin/bash
-
-
-if [[ -z "${CONDOR_TOP}" ]]; then
-  { echo "CONDOR_TOP is undefined, execute 'source how-to/env/setuprc.sh'"; exit 1; }
-fi
-
-if [[ -z "${SPIKE}" ]]; then
-{
-  echo "-E: SPIKE is undefined, execute 'source how-to/env/setuprc.sh'";
-  exit 1;
-}
-fi
-
-if [[ -z "${WHISPER}" ]]; then
-{
-  echo "-E: WHISPER is undefined, execute 'source how-to/env/setuprc.sh'";
-  exit 1;
-}
-fi
-
-mkdir -p $TOOLS/bin
-
-# Spike
-cd $TOP
-
-if ! [ -d "$SPIKE" ]; then
-{
-  echo "-W: riscv-isa-sim does not exist, cloning repo."
-  git clone git@github.com:riscv/riscv-isa-sim.git
-}
-fi
-
-cd $SPIKE
-mkdir -p build; cd build
-../configure --prefix=$TOP/tools
-make -j32 
-make install
-
-# Whisper
-cd $TOP
-
-if ! [ -d "$WHISPER" ]; then
-{
-  echo "-W: whisper does not exist, cloning repo."
-  git clone https://github.com/chipsalliance/VeeR-ISS.git whisper
-}
-fi
-
-cd $WHISPER
-make -j32
-cp build-Linux/whisper $TOOLS/bin
-
-```
-
-</details>
 
 ----------------------------------------------------------
 
@@ -813,6 +764,8 @@ $TOOLS/bin/spike --kernel Image --initrd rootfs.cpio --bootargs "root=/dev/ram r
 ```
 
 Custom `isa` configuration for spike can be provided with the `--isa` switch.
+
+This one won't let you exit with Ctrl-C, so you can kill the process from another terminal, or close your terminal and open a new one.
 
 ----------------------------------------------------------
 
