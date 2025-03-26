@@ -1,4 +1,4 @@
-build_extra_tools#! /bin/bash
+#! /bin/bash
 
 set -e
 
@@ -6,49 +6,32 @@ if [[ -z "${TOP}" ]]; then
   { echo "TOP is undefined, execute 'source how-to/env/setuprc.sh'"; exit 1; }
 fi
 
-if [[ -z "${SPIKE}" ]]; then
+if [[ -z "${WHISPER_DIR}" ]]; then
 {
-  echo "-E: SPIKE is undefined, execute 'source how-to/env/setuprc.sh'";
+  echo "-E: WHISPER_DIR is undefined, execute 'source how-to/env/setuprc.sh'";
   exit 1;
 }
 fi
 
-if [[ -z "${WHISPER}" ]]; then
-{
-  echo "-E: WHISPER is undefined, execute 'source how-to/env/setuprc.sh'";
-  exit 1;
-}
-fi
+source "$TOP/how-to/scripts/git_clone_retry.sh"
 
-mkdir -p $TOOLS/bin
-
-# Spike
 cd $TOP
-
-if ! [ -d "$SPIKE" ]; then
-{
-  echo "-W: riscv-isa-sim does not exist, cloning repo."
-  git clone git@github.com:riscv/riscv-isa-sim.git
-}
-fi
-
-cd $SPIKE
-mkdir -p build; cd build
-../configure --prefix=$TOP/tools
-make -j$(nproc) 
-make install
+mkdir -p exttools; cd exttools
+# Boost - needed for Tenstorrent Whisper
+clone_repository_with_retries "https://github.com/boostorg/boost.git" "boost" "--recursive"
 
 # Whisper
 cd $TOP
 
-if ! [ -d "$WHISPER" ]; then
+if ! [ -d "$WHISPER_DIR" ]; then
 {
   echo "-W: whisper does not exist, cloning repo."
-  git clone https://github.com/chipsalliance/VeeR-ISS.git whisper
+  clone_repository_with_retries "https://github.com/Condor-Performance-Modeling/tenstorrent-whisper.git" $WHISPER_DIR "--recursive"
 }
 fi
 
-cd $WHISPER
+cd $WHISPER_DIR
 make -j$(nproc)
 cp build-Linux/whisper $TOOLS/bin
+cd $TOP
 
