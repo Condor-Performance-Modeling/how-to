@@ -389,6 +389,8 @@ bash how-to/scripts/build_sparcians.sh
 ```
 Building Map components step by step: [see script on GitHub](https://github.com/Condor-Performance-Modeling/how-to/blob/main/scripts/build_sparcians.sh)
 
+</details>
+
 ----------------------------------------------------------
 
 <details>
@@ -488,7 +490,7 @@ $TOOLS/bin/cpm_dromajo --trace 0 cpm.boot.cfg # enable console tracing
 -->
 
 ----------------------------------------------------------
-# Build and Install CPM Spike and the Golden Models
+# Build and Install the Golden Models and Associated Tools
 
 ## Exit Conda
 
@@ -515,13 +517,13 @@ bash how-to/scripts/build_cpm_spike.sh
 
 
 
-## Build the Golden Models
+## Build the Associated Tools
 
 ```
 cd $TOP
-bash how-to/scripts/build_golden_models.sh
+bash how-to/scripts/build_extra_tools.sh
 ```
-Build the golden models step by step: [see script on GitHub](https://github.com/Condor-Performance-Modeling/how-to/blob/main/scripts/build_golden_models.sh)
+Build the extra tools step by step: [see script on GitHub](https://github.com/Condor-Performance-Modeling/how-to/blob/main/scripts/build_extra_tools.sh)
 
 
 ----------------------------------------------------------

@@ -1,9 +1,9 @@
-#! /bin/bash
+build_extra_tools#! /bin/bash
 
 set -e
 
-if [[ -z "${CONDOR_TOP}" ]]; then
-  { echo "CONDOR_TOP is undefined, execute 'source how-to/env/setuprc.sh'"; exit 1; }
+if [[ -z "${TOP}" ]]; then
+  { echo "TOP is undefined, execute 'source how-to/env/setuprc.sh'"; exit 1; }
 fi
 
 if [[ -z "${SPIKE}" ]]; then
