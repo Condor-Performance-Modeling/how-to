@@ -80,11 +80,7 @@ unset CPM_SPIKE_ANDES_DIR; export CPM_SPIKE_ANDES_DIR=$TOP/cpm.andes.riscv-isa-s
 # Workspace local tools install directory
 unset TOOLS; export TOOLS=$TOP/tools
 
-# This var points to the Veer golden model from chipsalliance/VeeR-ISS
-unset VEER; export VEER=$TOP/whisper
-
-# For now this is a duplicate of veer
-unset WHISPER; export WHISPER=$TOP/whisper
+unset WHISPER_DIR; export WHISPER_DIR=$TOP/tenstorrent.whisper
 
 # UTILS is becoming more important
 unset UTILS; export UTILS=$TOP/utils
