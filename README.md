@@ -387,51 +387,8 @@ conda activate sparta
 cd $TOP
 bash how-to/scripts/build_sparcians.sh
 ```
+Building Map components step by step: [see script on GitHub](https://github.com/Condor-Performance-Modeling/how-to/blob/main/scripts/build_sparcians.sh)
 
-<details> 
-  <summary>Details: Building Map components step by step</summary>
-
-```
-cd $TOP
-
-# MAP/Sparta
-cd $MAP/sparta; mkdir -p release; cd release
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j32;
-cmake --install . --prefix $CONDA_PREFIX
-
-# Adding regress step for sanity
-make -j32 regress
-
-# Helios
-pip install Cython==0.29.23
-cd $MAP/helios; mkdir -p release; cd release
-rm -rf *
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j32
-cmake --install . --prefix $CONDA_PREFIX
-
-# STF_LIB
-cd $TOP
-
-if ! [ -d "stf_lib" ]; then
-{
-  echo "-W: stf_lib does not exist, cloning repo."
-  git clone https://github.com/sparcians/stf_lib.git
-}
-fi
-
-cd stf_lib; mkdir -p release; cd release
-cmake -DCMAKE_BUILD_TYPE=Release ..
-make -j32
-```
-</details>
-
-<!--
-  829  git switch map_v2
-  830  git log
-  831  git checkout 4bb21e8a20bfb83354bb3d54fb067100d4f01a47
--->
 </details>
 
 ----------------------------------------------------------
@@ -474,71 +431,8 @@ This step downloads and builds the kernel, file system and OpenSBI.
 cd $TOP
 bash how-to/scripts/build_linux_collateral.sh
 ```
+Building the linux collateral step by step: [see script on GitHub](https://github.com/Condor-Performance-Modeling/how-to/blob/main/scripts/build_linux_collateral.sh)
 
-<details>
-  <summary>Details: Building the linux collateral step by step</summary>
-
-```
-cd $CONDOR_TOP
-mkdir -p $TOOLS/riscv-linux
-
-# Double check the links to the cross compilers
-
-if [ ! -L riscv64-unknown-elf ]; then
-  ln -sfv /data/tools/riscv-embecosm-embedded-ubuntu2204-20240407-14.0.1 riscv64-unknown-elf
-fi
-
-if [ ! -L riscv64-unknown-linux-gnu ]; then
-  ln -sfv /data/tools/riscv64-embecosm-linux-gcc-ubuntu2204-20240407-14.0.1 riscv64-unknown-linux-gnu
-fi
-
-wget --no-check-certificate -nc \
-        https://git.kernel.org/torvalds/t/linux-5.8-rc4.tar.gz
-tar -xf linux-5.8-rc4.tar.gz
-grep -qxF 'KBUILD_CFLAGS += -march=rv64imafdc_zicsr_zifencei' linux-5.8-rc4/Makefile \
-|| echo 'KBUILD_CFLAGS += -march=rv64imafdc_zicsr_zifencei' >> linux-5.8-rc4/Makefile
-make -C linux-5.8-rc4 ARCH=riscv defconfig
-make -C linux-5.8-rc4 ARCH=riscv -j32
-mkdir -p $TOOLS/riscv-linux
-cp linux-5.8-rc4/arch/riscv/boot/Image $TOOLS/riscv-linux/Image
-
-# Build the file system
-
-wget --no-check-certificate \
-         https://github.com/buildroot/buildroot/archive/2020.05.1.tar.gz
-tar xf 2020.05.1.tar.gz
-cp $CONDOR_TOP/how-to/patches/config-buildroot-2020.05.1 buildroot-2020.05.1/.config
-
-# This make will fail, followed by a patch
-make -C buildroot-2020.05.1 -j32
-cp $PATCHES/c-stack.c \
-          ./buildroot-2020.05.1/output/build/host-m4-1.4.18/lib/c-stack.c
-
-# This make will also fail, followed by another patch
-make -C buildroot-2020.05.1 -j32
-cp $PATCHES/libfakeroot.c \
-          ./buildroot-2020.05.1/output/build/host-fakeroot-1.20.2/libfakeroot.c
-
-# This make should not fail
-sudo make -C buildroot-2020.05.1 -j32
-
-if ! [ -f $BUILDROOT/output/images/rootfs.cpio ]; then
-  echo "-E: rootfs.cpio build failure"; exit 1;
-fi
-
-cp $BUILDROOT/output/images/rootfs.cpio $CONDOR_TOP/tools/riscv-linux
-
-# Build OpenSBI
-
-cd $CONDOR_TOP
-git clone https://github.com/riscv/opensbi.git
-cd $OPENSBI
-make PLATFORM=generic -j32
-cp $OPENSBI/build/platform/generic/firmware/fw_jump.bin $TOOLS/riscv-linux
-
-```
-
-</details>
 </details>
 
 ----------------------------------------------------------
@@ -557,118 +451,8 @@ cd $TOP
 bash how-to/scripts/build_cpm_repos.sh
 
 ```
+Installing the CPM repos step by step: [see script on GitHub](https://github.com/Condor-Performance-Modeling/how-to/blob/main/scripts/build_cpm_repos.sh)
 
-<details>
-  <summary>Details: Installing the CPM repo's step by step</summary>
-
-<br>
-
-```
-#! /bin/bash
-
-set -e
-
-if [[ -z "${CONDOR_TOP}" ]]; then
-  { echo "-E: CONDOR_TOP is undefined, execute 'source how-to/env/setuprc.sh'"; 
-exit 1; }
-fi
-
-if [[ -z "${CAM}" ]]; then
-{
-  echo "-E: CAM is undefined, execute 'source how-to/env/setuprc.sh'"; 
-  exit 1;
-}
-fi
-
-cd $TOP
-# create the tools directories explicitly here, to avoid creating
-# files w/ the directory names
-mkdir -p $TOOLS/bin
-mkdir -p $TOOLS/lib
-mkdir -p $TOOLS/include
-mkdir -p $TOOLS/riscv-linux
-
-# CAM
-if ! [ -d "$CAM" ]; then
-{
-  echo "-W: cam does not exist, cloning repo."
-  git clone git@github.com:Condor-Performance-Modeling/cam.git
-}
-fi
-
-cd $CAM;
-
-mkdir -p release; cd release
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j32;
-cmake --install . --prefix $CONDA_PREFIX
-
-# Adding regress step for sanity
-make -j32 regress
-
-# Dromajo fork
-cd $TOP
-
-if ! [ -d "cpm.dromajo" ]; then
-{
-  echo "-W: cpm.dromajo does not exist, cloning repo."
-  git clone git@github.com:Condor-Performance-Modeling/dromajo.git cpm.dromajo
-}
-fi
-
-cd $CPM_DROMAJO
-git submodule update --init --recursive
-
-# The stf version
-mkdir -p build; cd build
-cmake ..
-make -j32
-cp dromajo $TOOLS/bin/cpm_dromajo
-
-# The stf + simpoint version
-cd ..
-mkdir -p build-simpoint; cd build-simpoint
-cmake .. -DSIMPOINT=On
-make -j32
-cp dromajo $TOOLS/bin/cpm_simpoint_dromajo
-
-# -------------------------------------------------------
-# Sym link the cross compilers
-# -------------------------------------------------------
-if [ ! -L riscv64-unknown-elf ]; then
-  ln -sfv /data/tools/riscv-embecosm-embedded-ubuntu2204-20240407-14.0.1 riscv64-unknown-elf
-fi
-
-if [ ! -L riscv64-unknown-linux-gnu ]; then
-  ln -sfv /data/tools/riscv64-embecosm-linux-gcc-ubuntu2204-20240407-14.0.1 riscv64-unknown-linux-gnu
-fi
-
-# -------------------------------------------------------
-# Repos
-# -------------------------------------------------------
-
-cd $TOP
-
-# benchmarks
-if [ ! -d benchmarks ]; then
-  git clone --recurse-submodules \
-            git@github.com:Condor-Performance-Modeling/benchmarks.git
-fi
-
-# Tools
-if [ ! -d tools ]; then
-  git clone git@github.com:Condor-Performance-Modeling/tools.git
-fi
-
-# Utils
-if [ ! -d utils ]; then
-  git clone git@github.com:Condor-Performance-Modeling/utils.git
-fi
-
-
-```
-
-</details>
 </details>
 
 ----------------------------------------------------------
@@ -694,7 +478,7 @@ cp $PATCHES/cpm.boot.cfg  $CPM_DROMAJO/run
 cd $CPM_DROMAJO/run
 $TOOLS/bin/cpm_dromajo --ctrlc --stf_priv_modes USHM --stf_trace example.stf boot.cfg
 ```
-
+Exit with Ctrl-C.
 <!--
 TMI
 
@@ -706,11 +490,11 @@ $TOOLS/bin/cpm_dromajo --trace 0 cpm.boot.cfg # enable console tracing
 -->
 
 ----------------------------------------------------------
-# Build and Install the Golden Models
+# Build and Install the Golden Models and Associated Tools
 
 ## Exit Conda
 
-<b>You must deactivate the conda environment before compiling the golden models.</b>
+<b>You must deactivate the conda environment before proceeding.</b>
 
 Deactivate once to exit the sparta environment, once again to exit the base conda
 environment.
@@ -723,73 +507,24 @@ successfully deactivated the environments.
   conda deactivate     # leave base
 ```
 
-## Build the Golden Models
+## Build CPM Spike
 
 ```
 cd $TOP
-bash how-to/scripts/build_golden_models.sh
+bash how-to/scripts/build_cpm_spike.sh
 ```
+  Build CPM Spike step by step: [see script on GitHub](https://github.com/Condor-Performance-Modeling/how-to/blob/main/scripts/build_cpm_spike.sh)
 
-<details>
-  <summary>Build the golden models step by step</summary>
+
+
+## Build the Associated Tools
 
 ```
-#! /bin/bash
-
-
-if [[ -z "${CONDOR_TOP}" ]]; then
-  { echo "CONDOR_TOP is undefined, execute 'source how-to/env/setuprc.sh'"; exit 1; }
-fi
-
-if [[ -z "${SPIKE}" ]]; then
-{
-  echo "-E: SPIKE is undefined, execute 'source how-to/env/setuprc.sh'";
-  exit 1;
-}
-fi
-
-if [[ -z "${WHISPER}" ]]; then
-{
-  echo "-E: WHISPER is undefined, execute 'source how-to/env/setuprc.sh'";
-  exit 1;
-}
-fi
-
-mkdir -p $TOOLS/bin
-
-# Spike
 cd $TOP
-
-if ! [ -d "$SPIKE" ]; then
-{
-  echo "-W: riscv-isa-sim does not exist, cloning repo."
-  git clone git@github.com:riscv/riscv-isa-sim.git
-}
-fi
-
-cd $SPIKE
-mkdir -p build; cd build
-../configure --prefix=$TOP/tools
-make -j32 
-make install
-
-# Whisper
-cd $TOP
-
-if ! [ -d "$WHISPER" ]; then
-{
-  echo "-W: whisper does not exist, cloning repo."
-  git clone https://github.com/chipsalliance/VeeR-ISS.git whisper
-}
-fi
-
-cd $WHISPER
-make -j32
-cp build-Linux/whisper $TOOLS/bin
-
+bash how-to/scripts/build_extra_tools.sh
 ```
+Build the extra tools step by step: [see script on GitHub](https://github.com/Condor-Performance-Modeling/how-to/blob/main/scripts/build_extra_tools.sh)
 
-</details>
 
 ----------------------------------------------------------
 
@@ -813,6 +548,8 @@ $TOOLS/bin/spike --kernel Image --initrd rootfs.cpio --bootargs "root=/dev/ram r
 ```
 
 Custom `isa` configuration for spike can be provided with the `--isa` switch.
+
+This golden model doesn't exit on Ctrl-C. You must kill the PID to exit the simulation.
 
 ----------------------------------------------------------
 
@@ -918,7 +655,7 @@ To use this script, navigate to your work area and run:
 source how-to/env/setuprc.sh
 bash how-to/scripts/update_compiler_links.sh
 ```
-
+Updating compiler links step by step: [see script on GitHub](https://github.com/Condor-Performance-Modeling/how-to/blob/main/scripts/update_compiler_links.sh)
 ## What the script does
 - Checks for Environment and Directory Requirements: Ensures that the `$TOP`, `$RISCV`, and `$RISCV_LINUX` are defined and exist.
 - Sets up Symbolic Links: Links the `$TOP/riscv64-unknown-elf` and `$TOP/riscv64-unknown-linux-gnu` directories to the paths defined in `$RISCV` and `$RISCV_LINUX`, respectively.

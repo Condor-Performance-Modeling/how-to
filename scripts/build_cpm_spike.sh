@@ -7,6 +7,13 @@ if [[ -z "${TOP}" ]]; then
 exit 1; }
 fi
 
+if ! which riscv64-unknown-elf-gcc > /dev/null; then
+  echo "-E: RISC-V cross-compiler riscv64-unknown-elf-gcc was not found in PATH."
+  echo "-E: Please ensure it is in your PATH, for example:"
+  echo "export PATH=\$RV_BAREMETAL_TOOLS/bin:\$PATH"
+  exit 1
+fi
+
 source "$TOP/how-to/scripts/git_clone_retry.sh"
 
 cd $TOP
