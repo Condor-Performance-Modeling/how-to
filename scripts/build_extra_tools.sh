@@ -26,7 +26,7 @@ cd $TOP
 if ! [ -d "$WHISPER_DIR" ]; then
 {
   echo "-W: whisper does not exist, cloning repo."
-  clone_repository_with_retries "https://github.com/Condor-Performance-Modeling/tenstorrent-whisper.git" $WHISPER_DIR "--recursive"
+  clone_repository_with_retries "https://github.com/tenstorrent/whisper.git" $WHISPER_DIR "--recursive"
 }
 fi
 
