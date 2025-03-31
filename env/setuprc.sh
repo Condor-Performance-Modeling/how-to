@@ -49,11 +49,11 @@ unset PATCHES; export PATCHES=$TOP/how-to/patches
 # Used by the baremetal build process
 unset RISCV_PREFIX; export RISCV_PREFIX=riscv64-unknown-elf-
 
-# DEPRECATED: This var points to the gnu bare metal tool chain install directory.
-unset RV_BAREMETAL_TOOLS; export RV_BAREMETAL_TOOLS=$TOP/riscv64-unknown-elf
-
-# DEPRECATED: This var points to the gnu linux tool chain install directory.
-unset RV_LINUX_TOOLS; export RV_LINUX_TOOLS=$TOP/riscv64-unknown-linux-gnu
+## DEPRECATED: This var points to the gnu bare metal tool chain install directory.
+#unset RV_BAREMETAL_TOOLS; export RV_BAREMETAL_TOOLS=$TOP/riscv64-unknown-elf
+#
+## DEPRECATED: This var points to the gnu linux tool chain install directory.
+#unset RV_LINUX_TOOLS; export RV_LINUX_TOOLS=$TOP/riscv64-unknown-linux-gnu
 
 # This var points to the gnu bare metal tool chain install directory.
 unset RV_GNU_BAREMETAL_TOOLS; export RV_GNU_BAREMETAL_TOOLS=/data/tools/riscv-embecosm-embedded-ubuntu2204-20240407-14.0.1
@@ -68,6 +68,12 @@ unset RV_LLVM_BAREMETAL_TOOLS; export RV_LLVM_BAREMETAL_TOOLS=/data/tools/riscv6
 
 # This var points to the llvm linux install directory.
 unset RV_LLVM_LINUX_TOOLS; export RV_LLVM_LINUX_TOOLS=/data/tools/riscv64-llvm-linux
+
+# This var points to the gnu bare metal tool chain install directory.
+unset RV_ANDES_GNU_BAREMETAL_TOOLS; export RV_ANDES_GNU_BAREMETAL_TOOLS=/data/tools/AndeSight_STD_V540/toolchains/nds64le-elf-newlib-v5f
+
+# This var points to the gnu linux tool chain install directory.
+unset RV_ANDES_GNU_LINUX_TOOLS; export RV_ANDES_GNU_LINUX_TOOLS=/data/tools/AndeSight_STD_V540/toolchains/nds64le-linux-glibc-v5d
 
 # Short cut to Sparcians/Map/Sparta, simplifies build instructions
 unset SPARTA; export SPARTA=$TOP/map/sparta
