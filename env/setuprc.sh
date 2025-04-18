@@ -70,7 +70,7 @@ unset RV_LLVM_BAREMETAL_TOOLS; export RV_LLVM_BAREMETAL_TOOLS=/data/tools/riscv6
 unset RV_LLVM_LINUX_TOOLS; export RV_LLVM_LINUX_TOOLS=/data/tools/riscv64-llvm-linux
 
 # This var points to the gnu bare metal tool chain install directory.
-unset RV_ANDES_GNU_BAREMETAL_TOOLS; export RV_ANDES_GNU_BAREMETAL_TOOLS=/data/tools/AndeSight_STD_V540/toolchains/nds64le-elf-mculib-v5f
+unset RV_ANDES_GNU_BAREMETAL_TOOLS; export RV_ANDES_GNU_BAREMETAL_TOOLS=/data/tools/AndeSight_STD_V540/toolchains/nds64le-elf-newlib-v5f
 
 # This var points to the gnu linux tool chain install directory.
 unset RV_ANDES_GNU_LINUX_TOOLS; export RV_ANDES_GNU_LINUX_TOOLS=/data/tools/AndeSight_STD_V540/toolchains/nds64le-linux-glibc-v5d
