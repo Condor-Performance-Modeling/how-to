@@ -13,14 +13,16 @@ unset CONDOR_TOP; export CONDOR_TOP=`pwd`
 # Path to the repo containing the CPM benchmarks
 unset BENCHMARKS; export BENCHMARKS=$TOP/benchmarks
 
-# The linux file system source used by dromajo to boot linux
+# The linux file system source used by spike to boot linux
 unset BUILDROOT; export BUILDROOT=$TOP/buildroot-2020.05.1
 
 # A directory containing the Condor Olympia fork
 unset CAM; export CAM=$TOP/cam
 
-# This var points to the Condor fork of dromajo 
-unset CPM_DROMAJO; export CPM_DROMAJO=$TOP/cpm.dromajo
+#DEPRECATED
+unset CPM_DROMAJO
+### This var points to the Condor fork of dromajo 
+#unset CPM_DROMAJO; export CPM_DROMAJO=$TOP/cpm.dromajo
 
 # Local workspace installed tools
 unset CPM_TOOLS; export CPM_TOOLS=$TOP/tools
@@ -28,10 +30,12 @@ unset CPM_TOOLS; export CPM_TOOLS=$TOP/tools
 # Used by the linux build process
 unset CROSS_COMPILE; export CROSS_COMPILE=riscv64-unknown-linux-gnu-
 
-# This chipsalliance dromajo version
-unset DROMAJO; export DROMAJO=$TOP/dromajo
+#DEPRECATED
+unset DROMAJO
+## This chipsalliance dromajo version
+#unset DROMAJO; export DROMAJO=$TOP/dromajo
 
-# The linux kernel source used for running linux on dromajo.
+# The linux kernel source used for running linux on spike.
 unset KERNEL; export KERNEL=$TOP/linux-5.8-rc4
 
 # This var points to the Sparcians/Map repo copy
@@ -40,7 +44,7 @@ unset MAP; export MAP=$TOP/map
 # This var points to the riscv-perf-model (aka Olympia) repo copy
 unset OLYMPIA; export OLYMPIA=$TOP/riscv-perf-model
 
-# This the open supervisor binary interface source used by dromajo
+# This the open supervisor binary interface source used by spike
 unset OPENSBI; export OPENSBI=$TOP/opensbi
 
 # A directory with pre-modified source files and patch files
@@ -81,7 +85,9 @@ unset SPARTA; export SPARTA=$TOP/map/sparta
 # This var points to riscv-isa-sim aka Spike
 unset SPIKE; export SPIKE=$TOP/riscv-isa-sim
 unset CPM_SPIKE_DIR; export CPM_SPIKE_DIR=$TOP/cpm.riscv-isa-sim
+# FIXME: This is a typo - retain until the fix can be tested
 unset CPM_SPIKE_ANDES_DIR; export CPM_SPIKE_ANDES_DIR=$TOP/cpm.andes.riscv-isa-sim
+unset CPM_ANDES_SPIKE_DIR; export CPM_ANDES_SPIKE_DIR=$TOP/cpm.andes.riscv-isa-sim
 
 # Workspace local tools install directory
 unset TOOLS; export TOOLS=$TOP/tools

@@ -11,8 +11,8 @@ LOG_FILE="${TIMESTAMP}_cpm_env_setup.log"
 
 set_up_cpm_environment() {
 
-    if [[ -z "$TOP" ]] || [[ -z "$RV_LINUX_TOOLS" ]] || [[ -z "$CPM_DROMAJO" ]] || [[ -z "$TOOLS" ]] || [[ -z "$PATCHES" ]]; then
-        echo "One or more required environment variables (TOP, RV_LINUX_TOOLS, CPM_DROMAJO, TOOLS, PATCHES) are not set."
+    if [[ -z "$TOP" ]] || [[ -z "$RV_LINUX_TOOLS" ]] || [[ -z "$TOOLS" ]] || [[ -z "$PATCHES" ]]; then
+        echo "One or more required environment variables (TOP, RV_LINUX_TOOLS, TOOLS, PATCHES) are not set."
         echo "To set the required environment variables, cd into your work area and run: source how-to/env/setuprc.sh"
         exit 1
     fi
@@ -131,7 +131,7 @@ set_up_cpm_environment() {
     update_progress "env_setup_completed"
 
     echo "CPM environment setup process completed successfully."
-    echo "Please continue with the README section: Boot Linux on CPM Dromajo."
+    echo "Please continue with the README section: Boot Linux on Spike."
 }
 
 set_up_cpm_environment "$@" 2>&1 | tee -a "$LOG_FILE"

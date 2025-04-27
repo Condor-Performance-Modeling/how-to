@@ -43,24 +43,24 @@ cmake --install . --prefix $CONDA_PREFIX
 # Adding regress step for sanity
 make -j$(nproc) regress
 
-# Dromajo fork
-cd $TOP
-
-if ! [ -d "cpm.dromajo" ]; then
-{
-  echo "-W: cpm.dromajo does not exist, cloning repo."
-  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/dromajo.git" "cpm.dromajo" "--recurse-submodules"
-}
-fi
-
-cd $CPM_DROMAJO
-git submodule update --init --recursive
-
-# The stf version
-mkdir -p build; cd build
-cmake ..
-make -j$(nproc)
-cp dromajo $TOOLS/bin/cpm_dromajo
+## Dromajo fork
+#cd $TOP
+#
+#if ! [ -d "cpm.dromajo" ]; then
+#{
+#  echo "-W: cpm.dromajo does not exist, cloning repo."
+#  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/dromajo.git" "cpm.dromajo" "--recurse-submodules"
+#}
+#fi
+#
+#cd $CPM_DROMAJO
+#git submodule update --init --recursive
+#
+## The stf version
+#mkdir -p build; cd build
+#cmake ..
+#make -j$(nproc)
+#cp dromajo $TOOLS/bin/cpm_dromajo
 
 ## TODO there is no error capture here
 ## Run regression tests

@@ -23,8 +23,6 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [CPM Environment Setup](#cpm-environment-setup)
 
-1. [Boot Linux on CPM Dromajo](#boot-linux-on-cpm-dromajo)
-
 1. [Build and Install the Golden Models](#build-and-install-the-golden-models)
 
 1. [Boot Linux on Spike](#boot-linux-on-spike)
@@ -42,7 +40,6 @@ perf modeling environment and provide instructions on how to use it.
 <!--
 1. [Build the analysis tool suite](#build-the-analysis-tool-suite)
 1. [Build the benchmark suite](#build-the-benchmark-suite)
-1. [Running programs on CPM Dromajo](#running-programs-on-cpm-dromajo)
 1. [Perf flow to-do list](#perf-flow-to-do-list)
 1. [Using pipeline data views](#using-pipeline-data-views)
 -->
@@ -254,24 +251,6 @@ The results of the above are:
 - I am allowing the installer to run conda init
 - I am allowing the installer to modify my .bashrc
 
-<!--
-The instructions tell you how to disable miniconda activation at 
-startup
-
-- conda config --set auto_activate_base false
-
-- I am not executing this command
-
-- Installing miniconda creates a .condarc  file in your home. 
-  - To fully uninstall conda this file should also be deleted.
-  - For information only, the auto_activate_base setting is stored in this
-    file
-
-
-<i> if you are in a managed environment, like VCAD, make sure you move the 
-added .bashrc lines to a private rc file.</i>
--->
-
 <H2>Close this terminal and open a new terminal</H2>
 
 Your prompt should start with <b>(base)</b>
@@ -330,9 +309,6 @@ This script completes the following stages:
 1. Building Sparcians components
 1. Building the Linux collateral
 1. Building and Installing the CPM Repos
-<!-- TODO move this to an optional section
-1. Building and Installing Olympia
--->
 
 ## Troubleshooting
 
@@ -457,7 +433,7 @@ Installing the CPM repos step by step: [see script on GitHub](https://github.com
 
 ----------------------------------------------------------
 
-
+<!--
 # Boot Linux on CPM Dromajo
 
 The above steps create the necessary collateral to boot linux on CPM 
@@ -479,14 +455,6 @@ cd $CPM_DROMAJO/run
 $TOOLS/bin/cpm_dromajo --ctrlc --stf_priv_modes USHM --stf_trace example.stf boot.cfg
 ```
 Exit with Ctrl-C.
-<!--
-TMI
-
-If you do not need STF trace generation the command line can be simplified
-```
-$TOOLS/bin/cpm_dromajo --ctrlc cpm.boot.cfg   # enable ctrl-c exit
-$TOOLS/bin/cpm_dromajo --trace 0 cpm.boot.cfg # enable console tracing
-```
 -->
 
 ----------------------------------------------------------
@@ -530,26 +498,26 @@ Build the extra tools step by step: [see script on GitHub](https://github.com/Co
 
 # Boot Linux on Spike
 
-The above steps create the necessary collateral to boot linux on Spike.
+The above steps create the necessary collateral to boot linux on Spike, putting
+these files in $TOOLS/riscv-linux.
 
-The steps above create collateral files in $TOOLS/riscv-linux
+<b>NOTE: login is root, password is root</b> 
 
-<b>login is root, password is root</b> for both versions.
-
-## Boot linux - SPIKE 
+## Boot linux - CPM Andes SPIKE 
 Copy the images/etc from previous steps to the Spike run directory.
 ```
 cd $TOP
-mkdir -p $SPIKE/run
-cp $TOOLS/riscv-linux/* $SPIKE/run
+mkdir -p $CPM_ANDES_SPIKE_DIR/run
+cp $TOOLS/riscv-linux/* $CPM_ANDES_SPIKE_DIR/run
 
-cd $SPIKE/run
+cd $CPM_ANDES_SPIKE_DIR/run
 $TOOLS/bin/spike --kernel Image --initrd rootfs.cpio --bootargs "root=/dev/ram rw earlycon=sbi console=hvc0" fw_jump.elf 
 ```
 
 Custom `isa` configuration for spike can be provided with the `--isa` switch.
 
-This golden model doesn't exit on Ctrl-C. You must kill the PID to exit the simulation.
+This golden model doesn't exit on Ctrl-C.
+You must kill the PID to exit the simulation.
 
 ----------------------------------------------------------
 

@@ -1,7 +1,7 @@
 
 # Creating a Custom `rootfs.cpio` File
 
-This document contains notes on how to create a custom `rootfs.cpio` file for a RISC-V Linux environment and use it when booting Linux on Dromajo/Spike. It includes steps to set up Buildroot if it’s not already available and instructions to inject your own files into the root filesystem.
+This document contains notes on how to create a custom `rootfs.cpio` file for a RISC-V Linux environment and use it when booting Linux on Spike. It includes steps to set up Buildroot if it’s not already available and instructions to inject your own files into the root filesystem.
 
 ---
 
@@ -100,22 +100,6 @@ When booting Linux, `initrd` option must be used.
   - The path should correctly point to the `rootfs.cpio` file relative to `boot.cfg`.
 
 ---
-
-## Boot Linux - CPM Dromajo
-
-### Boot Command - Dromajo
-
-```bash
-dromajo --ctrlc --stf_priv_modes USHM --stf_trace example.stf boot.cfg
-```
-
-### `initrd` in `boot.cfg`
-
-The `initrd` field in `boot.cfg` specifies the initial RAM disk (root filesystem) for the Linux kernel:
-
-```json
-"initrd": "../common/rootfs.cpio"
-```
 
 ---
 
