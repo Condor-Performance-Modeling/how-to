@@ -19,21 +19,30 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Boot strapping the environment](#boot-strapping-the-environment)
 
+1. [Install Overview](#install-overview)
+
 1. [Install Miniconda](#install-miniconda)
 
-    1. [Verify the Base Miniconda Environment](#verify-the-base-miniconda-environment)
+1. [CPM Environment Setup](#cpm-environment-setup)
 
-    1. [Setup the Sparta Conda Environment](#setup-the-sparta-conda-environment)
+1. [Boot Linux on CPM Dromajo](#boot-linux-on-cpm-dromajo)
 
-    1. [Build Sparcians Components and Collateral Repos](#build-sparcians-components-and-collateral-repos)
+1. [Build and Install the Golden Models](#build-and-install-the-golden-models)
 
-1. [Build the CPM Golden Model](#build-the-cpm-golden-model)
+1. [Boot Linux on Spike](#boot-linux-on-spike)
 
-1. [Final Test](#final-test)
+1. [Proceed to benchmarks](#proceed-to-benchmarks)
 
-<!-- 1. [Other Guides](#other-guides) -->
+1. [Optional builds](#optional-builds)
 
+    1. [Build and Install stf_tools](#build-and-install-stf_tools)
+
+    1. [Patching SimPoint](#patching-simpoint)
+
+1. [Updating compiler links](#updating-compiler-links)
+   
 ----------------------------------------------------------
+
 # Choosing a host
 You should do most of your work on interactive1/2 or optionally compute1-7. 
 You can directly log into compute1-7 but they are LSF machines so 
@@ -57,7 +66,6 @@ for serving desktops and limited browser use.
 
 <i>If you exceed the GUI machine limits your job may be unexpectedly terminated without much explanation. </i>
 
-----------------------------------------------------------
 # Creating a workspace
 
 The convention is to use /data/users for workspaces. It is not a good
@@ -75,7 +83,6 @@ NOTE: If you are developing contents of the how-to repo it is easier to start wi
 git clone git@github.com:Condor-Performance-Modeling/how-to.git
 ```
 
-----------------------------------------------------------
 # Boot strapping the environment
 
 If this is your first time through the install expand the details below.
@@ -272,6 +279,7 @@ Your prompt should start with <b>(base)</b>
 </details> <!-- end of Linux, C-AWS and VCAD environments -->
 
 ----------------------------------------------------------
+
 # CPM Environment Setup
 
 The CPM Environment Setup is automated through scripts that:
@@ -327,9 +335,127 @@ The cpm_env_setup.sh script completes the following stages:
 
 If there are no errors in this process skip to [Build the CPM Golden Model](#build-the-cpm-golden-model)
 
-If there are errors see the [troubleshooting guide](https://github.com/Condor-Performance-Modeling/how-to/blob/main/md/TROUBLESHOOTING_GUIDE.md)
+If there are errors the section below provides debug info.
+
+### Troubleshooting
+
+If the `cpm_env_setup.sh` setup script fails, it's designed to be re-run. It will pick up the process from the last completed stage. Alternatively, steps can be completed manually if needed (see the details section below).
+
+<b>CPM Environment Setup Step By Step</b>
+
+<details>
+  <summary>Details: Install the Sparcians repos</summary>
+
+# Install the Sparcians repos
+
+## Install the MAP Miniconda components
+
+Verify your conda environment is active. '(base)' should be in your prompt.
+
+```
+conda activate
+cd /data/users/$USER/condor   # or your work area
+source how-to/env/setuprc.sh
+
+conda install -c conda-forge jq yq 
+Proceed ([y]/n)? y
+```
+
+## Create the Sparta Conda environment
+
+This section builds and installs the conda environment used by Map.
+
+If you have previously installed MAP you will have a MAP Conda
+environment available and you may receive the "prefix already exists"
+message when creating the conda environment. This is benign.
+
+```
+cd $TOP
+git clone https://github.com/sparcians/map.git
+cd $MAP
+git checkout map_v2
+./scripts/create_conda_env.sh sparta dev
+conda activate sparta
+conda install yaml-cpp
+```
+
+Your prompt should start with (sparta) after activation.
+
+## Building Sparcians components
+
+This builds MAP/Sparta, helios and STF_LIB.
+
+```
+conda activate sparta
+cd $TOP
+bash how-to/scripts/build_sparcians.sh
+```
+Building Map components step by step: [see script on GitHub](https://github.com/Condor-Performance-Modeling/how-to/blob/main/scripts/build_sparcians.sh)
+
+</details>
+
+<details>
+  <summary>Details: Install the Linux collateral</summary>
+
+# Install the Linux collateral
+
+## Link the cross compilers
+
+If necessary create links to the cross compilers
+
+```
+  cd $TOP
+  ln -sfv /data/tools/riscv-embecosm-embedded-ubuntu2204-20240407-14.0.1 riscv64-unknown-elf
+  ln -sfv /data/tools/riscv64-embecosm-linux-gcc-ubuntu2204-20240407-14.0.1 riscv64-unknown-linux-gnu
+```
+
+## PATH check
+Check that riscv64-unknown-linux-gnu-gcc is in your path.
+```
+which riscv64-unknown-linux-gnu-gcc
+```
+If not, add it to your PATH variable as shown.
+```
+export PATH=$RV_LINUX_TOOLS/bin:$PATH
+```
+CROSS_COMPILE is now set in the CPM environment RC file.  To set it manually:
+```
+export CROSS_COMPILE=riscv64-unknown-linux-gnu-
+```
+
+## Build the Linux collateral
+
+This step downloads and builds the kernel, file system and OpenSBI.
+
+
+```
+cd $TOP
+bash how-to/scripts/build_linux_collateral.sh
+```
+Building the linux collateral step by step: [see script on GitHub](https://github.com/Condor-Performance-Modeling/how-to/blob/main/scripts/build_linux_collateral.sh)
+
+</details>
+
+<details>
+  <summary>Details: Install the CPM Repos</summary>
+
+# Install the CPM Repos
+
+CPM -> Condor Performance Modeling
+
+This install the CPM repos: benchmarks, CAM, tools, utils, cpm.riscv-perf-model, cpm.dromajo
+
+```
+cd $TOP
+bash how-to/scripts/build_cpm_repos.sh
+
+```
+Installing the CPM repos step by step: [see script on GitHub](https://github.com/Condor-Performance-Modeling/how-to/blob/main/scripts/build_cpm_repos.sh)
+
+</details>
 
 ----------------------------------------------------------
+
 # Build the CPM Golden Model
 
 A modified form of Spike (cpm.andes.riscv-isa-sim) is used to generate 
@@ -349,37 +475,201 @@ source how-to/env/setuprc.sh
 bash how-to/scripts/build_cpm_andes_spike.sh
 ```
 
-This clones, builds, and runs regression on the model.
-Any errors are reported to the console.
+This clones, builds, and runs regression on the model. Any errors are reported to the console.
 
-If there are no errors you can optional perform one more these of the
-CPM environment.
+
+<!--
+# Boot Linux on CPM Dromajo
+
+The above steps create the necessary collateral to boot linux on CPM 
+Dromajo.
+
+The steps above create collateral files in $TOOLS/riscv-linux
+
+<b>login is root, password is root</b> for both versions.
+
+## Boot linux - CPM DROMAJO 
+Copy the images/etc from previous steps to the CPM Dromajo run directory.
+```
+cd $TOP
+mkdir -p $CPM_DROMAJO/run
+cp $TOOLS/riscv-linux/* $CPM_DROMAJO/run
+cp $PATCHES/cpm.boot.cfg  $CPM_DROMAJO/run
+
+cd $CPM_DROMAJO/run
+$TOOLS/bin/cpm_dromajo --ctrlc --stf_priv_modes USHM --stf_trace example.stf boot.cfg
+```
+Exit with Ctrl-C.
 
 ----------------------------------------------------------
-# Final Test
+# Build and Install the Golden Models and Associated Tools
 
-This is optional. You can exercise the majority of the CPM environment from
-the benchmarks repo.
+## Exit Conda
+
+<b>You must deactivate the conda environment before proceeding.</b>
+
+Deactivate once to exit the sparta environment, once again to exit the base conda
+environment.
+
+Your prompt should not show (base) or (sparta) when you have
+successfully deactivated the environments.
+
+```
+  conda deactivate     # leave sparta
+  conda deactivate     # leave base
+```
+
+## Build CPM Spike
 
 ```
 cd $TOP
-source how-to/env/setuprc.sh
-cd $BENCHMARKS
-make
+bash how-to/scripts/build_cpm_spike.sh
 ```
+  Build CPM Spike step by step: [see script on GitHub](https://github.com/Condor-Performance-Modeling/how-to/blob/main/scripts/build_cpm_spike.sh)
 
-Once this completes there will be a PASS/FAIL indication in the console.
 
-<!--
+
+## Build the Associated Tools
+
+```
+cd $TOP
+bash how-to/scripts/build_extra_tools.sh
+```
+Build the extra tools step by step: [see script on GitHub](https://github.com/Condor-Performance-Modeling/how-to/blob/main/scripts/build_extra_tools.sh)
+
 
 ----------------------------------------------------------
-# Other Guides
 
-- Troubleshooting guide
-- Booting Linux on Spike
-- Booting the public fork of Spike
-- Building other tools and utilities
-- Patching SimPoint
-- Updating compiler links
+# Boot Linux on Spike
+
+The above steps create the necessary collateral to boot linux on Spike.
+
+The steps above create collateral files in $TOOLS/riscv-linux
+
+<b>login is root, password is root</b> for both versions.
+
+## Boot linux - SPIKE 
+Copy the images/etc from previous steps to the Spike run directory.
+```
+cd $TOP
+mkdir -p $SPIKE/run
+cp $TOOLS/riscv-linux/* $SPIKE/run
+
+cd $SPIKE/run
+$TOOLS/bin/spike --kernel Image --initrd rootfs.cpio --bootargs "root=/dev/ram rw earlycon=sbi console=hvc0" fw_jump.elf 
+```
+
+Custom `isa` configuration for spike can be provided with the `--isa` switch.
+
+This golden model doesn't exit on Ctrl-C. You must kill the PID to exit the simulation.
+
+----------------------------------------------------------
+
+# Proceed to benchmarks
+
+The remaining instructions are in $BENCHMARKS/README.md.
+
+----------------------------------------------------------
+# Optional builds
+
+<b> The following steps are for information only.  </b>
+
+<b> You do not normally need to proceed beyond this point. </b>
+
+## Build and Install stf_tools
+
+This step is optional but the tools created are very helpful in working with the STF traces.
+
+The `github` repo is here:  https://github.com/sparcians/stf_tools
+
+Log into `interactive1`.  On this machine, the following libraries have already been installed:
+```
+sudo apt-get install libmpc-dev liblzma-dev libbz2-dev
+```
+
+If you are on a different machine, you may need to install these libraries yourself.
+
+```
+cd $TOP
+conda activate sparta
+git clone git@github.com:sparcians/stf_tools
+cd stf_tools
+
+git checkout 161b983    # This SHA works; this flow has not been tested with later SHAs
+git submodule update --init --recursive
+
+# Here we hack the cmake file to disable some warnings.  This should be root-caused and fixed at some point
+sed -i 's/-Wextra -pedantic -Wconversion/-pedantic/' CMakeLists.txt
+
+mkdir -p release; cd release
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j8
+```
+
+If a higher version of CMake is required than what was found, upgrade the version. With the sparta environment enabled try:
+
+```
+conda install cmake
+```
+
+The tools can be found in `stf_tools/release/tools`.  Each tool is in its own subdirectory.
+Here are some tools you may want to play with to begin:
+```
+cd $TOP/stf_tools/release/tools
+stf_count/stf_count $CAM/traces/dhry_riscv.zstf
+stf_dump/stf_dump $CAM/traces/dhry_riscv.zstf |head -40
+stf_imem/stf_imem $CAM/traces/dhry_riscv.zstf |head -40
+```
+----------------------------------------------------------
+## Patching SimPoint
+
+SimPoint is installed in C-AWS at /data/tools/SimPoint.3.2.
+
+You do not need to install another copy for the standard flow.
+
+
+## About Simpoint
+
+For the description of Simpoint see this url
+```
+https://cseweb.ucsd.edu/~calder/simpoint/
+```
+The releases are available through this url:
+```
+https://cseweb.ucsd.edu/~calder/simpoint/software-release.htm
+```
+
+## Building Simpoint from source
+
+For modern compilers v3.2 needs to be patched. I use this script to 
+patch new builds of 3.2
+
+```
+$TOP/how-to/patches/patch_simpoint.3.2.sh
+```
+
+The process is typically:
+
+```
+tar xf SimPoint.3.2.tar.gz
+cd SimPoint.3.2/analysiscode
+bash $TOP/how-to/patches/patch_simpoint.3.2.sh
+cd ..
+make -j8
+```
+
+# Updating compiler links
+
+The `update_compiler_links.sh` script is designed to set up symbolic links and update environment variables for RISC-V cross-compilation. It ensures that the paths to specific cross-compilers are correctly set, allowing easy switching between different RISC-V compiler versions or configurations. This script should be run **after the cross-compiler paths were updated in the `setuprc.sh` script located in `how-to/env/`**.
+
+To use this script, navigate to your work area and run:
+```bash
+source how-to/env/setuprc.sh
+bash how-to/scripts/update_compiler_links.sh
+```
+Updating compiler links step by step: [see script on GitHub](https://github.com/Condor-Performance-Modeling/how-to/blob/main/scripts/update_compiler_links.sh)
+## What the script does
+- Checks for Environment and Directory Requirements: Ensures that the `$TOP`, `$RISCV`, and `$RISCV_LINUX` are defined and exist.
+- Sets up Symbolic Links: Links the `$TOP/riscv64-unknown-elf` and `$TOP/riscv64-unknown-linux-gnu` directories to the paths defined in `$RISCV` and `$RISCV_LINUX`, respectively. 
 
 -->

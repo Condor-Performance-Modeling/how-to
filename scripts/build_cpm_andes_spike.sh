@@ -10,7 +10,7 @@ fi
 if ! which riscv64-unknown-elf-gcc > /dev/null; then
   echo "-E: RISC-V cross-compiler riscv64-unknown-elf-gcc was not found in PATH."
   echo "-E: Please ensure it is in your PATH, for example:"
-  echo "export PATH=\$RV_GNU_BAREMETAL_TOOLS/bin:\$PATH"
+  echo "export PATH=\$RV_ANDES_GNU_BAREMETAL_TOOLS/bin:\$PATH"
   exit 1
 fi
 
@@ -21,15 +21,15 @@ cd $TOP
 # files w/ the directory names
 mkdir -p $TOOLS/bin
 
-echo "Building CPM Spike"
-if ! [ -d "$CPM_SPIKE_DIR" ]; then
+echo "Building CPM Andes Spike"
+if ! [ -d "$CPM_ANDES_SPIKE_DIR" ]; then
 {
-  echo "-W: $CPM_SPIKE_DIR does not exist, cloning repo."
-  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/cpm.riscv-isa-sim.git" $CPM_SPIKE_DIR "--recurse-submodules"
+  echo "-W: $CPM_ANDES_SPIKE_DIR does not exist, cloning repo."
+  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/cpm.andes.riscv-isa-sim.git" $CPM_ANDES_SPIKE_DIR "--recurse-submodules"
 }
 fi
 
-pushd $CPM_SPIKE_DIR
+pushd $CPM_ANDES_SPIKE_DIR
 mkdir -p build install; cd build
 ../configure --prefix=`pwd`/../install
 make -j$(nproc) 
