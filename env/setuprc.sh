@@ -19,17 +19,14 @@ unset BUILDROOT; export BUILDROOT=$TOP/buildroot-2020.05.1
 # A directory containing the Condor Olympia fork
 unset CAM; export CAM=$TOP/cam
 
-# This var points to the Condor fork of dromajo 
-unset CPM_DROMAJO; export CPM_DROMAJO=$TOP/cpm.dromajo
-
 # Local workspace installed tools
 unset CPM_TOOLS; export CPM_TOOLS=$TOP/tools
 
 # Used by the linux build process
 unset CROSS_COMPILE; export CROSS_COMPILE=riscv64-unknown-linux-gnu-
 
-# This chipsalliance dromajo version
-unset DROMAJO; export DROMAJO=$TOP/dromajo
+# Ancillary documentation
+unset CPM_DOCS; export CPM_DOCS=$TOP/documents
 
 # The linux kernel source used for running linux on dromajo.
 unset KERNEL; export KERNEL=$TOP/linux-5.8-rc4
@@ -48,12 +45,6 @@ unset PATCHES; export PATCHES=$TOP/how-to/patches
 
 # Used by the baremetal build process
 unset RISCV_PREFIX; export RISCV_PREFIX=riscv64-unknown-elf-
-
-## DEPRECATED: This var points to the gnu bare metal tool chain install directory.
-#unset RV_BAREMETAL_TOOLS; export RV_BAREMETAL_TOOLS=$TOP/riscv64-unknown-elf
-#
-## DEPRECATED: This var points to the gnu linux tool chain install directory.
-#unset RV_LINUX_TOOLS; export RV_LINUX_TOOLS=$TOP/riscv64-unknown-linux-gnu
 
 # This var points to the gnu bare metal tool chain install directory.
 unset RV_GNU_BAREMETAL_TOOLS; export RV_GNU_BAREMETAL_TOOLS=/data/tools/riscv-embecosm-embedded-ubuntu2204-20240407-14.0.1
@@ -99,10 +90,12 @@ unset TRACELIB; export TRACELIB=/data/tracelib
 # ------------------------------------------------------------------------
 # Previous or deprecated settings
 #
-# RISCV is eliminated
-# CPM_ENV is deprecated, etc
-# WGETTMP is eliminated
-# RV_TOOLS_SRC is eliminated
+# RISCV
+# CPM_ENV
+# WGETTMP
+# RV_TOOLS_SRC
+# DROMAJO
+# CPM_DROMAJO
 # ------------------------------------------------------------------------
 unset CPM_ENV; #deprecated export CPM_ENV=$TOP/how-to/env
 # ------------------------------------------------------------------------
@@ -111,6 +104,12 @@ unset RV_TOOLS_SRC; #deprecated export RV_TOOLS_SRC=$TOP/riscv-gnu-toolchain
 # You could also use $TOP/how-to/downloads if /tmp is not available
 # export WGETTMP=$TOP/how-to/downloads
 unset WGETTMP; #export WGETTMP=/tmp
+# ------------------------------------------------------------------------
+## This is the chipsalliance dromajo version
+unset DROMAJO #deprecated export DROMAJO=$TOP/dromajo
+#unset DROMAJO; export DROMAJO=$TOP/dromajo
+# This is the Condor fork of dromajo 
+unset CPM_DROMAJO; #deprecated export CPM_DROMAJO=$TOP/cpm.dromajo
 # ------------------------------------------------------------------------
 # This is not done by default, it is here for reference
 #export PATH=$RV_BAREMETAL_TOOLS/bin:$RV_LINUX_TOOLS/bin:$PATH

@@ -2,10 +2,6 @@
 
 set -e
 
-#Contact: Stan Iwan
-#         Sofomo
-#         2024.04.09
-
 clone_repository_with_retries() {
     local repo_url="$1"
     local custom_folder_name="$2"

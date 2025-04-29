@@ -43,12 +43,10 @@ cmake --install . --prefix $CONDA_PREFIX
 # Adding regress step for sanity
 make -j$(nproc) regress
 
-# Spike fork
-cd $TOP
-
 # -------------------------------------------------------
 # Sym link the cross compilers
 # -------------------------------------------------------
+cd $TOP
 if [ ! -L riscv64-unknown-elf ]; then
   ln -sfv /data/tools/riscv-embecosm-embedded-ubuntu2204-20240407-14.0.1 riscv64-unknown-elf
 fi
@@ -60,7 +58,6 @@ fi
 # -------------------------------------------------------
 # Repos
 # -------------------------------------------------------
-
 cd $TOP
 
 # benchmarks

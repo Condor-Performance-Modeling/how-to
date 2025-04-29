@@ -1,37 +1,38 @@
 #! /bin/bash
+# ------------------------------------------------------------------------
+#
+# This is for expansion of future repos. Only CPM_DOCS is built 
+#
+# Uses:  CONDOR_TOP CPM_DOCS
+#
+# Clones/builds
+#    cpm documents repo
+#
+# ------------------------------------------------------------------------
+set -euo pipefail
 
-set -e
-
-if [[ -z "${TOP}" ]]; then
-  { echo "TOP is undefined, execute 'source how-to/env/setuprc.sh'"; exit 1; }
+if [[ -z "${CONDOR_TOP}" ]]; then
+  echo "-E: CONDOR_TOP is undefined, execute 'source how-to/env/setuprc.sh'"
+  exit 1
 fi
 
-if [[ -z "${WHISPER_DIR}" ]]; then
-{
-  echo "-E: WHISPER_DIR is undefined, execute 'source how-to/env/setuprc.sh'";
-  exit 1;
-}
+if [[ -z "${CPM_DOCS}" ]]; then
+  echo "-E: CPM_DOCS is undefined, execute 'source how-to/env/setuprc.sh'"
+  exit 1
 fi
 
-source "$TOP/how-to/scripts/git_clone_retry.sh"
+source "${CONDOR_TOP}/how-to/scripts/git_clone_retry.sh"
 
-cd $TOP
-mkdir -p exttools; cd exttools
-# Boost - needed for Tenstorrent Whisper
-clone_repository_with_retries "https://github.com/boostorg/boost.git" "boost" "--recursive"
+# ----------------------------------------------------------------------
+# Documents
+# ----------------------------------------------------------------------
+cd "${CONDOR_TOP}"
 
-# Whisper
-cd $TOP
-
-if ! [ -d "$WHISPER_DIR" ]; then
-{
-  echo "-W: whisper does not exist, cloning repo."
-  clone_repository_with_retries "https://github.com/tenstorrent/whisper.git" $WHISPER_DIR "--recursive"
-}
+if ! [ -d "${CPM_DOCS}" ]; then
+  echo "-W: 'documents' does not exist, cloning repo."
+  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/documents.git ${CPM_DOCS}"
 fi
 
-cd $WHISPER_DIR
-make -j$(nproc)
-cp build-Linux/whisper $TOOLS/bin
-cd $TOP
-
+# ----------------------------------------------------------------------
+# ----------------------------------------------------------------------
+cd "${CONDOR_TOP}"

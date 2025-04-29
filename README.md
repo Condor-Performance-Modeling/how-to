@@ -29,7 +29,7 @@ perf modeling environment and provide instructions on how to use it.
 
     1. [Build the CPM Components and Collateral](#build-the-cpm-components-and-collateral)
 
-1. [Build the CPM Golden Model](#build-the-cpm-golden-model)
+1. [Build the CPM Golden Models](#build-the-cpm-golden-models)
 
 1. [Final Test](#final-test)
 
@@ -328,13 +328,14 @@ Then run:
 bash how-to/scripts/cpm_env_setup.sh
 ```
 
-If there are no errors in this process skip to [Build the CPM Golden Model](#build-the-cpm-golden-model)
+If there are no errors in this process skip to [Build the CPM Golden Models](#build-the-cpm-golden-models)
 
 If there are errors see the [troubleshooting guide](https://github.com/Condor-Performance-Modeling/how-to/blob/main/md/TROUBLESHOOTING_GUIDE.md)
 
 ----------------------------------------------------------
-# Build the CPM Golden Model
+# Build the CPM Golden Models
 
+## STF/BBV/Andes Spike
 A modified form of Spike (cpm.andes.riscv-isa-sim) generates
 the traces used by CAM. The installation of the model uses a manual step
 to exit the conda environment.
@@ -356,8 +357,13 @@ source how-to/env/setuprc.sh
 bash how-to/scripts/build_cpm_andes_spike.sh
 ```
 
-This clones, builds, and runs a regression test on the model.
+This clones, builds, and runs a regression test on the Spike model.
 Any errors are reported to the console.
+
+## Whisper Clone
+The script above also clones and builds boost and the public whisper 
+golden model.  The whisper model is not used currently in the CAWS flow. 
+It is built for reference.
 
 ----------------------------------------------------------
 # Final Test
