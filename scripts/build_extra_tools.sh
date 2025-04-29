@@ -30,7 +30,7 @@ cd "${CONDOR_TOP}"
 
 if ! [ -d "${CPM_DOCS}" ]; then
   echo "-W: 'documents' does not exist, cloning repo."
-  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/documents.git ${CPM_DOCS}"
+  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/documents.git" "documents" "--recurse-submodules"
 fi
 
 # ----------------------------------------------------------------------
