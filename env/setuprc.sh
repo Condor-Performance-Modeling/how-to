@@ -81,7 +81,9 @@ unset SPARTA; export SPARTA=$TOP/map/sparta
 # This var points to riscv-isa-sim aka Spike
 unset SPIKE; export SPIKE=$TOP/riscv-isa-sim
 unset CPM_SPIKE_DIR; export CPM_SPIKE_DIR=$TOP/cpm.riscv-isa-sim
+# This was a typo, it will be deprecated, for now there is a work around.
 unset CPM_SPIKE_ANDES_DIR; export CPM_SPIKE_ANDES_DIR=$TOP/cpm.andes.riscv-isa-sim
+unset CPM_ANDES_SPIKE_DIR; export CPM_ANDES_SPIKE_DIR=$TOP/cpm.andes.riscv-isa-sim
 
 # Workspace local tools install directory
 unset TOOLS; export TOOLS=$TOP/tools

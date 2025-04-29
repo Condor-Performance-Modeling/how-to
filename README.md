@@ -21,11 +21,13 @@ perf modeling environment and provide instructions on how to use it.
 
 1. [Install Miniconda](#install-miniconda)
 
+1. [CPM Environment Setup](#cpm-environment-setup)
+
     1. [Verify the Base Miniconda Environment](#verify-the-base-miniconda-environment)
 
     1. [Setup the Sparta Conda Environment](#setup-the-sparta-conda-environment)
 
-    1. [Build Sparcians Components and Collateral Repos](#build-sparcians-components-and-collateral-repos)
+    1. [Build the CPM Components and Collateral](#build-the-cpm-components-and-collateral)
 
 1. [Build the CPM Golden Model](#build-the-cpm-golden-model)
 
@@ -246,24 +248,6 @@ The results of the above are:
 - I am allowing the installer to run conda init
 - I am allowing the installer to modify my .bashrc
 
-<!--
-The instructions tell you how to disable miniconda activation at 
-startup
-
-- conda config --set auto_activate_base false
-
-- I am not executing this command
-
-- Installing miniconda creates a .condarc  file in your home. 
-  - To fully uninstall conda this file should also be deleted.
-  - For information only, the auto_activate_base setting is stored in this
-    file
-
-
-<i> if you are in a managed environment, like VCAD, make sure you move the 
-added .bashrc lines to a private rc file.</i>
--->
-
 <H2>Close this terminal and open a new terminal</H2>
 
 Your prompt should start with <b>(base)</b>
@@ -278,8 +262,7 @@ The CPM Environment Setup is automated through scripts that:
 
 - Verify the Base Miniconda Environment
 - Setup the Sparta Conda environment
-- Build Sparcians Components and Collateral Repos
-- Build the CPM Golden Model
+- Build the CPM Components and Collateral
 
 For a manual, step-by-step setup process, refer to the [CPM Environment Setup Step By Step](#cpm-environment-setup-step-by-step) section. This section provides links to the individual scripts and detailed instructions for manually setting up the environment.
 
@@ -312,18 +295,38 @@ bash how-to/scripts/conda_env_setup.sh
 conda activate sparta
 ```
 
-## Build Sparcians Components and Collateral Repos
-Your prompt should start with (sparta) after activation. Then run:
+The `conda_env_setup.sh` script has a built in fall-back method. If you see the
+following the fall-back has been triggered.
+
+```
+::ERROR:: variant file <some message>
+create_conda_env.sh failed, running fallback command 
+```
+
+If you see the following, the process was completed successfully. The error above was handled by the fall-back.
+```
+Setup process completed.                             
+```
+
+Now activate the sparta environment
+```
+conda activate sparta
+```
+
+## Build the CPM Components and Collateral
+Your prompt should start with (sparta) after activation.
+
+The `cpm_env_setup.sh` script completes the following stages:
+
+1. Building Sparcians components
+1. Building the Linux collateral (cross compiled)
+1. Building and Installing the CPM Repos
+
+Then run:
 
 ```bash
 bash how-to/scripts/cpm_env_setup.sh
 ```
-
-The cpm_env_setup.sh script completes the following stages:
-
-1. Building Sparcians components
-1. Building the Linux collateral
-1. Building and Installing the CPM Repos
 
 If there are no errors in this process skip to [Build the CPM Golden Model](#build-the-cpm-golden-model)
 
@@ -332,34 +335,35 @@ If there are errors see the [troubleshooting guide](https://github.com/Condor-Pe
 ----------------------------------------------------------
 # Build the CPM Golden Model
 
-A modified form of Spike (cpm.andes.riscv-isa-sim) is used to generate 
-the traces used by CAM. The installation of this uses a manual step
-to modify the PATH variable to add a bare metal cross compiler.
+A modified form of Spike (cpm.andes.riscv-isa-sim) generates
+the traces used by CAM. The installation of the model uses a manual step
+to exit the conda environment.
 
-```
-export PATH=$RV_ANDES_GNU_BAREMETAL_TOOLS/bin:$PATH
-```
+The Andes GNU bare metal cross compiler is added to your path.
 
 **NOTE**: This is an Andes supplied GNU toolchain that supports the Andes V5 performance extensions.
 
-Next execute the build script.
+Exit conda using deactivate twice, once for (sparta), once to exit (base)
+```
+conda deactivate
+conda deactivate
+```
+
+Next, execute the build script.
 ```
 cd $TOP
 source how-to/env/setuprc.sh
 bash how-to/scripts/build_cpm_andes_spike.sh
 ```
 
-This clones, builds, and runs regression on the model.
+This clones, builds, and runs a regression test on the model.
 Any errors are reported to the console.
-
-If there are no errors you can optional perform one more these of the
-CPM environment.
 
 ----------------------------------------------------------
 # Final Test
 
-This is optional. You can exercise the majority of the CPM environment from
-the benchmarks repo.
+This step is recommended. You can exercise the majority of the CPM 
+environment from the benchmarks repo.
 
 ```
 cd $TOP
