@@ -41,7 +41,7 @@ You should do most of your work on interactive1/2 or optionally compute1-7.
 You can directly log into compute1-7 but they are LSF machines so 
 interactive1/2 are preferred.
 
-When you first access C-AWS you will land you on gui1. Once on gui1 you 
+When you first access C-AWS you will land on gui1. Once on gui1 you 
 should switch to one of the interactive or compute machines.
 
 There are 3 gui machines, gui1-3. You can create a virtual desktop on any
@@ -164,9 +164,9 @@ Note your ssh public key is in this file $HOME/.ssh/id_rsa.pub. The contents
 of this file are pasted at step 7.
 
 ## Choose a host
-As of 12/2024 the sim farm includes
+As of 05/2025 the sim farm includes
 ```
-interactive1       Interactive jobs
+interactive1/2     Interactive jobs
 compute1-7         LSF and general usage
 gui1/gui2/gui3     Desktop servers only
 utility1           Runs load watchers/VPN/etc, not for general use
