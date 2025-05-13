@@ -1,0 +1,44 @@
+From 3c17246ab153d4105b81d93efda03cb5179dcfac Mon Sep 17 00:00:00 2001
+From: Wang Pengcheng <wangpengcheng.pp@bytedance.com>
+Date: Mon, 30 Dec 2024 11:39:44 +0800
+Subject: [PATCH] RISC-V: Update prefetch instruction to use register_operand
+
+Fixes errors that occur when the base address is a constant within the range [-2048, 2047]. 
+This update changes the operand type for `prefetch` and `riscv_prefetchi_<mode>` 
+from `address_operand` to `register_operand`.
+
+gcc/ChangeLog:
+
+    * config/riscv/riscv.md (prefetch): Replace `address_operand` with `register_operand`.
+      (riscv_prefetchi_<mode>): Replace `address_operand` with `register_operand`.
+
+Signed-off-by: Wang Pengcheng <wangpengcheng.pp@bytedance.com>
+---
+ gcc/config/riscv/riscv.md | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gcc/config/riscv/riscv.md b/gcc/config/riscv/riscv.md
+index 6c6155ceeb8..fe49c313158 100644
+--- a/gcc/config/riscv/riscv.md
++++ b/gcc/config/riscv/riscv.md
+@@ -4247,7 +4247,7 @@
+ )
+ 
+ (define_insn "prefetch"
+-  [(prefetch (match_operand 0 "address_operand" "r")
++  [(prefetch (match_operand 0 "register_operand" "r")
+              (match_operand 1 "imm5_operand" "i")
+              (match_operand 2 "const_int_operand" "n"))]
+   "TARGET_ZICBOP"
+@@ -4267,7 +4267,7 @@
+ 				      (const_string "4")))])
+ 
+ (define_insn "riscv_prefetchi_<mode>"
+-  [(unspec_volatile:X [(match_operand:X 0 "address_operand" "r")
++  [(unspec_volatile:X [(match_operand:X 0 "register_operand" "r")
+               (match_operand:X 1 "imm5_operand" "i")]
+               UNSPECV_PREI)]
+   "TARGET_ZICBOP"
+-- 
+2.39.5
+

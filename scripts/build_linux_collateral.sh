@@ -7,10 +7,29 @@ LNX_BASE="riscv64-unknown-linux-gnu"
 ECOS_BM_DIR="/data/tools/riscv-embecosm-embedded-ubuntu2204-20240407-14.0.1"
 ECOS_LNX_DIR="/data/tools/riscv64-embecosm-linux-gcc-ubuntu2204-20240407-14.0.1"
 
+# Test kernel - this fails
+#KERNEL_TARBALL="/data/tools/env/linux-6.12.28.tar.xz"
+#KERNEL_BASE="linux-6.12.28"
+
+# Known good kernel
 KERNEL_TARBALL="/data/tools/env/linux-5.8-rc4.tar.gz"
 KERNEL_BASE="linux-5.8-rc4"
-BUILDROOT_TARBALL="/data/tools/env/2020.05.1.tar.gz"
-KBLD_MARCH="-march=rv64imafdc_zicsr_zifencei"
+
+BUILDROOT_TARBALL="/data/tools/env/buildroot-2025.02.tar.gz"
+BUILDROOT_BASE="buildroot-2025.02"
+BUILDROOT_CONFIG="${PATCHES}/config-buildroot-2025.02" 
+
+# This is the old default string known to work with :
+#    buildroot-2020.05
+#    linux-5.8-rc4
+#KBLD_MARCH="-march=rv64imafdc_zicsr_zifencei"
+
+# Current GCC gives internal error on zicbop, so removed
+KBLD_MARCH="-march=rv64imafdc_h_sscofpmf_sstc_svinval_svnapot_svpbmt_zawrs_zba_zbb_zbc_zbs_zfa_zfh_zfhmin_zicbom_zicboz_zicntr_zifencei_zicond_zihintntl_zihintpause_zihpm_zkt_zk_zkn_zknd_zkne_zknh_zbkb_zbkc_zbkx"
+
+# This is the full Condor RVA23 string which GCC fails due to zicbop
+#KBLD_MARCH="-march=rv64imafdc_h_sscofpmf_sstc_svinval_svnapot_svpbmt_zawrs_zba_zbb_zbc_zbs_zfa_zfh_zfhmin_zicbop_zicbom_zicboz_zicntr_zifencei_zicond_zihintntl_zihintpause_zihpm_zkt_zk_zkn_zknd_zkne_zknh_zbkb_zbkc_zbkx"
+
 # -------------------------------------------------------------
 safe_export_path() {
     local path_to_add="$1"
@@ -122,50 +141,33 @@ safe_export_path_chk "${TOOLCHAIN_PATH_MOD}"
 # -------------------------------------------------------------------
 # Build the kernel
 # -------------------------------------------------------------------
-#tar -xf "/data/tools/env/linux-5.8-rc4.tar.gz"
-if [[ ! -d "${KERNEL_BASE}" ]]; then
-  echo "Extracting linux kernel"
+if [[ ! -d "${KERNEL}" ]]; then
+  echo 
+  echo "Extracting linux kernel (lengthy)"
+  echo 
   tar -xf "${KERNEL_TARBALL}"
+  mv ${KERNEL_BASE} kernel
 fi
 
 grep -qxF "KBUILD_CFLAGS += ${KBLD_MARCH}" \
-    "${KERNEL_BASE}/Makefile" \
-    || echo "KBUILD_CFLAGS += ${KBLD_MARCH}" >> "${KERNEL_BASE}/Makefile"
+    "${KERNEL}/Makefile" \
+    || echo "KBUILD_CFLAGS += ${KBLD_MARCH}" >> "${KERNEL}/Makefile"
 
-#grep -qxF 'KBUILD_CFLAGS += -march=rv64imafdc_zicsr_zifencei' "linux-5.8-rc4/Makefile" \
-#  || echo 'KBUILD_CFLAGS += -march=rv64imafdc_zicsr_zifencei' >> "linux-5.8-rc4/Makefile"
-#make -C "linux-5.8-rc4" ARCH=riscv defconfig
-#make -C "linux-5.8-rc4" ARCH=riscv -j"$(nproc)"
-
-make -C "${KERNEL_BASE}" ARCH=riscv defconfig
-make -C "${KERNEL_BASE}" ARCH=riscv -j"$(nproc)"
 mkdir -p "${TOOLS}/riscv-linux"
+rm -f "${TOOLS}/riscv-linux/Image"
 
-cp "${KERNEL_BASE}/arch/riscv/boot/Image" "${TOOLS}/riscv-linux/Image"
+make -C "${KERNEL}" ARCH=riscv defconfig
+make -C "${KERNEL}" ARCH=riscv -j"$(nproc)"
+cp "${KERNEL}/arch/riscv/boot/Image" "${TOOLS}/riscv-linux/Image"
 
 # -------------------------------------------------------------------
 # Build the file system
 # -------------------------------------------------------------------
 tar -xf "${BUILDROOT_TARBALL}"
-cp "${PATCHES}/config-buildroot-2020.05.1" "${BUILDROOT}/.config"
+mv ${BUILDROOT_BASE} buildroot
+cp "${BUILDROOT_CONFIG}" "${BUILDROOT}/.config"
 
-# This make will fail, followed by a patch
-set +e
-#make -C "buildroot-2020.05.1" -j"$(nproc)"
 make -C "${BUILDROOT}" -j"$(nproc)"
-set -e
-cp "${PATCHES}/c-stack.c" "${BUILDROOT}/output/build/host-m4-1.4.18/lib/c-stack.c"
-
-# This make will also fail, followed by another patch
-set +e
-#make -C "buildroot-2020.05.1" -j"$(nproc)"
-make -C "${BUILDROOT}" -j"$(nproc)"
-set -e
-cp "${PATCHES}/libfakeroot.c" "${BUILDROOT}/output/build/host-fakeroot-1.20.2/libfakeroot.c"
-
-# This make should not fail
-#sudo make -C "buildroot-2020.05.1" -j"$(nproc)"
-sudo make -C "${BUILDROOT}" -j"$(nproc)"
 
 if [[ ! -f "${BUILDROOT}/output/images/rootfs.cpio" ]]; then
   echo "-E: rootfs.cpio build failure"
