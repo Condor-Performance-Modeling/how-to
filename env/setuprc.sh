@@ -7,15 +7,14 @@
 # This var points to where all CPM repo's will live. 
 # This is essentially /path/to/condor
 unset TOP; export TOP=`pwd`
-
 unset CONDOR_TOP; export CONDOR_TOP=`pwd`
 
 # Path to the repo containing the CPM benchmarks
 unset BENCHMARKS; export BENCHMARKS=$TOP/benchmarks
 
-# The linux file system source used by dromajo to boot linux
-#unset BUILDROOT; export BUILDROOT=$TOP/buildroot-2020.05.1
-#unset BUILDROOT; export BUILDROOT=$TOP/buildroot-2025.02
+# The linux file system source used by spike to boot linux
+# kept for reference: old buildroot version buildroot-2020.05.1
+#                     new buildroot version uildroot-2025.02
 unset BUILDROOT; export BUILDROOT=$TOP/buildroot
 
 # A directory containing the Condor Olympia fork
@@ -30,9 +29,8 @@ unset CROSS_COMPILE; export CROSS_COMPILE=riscv64-unknown-linux-gnu-
 # Ancillary documentation
 unset CPM_DOCS; export CPM_DOCS=$TOP/documents
 
-# The linux kernel source used for running linux on dromajo.
-#unset KERNEL; export KERNEL=$TOP/linux-5.8-rc4
-#unset KERNEL; export KERNEL=$TOP/linux-6.12.28
+# The linux kernel source used for running linux on spike.
+# kept for reference: kernel version remains linux-5.8-rc4
 unset KERNEL; export KERNEL=$TOP/kernel
 
 # This var points to the Sparcians/Map repo copy
