@@ -59,11 +59,21 @@ set_up_conda_environment() {
     set -e
 
     if [[ $CONDA_EXIT_CODE -ne 0 ]]; then
-        echo "create_conda_env.sh failed, running fallback command"
-        conda env create -f scripts/rendered_safe_environment.yaml || {
-            echo "Fallback conda environment creation failed."
-            exit 1
-        }
+        if conda env list | grep -q 'sparta'; then
+            # If the environment exists, activate it and update it
+            echo "Conda environment 'sparta' already exists, updating."
+            conda env update --file scripts/rendered_safe_environment.yaml --prune || {
+                echo "Updating 'sparta' environment failed."
+                exit 1
+            }
+        else
+            # If the environment does not exist, attempt to create it
+            echo "create_conda_env.sh failed, running fallback command"
+            conda env create -f scripts/rendered_safe_environment.yaml || {
+                echo "Fallback conda environment creation failed."
+                exit 1
+            }
+        fi
     fi
 
     echo "Setup process completed."
