@@ -118,17 +118,17 @@ perform_build() {
 
     echo "Cleaning RISCV target directory in $build_dir..."
     cd "$build_dir/lib/Target/RISCV" || exit
-    make -j32 clean
+    make -j$(nproc) clean
 
     echo "Cleaning LLVM TargetParser directory in $build_dir..."
     cd "$build_dir/include/llvm/TargetParser" || exit
-    make -j32 clean
+    make -j$(nproc) clean
 
     echo "Building and installing targets in $build_dir..."
     cd "$build_dir" || exit
-    make -j32 RISCVCommonTableGen
-    make -j32 RISCVTargetParserTableGen
-    make -j32 install
+    make -j$(nproc) RISCVCommonTableGen
+    make -j$(nproc) RISCVTargetParserTableGen
+    make -j$(nproc) install
 
     # Extract install directory
     install_dir=$(grep -m 1 "^CMAKE_INSTALL_PREFIX" "$build_dir/CMakeCache.txt" | cut -d '=' -f 2)

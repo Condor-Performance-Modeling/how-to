@@ -84,11 +84,20 @@ clone_riscv_gcc_toolchain() {
     log_step "Cloning RISC-V GCC Toolchain"
     
     git clone --recursive https://github.com/riscv/riscv-gnu-toolchain || pretty_error "Failed to clone RISC-V GNU Toolchain."
-    cd riscv-gnu-toolchain || pretty_error "Failed to change directory to riscv-gnu-toolchain."
-    git checkout $RISCV_GNU_TOOLCHAIN_COMMIT_SHA || pretty_error "Failed to checkout specified commit for RISC-V GNU Toolchain."
 
     complete_step "Cloning RISC-V GCC Toolchain"
 }
+
+checkout_riscv_gcc_toolchain() {
+    log_step "Checking out RISC-V GCC Toolchain at: $RISCV_GNU_TOOLCHAIN_COMMIT_SHA"
+
+    cd riscv-gnu-toolchain || pretty_error "Failed to change directory to riscv-gnu-toolchain."
+    git fetch || pretty_error "Failed to fetch riscv-gnu-toolchain."
+    git checkout "$RISCV_GNU_TOOLCHAIN_COMMIT_SHA" --recurse-submodules || pretty_error "Failed to checkout specified commit for RISC-V GNU Toolchain."
+
+    complete_step "Checking out RISC-V GCC Toolchain at: $RISCV_GNU_TOOLCHAIN_COMMIT_SHA"
+}
+
 
 verify_repository_clone() {
     log_step "Verifying RISC-V GNU Toolchain clone and commit"
@@ -104,18 +113,6 @@ verify_repository_clone() {
     fi
 
     complete_step "Verified RISC-V GNU Toolchain clone and commit"
-}
-
-checkout_gcc_branch() {
-    log_step "Checking out gcc-14 branch in riscv-gnu-toolchain/gcc"
-
-    cd "$SOURCE_DIR/riscv-gnu-toolchain" || pretty_error "Failed to enter riscv-gnu-toolchain directory."
-    cd gcc || pretty_error "Failed to enter gcc subdirectory."
-
-    git fetch --all || pretty_error "Failed to fetch in gcc repository."
-    git checkout origin/releases/gcc-14 || pretty_error "Failed to check out gcc-14 branch."
-
-    complete_step "Checked out gcc-14 branch in gcc"
 }
 
 build_gcc_baremetal() {
@@ -134,7 +131,7 @@ build_gcc_linux() {
     echo "Building GCC for Linux in $LINUX_INSTALL_PATH..." | tee -a "$LOG_FILE"
     cd "$SOURCE_DIR/riscv-gnu-toolchain" || pretty_error "Failed to enter riscv-gnu-toolchain directory."
 
-    ./configure --prefix="$LINUX_INSTALL_PATH" --with-arch=rv64gc --with-abi=lp64d --enable-linux --enable-multilib || pretty_error "Failed to configure GCC for Linux."
+    ./configure --prefix="$LINUX_INSTALL_PATH" --with-arch=rv64gc --with-abi=lp64d --enable-linux --enable-multilib --with-cmodel=medany || pretty_error "Failed to configure GCC for Linux."
     make linux -j$(nproc) || pretty_error "Failed to build GCC for Linux."
 
     complete_step "Building GCC for Linux"
@@ -150,12 +147,13 @@ build_gcc() {
     cd "$SOURCE_DIR" || pretty_error "Failed to change to source directory $SOURCE_DIR."
     if [ -d "$SOURCE_DIR/riscv-gnu-toolchain" ]; then
         echo "Repository already exists. Verifying..."
+        checkout_riscv_gcc_toolchain
         verify_repository_clone
     else
         clone_riscv_gcc_toolchain
+        checkout_riscv_gcc_toolchain
         verify_repository_clone
     fi
-    checkout_gcc_branch
     
     build_gcc_baremetal
     build_gcc_linux

@@ -99,7 +99,7 @@ get_user_input() {
 
     # Ask for LLVM source path
     echo_step "LLVM Source Path Setup"
-    read -p "Enter the LLVM source directory path [default is $(pwd)/riscv-llvm]: " LLVM_SOURCE_DIR
+    read -p "Enter the LLVM source directory path [default is $(pwd)]: " LLVM_SOURCE_DIR
     LLVM_SOURCE_DIR=${LLVM_SOURCE_DIR:-$(pwd)}
 
     # Check if the LLVM source directory exists
@@ -109,10 +109,14 @@ get_user_input() {
     fi
     echo "LLVM will be cloned into: $LLVM_SOURCE_DIR/riscv-llvm"
 
+    # Ask for pre-build RISC-V GNU Toolchains
+    read -p "Enter path for baremetal RISC-V GNU toolchain: " BAREMETAL_GCC_TOOLCHAIN_PATH
+    read -p "Enter path for linux RISC-V GNU toolchain: " LINUX_GCC_TOOLCHAIN_PATH
+
     # Check for pre-built RISC-V GNU Toolchain for Baremetal
-    if [ -d "/data/tools/riscv64-unknown-elf" ]; then
+    if [ -d "${BAREMETAL_GCC_TOOLCHAIN_PATH}" ]; then
         echo
-        echo "Found pre-built RISC-V GNU Toolchain for Baremetal."
+        echo "Found pre-built RISC-V GNU Toolchain for Baremetal: ${BAREMETAL_GCC_TOOLCHAIN_PATH}"
         echo "Please ensure that the existing toolchain was built using --with-cmodel=medany."
         read -p "Do you want to use the pre-built toolchain? [Y/n]: " use_prebuilt_baremetal
         if [[ "$use_prebuilt_baremetal" =~ ^([yY][eE][sS]|[yY])$ ]] || [ -z "$use_prebuilt_baremetal" ]; then
@@ -121,9 +125,9 @@ get_user_input() {
     fi
 
     # Check for pre-built RISC-V GNU Toolchain for Linux
-    if [ -d "/data/tools/riscv64-unknown-linux-gnu" ]; then
+    if [ -d "${LINUX_GCC_TOOLCHAIN_PATH}" ]; then
         echo
-        echo "Found pre-built RISC-V GNU Toolchain for Linux."
+        echo "Found pre-built RISC-V GNU Toolchain for Linux: ${LINUX_GCC_TOOLCHAIN_PATH}"
         echo "Please ensure that the existing toolchain was built using --with-cmodel=medany."
         read -p "Do you want to use the pre-built toolchain? [Y/n]: " use_prebuilt_linux
         if [[ "$use_prebuilt_linux" =~ ^([yY][eE][sS]|[yY])$ ]] || [ -z "$use_prebuilt_linux" ]; then
@@ -183,10 +187,12 @@ clone_repositories() {
     else
         echo "Cloning LLVM project..."
         git clone https://github.com/llvm/llvm-project.git riscv-llvm || { echo "Failed to clone LLVM project."; exit 1; }
-        cd riscv-llvm || { echo "Failed to change directory to riscv-llvm."; exit 1; }
-        git checkout $LLVM_PROJECT_COMMIT_SHA || { echo "Failed to checkout specified commit for LLVM project."; exit 1; }
-        cd "$LLVM_SOURCE_DIR" || { echo "Failed to return to LLVM_SOURCE_DIR."; exit 1; }
     fi
+    echo "Checking out $LLVM_PROJECT_COMMIT_SHA"
+    cd riscv-llvm || { echo "Failed to change directory to riscv-llvm."; exit 1; }
+    git fetch || { echo "Failed to fetch riscv-llvm."; exit 1; }
+    git checkout "$LLVM_PROJECT_COMMIT_SHA" --recurse-submodules || { echo "Failed to checkout specified commit for LLVM project."; exit 1; }
+    cd "$LLVM_SOURCE_DIR" || { echo "Failed to return to LLVM_SOURCE_DIR."; exit 1; }
 
     # Create the symbolic link and fail if the operation does not succeed
     if [ ! -d "$LLVM_SOURCE_DIR/riscv-llvm/llvm/tools/clang" ]; then
@@ -203,7 +209,7 @@ compile_or_copy_riscv_gnu_toolchain_baremetal() {
 
     if [ "$COPY_BAREMETAL_TOOLCHAIN" = true ]; then
         echo "Copying the RISC-V GNU Toolchain for Baremetal..."
-        cp -fa /data/tools/riscv64-unknown-elf/* "$BAREMETAL_INSTALL_PATH/" || { echo "Failed to copy the RISC-V GNU Toolchain for Baremetal."; exit 1; }
+        cp -fa "${BAREMETAL_GCC_TOOLCHAIN_PATH}"/* "$BAREMETAL_INSTALL_PATH/" || { echo "Failed to copy the RISC-V GNU Toolchain for Baremetal."; exit 1; }
     else
         echo "Compiling RISC-V GNU Toolchain for Baremetal from source..."
         cd "$TOOLCHAIN_SOURCE_DIR/riscv-gnu-toolchain" || { echo "Failed to change directory to riscv-gnu-toolchain."; exit 1; }
@@ -219,7 +225,7 @@ compile_or_copy_riscv_gnu_toolchain_linux() {
 
     if [ "$COPY_LINUX_TOOLCHAIN" = true ]; then
         echo "Copying the RISC-V GNU Toolchain for Linux..."
-        cp -fa /data/tools/riscv64-unknown-linux-gnu/* "$LINUX_INSTALL_PATH/" || { echo "Failed to copy the RISC-V GNU Toolchain for Linux."; exit 1; }
+        cp -fa "${LINUX_GCC_TOOLCHAIN_PATH}"/* "$LINUX_INSTALL_PATH/" || { echo "Failed to copy the RISC-V GNU Toolchain for Linux."; exit 1; }
     else
         echo "Compiling RISC-V GNU Toolchain for Linux from source..."
         cd "$TOOLCHAIN_SOURCE_DIR/riscv-gnu-toolchain" || { echo "Failed to change directory to riscv-gnu-toolchain."; exit 1; }
