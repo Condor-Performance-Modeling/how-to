@@ -46,7 +46,6 @@ The script will prompt for:
 The script will then proceed to:
 
 - Clone the RISC-V GCC Toolchain repository.
-- Checkout the `gcc-14` branch.
 - Build GCC for both baremetal and Linux targets.
 
 ## Logging
