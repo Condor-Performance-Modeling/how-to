@@ -251,6 +251,7 @@ compile_llvm_baremetal() {
       -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-elf" \
       -DLLVM_TARGETS_TO_BUILD="RISCV" \
       -DLLVM_FORCE_ENABLE_STATS=ON \
+      -DCMAKE_SHARED_LINKER_FLAGS="-pthread" \
       -DLLVM_ENABLE_PROJECTS="bolt;clang;clang-tools-extra;libclc;lld;lldb;mlir;openmp;polly;pstl" \
       ../llvm || { echo "Failed to configure LLVM for Baremetal."; exit 1; }
 
@@ -275,11 +276,51 @@ compile_llvm_linux() {
           -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-linux-gnu" \
           -DLLVM_TARGETS_TO_BUILD="RISCV" \
           -DLLVM_FORCE_ENABLE_STATS=ON \
+          -DCMAKE_SHARED_LINKER_FLAGS="-pthread" \
           -DLLVM_ENABLE_PROJECTS="bolt;clang;clang-tools-extra;libclc;lld;lldb;mlir;openmp;polly;pstl" \
           ../llvm || { echo "Failed to configure LLVM for Linux."; exit 1; }
       
     make -j $(nproc) || { echo "Failed to build LLVM for Linux."; exit 1; }
     make -j $(nproc) install || { echo "Failed to install LLVM for Linux."; exit 1; }
+    cd ..
+}
+
+compile_static_linux_openmp() {
+      echo_step "Building static libomp.a for RISC-V"
+
+      TRIPLE="riscv64-unknown-linux-gnu"
+      SYSROOT="$LINUX_INSTALL_PATH/sysroot"
+
+      # Fresh, minimal out-of-tree build for the OpenMP runtime only
+      cd "$LLVM_SOURCE_DIR/riscv-llvm" || { echo "Failed to change directory to riscv-llvm."; exit 1; }
+      rm -rf _build_openmp_static && mkdir _build_openmp_static
+      cmake -S openmp -B _build_openmp_static \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_SYSTEM_NAME=Linux \
+        -DCMAKE_SYSROOT="$SYSROOT" \
+        -DCMAKE_INSTALL_PREFIX="$LINUX_INSTALL_PATH" \
+        -DCMAKE_INSTALL_LIBDIR="lib/$TRIPLE" \
+        -DCMAKE_C_COMPILER="$LINUX_INSTALL_PATH/bin/clang" \
+        -DCMAKE_CXX_COMPILER="$LINUX_INSTALL_PATH/bin/clang++" \
+        -DCMAKE_AR="$LINUX_INSTALL_PATH/bin/llvm-ar" \
+        -DCMAKE_RANLIB="$LINUX_INSTALL_PATH/bin/llvm-ranlib" \
+        -DCMAKE_C_COMPILER_TARGET="$TRIPLE" \
+        -DCMAKE_CXX_COMPILER_TARGET="$TRIPLE" \
+        -DCMAKE_C_FLAGS="-march=rv64gc -mabi=lp64d" \
+        -DCMAKE_CXX_FLAGS="-march=rv64gc -mabi=lp64d" \
+        -DLIBOMP_ENABLE_SHARED=OFF \
+        -DLIBOMP_ENABLE_STATIC=ON \
+        || { echo "Failed to configure OpenMP (static)."; exit 1; }
+
+      cmake --build _build_openmp_static -j "$(nproc)" \
+        || { echo "Failed to build OpenMP (static)."; exit 1; }
+      cmake --install _build_openmp_static \
+        || { echo "Failed to install OpenMP (static)."; exit 1; }
+
+      # Quick confirmation
+      test -f "$LINUX_INSTALL_PATH/lib/libomp.a" \
+        || { echo "libomp.a not found in expected location."; exit 1; }
+      echo_step "Static libomp.a installed to $LINUX_INSTALL_PATH/lib/"
 }
 
 #--------------------------------------------------------------------------------------------------------------------------
@@ -294,6 +335,7 @@ build_llvm() {
     compile_llvm_baremetal
     compile_or_copy_riscv_gnu_toolchain_linux
     compile_llvm_linux
+    compile_static_linux_openmp
 
     trap - EXIT
     
