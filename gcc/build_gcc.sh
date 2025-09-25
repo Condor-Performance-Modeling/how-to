@@ -120,8 +120,16 @@ build_gcc_baremetal() {
     echo "Building GCC for Baremetal in $BAREMETAL_INSTALL_PATH..." | tee -a "$LOG_FILE"
     cd "$SOURCE_DIR/riscv-gnu-toolchain" || pretty_error "Failed to enter riscv-gnu-toolchain directory."
 
-    ./configure --prefix="$BAREMETAL_INSTALL_PATH" --enable-multilib --with-cmodel=medany || pretty_error "Failed to configure GCC for baremetal."
+    mkdir -p _build_baremetal
+    cd _build_baremetal || pretty_error "Failed to enter riscv-gnu-toolchain/_build_baremetal directory."
+    rm -rf ./*
+    ../configure \
+        --prefix="$BAREMETAL_INSTALL_PATH" \
+        --enable-multilib \
+        --with-cmodel=medany \
+        || pretty_error "Failed to configure GCC for baremetal."
     make -j$(nproc) || pretty_error "Failed to build GCC for baremetal."
+    cd ..
 
     complete_step "Building GCC for Baremetal"
 }
@@ -131,8 +139,21 @@ build_gcc_linux() {
     echo "Building GCC for Linux in $LINUX_INSTALL_PATH..." | tee -a "$LOG_FILE"
     cd "$SOURCE_DIR/riscv-gnu-toolchain" || pretty_error "Failed to enter riscv-gnu-toolchain directory."
 
-    ./configure --prefix="$LINUX_INSTALL_PATH" --with-arch=rv64gc --with-abi=lp64d --enable-linux --enable-multilib --with-cmodel=medany || pretty_error "Failed to configure GCC for Linux."
+    mkdir -p _build_linux
+    cd _build_linux || pretty_error "Failed to enter riscv-gnu-toolchain/_build_linux directory."
+    rm -rf ./*
+    ../configure \
+        MAKEINFO=true \
+        --prefix="$LINUX_INSTALL_PATH" \
+        --with-arch=rv64gc \
+        --with-abi=lp64d \
+        --enable-linux \
+        --with-cmodel=medany \
+        --enable-multilib \
+        --with-multilib-generator="rv64gc-lp64--;rv64gc-lp64d--;rv32gc-ilp32;rv32gc-ilp32d--" \
+         || pretty_error "Failed to configure GCC for Linux."
     make linux -j$(nproc) || pretty_error "Failed to build GCC for Linux."
+    cd ..
 
     complete_step "Building GCC for Linux"
 }
