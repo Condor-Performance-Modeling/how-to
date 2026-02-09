@@ -173,7 +173,7 @@ set_up_cpm_environment() {
     if ! check_progress "cpm_repos_installed"; then
         echo_stage "Building and Installing CPM Repos"
         cd "${CONDOR_TOP}"
-        if ! CPATH="${CONDA_PREFIX}/include" LIBRARY_PATH="${CONDA_PREFIX}/lib" LD_LIBRARY_PATH="${CONDA_PREFIX}/lib" bash how-to/scripts/build_cpm_repos.sh; then
+        if ! CPATH="${CONDA_PREFIX}/include" LIBRARY_PATH="${CONDA_PREFIX}/lib" bash how-to/scripts/build_cpm_repos.sh; then
             pretty_error "Failed to install CPM repos. See log: ${LOG_FILE}"
             exit 1
         fi

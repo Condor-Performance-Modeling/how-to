@@ -366,10 +366,18 @@ golden model.  The whisper model is not used currently in the CAWS flow.
 It is built for reference.
 
 ----------------------------------------------------------
+# Enable LSF
+This script needs to be sourced in order to use LSF queues (you need to be added as LSF user too - talk with "authority")
+```
+source /data/lsf/conf/profile.lsf
+```
+Recommend to add this to your `~/.bashrc` file
+
+----------------------------------------------------------
 # Final Test
 
-This step is recommended. You can exercise the majority of the CPM 
-environment from the benchmarks repo.
+This step is recommended (and likekly to fail on LSF part if you're not authorized to use it yet). You can exercise the 
+majority of the CPM environment from the benchmarks repo.
 
 ```
 cd $TOP
@@ -377,6 +385,14 @@ source how-to/env/setuprc.sh
 cd $BENCHMARKS
 make
 ```
+For minimal test of env you might try
+```
+cd $TOP
+source how-to/env/setuprc.sh
+cd $BENCHMARKS
+make binaries linux_collateral dump_all 
+```
+This should build and produce intermediate results.
 
 Once this completes there will be a PASS/FAIL indication in the console.
 

@@ -81,10 +81,22 @@ get_user_input() {
         exit 1
     fi
 
+    # Ask for the Linux with vectorized stdlib install path
+    echo
+    read -p "Enter the Linux with vectorized stdlib install path [default is $(pwd)/llvm-linux-vector]: " LINUX_INSTALL_PATH_VECTOR
+    LINUX_INSTALL_PATH_VECTOR=${LINUX_INSTALL_PATH_VECTOR:-$(pwd)/llvm-linux-vector}
+
+    # Check if the Linux install path already contains LLVM directories
+    if [ -d "$LINUX_INSTALL_PATH_VECTOR" ] && [ "$(ls -A "$LINUX_INSTALL_PATH_VECTOR")" ]; then
+        pretty_error "Linux with vectorized stdlib install path already contains LLVM directories."
+        exit 1
+    fi
+
     # Confirm installation paths with the user
     echo
     echo "LLVM Baremetal will be installed at: $BAREMETAL_INSTALL_PATH"
     echo "LLVM Linux will be installed at: $LINUX_INSTALL_PATH"
+    echo "LLVM Linux with vectorized stdlib will be installed at: $LINUX_INSTALL_PATH_VECTOR"
     echo
     read -p "Do you wish to continue with these paths? [Y/n]: " confirm_paths
     if [[ ! "$confirm_paths" =~ ^([yY][eE][sS]|[yY])$ ]] && [ -n "$confirm_paths" ]; then
@@ -96,6 +108,7 @@ get_user_input() {
     echo "Creating LLVM directories..."
     mkdir -p "$BAREMETAL_INSTALL_PATH" || { pretty_error "Failed to create the baremetal directory at $BAREMETAL_INSTALL_PATH."; exit 1; }
     mkdir -p "$LINUX_INSTALL_PATH" || { pretty_error "Failed to create the Linux directory at $LINUX_INSTALL_PATH."; exit 1; }
+    mkdir -p "$LINUX_INSTALL_PATH_VECTOR" || { pretty_error "Failed to create the Linux directory at $LINUX_INSTALL_PATH_VECTOR."; exit 1; }
 
     # Ask for LLVM source path
     echo_step "LLVM Source Path Setup"
@@ -112,6 +125,7 @@ get_user_input() {
     # Ask for pre-build RISC-V GNU Toolchains
     read -p "Enter path for baremetal RISC-V GNU toolchain: " BAREMETAL_GCC_TOOLCHAIN_PATH
     read -p "Enter path for linux RISC-V GNU toolchain: " LINUX_GCC_TOOLCHAIN_PATH
+    read -p "Enter path for linux RISC-V GNU toolchain with vectorized stdlib: " LINUX_GCC_TOOLCHAIN_PATH_VECTOR
 
     # Check for pre-built RISC-V GNU Toolchain for Baremetal
     if [ -d "${BAREMETAL_GCC_TOOLCHAIN_PATH}" ]; then
@@ -132,6 +146,17 @@ get_user_input() {
         read -p "Do you want to use the pre-built toolchain? [Y/n]: " use_prebuilt_linux
         if [[ "$use_prebuilt_linux" =~ ^([yY][eE][sS]|[yY])$ ]] || [ -z "$use_prebuilt_linux" ]; then
             COPY_LINUX_TOOLCHAIN=true
+        fi
+    fi
+
+    # Check for pre-built RISC-V GNU Toolchain for Linux with vector multilib
+    if [ -d "${LINUX_GCC_TOOLCHAIN_PATH_VECTOR}" ]; then
+        echo
+        echo "Found pre-built RISC-V GNU Toolchain for Linux: ${LINUX_GCC_TOOLCHAIN_PATH_VECTOR}"
+        echo "Please ensure that the existing toolchain was built using --with-cmodel=medany."
+        read -p "Do you want to use the pre-built toolchain? [Y/n]: " use_prebuilt_linux
+        if [[ "$use_prebuilt_linux" =~ ^([yY][eE][sS]|[yY])$ ]] || [ -z "$use_prebuilt_linux" ]; then
+            COPY_LINUX_V_TOOLCHAIN=true
         fi
     fi
 
@@ -166,12 +191,12 @@ clone_repositories() {
     cd "$TOOLCHAIN_SOURCE_DIR" || { echo "Failed to change directory to TOOLCHAIN_SOURCE_DIR."; exit 1; }
 
     # Skip cloning riscv-gnu-toolchain if both toolchains are to be copied
-    if ! { [ "$COPY_BAREMETAL_TOOLCHAIN" = true ] && [ "$COPY_LINUX_TOOLCHAIN" = true ]; }; then
+    if ! { [ "$COPY_BAREMETAL_TOOLCHAIN" = true ] && [ "$COPY_LINUX_TOOLCHAIN" = true ] && [ "$COPY_LINUX_V_TOOLCHAIN" = true ]; }; then
         if [ -d "riscv-gnu-toolchain" ]; then
             echo "RISC-V GNU Toolchain directory already exists. Skipping cloning."
         else
             echo "Cloning RISC-V GNU Toolchain..."
-            git clone --recursive https://github.com/riscv/riscv-gnu-toolchain || { echo "Failed to clone RISC-V GNU Toolchain."; exit 1; }
+            git clone https://github.com/riscv/riscv-gnu-toolchain || { echo "Failed to clone RISC-V GNU Toolchain."; exit 1; }
             cd riscv-gnu-toolchain || { echo "Failed to change directory to riscv-gnu-toolchain."; exit 1; }
             git checkout $RISCV_GNU_TOOLCHAIN_COMMIT_SHA || { echo "Failed to checkout specified commit for RISC-V GNU Toolchain."; exit 1; }
             cd "$TOOLCHAIN_SOURCE_DIR" || { echo "Failed to return to TOOLCHAIN_SOURCE_DIR."; exit 1; }
@@ -214,7 +239,11 @@ compile_or_copy_riscv_gnu_toolchain_baremetal() {
         echo "Compiling RISC-V GNU Toolchain for Baremetal from source..."
         cd "$TOOLCHAIN_SOURCE_DIR/riscv-gnu-toolchain" || { echo "Failed to change directory to riscv-gnu-toolchain."; exit 1; }
         make clean || echo "make clean failed or not configured. Proceeding without cleaning..."
-        ./configure --prefix="$BAREMETAL_INSTALL_PATH" --enable-multilib --with-cmodel=medany || { echo "Failed to configure RISC-V GNU Toolchain for Baremetal."; exit 1; }
+        ./configure \
+                --prefix="$BAREMETAL_INSTALL_PATH" \
+                --enable-multilib \
+                --with-cmodel=medany \
+                || { echo "Failed to configure RISC-V GNU Toolchain for Baremetal."; exit 1; }
         make -j $(nproc) || { echo "Failed to compile RISC-V GNU Toolchain for Baremetal."; exit 1; }
     fi
 }
@@ -230,8 +259,42 @@ compile_or_copy_riscv_gnu_toolchain_linux() {
         echo "Compiling RISC-V GNU Toolchain for Linux from source..."
         cd "$TOOLCHAIN_SOURCE_DIR/riscv-gnu-toolchain" || { echo "Failed to change directory to riscv-gnu-toolchain."; exit 1; }
         make clean || echo "make clean failed or not configured. Proceeding without cleaning..."
-        ./configure --prefix="$LINUX_INSTALL_PATH" --with-arch=rv64gc --with-abi=lp64d --enable-linux --enable-multilib --with-cmodel=medany || { echo "Failed to configure RISC-V GNU Toolchain for Linux."; exit 1; }
+        ./configure \
+                MAKEINFO=true \
+                --prefix="$LINUX_INSTALL_PATH" \
+                --with-arch=rv64gc \
+                --with-abi=lp64d \
+                --enable-linux \
+                --with-cmodel=medany \
+                --enable-multilib \
+                --with-multilib-generator="rv64gc-lp64--;rv64gc-lp64d--;rv32gc-ilp32;rv32gc-ilp32d--" \
+                 || { echo "Failed to configure RISC-V GNU Toolchain for Linux."; exit 1; }
         make linux -j $(nproc) || { echo "Failed to compile RISC-V GNU Toolchain for Linux."; exit 1; }
+    fi
+}
+
+# Function to copy or compile RISC-V GNU Toolchain for Linux
+compile_or_copy_riscv_gnu_toolchain_linux_v() {
+    echo_step "Setting up RISC-V GNU Toolchain for Linux"
+
+    if [ "$COPY_LINUX_V_TOOLCHAIN" = true ]; then
+        echo "Copying the RISC-V GNU Toolchain for Linux with vectorized stdlib..."
+        cp -fa "${LINUX_GCC_TOOLCHAIN_PATH_VECTOR}"/* "$LINUX_INSTALL_PATH_VECTOR/" || { echo "Failed to copy the RISC-V GNU Toolchain for Linux with vectorized stdlib."; exit 1; }
+    else
+        echo "Compiling RISC-V GNU Toolchain for Linux from source..."
+        cd "$TOOLCHAIN_SOURCE_DIR/riscv-gnu-toolchain" || { echo "Failed to change directory to riscv-gnu-toolchain."; exit 1; }
+        make clean || echo "make clean failed or not configured. Proceeding without cleaning..."
+        ./configure \
+                MAKEINFO=true \
+                --prefix="$LINUX_INSTALL_PATH_VECTOR" \
+                --with-arch=rv64gcv \
+                --with-abi=lp64d \
+                --enable-linux \
+                --with-cmodel=medany \
+                --enable-multilib \
+                --with-multilib-generator="rv64gcv-lp64--;rv64gcv-lp64d--;rv32gcv-ilp32;rv32gcv-ilp32d--" \
+                 || { echo "Failed to configure RISC-V GNU Toolchain for Linux with vectorized stdlib."; exit 1; }
+        make linux -j $(nproc) || { echo "Failed to compile RISC-V GNU Toolchain for Linux with vectorized stdlib."; exit 1; }
     fi
 }
 
@@ -285,6 +348,32 @@ compile_llvm_linux() {
     cd ..
 }
 
+# Function to compile LLVM for Linux
+compile_llvm_linux_v() {
+    echo_step "Compiling LLVM for Linux"
+
+    cd "$LLVM_SOURCE_DIR/riscv-llvm" || { echo "Failed to change directory to riscv-llvm."; exit 1; }
+    rm -rf _build_linux_v || { echo "Failed to remove previous build directory."; exit 1; }
+    mkdir _build_linux_v || { echo "Failed to create build directory."; exit 1; }
+    cd _build_linux_v || { echo "Failed to change directory to build directory."; exit 1; }
+
+    cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Release" \
+          -DBUILD_SHARED_LIBS=True -DLLVM_USE_SPLIT_DWARF=True \
+          -DCMAKE_INSTALL_PREFIX="$LINUX_INSTALL_PATH_VECTOR" \
+          -DLLVM_OPTIMIZED_TABLEGEN=True -DLLVM_BUILD_TESTS=False \
+          -DDEFAULT_SYSROOT="$LINUX_INSTALL_PATH_VECTOR/sysroot" \
+          -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-linux-gnu" \
+          -DLLVM_TARGETS_TO_BUILD="RISCV" \
+          -DLLVM_FORCE_ENABLE_STATS=ON \
+          -DCMAKE_SHARED_LINKER_FLAGS="-pthread" \
+          -DLLVM_ENABLE_PROJECTS="bolt;clang;clang-tools-extra;libclc;lld;lldb;mlir;openmp;polly;pstl" \
+          ../llvm || { echo "Failed to configure LLVM for Linux."; exit 1; }
+
+    make -j $(nproc) || { echo "Failed to build LLVM for Linux."; exit 1; }
+    make -j $(nproc) install || { echo "Failed to install LLVM for Linux."; exit 1; }
+    cd ..
+}
+
 compile_static_linux_openmp() {
       echo_step "Building static libomp.a for RISC-V"
 
@@ -323,6 +412,44 @@ compile_static_linux_openmp() {
       echo_step "Static libomp.a installed to $LINUX_INSTALL_PATH/lib/"
 }
 
+compile_static_linux_openmp_v() {
+      echo_step "Building vectorized static libomp.a for RISC-V:"
+
+      TRIPLE="riscv64-unknown-linux-gnu"
+      SYSROOT="$LINUX_INSTALL_PATH_VECTOR/sysroot"
+
+      # Fresh, minimal out-of-tree build for the OpenMP runtime only
+      cd "$LLVM_SOURCE_DIR/riscv-llvm" || { echo "Failed to change directory to riscv-llvm."; exit 1; }
+      rm -rf _build_openmp_static_v && mkdir _build_openmp_static_v
+      cmake -S openmp -B _build_openmp_static_v \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_SYSTEM_NAME=Linux \
+        -DCMAKE_SYSROOT="$SYSROOT" \
+        -DCMAKE_INSTALL_PREFIX="$LINUX_INSTALL_PATH_VECTOR" \
+        -DCMAKE_INSTALL_LIBDIR="lib/$TRIPLE" \
+        -DCMAKE_C_COMPILER="$LINUX_INSTALL_PATH_VECTOR/bin/clang" \
+        -DCMAKE_CXX_COMPILER="$LINUX_INSTALL_PATH_VECTOR/bin/clang++" \
+        -DCMAKE_AR="$LINUX_INSTALL_PATH_VECTOR/bin/llvm-ar" \
+        -DCMAKE_RANLIB="$LINUX_INSTALL_PATH_VECTOR/bin/llvm-ranlib" \
+        -DCMAKE_C_COMPILER_TARGET="$TRIPLE" \
+        -DCMAKE_CXX_COMPILER_TARGET="$TRIPLE" \
+        -DCMAKE_C_FLAGS="-march=rv64gcv -mabi=lp64d" \
+        -DCMAKE_CXX_FLAGS="-march=rv64gcv -mabi=lp64d" \
+        -DLIBOMP_ENABLE_SHARED=OFF \
+        -DLIBOMP_ENABLE_STATIC=ON \
+        || { echo "Failed to configure vectorized OpenMP (static)."; exit 1; }
+
+      cmake --build _build_openmp_static_v -j "$(nproc)" \
+        || { echo "Failed to build vectorized OpenMP (static)."; exit 1; }
+      cmake --install _build_openmp_static_v \
+        || { echo "Failed to install vectorized OpenMP (static)."; exit 1; }
+
+      # Quick confirmation
+      test -f "$LINUX_INSTALL_PATH_VECTOR/lib/libomp.a" \
+        || { echo "libomp.a not found in expected location."; exit 1; }
+      echo_step "Static libomp.a installed to $LINUX_INSTALL_PATH_VECTOR/lib/"
+}
+
 #--------------------------------------------------------------------------------------------------------------------------
 
 build_llvm() {
@@ -335,16 +462,18 @@ build_llvm() {
     compile_llvm_baremetal
     compile_or_copy_riscv_gnu_toolchain_linux
     compile_llvm_linux
+    compile_or_copy_riscv_gnu_toolchain_linux_v
+    compile_llvm_linux_v
     compile_static_linux_openmp
+    compile_static_linux_openmp_v
 
     trap - EXIT
     
     echo "LLVM setup for Baremetal and Linux has been completed."
-    echo "LLVM source is located at: $LLVM_SOURCE_DIR/riscv-llvm"
-    echo "LLVM for Baremetal build is located at: $LLVM_SOURCE_DIR/riscv-llvm/_build_baremetal"
-    echo "LLVM for Baremetal installed at: $BAREMETAL_INSTALL_PATH"
-    echo "LLVM for Linux build is located at: $LLVM_SOURCE_DIR/riscv-llvm/_build_linux"
-    echo "LLVM for Linux installed at: $LINUX_INSTALL_PATH"
+    echo "LLVM source is located at:                          $LLVM_SOURCE_DIR/riscv-llvm"
+    echo "LLVM for Baremetal installed at:                    $BAREMETAL_INSTALL_PATH"
+    echo "LLVM for Linux installed at:                        $LINUX_INSTALL_PATH"
+    echo "LLVM for Linux with vectorized stdlib installed at: $LINUX_INSTALL_PATH_VECTOR"
 }
 
 build_llvm "$@" 2>&1 | tee -a "$LOG_FILE"

@@ -76,6 +76,12 @@ if [ ! -d utils ]; then
   clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/utils.git" "utils" "--recurse-submodules"
 fi
 
-cd utils
-make -j$(nproc)
+# cpm.stf_tools
+if [ ! -d cpm.stf_tools ]; then
+  clone_repository_with_retries "git@github.com:Condor-Performance-Modeling/cpm.stf_tools.git" "cpm.stf_tools" "--recurse-submodules"
+fi
+
+make -C utils -j$(nproc)
+cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -DCMAKE_PREFIX_PATH=/data/tools/external_lib/libboost1.78 -S ./cpm.stf_tools -B ./cpm.stf_tools/release
+cmake --build ./cpm.stf_tools/release --target all -- -j$(nproc)
 

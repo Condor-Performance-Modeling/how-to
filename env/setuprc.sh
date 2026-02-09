@@ -49,18 +49,18 @@ unset PATCHES; export PATCHES=$TOP/how-to/patches
 unset RISCV_PREFIX; export RISCV_PREFIX=riscv64-unknown-elf-
 
 # This var points to the gnu bare metal tool chain install directory.
-unset RV_GNU_BAREMETAL_TOOLS; export RV_GNU_BAREMETAL_TOOLS=/data/tools/riscv-embecosm-embedded-ubuntu2204-20240407-14.0.1
+unset RV_GNU_BAREMETAL_TOOLS; export RV_GNU_BAREMETAL_TOOLS=/data/tools/toolchains/riscv-embecosm-embedded-ubuntu2204-20250309
 unset RISCV; export RISCV=$RV_GNU_BAREMETAL_TOOLS
 
 # This var points to the gnu linux tool chain install directory.
-unset RV_GNU_LINUX_TOOLS; export RV_GNU_LINUX_TOOLS=/data/tools/riscv64-embecosm-linux-gcc-ubuntu2204-20240407-14.0.1
+unset RV_GNU_LINUX_TOOLS; export RV_GNU_LINUX_TOOLS=/data/tools/toolchains/riscv64-embecosm-linux-gcc-ubuntu2204-20240407
 unset RISCV_LINUX; export RISCV_LINUX=$RV_GNU_LINUX_TOOLS
 
 # This var points to the llvm bare metal install directory.
-unset RV_LLVM_BAREMETAL_TOOLS; export RV_LLVM_BAREMETAL_TOOLS=/data/tools/riscv64-llvm-baremetal
+unset RV_LLVM_BAREMETAL_TOOLS; export RV_LLVM_BAREMETAL_TOOLS=/data/tools/toolchains/riscv64-llvm-baremetal-20251222-21.1.8
 
 # This var points to the llvm linux install directory.
-unset RV_LLVM_LINUX_TOOLS; export RV_LLVM_LINUX_TOOLS=/data/tools/riscv64-llvm-linux
+unset RV_LLVM_LINUX_TOOLS; export RV_LLVM_LINUX_TOOLS=/data/tools/toolchains/riscv64-llvm-linux-20251222-21.1.8
 
 # This var points to the gnu bare metal tool chain install directory.
 unset RV_ANDES_GNU_BAREMETAL_TOOLS; export RV_ANDES_GNU_BAREMETAL_TOOLS=/data/tools/AndeSight_STD_V540/toolchains/nds64le-elf-newlib-v5f

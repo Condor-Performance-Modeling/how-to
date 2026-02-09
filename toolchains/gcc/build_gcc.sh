@@ -64,9 +64,14 @@ get_user_input() {
     read -r LINUX_INSTALL_PATH
     LINUX_INSTALL_PATH=${LINUX_INSTALL_PATH:-$(pwd)/gcc-linux}
 
+    echo "Enter the installation directory for Linux with vector mstdlibs (default is $(pwd)/gcc-linux-vector-stdlib):"
+    read -r LINUX_INSTALL_PATH_VECTOR
+    LINUX_INSTALL_PATH_VECTOR=${LINUX_INSTALL_PATH_VECTOR:-$(pwd)/gcc-linux}
+
     echo "Source Directory: $SOURCE_DIR/riscv-gnu-toolchain"
     echo "Baremetal Install Path: $BAREMETAL_INSTALL_PATH"
     echo "Linux Install Path: $LINUX_INSTALL_PATH"
+    echo "Linux with vector stdlib Install Path: $LINUX_INSTALL_PATH_VECTOR"
     echo
 
     complete_step "Install Path Setup"
@@ -83,7 +88,7 @@ confirm_proceed() {
 clone_riscv_gcc_toolchain() {
     log_step "Cloning RISC-V GCC Toolchain"
     
-    git clone --recursive https://github.com/riscv/riscv-gnu-toolchain || pretty_error "Failed to clone RISC-V GNU Toolchain."
+    git clone https://github.com/riscv/riscv-gnu-toolchain || pretty_error "Failed to clone RISC-V GNU Toolchain."
 
     complete_step "Cloning RISC-V GCC Toolchain"
 }
@@ -93,7 +98,7 @@ checkout_riscv_gcc_toolchain() {
 
     cd riscv-gnu-toolchain || pretty_error "Failed to change directory to riscv-gnu-toolchain."
     git fetch || pretty_error "Failed to fetch riscv-gnu-toolchain."
-    git checkout "$RISCV_GNU_TOOLCHAIN_COMMIT_SHA" --recurse-submodules || pretty_error "Failed to checkout specified commit for RISC-V GNU Toolchain."
+    git checkout "$RISCV_GNU_TOOLCHAIN_COMMIT_SHA" || pretty_error "Failed to checkout specified commit for RISC-V GNU Toolchain."
 
     complete_step "Checking out RISC-V GCC Toolchain at: $RISCV_GNU_TOOLCHAIN_COMMIT_SHA"
 }
@@ -158,6 +163,30 @@ build_gcc_linux() {
     complete_step "Building GCC for Linux"
 }
 
+build_gcc_linux_vector() {
+    log_step "Building GCC for Linux"
+    echo "Building GCC for Linux in $LINUX_INSTALL_PATH_VECTOR..." | tee -a "$LOG_FILE"
+    cd "$SOURCE_DIR/riscv-gnu-toolchain" || pretty_error "Failed to enter riscv-gnu-toolchain directory."
+
+    mkdir -p _build_linux_v
+    cd _build_linux_v || pretty_error "Failed to enter riscv-gnu-toolchain/_build_linux_v directory."
+    rm -rf ./*
+    ../configure \
+        MAKEINFO=true \
+        --prefix="$LINUX_INSTALL_PATH_VECTOR" \
+        --with-arch=rv64gcv \
+        --with-abi=lp64d \
+        --enable-linux \
+        --with-cmodel=medany \
+        --enable-multilib \
+        --with-multilib-generator="rv64gcv-lp64--;rv64gcv-lp64d--;rv32gcv-ilp32;rv32gcv-ilp32d--" \
+         || pretty_error "Failed to configure GCC for Linux with vector stdlibs."
+    make linux -j$(nproc) || pretty_error "Failed to build GCC for Linux with vector stdlibs."
+    cd ..
+
+    complete_step "Building GCC for Linux with vector stdlibs"
+}
+
 build_gcc() {
     trap 'pretty_error "An unexpected error occurred."' ERR
 
@@ -178,6 +207,7 @@ build_gcc() {
     
     build_gcc_baremetal
     build_gcc_linux
+    build_gcc_linux_vector
     
     local total_end_time=$(date +%s)
     local total_duration=$((total_end_time - TOTAL_START_TIME))
